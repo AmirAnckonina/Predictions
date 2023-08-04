@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/Predictions.iml" filepath="$PROJECT_DIR$/Predictions.iml" />
       <module fileurl="file://$PROJECT_DIR$/PredictionsEngine/PredictionsEngine.iml" filepath="$PROJECT_DIR$/PredictionsEngine/PredictionsEngine.iml" />
       <module fileurl="file://$PROJECT_DIR$/PredictionsUI/PredictionsUI.iml" filepath="$PROJECT_DIR$/PredictionsUI/PredictionsUI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Shared/Shared.iml" filepath="$PROJECT_DIR$/Shared/Shared.iml" />
     </modules>
   </component>
 </project>
