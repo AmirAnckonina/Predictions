@@ -7,17 +7,17 @@ public interface simulator {
     // Strategy design pattern? readFile vs. UI input
     // Option A: 1. ReadFile 2. Deserialize 3. Fill World Obj
     // Option B: GetDto , then fill Obj
-    public object buildSimulator(SimulationDetailsDto simulationDetails);
+    public Object buildSimulator(SimulationDetailsDto simulationDetails);
 
 
     // Parameters: consider support SimulationId and SimulationName
     // According to the simulation state (executed? or just built), we should return different types of data.
-    public object getSimulationDetails();
+    public Object getSimulationDetails();
 
     // Return type: PredictionsResponse<T> , PredictionsResponse<SimulationResultDTO>
     // T data , String status, string message
-    public object runSimulator();
+    public Object runSimulator();
 
     // Not sure what we should return here, maybe just a clean-up procedure.
-    public object exitSimulator();
+    public Object exitSimulator();
 }
