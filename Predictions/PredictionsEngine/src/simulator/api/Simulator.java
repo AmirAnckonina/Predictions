@@ -1,7 +1,7 @@
 package simulator.api;
 import dto.SimulationDetailsDto;
 
-public interface simulator {
+public interface Simulator {
 
     // We want to return informative response: Id, simulationID, status of building, etc.
     // Strategy design pattern? readFile vs. UI input

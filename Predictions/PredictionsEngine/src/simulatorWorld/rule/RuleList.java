@@ -1,5 +1,12 @@
 package simulatorWorld.rule;
 
-public class Rules {
-    private
+import java.util.ArrayList;
+import java.util.List;
+
+public class RuleList {
+    private List<Rule> rules;
+
+    public RuleList() {
+        rules = new ArrayList<>();
+    }
 }
