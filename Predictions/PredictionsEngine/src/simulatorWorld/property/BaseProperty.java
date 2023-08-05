@@ -1,20 +1,18 @@
 package simulatorWorld.property;
 
 import javafx.util.Pair;
-import simulatorWorld.property.etype.Type;
-
-import javax.print.DocFlavor;
+import simulatorWorld.property.enums.ePropertyType;
 
 public class BaseProperty {
 
-    private Type.eType type;
+    private ePropertyType type;
     private Object value;
     private Pair<Integer,Integer> range;
 
-    public BaseProperty(Type.eType propertyType){
+    public BaseProperty(ePropertyType propertyType){
         this.type = propertyType;
 
-        switch (propertyType){
+        switch (propertyType) {
             case DECIMAL:
                 this.value = new Float(0);
                 break;
@@ -28,15 +26,15 @@ public class BaseProperty {
     }
 
     public boolean setValue(Object newValue){
-        if(newValue instanceof Float && this.type == Type.eType.DECIMAL){
+        if(newValue instanceof Float && this.type == ePropertyType.DECIMAL){
             this.value = (Float)newValue;
             return true;
         }
-        else if(newValue instanceof String && this.type == Type.eType.STRING){
+        else if(newValue instanceof String && this.type == ePropertyType.STRING){
             this.value = (String)newValue;
             return true;
         }
-        else if(newValue instanceof Boolean && this.type == Type.eType.BOOLEAN){
+        else if(newValue instanceof Boolean && this.type == ePropertyType.BOOLEAN){
             this.value = (Boolean)newValue;
             return true;
         }

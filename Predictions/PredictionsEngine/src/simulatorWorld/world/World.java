@@ -2,16 +2,16 @@ package simulatorWorld.world;
 
 import simulatorWorld.entity.EntityList;
 import simulatorWorld.environment.Environment;
-import simulatorWorld.rule.Rules;
+import simulatorWorld.rule.RuleList;
 import simulatorWorld.termination.Termination;
 
 public class World {
     private Environment environment;
     private EntityList entities;
-    private Rules rules;
+    private RuleList rules;
     private Termination termination;
 
-    public World(Environment env, EntityList entityList, Rules rules, Termination termination) {
+    public World(Environment env, EntityList entityList, RuleList rules, Termination termination) {
         this.environment = env;
         this.entities = entityList;
         this.rules = rules;
