@@ -1,5 +1,8 @@
 package simulator.api;
+import dto.BuildSimulatorDto;
+import dto.LoadSimulationFileDto;
 import dto.SimulationDetailsDto;
+import response.SimulatorResponse;
 
 public interface Simulator {
 
@@ -7,8 +10,9 @@ public interface Simulator {
     // Strategy design pattern? readFile vs. UI input
     // Option A: 1. ReadFile 2. Deserialize 3. Fill World Obj
     // Option B: GetDto , then fill Obj
-    public Object buildSimulator(SimulationDetailsDto simulationDetails);
+    public BuildSimulatorDto buildSimulator(SimulationDetailsDto simulationDetails);
 
+    //public SimulatorResponse<LoadSimulationFileDto> loadSimulation(String filePath);
 
     // Parameters: consider support SimulationId and SimulationName
     // According to the simulation state (executed? or just built), we should return different types of data.
