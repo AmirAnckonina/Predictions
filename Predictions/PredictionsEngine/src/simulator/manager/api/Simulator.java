@@ -10,9 +10,8 @@ public interface Simulator {
     // Strategy design pattern? readFile vs. UI input
     // Option A: 1. ReadFile 2. Deserialize 3. Fill World Obj
     // Option B: GetDto , then fill Obj
-    public BuildSimulatorDto buildSimulator(SimulationDetailsDto simulationDetails);
+    public BuildSimulatorDto buildSimulator(String filePath);
 
-    //public SimulatorResponse<LoadSimulationFileDto> loadSimulation(String filePath);
 
     // Parameters: consider support SimulationId and SimulationName
     // According to the simulation state (executed? or just built), we should return different types of data.
