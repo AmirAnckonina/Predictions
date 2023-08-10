@@ -1,9 +1,8 @@
 package simulator.builder.componentsBuilder.api;
 
-import definition.environment.Environment;
+import simulator.definition.environment.Environment;
 
 public interface EnvironmentBuilder {
-    Environment getEnvironment();
-    void buildEnvironment();
+    Environment buildEnvironment();
     void buildEnvironmentProperty();
 }

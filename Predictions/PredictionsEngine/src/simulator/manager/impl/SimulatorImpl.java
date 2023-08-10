@@ -3,7 +3,7 @@ package simulator.manager.impl;
 import simulator.builder.mainBuilder.api.WorldBuilder;
 import simulator.builder.mainBuilder.utils.enums.eBuilderDataSrcType;
 import simulator.builder.mainBuilder.utils.SimulationBuilderFactory;
-import definition.world.World;
+import simulator.definition.world.World;
 import dto.BuildSimulatorDto;
 import simulator.manager.api.Simulator;
 import simulator.manager.utils.SimulatorUtils;
@@ -29,8 +29,7 @@ public class SimulatorImpl implements Simulator {
             File simulationConfigFile = utils.getFileByPath(filePath);
             eBuilderDataSrcType dataSrcType = utils.getDataSrcTypeByFileExtention(filePath);
             simulationBuilder = SimulationBuilderFactory.createSimulationBuilder(dataSrcType);
-            simulationBuilder.buildWorld();
-            worldContext = simulationBuilder.getWorld();
+            worldContext = simulationBuilder.buildWorld();
 
 
         } catch(Exception ex) {

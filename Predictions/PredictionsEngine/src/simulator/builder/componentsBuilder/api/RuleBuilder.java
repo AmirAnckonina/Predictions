@@ -1,10 +1,9 @@
 package simulator.builder.componentsBuilder.api;
 
-import definition.rule.Rule;
+import simulator.definition.rule.Rule;
 
 public interface RuleBuilder {
-    Rule getRule();
-    void buildRule();
+    Rule buildRule();
     void buildActivation();
     void buildActions();
 }

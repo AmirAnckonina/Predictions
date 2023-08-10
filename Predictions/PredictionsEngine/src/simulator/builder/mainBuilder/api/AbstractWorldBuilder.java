@@ -6,10 +6,10 @@ import simulator.builder.componentsBuilder.api.RuleBuilder;
 import simulator.builder.componentsBuilder.api.TerminationBuilder;
 
 public abstract class AbstractWorldBuilder implements WorldBuilder {
-    private EnvironmentBuilder envBuilder;
-    private EntityBuilder entityBuilder;
-    private RuleBuilder ruleBuilder;
-    private TerminationBuilder terminationBuilder;
+    protected EnvironmentBuilder envBuilder;
+    protected EntityBuilder entityBuilder;
+    protected RuleBuilder ruleBuilder;
+    protected TerminationBuilder terminationBuilder;
 
     public AbstractWorldBuilder(EnvironmentBuilder envBuilder, EntityBuilder entityBuilder, RuleBuilder ruleBuilder, TerminationBuilder terminationBuilder) {
         this.envBuilder = envBuilder;

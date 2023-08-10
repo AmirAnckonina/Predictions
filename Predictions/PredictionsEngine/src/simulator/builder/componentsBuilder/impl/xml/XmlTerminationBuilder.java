@@ -1,16 +1,11 @@
 package simulator.builder.componentsBuilder.impl.xml;
 
 import simulator.builder.componentsBuilder.api.TerminationBuilder;
-import definition.termination.Termination;
+import simulator.definition.termination.Termination;
 
 public class XmlTerminationBuilder implements TerminationBuilder {
     @Override
-    public Termination getTermination() {
+    public Termination buildTermination() {
         return null;
-    }
-
-    @Override
-    public void buildTermination() {
-
     }
 }
