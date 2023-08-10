@@ -1,17 +1,19 @@
 package simulator.builder.componentsBuilder.impl.xml;
 
+import resources.jaxb.schema.generated.PRDEvironment;
 import simulator.builder.componentsBuilder.api.EnvironmentBuilder;
-import definition.environment.Environment;
+import simulator.definition.environment.Environment;
 
 public class XmlEnvironemntBuilder implements EnvironmentBuilder {
-    @Override
-    public Environment getEnvironment() {
-        return null;
+    private PRDEvironment generatedEnvironment;
+
+    public void setGeneratedEnvironment(PRDEvironment generatedEnvironment) {
+        this.generatedEnvironment = generatedEnvironment;
     }
 
     @Override
-    public void buildEnvironment() {
-
+    public Environment buildEnvironment() {
+        return null;
     }
 
     @Override

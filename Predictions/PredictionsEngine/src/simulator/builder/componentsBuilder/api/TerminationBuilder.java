@@ -1,8 +1,7 @@
 package simulator.builder.componentsBuilder.api;
 
-import definition.termination.Termination;
+import simulator.definition.termination.Termination;
 
 public interface TerminationBuilder {
-    Termination getTermination();
-    void buildTermination();
+    Termination buildTermination();
 }

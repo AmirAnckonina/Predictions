@@ -1,19 +1,13 @@
 package simulator.builder.componentsBuilder.impl.xml;
 
 import simulator.builder.componentsBuilder.api.RuleBuilder;
-import definition.rule.Rule;
+import simulator.definition.rule.Rule;
 
 public class XmlRuleBuilder implements RuleBuilder {
 
-
     @Override
-    public Rule getRule() {
+    public Rule buildRule() {
         return null;
-    }
-
-    @Override
-    public void buildRule() {
-
     }
 
     @Override

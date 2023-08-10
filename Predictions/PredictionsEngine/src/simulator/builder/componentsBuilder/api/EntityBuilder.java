@@ -1,9 +1,9 @@
 package simulator.builder.componentsBuilder.api;
 
-import definition.entity.Entity;
+import simulator.definition.entity.Entity;
 
 public interface EntityBuilder {
-    Entity getEntity();
-    void buildEntity();
+
+    Entity buildEntity();
     void buildEntityProperty();
 }
