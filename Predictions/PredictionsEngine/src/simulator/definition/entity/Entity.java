@@ -3,9 +3,20 @@ package simulator.definition.entity;
 
 import simulator.definition.property.api.BasePropertyDefinition;
 
-public class Entity {
+import java.util.Map;
 
-    private BasePropertyList properties = new BasePropertyList();
+public class Entity {
+    private String name;
+
+    private Map<String, BasePropertyDefinition> properties;
+
+    public String getName() {
+        return name;
+    }
+
+    public Map<String, BasePropertyDefinition> getProperties() {
+        return properties;
+    }
 
     /**
      *
@@ -14,7 +25,14 @@ public class Entity {
      * @return true if inserting the new property was succeeded. False if a property named propertyName already exist.
      */
     public  Boolean setNewProperty(String propertyName, BasePropertyDefinition propertyValue ){
-        return this.properties.setNewProperty(propertyName, propertyValue);
+        boolean res = false;
+        if(!this.properties.containsKey(propertyName)) {
+            this.properties.put(propertyName, propertyValue);
+            res = true;
+        }
+        else res = false;
+
+        return res;
     }
 
     /**
@@ -23,7 +41,7 @@ public class Entity {
      * @return if the entity contains a property object named propertyName, it will return it or null otherwise.
      */
     public Object getPropertyValue(String propertyName){
-        return this.properties.getProperty(propertyName).getValue();
+        return this.properties.get(propertyName);
     }
 
 }
