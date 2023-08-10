@@ -1,4 +1,4 @@
-package simulator.api;
+package simulator.manager.api;
 import dto.BuildSimulatorDto;
 import dto.LoadSimulationFileDto;
 import dto.SimulationDetailsDto;

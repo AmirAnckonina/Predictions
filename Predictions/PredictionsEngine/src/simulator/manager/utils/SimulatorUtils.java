@@ -1,6 +1,6 @@
-package simulator.utils;
+package simulator.manager.utils;
 
-import builder.utils.enums.eBuilderDataSrcType;
+import simulator.builder.mainBuilder.utils.enums.eBuilderDataSrcType;
 
 import java.io.File;
 import java.nio.file.Path;

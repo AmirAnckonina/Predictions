@@ -1,12 +1,12 @@
-package simulator.impl;
+package simulator.manager.impl;
 
-import builder.mainBuilder.api.WorldBuilder;
-import builder.utils.enums.eBuilderDataSrcType;
-import builder.utils.SimulationBuilderFactory;
+import simulator.builder.mainBuilder.api.WorldBuilder;
+import simulator.builder.mainBuilder.utils.enums.eBuilderDataSrcType;
+import simulator.builder.mainBuilder.utils.SimulationBuilderFactory;
 import definition.world.World;
 import dto.BuildSimulatorDto;
-import simulator.api.Simulator;
-import simulator.utils.SimulatorUtils;
+import simulator.manager.api.Simulator;
+import simulator.manager.utils.SimulatorUtils;
 
 import java.io.File;
 
