@@ -3,7 +3,7 @@ package simulator.definition.property.api;
 import simulator.definition.property.enums.ePropertyType;
 import simulator.definition.property.valueGenerator.api.ValueGenerator;
 
-public class BasePropertyDefinition<T> implements PropertyDefinition<T> {
+public abstract class BasePropertyDefinition<T> implements PropertyDefinition<T> {
     private final String name;
     private final ePropertyType propertyType;
     private final ValueGenerator<T> valueGenerator;
