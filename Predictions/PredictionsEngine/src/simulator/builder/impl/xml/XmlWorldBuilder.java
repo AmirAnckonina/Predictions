@@ -10,13 +10,9 @@ import simulator.definition.rule.Rule;
 import simulator.definition.termination.Termination;
 import simulator.definition.world.World;
 
-import javax.xml.bind.JAXBException;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class XmlWorldBuilder extends AbstractFileComponentBuilder<World> implements WorldBuilder {
 
@@ -90,8 +86,8 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder<World> impleme
 
             List<PRDEntity> generatedEntities = generatedWorld.getPRDEntities().getPRDEntity();
             XmlEntityBuilder entityBuilder = new XmlEntityBuilder();
-            for (PRDEntity generateEntity: generatedEntities) {
-                entityBuilder.setGeneratedEntity(generateEntity);
+            for (PRDEntity generatedEntity : generatedEntities) {
+                entityBuilder.setGeneratedEntity(generatedEntity);
                 Entity newEntity = entityBuilder.buildEntity();
                 entities.add(newEntity);
             }
@@ -108,9 +104,8 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder<World> impleme
         try {
 
             List<PRDRule> generatedRules = generatedWorld.getPRDRules().getPRDRule();
-            XmlRuleBuilder ruleBuilder = new XmlRuleBuilder();
             for (PRDRule generatedRule : generatedRules) {
-                ruleBuilder.setGeneratedRule(generatedRule);
+                XmlRuleBuilder ruleBuilder = new XmlRuleBuilder(generatedRule);
                 Rule newRule = ruleBuilder.buildRule();
                 rules.add(newRule);
             }

@@ -5,7 +5,11 @@ import resources.jaxb.schema.generated.PRDEvironment;
 import simulator.builder.api.AbstractFileComponentBuilder;
 import simulator.builder.api.EnvironmentBuilder;
 import simulator.definition.environment.Environment;
+import simulator.definition.property.api.BasePropertyDefinition;
+import simulator.definition.property.impl.BooleanPropertyDefinition;
+import simulator.definition.property.valueGenerator.api.ValueGenerator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class XmlEnvironmentBuilder extends AbstractFileComponentBuilder<Environment> implements EnvironmentBuilder {
@@ -27,17 +31,24 @@ public class XmlEnvironmentBuilder extends AbstractFileComponentBuilder<Environm
     @Override
     public Environment buildEnvironment() {
 
-        Environment environment = new Environment();
-        List<PRDEnvProperty> generatedEnvProperties = generatedEnvironment.getPRDEnvProperty();
-        for (PRDEnvProperty generatedEnvProp : generatedEnvProperties) {
+        Environment environment;
 
-        }
+        List<BasePropertyDefinition> envProperties = buildEnvironmentProperties();
 
-        return new Environment();
+        return new Environment(envProperties);
     }
 
     @Override
-    public void buildEnvironmentProperty() {
+    public List<BasePropertyDefinition> buildEnvironmentProperties() {
+        List<BasePropertyDefinition> envProperties = new ArrayList<>();
 
+        List<PRDEnvProperty> generatedEnvProperties = generatedEnvironment.getPRDEnvProperty();
+        for (PRDEnvProperty generatedEnvProp : generatedEnvProperties) {
+            XmlPropertyBuilder propBuilder = new XmlPropertyBuilder(generatedEnvProp);
+            BasePropertyDefinition newProperty = propBuilder.buildEnvironmentProperty();
+            envProperties.add(newProperty);
+        }
+
+        return envProperties;
     }
 }

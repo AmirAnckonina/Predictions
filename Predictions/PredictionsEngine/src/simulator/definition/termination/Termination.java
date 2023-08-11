@@ -8,10 +8,11 @@ public class Termination {
     }
 
     public void setTicksTermination(int ticksTermination) {
+
         this.ticksTermination = ticksTermination;
     }
 
-    public Termination(int secondsTermination) {
+    public void setSecondsTermination(int secondsTermination) {
         this.secondsTermination = secondsTermination;
     }
 

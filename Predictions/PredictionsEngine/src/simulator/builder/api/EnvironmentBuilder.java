@@ -1,8 +1,11 @@
 package simulator.builder.api;
 
 import simulator.definition.environment.Environment;
+import simulator.definition.property.api.BasePropertyDefinition;
+
+import java.util.List;
 
 public interface EnvironmentBuilder {
     Environment buildEnvironment();
-    void buildEnvironmentProperty();
+    List<BasePropertyDefinition> buildEnvironmentProperties();
 }

@@ -7,7 +7,6 @@ import simulator.definition.entity.Entity;
 
 public class XmlEntityBuilder extends AbstractFileComponentBuilder<Entity> implements EntityBuilder {
 
-
     private PRDEntity generatedEntity;
 
     public XmlEntityBuilder(PRDEntity generatedEntity) {
@@ -27,10 +26,11 @@ public class XmlEntityBuilder extends AbstractFileComponentBuilder<Entity> imple
 
     @Override
     public void buildEntityProperty() {
+        // Invesitgate the PRDValue object and decide which params to pass to the PropertyBuilder
 
     }
 
-    public void setGeneratedEntity(PRDEntity generateEntity) {
-        this.generatedEntity = generateEntity;
+    public void setGeneratedEntity(PRDEntity generatedEntity) {
+        this.generatedEntity = generatedEntity;
     }
 }
