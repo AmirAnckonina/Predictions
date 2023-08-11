@@ -32,7 +32,7 @@ public class XmlEnvironmentBuilder extends AbstractFileComponentBuilder<Environm
         for (PRDEnvProperty generatedEnvProp : generatedEnvProperties) {
 
         }
-        MapEnvironment(generatedEnvironment, environment);
+
         return new Environment();
     }
 

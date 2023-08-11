@@ -15,6 +15,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class XmlWorldBuilder extends AbstractFileComponentBuilder<World> implements WorldBuilder {
 
@@ -56,14 +58,12 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder<World> impleme
             List<Entity> entities = buildEntities();
             List<Rule> rules = buildRules();
             Termination termination = buildTermination();
-            return new World(environment, entities, rules, termination);
+            //return new World(environment, new Set<String, new Entity()>(), rules, termination);
+            return new World();
 
-        } catch (JAXBException e) {
-            throw new RuntimeException(e);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            return null;
         }
-
     }
 
     @Override

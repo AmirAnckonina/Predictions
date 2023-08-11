@@ -25,6 +25,6 @@ public class XmlRuleBuilder extends AbstractFileComponentBuilder<Rule> implement
     }
 
     public void setGeneratedRule(PRDRule generatedRule) {
-        this.generatedRule = generatedRule
+        this.generatedRule = generatedRule;
     }
 }

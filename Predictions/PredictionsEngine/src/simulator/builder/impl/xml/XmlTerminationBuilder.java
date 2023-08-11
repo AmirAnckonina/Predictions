@@ -18,13 +18,18 @@ public class XmlTerminationBuilder extends AbstractFileComponentBuilder<Terminat
 
     @Override
     public Termination buildTermination() {
-        Termination termination;
+        Termination termination = new Termination();
 
         try {
             List<Object> terminationConditions = generatedTermination.getPRDByTicksOrPRDBySecond();
             if (terminationConditions.get(0) instanceof PRDByTicks) {
 
             }
+
+            return termination;
+
+        } catch (Exception e) {
+            return null;
         }
     }
 }
