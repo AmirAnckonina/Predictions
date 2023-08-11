@@ -1,4 +1,4 @@
-package simulator.builder.mainBuilder.impl.xml.utils;
+package simulator.builder.impl.xml.utils;
 
 import resources.jaxb.schema.generated.*;
 import simulator.definition.entity.Entity;
@@ -15,32 +15,20 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
 
-public class XmlWorldBuilderUtils {
-    public <T> T deserializeFrom(InputStream input, String pkjName) throws JAXBException {
+public final class XmlBuilderUtils {
+    private XmlBuilderUtils() {
+    }
+
+    public static <T> T deserializeFrom(InputStream input, String pkjName) throws JAXBException {
         JAXBContext jc = JAXBContext.newInstance(pkjName);
         Unmarshaller u = jc.createUnmarshaller();
         return (T) u.unmarshal(input);
     }
 
-    public <T> T getGeneratedClassFromFile(File dataSrcFile, String generatedPkjName) throws FileNotFoundException, JAXBException {
+    public static <T> T getGeneratedClassFromFile(File dataSrcFile, String generatedPkjName) throws FileNotFoundException, JAXBException {
 
         InputStream xmlInputStream = new FileInputStream(dataSrcFile);
         return deserializeFrom(xmlInputStream, generatedPkjName);
     }
 
-    public void MapEnvironment(PRDEvironment generatedEnv, Environment environment) {
-        for (PRDEnvProperty envProp : generatedEnv.getPRDEnvProperty()) {
-
-        }
-    }
-
-    public void MapEntities(PRDEntities generatedEntities, List<Entity> entities) {
-
-    }
-
-    public void MapRules(PRDRules generatedRules, List<Rule> rules) {
-    }
-
-    public void MapTermination(PRDTermination generatedTermination, Termination termination) {
-    }
 }

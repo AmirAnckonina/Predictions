@@ -1,9 +1,9 @@
-package simulator.builder.mainBuilder.utils;
+package simulator.builder.utils.factory;
 
-import simulator.builder.mainBuilder.api.WorldBuilder;
-import simulator.builder.mainBuilder.utils.enums.eBuilderDataSrcType;
-import simulator.builder.mainBuilder.utils.exception.UnsupportedBuilderTypeException;
-import simulator.builder.mainBuilder.impl.xml.XmlWorldBuilder;
+import simulator.builder.api.WorldBuilder;
+import simulator.builder.utils.enums.eBuilderDataSrcType;
+import simulator.builder.utils.exception.UnsupportedBuilderTypeException;
+import simulator.builder.impl.xml.XmlWorldBuilder;
 
 public interface SimulationBuilderFactory {
     static WorldBuilder createSimulationBuilder(eBuilderDataSrcType dataSrcType) throws UnsupportedBuilderTypeException {

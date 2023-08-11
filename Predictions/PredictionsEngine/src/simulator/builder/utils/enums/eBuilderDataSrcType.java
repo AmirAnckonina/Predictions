@@ -1,4 +1,4 @@
-package simulator.builder.mainBuilder.utils.enums;
+package simulator.builder.utils.enums;
 
 public enum eBuilderDataSrcType {
     XML,

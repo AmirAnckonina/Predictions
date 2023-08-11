@@ -1,0 +1,36 @@
+package simulator.builder.impl.xml;
+
+import resources.jaxb.schema.generated.PRDEntity;
+import simulator.builder.api.AbstractFileComponentBuilder;
+import simulator.builder.api.EntityBuilder;
+import simulator.definition.entity.Entity;
+
+public class XmlEntityBuilder extends AbstractFileComponentBuilder<Entity> implements EntityBuilder {
+
+
+    private PRDEntity generatedEntity;
+
+    public XmlEntityBuilder(PRDEntity generatedEntity) {
+        super();
+        this.generatedEntity = generatedEntity;
+    }
+
+    public XmlEntityBuilder() {
+        super();
+    }
+
+    @Override
+    public Entity buildEntity() {
+
+        return null;
+    }
+
+    @Override
+    public void buildEntityProperty() {
+
+    }
+
+    public void setGeneratedEntity(PRDEntity generateEntity) {
+        this.generatedEntity = generateEntity;
+    }
+}

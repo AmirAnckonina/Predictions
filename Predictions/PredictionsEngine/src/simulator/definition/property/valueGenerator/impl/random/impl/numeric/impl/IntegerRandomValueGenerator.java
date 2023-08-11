@@ -11,5 +11,5 @@ public class IntegerRandomValueGenerator extends BaseNumericRandomValueGenerator
     @Override
     public Integer generateValue()  {
         return from + random.nextInt(to);
-    }}
+    }
 }
