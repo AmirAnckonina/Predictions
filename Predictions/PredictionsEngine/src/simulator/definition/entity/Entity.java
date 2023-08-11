@@ -1,29 +1,27 @@
-package simulator.definition.entity;
+package definition.entity;
 
 
-import simulator.definition.property.api.BasePropertyDefinition;
+import definition.property.api.PropertyDefinition;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Entity {
 
-    private BasePropertyList properties = new BasePropertyList();
+    private String name;
+    private Integer numOfInstances = new Integer(0);
+    private Map<String,PropertyDefinition> properties = new HashMap<>();
 
-    /**
-     *
-     * @param propertyName The attribute name
-     * @param propertyValue The value of the attribute
-     * @return true if inserting the new property was succeeded. False if a property named propertyName already exist.
-     */
-    public  Boolean setNewProperty(String propertyName, BasePropertyDefinition propertyValue ){
-        return this.properties.setNewProperty(propertyName, propertyValue);
+    public String getName() {
+        return name;
     }
 
-    /**
-     *
-     * @param propertyName - the name of the attribute
-     * @return if the entity contains a property object named propertyName, it will return it or null otherwise.
-     */
-    public Object getPropertyValue(String propertyName){
-        return this.properties.getProperty(propertyName).getValue();
+    public Integer getNumOfInstances() {
+        return numOfInstances;
+    }
+
+    public PropertyDefinition getProperties(String propertieName) {
+        return properties.get(propertieName);
     }
 
 }
