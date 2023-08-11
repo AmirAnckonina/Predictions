@@ -1,7 +1,10 @@
-package simulator.definition.entity;
+package definition.entity;
 
 
-import simulator.definition.property.api.BasePropertyDefinition;
+import definition.property.api.PropertyDefinition;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import java.util.Map;
 

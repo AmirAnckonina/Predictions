@@ -39,7 +39,7 @@ public class XmlWorldBuilder extends AbstractWorldBuilder {
     public World buildWorld() {
 
         try {
-            generatedWorld = xmlWorldUtils.getGeneratedWorldFromFile(dataSrcFile, JAXB_PACKAGE_NAME);
+            generatedWorld = xmlWorldUtils.getGeneratedClassFromFile(dataSrcFile, JAXB_PACKAGE_NAME);
             Environment environment = buildEnvironment();
             List<Entity> entities = buildEntities();
             List<Rule> rules = buildRules();
@@ -56,8 +56,8 @@ public class XmlWorldBuilder extends AbstractWorldBuilder {
 
     @Override
     public Environment buildEnvironment() {
-
         Environment environment = new Environment();
+        
         try {
 
             PRDEvironment generatedEnv = generatedWorld.getPRDEvironment();

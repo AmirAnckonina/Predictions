@@ -16,13 +16,13 @@ import java.io.InputStream;
 import java.util.List;
 
 public class XmlWorldBuilderUtils {
-    public PRDWorld deserializeFrom(InputStream input, String pkjName) throws JAXBException {
+    public <T> T deserializeFrom(InputStream input, String pkjName) throws JAXBException {
         JAXBContext jc = JAXBContext.newInstance(pkjName);
         Unmarshaller u = jc.createUnmarshaller();
-        return (PRDWorld) u.unmarshal(input);
+        return (T) u.unmarshal(input);
     }
 
-    public PRDWorld getGeneratedWorldFromFile(File dataSrcFile, String generatedPkjName) throws FileNotFoundException, JAXBException {
+    public <T> T getGeneratedClassFromFile(File dataSrcFile, String generatedPkjName) throws FileNotFoundException, JAXBException {
 
         InputStream xmlInputStream = new FileInputStream(dataSrcFile);
         return deserializeFrom(xmlInputStream, generatedPkjName);
