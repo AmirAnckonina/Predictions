@@ -1,8 +1,8 @@
 package simulator.manager.impl;
 
-import simulator.builder.mainBuilder.api.WorldBuilder;
-import simulator.builder.mainBuilder.utils.enums.eBuilderDataSrcType;
-import simulator.builder.mainBuilder.utils.SimulationBuilderFactory;
+import simulator.builder.api.WorldBuilder;
+import simulator.builder.utils.enums.eBuilderDataSrcType;
+import simulator.builder.utils.factory.SimulationBuilderFactory;
 import simulator.definition.world.World;
 import dto.BuildSimulatorDto;
 import simulator.manager.api.Simulator;

@@ -1,4 +1,4 @@
-package simulator.builder.mainBuilder.api;
+package simulator.builder.api;
 
 import simulator.definition.entity.Entity;
 import simulator.definition.environment.Environment;
@@ -15,7 +15,4 @@ public interface WorldBuilder {
     List<Entity> buildEntities();
     List<Rule> buildRules();
     Termination buildTermination();
-    Entity buildEntity();
-    Rule buildRule();
-    Action buildAction();
 }

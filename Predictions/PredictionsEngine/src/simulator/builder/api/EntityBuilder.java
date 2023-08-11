@@ -1,4 +1,4 @@
-package simulator.builder.componentsBuilder.api;
+package simulator.builder.api;
 
 import simulator.definition.entity.Entity;
 
