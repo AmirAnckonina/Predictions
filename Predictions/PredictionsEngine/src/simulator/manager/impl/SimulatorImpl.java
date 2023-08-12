@@ -57,6 +57,10 @@ public class SimulatorImpl implements Simulator {
 
     @Override
     public Object runSimulator() {
+        // instances = manager.instance.createInstances();
+        // env = manager.activateEnvironment(dto );
+        // manager.initializeRunner(instances, env);
+        // manager.run();
         return null;
     }
 

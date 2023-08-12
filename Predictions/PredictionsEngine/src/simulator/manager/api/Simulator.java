@@ -1,8 +1,7 @@
 package simulator.manager.api;
 import dto.BuildSimulatorDto;
-import dto.LoadSimulationFileDto;
-import dto.SimulationDetailsDto;
-import response.SimulatorResponse;
+import dto.EnvironmentPropertiesDto;
+import simulator.definition.environment.Environment;
 
 public interface Simulator {
 
@@ -23,4 +22,8 @@ public interface Simulator {
 
     // Not sure what we should return here, maybe just a clean-up procedure.
     public Object exitSimulator();
+
+    public EnvironmentPropertiesDto getEnvironmentProperties();
+
+    public Object setActiveEnvironmentProperties(EnvironmentPropertiesDto data);
 }
