@@ -13,8 +13,9 @@ import java.io.File;
 public class SimulatorImpl implements Simulator {
 
     private final SimulatorUtils utils;
-    private World worldContext;
-    private WorldBuilder simulationBuilder;
+    private World world;
+    private WorldBuilder worldBuilder;
+    private SimulatorRunner simulatorRunner;
 
     public SimulatorImpl() {
         this.utils = new SimulatorUtils();
@@ -28,8 +29,8 @@ public class SimulatorImpl implements Simulator {
         try {
             File simulationConfigFile = utils.getFileByPath(filePath);
             eBuilderDataSrcType dataSrcType = utils.getDataSrcTypeByFileExtention(filePath);
-            simulationBuilder = SimulationBuilderFactory.createSimulationBuilder(dataSrcType);
-            worldContext = simulationBuilder.buildWorld();
+            worldBuilder = SimulationBuilderFactory.createSimulationBuilder(dataSrcType);
+            world = worldBuilder.buildWorld();
 
 
         } catch(Exception ex) {
