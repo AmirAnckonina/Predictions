@@ -1,13 +1,11 @@
 package simulator.definition.world;
 
 import simulator.definition.entity.Entity;
-import simulator.definition.entity.EntityInstances;
 import simulator.definition.environment.Environment;
 import simulator.definition.rule.RuleList;
 import simulator.definition.termination.Termination;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class World {
     private Environment environment;
