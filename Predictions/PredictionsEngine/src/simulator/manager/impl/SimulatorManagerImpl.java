@@ -1,6 +1,7 @@
 package simulator.manager.impl;
 
 import dto.EnvironmentPropertiesDto;
+import response.SimulatorResponse;
 import simulator.builder.world.api.WorldBuilder;
 import simulator.builder.world.utils.enums.eBuilderDataSrcType;
 import simulator.builder.world.utils.factory.SimulationBuilderFactory;
@@ -17,11 +18,13 @@ public class SimulatorManagerImpl implements SimulatorManager {
     private World world;
     private WorldBuilder worldBuilder;
 
+    private loadedSimulation();
+
     public SimulatorManagerImpl() {
         this.utils = new SimulatorUtils();
     }
     @Override
-    public BuildSimulatorDto buildSimulator(String filePath) {
+    public BuildSimulatorDto buildSimulationWorld(String filePath) {
 
         BuildSimulatorDto buildSimulatorResult;
 
@@ -51,7 +54,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
 
     @Override
-    public Object getSimulationDetails() {
+    public Object getSimulationWorldDetails() {
         return null;
     }
 
@@ -71,12 +74,16 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
-    public Object setActiveEnvironmentProperties(EnvironmentPropertiesDto data) {
-        return null;
+    public SimulatorResponse setEnvironmentVariableValue(String propName, String value) {
+        try {
+            // EnvMngr.AddPropInstance...
+        } catch (Exception e) {
+            return new SimulatorResponse(false, e.getMessage());
+        }
     }
 
     @Override
-    public Object activeEnvironment(EnvironmentPropertiesDto data) {
+    public Object activateEnvironment(EnvironmentPropertiesDto envPropertiesDto) {
         // instances = manager.instance.createInstances();
         // env = manager.activateEnvironment(dto );
         // manager.initializeRunner(instances, env);
