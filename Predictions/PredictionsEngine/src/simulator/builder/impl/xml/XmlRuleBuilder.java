@@ -1,5 +1,6 @@
 package simulator.builder.impl.xml;
 
+import resources.jaxb.schema.generated.PRDAction;
 import resources.jaxb.schema.generated.PRDRule;
 import simulator.builder.api.AbstractFileComponentBuilder;
 import simulator.builder.api.RuleBuilder;
@@ -28,12 +29,13 @@ public class XmlRuleBuilder extends AbstractFileComponentBuilder<Rule> implement
 
     @Override
     public Activation buildActivation() {
-
+        return null;
     }
 
     @Override
     public List<Action> buildActions() {
         List<Action> actions = new ArrayList<>();
+
         return null;
 
     }
