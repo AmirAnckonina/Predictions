@@ -4,6 +4,7 @@ import UI.api.UserInterface;
 import dto.BuildSimulatorDto;
 import dto.EnvironmentPropertiesDto;
 import dto.builder.params.BasePropertyDto;
+import response.SimulatorResponse;
 import simulator.manager.api.SimulatorManager;
 import simulator.manager.impl.SimulatorManagerImpl;
 
@@ -26,8 +27,10 @@ public class ConsoleUI implements UserInterface {
         List<BasePropertyDto> properties = propertiesDto.getPropertiesList();
         for (BasePropertyDto property : properties
         ) {
-            setPropertySession();
+            setPropertySession(property, simulator);
         }
+
+        simulator.activateEnvironment();
     }
 
     private void setPropertySession(BasePropertyDto property, SimulatorManager simulatorManager) {
@@ -38,8 +41,14 @@ public class ConsoleUI implements UserInterface {
         setPropertyIntroduction();
         setPropertyDisplay(propertyName, propertyType);
         String value = scanner.nextLine();
-        BasePropertyDto responseDto = new BasePropertyDto(propertyName, propertyType, property.getFrom(),
-                property.getTo(), value);
+        SimulatorResponse<String> resResponse = simulatorManager.setEnvironmentVariableValue(propertyName, value);
+
+        while (!resResponse.isSuccess()){
+            System.out.println("Illegal value! " + resResponse.getData());
+            setPropertyDisplay(propertyName, propertyType);
+            value = scanner.nextLine();
+            resResponse = simulatorManager.setEnvironmentVariableValue(propertyName, value);
+        }
 
     }
 

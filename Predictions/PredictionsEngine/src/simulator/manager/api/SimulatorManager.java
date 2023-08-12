@@ -20,7 +20,7 @@ public interface SimulatorManager {
 
     public SimulatorResponse setEnvironmentVariableValue(String propName, String value);
 
-    public Object activateEnvironment(EnvironmentPropertiesDto envPropertiesDto);
+    public Object activateEnvironment();
 
     // Return type: PredictionsResponse<T> , PredictionsResponse<SimulationResultDTO>
     // T data , String status, string message

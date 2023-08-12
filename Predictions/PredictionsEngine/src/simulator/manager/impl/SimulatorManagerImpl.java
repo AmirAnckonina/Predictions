@@ -18,11 +18,14 @@ public class SimulatorManagerImpl implements SimulatorManager {
     private World world;
     private WorldBuilder worldBuilder;
 
-    private loadedSimulation();
-
     public SimulatorManagerImpl() {
         this.utils = new SimulatorUtils();
     }
+
+    private void loadedSimulation(){
+        // Load instances
+    };
+
     @Override
     public BuildSimulatorDto buildSimulationWorld(String filePath) {
 
@@ -77,17 +80,20 @@ public class SimulatorManagerImpl implements SimulatorManager {
     public SimulatorResponse setEnvironmentVariableValue(String propName, String value) {
         try {
             // EnvMngr.AddPropInstance...
+
         } catch (Exception e) {
             return new SimulatorResponse(false, e.getMessage());
         }
     }
 
     @Override
-    public Object activateEnvironment(EnvironmentPropertiesDto envPropertiesDto) {
+    public Object activateEnvironment() {
         // instances = manager.instance.createInstances();
         // env = manager.activateEnvironment(dto );
         // manager.initializeRunner(instances, env);
         // manager.run();
         return null;
     }
+
+
 }
