@@ -2,6 +2,7 @@ package simulator.manager.api;
 import dto.BuildSimulatorDto;
 import dto.EnvironmentPropertiesDto;
 import response.SimulatorResponse;
+import simulator.definition.property.enums.ePropertyType;
 
 public interface SimulatorManager {
 
@@ -18,7 +19,7 @@ public interface SimulatorManager {
 
     public EnvironmentPropertiesDto getEnvironmentProperties();
 
-    public SimulatorResponse setEnvironmentVariableValue(String propName, String value);
+    public SimulatorResponse setEnvironmentVariableValue(String propName, String type, String value);
 
     public Object activateEnvironment();
 

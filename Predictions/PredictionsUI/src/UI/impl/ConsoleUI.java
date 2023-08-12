@@ -3,14 +3,12 @@ package UI.impl;
 import UI.api.UserInterface;
 import dto.BuildSimulatorDto;
 import dto.EnvironmentPropertiesDto;
+import dto.SetPropertySimulatorResponseDto;
 import dto.builder.params.BasePropertyDto;
 import response.SimulatorResponse;
 import simulator.manager.api.SimulatorManager;
 import simulator.manager.impl.SimulatorManagerImpl;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Scanner;
 
@@ -27,13 +25,13 @@ public class ConsoleUI implements UserInterface {
         List<BasePropertyDto> properties = propertiesDto.getPropertiesList();
         for (BasePropertyDto property : properties
         ) {
-            setPropertySession(property, simulator);
+            startSettingPropertySession(property, simulator);
         }
 
         simulator.activateEnvironment();
     }
 
-    private void setPropertySession(BasePropertyDto property, SimulatorManager simulatorManager) {
+    private void startSettingPropertySession(BasePropertyDto property, SimulatorManager simulatorManager) {
         String propertyName = new String(property.getName());
         String propertyType = new String(property.getPropertyType());
         Scanner scanner = new Scanner(System.in);
@@ -41,13 +39,14 @@ public class ConsoleUI implements UserInterface {
         setPropertyIntroduction();
         setPropertyDisplay(propertyName, propertyType);
         String value = scanner.nextLine();
-        SimulatorResponse<String> resResponse = simulatorManager.setEnvironmentVariableValue(propertyName, value);
+        SimulatorResponse<SetPropertySimulatorResponseDto> resResponse = simulatorManager.setEnvironmentVariableValue(
+                propertyName, propertyType, value);
 
         while (!resResponse.isSuccess()){
             System.out.println("Illegal value! " + resResponse.getData());
             setPropertyDisplay(propertyName, propertyType);
             value = scanner.nextLine();
-            resResponse = simulatorManager.setEnvironmentVariableValue(propertyName, value);
+            resResponse = simulatorManager.setEnvironmentVariableValue(propertyName, property.getPropertyType(), value);
         }
 
     }
