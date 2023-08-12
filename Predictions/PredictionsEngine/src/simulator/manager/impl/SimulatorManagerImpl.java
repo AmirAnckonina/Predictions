@@ -1,10 +1,13 @@
 package simulator.manager.impl;
 
 import dto.EnvironmentPropertiesDto;
+import dto.SetPropertySimulatorResponseDto;
+import dto.builder.params.enums.eSetPropertyStatus;
 import response.SimulatorResponse;
 import simulator.builder.world.api.WorldBuilder;
 import simulator.builder.world.utils.enums.eBuilderDataSrcType;
 import simulator.builder.world.utils.factory.SimulationBuilderFactory;
+import simulator.definition.property.enums.ePropertyType;
 import simulator.definition.world.World;
 import dto.BuildSimulatorDto;
 import simulator.manager.api.SimulatorManager;
@@ -18,11 +21,14 @@ public class SimulatorManagerImpl implements SimulatorManager {
     private World world;
     private WorldBuilder worldBuilder;
 
-    private loadedSimulation();
-
     public SimulatorManagerImpl() {
         this.utils = new SimulatorUtils();
     }
+
+    private void loadedSimulation(){
+        // Load instances
+    };
+
     @Override
     public BuildSimulatorDto buildSimulationWorld(String filePath) {
 
@@ -74,16 +80,41 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
-    public SimulatorResponse setEnvironmentVariableValue(String propName, String value) {
+    public SimulatorResponse setEnvironmentVariableValue(String propName, String type, String value) {
         try {
-            // EnvMngr.AddPropInstance...
+            ePropertyType eType = ePropertyType.STRING;
+            switch (type.toLowerCase())
+            {
+                case "string":
+                case "str":
+                    eType = ePropertyType.STRING;
+                    break;
+                case "float":
+                case "decimal":
+                case "double":
+                    eType = ePropertyType.DECIMAL;
+                    break;
+                case "boolean":
+                case "bool":
+                    eType = ePropertyType.BOOLEAN;
+                    break;
+                case "integer":
+                case "int":
+                    eType = ePropertyType.INTEGER;
+                    break;
+            }
+            EnvironmentManagerImpl environmentManager = new EnvironmentManagerImpl();
+            environmentManager.addPropertyInstance(propName, eType, value, this.world);
+
         } catch (Exception e) {
+            SetPropertySimulatorResponseDto response = new SetPropertySimulatorResponseDto(eSetPropertyStatus.FAILED, e.getMessage());
             return new SimulatorResponse(false, e.getMessage());
         }
+        return null;
     }
 
     @Override
-    public Object activateEnvironment(EnvironmentPropertiesDto envPropertiesDto) {
+    public Object activateEnvironment() {
         // instances = manager.instance.createInstances();
         // env = manager.activateEnvironment(dto );
         // manager.initializeRunner(instances, env);

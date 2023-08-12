@@ -4,5 +4,6 @@ public enum ePropertyType {
     DECIMAL,
     BOOLEAN,
     STRING,
-    FLOAT
+    FLOAT,
+    INTEGER
 }
