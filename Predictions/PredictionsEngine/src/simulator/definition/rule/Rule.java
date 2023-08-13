@@ -2,9 +2,8 @@ package simulator.definition.rule;
 
 import java.util.ArrayList;
 import java.util.List;
-import simulator.definition.rule.action.Action;
+import simulator.definition.rule.action.impl.Action;
 import simulator.definition.rule.activation.Activation;
-import simulator.definition.world.World;
 
 public class Rule {
     private String name;

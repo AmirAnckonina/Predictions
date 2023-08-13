@@ -18,8 +18,6 @@ public class SimulatorManagerImpl implements SimulatorManager {
     private World world;
     private WorldBuilder worldBuilder;
 
-    private loadedSimulation();
-
     public SimulatorManagerImpl() {
         this.utils = new SimulatorUtils();
     }

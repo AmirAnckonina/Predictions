@@ -4,7 +4,6 @@ import resources.jaxb.schema.generated.PRDRule;
 import simulator.builder.world.api.AbstractFileComponentBuilder;
 import simulator.builder.world.api.RuleBuilder;
 import simulator.definition.rule.Rule;
-import simulator.definition.rule.action.Action;
 import simulator.definition.rule.activation.Activation;
 
 import java.util.ArrayList;
