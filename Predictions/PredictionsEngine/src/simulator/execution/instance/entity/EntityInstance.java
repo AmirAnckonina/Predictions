@@ -1,9 +1,9 @@
 package simulator.execution.instance.entity;
 
-import simulator.definition.property.api.BasePropertyDefinition;
+import simulator.definition.property.api.AbstractPropertyDefinition;
 
 import java.util.Map;
 
 public class EntityInstance {
-    private Map<String, BasePropertyDefinition> properties;
+    private Map<String, AbstractPropertyDefinition> properties;
 }

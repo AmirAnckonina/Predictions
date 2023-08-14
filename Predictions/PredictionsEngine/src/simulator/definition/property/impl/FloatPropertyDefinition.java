@@ -1,14 +1,25 @@
 package simulator.definition.property.impl;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import simulator.definition.property.api.BasePropertyDefinition;
+import simulator.definition.property.api.AbstractPropertyDefinition;
 import simulator.definition.property.enums.ePropertyType;
 import simulator.definition.property.valueGenerator.api.ValueGenerator;
 
-public class FloatPropertyDefinition extends BasePropertyDefinition<Float> {
+import java.util.Optional;
+
+public class FloatPropertyDefinition extends AbstractPropertyDefinition<Float> {
     // Consider add propType in c'tor.
+
+    private final Optional<Float> from;
+    private final Optional<Float> to;
     public FloatPropertyDefinition(String name, ValueGenerator<Float> valueGenerator) {
         super(name, ePropertyType.FLOAT, valueGenerator);
+        this.from = Optional.empty();
+        this.to = Optional.empty();
     }
 
+    public FloatPropertyDefinition(String name, ePropertyType propertyType, ValueGenerator<Float> valueGenerator, float from, float to) {
+        super(name, propertyType, valueGenerator);
+        this.from = Optional.of(from);
+        this.to = Optional.of(to);
+    }
 }
