@@ -4,6 +4,7 @@ import dto.EnvironmentPropertiesDto;
 import response.SimulatorResponse;
 import simulator.builder.world.api.WorldBuilder;
 import simulator.builder.world.utils.enums.eBuilderDataSrcType;
+import simulator.builder.world.utils.exception.WorldBuilderException;
 import simulator.builder.world.utils.factory.SimulationBuilderFactory;
 import simulator.definition.world.World;
 import dto.BuildSimulatorDto;
@@ -13,41 +14,25 @@ import simulator.manager.utils.SimulatorUtils;
 import java.io.File;
 
 public class SimulatorManagerImpl implements SimulatorManager {
-
-    private final SimulatorUtils utils;
     private World world;
     private WorldBuilder worldBuilder;
 
     public SimulatorManagerImpl() {
-        this.utils = new SimulatorUtils();
     }
     @Override
-    public BuildSimulatorDto buildSimulationWorld(String filePath) {
+    public SimulatorResponse buildSimulationWorld(String filePath) {
 
         BuildSimulatorDto buildSimulatorResult;
 
-        // loadFile - FileLoader? file validation? fileName, path, etc...
         try {
-            File simulationConfigFile = utils.getFileByPath(filePath);
-            eBuilderDataSrcType dataSrcType = utils.getDataSrcTypeByFileExtention(filePath);
-            worldBuilder = SimulationBuilderFactory.createSimulationBuilder(dataSrcType);
+            File simulationConfigFile = SimulatorUtils.getFileByPath(filePath);
+            eBuilderDataSrcType dataSrcType = SimulatorUtils.getDataSrcTypeByFileExtention(filePath);
+            worldBuilder = SimulationBuilderFactory.createSimulationBuilder(dataSrcType, simulationConfigFile);
             world = worldBuilder.buildWorld();
-
-
+            return new SimulatorResponse(true, "the following file has loaded successfully" + filePath);
         } catch(Exception ex) {
-
+            return new SimulatorResponse(false, ex.getMessage());
         }
-
-
-        // set builderConfig:
-        // - give the builder "context" like file
-        // - so it could be build from the file content
-        // build - validate content in xml - like dupliccation, unsupported fields, etc.
-        // build - Mapping generated xml classes into definition classes
-        // get "world" definition
-        // build dto and return
-
-        return null;
     }
 
 

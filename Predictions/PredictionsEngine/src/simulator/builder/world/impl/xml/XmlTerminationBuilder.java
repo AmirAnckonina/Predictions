@@ -5,12 +5,12 @@ import resources.jaxb.schema.generated.PRDByTicks;
 import resources.jaxb.schema.generated.PRDTermination;
 import simulator.builder.world.api.AbstractFileComponentBuilder;
 import simulator.builder.world.api.TerminationBuilder;
-import simulator.builder.world.utils.exception.InvalidXmlCompenentException;
+import simulator.builder.world.utils.exception.WorldBuilderException;
 import simulator.definition.termination.Termination;
 
 import java.util.List;
 
-public class XmlTerminationBuilder extends AbstractFileComponentBuilder<Termination> implements TerminationBuilder {
+public class XmlTerminationBuilder extends AbstractFileComponentBuilder implements TerminationBuilder {
 
     private PRDTermination generatedTermination;
 
@@ -22,32 +22,24 @@ public class XmlTerminationBuilder extends AbstractFileComponentBuilder<Terminat
     public Termination buildTermination() {
         Termination termination = new Termination();
 
-        try {
-            List<Object> generatedTerminationConditions = generatedTermination.getPRDByTicksOrPRDBySecond();
-            for (int i = 0 ; i < 2 ; i++) {
-                mapSingleTerminationProcedure(termination, generatedTerminationConditions.get(i));
-            }
-
-            return termination;
-
-        } catch (Exception e) {
-            return null;
+        List<Object> generatedTerminationConditions = generatedTermination.getPRDByTicksOrPRDBySecond();
+        for (int i = 0; i < 2; i++) {
+            mapSingleTerminationProcedure(termination, generatedTerminationConditions.get(i));
         }
+            return termination;
     }
 
-    private void mapSingleTerminationProcedure(Termination termination, Object generatesTerminationCondition)
-            throws InvalidXmlCompenentException {
+    private void mapSingleTerminationProcedure (Termination termination, Object generatesTerminationCondition){
 
         if (generatesTerminationCondition instanceof PRDByTicks) {
             PRDByTicks generatedTicksTermination = (PRDByTicks) generatesTerminationCondition;
             termination.setTicksTermination(generatedTicksTermination.getCount());
-        }
-        else if (generatesTerminationCondition instanceof PRDBySecond) {
+        } else if (generatesTerminationCondition instanceof PRDBySecond) {
             PRDBySecond generatedSecondsTermination = (PRDBySecond) generatesTerminationCondition;
             termination.setSecondsTermination(generatedSecondsTermination.getCount());
-        }
-        else {
-            throw new InvalidXmlCompenentException("PRDTermination structure is invalid");
+        } else {
+            throw new WorldBuilderException("Can't build termination definition. PRDTermination structure is invalid");
         }
     }
 }
+

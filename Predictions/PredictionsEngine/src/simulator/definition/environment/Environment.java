@@ -1,24 +1,20 @@
 package simulator.definition.environment;
 
-import javafx.beans.property.ListPropertyBase;
-import simulator.definition.property.api.BasePropertyDefinition;
+import simulator.definition.property.api.AbstractPropertyDefinition;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Environment {
 
-    List<BasePropertyDefinition> environmentProperties;
+    private Map<String, AbstractPropertyDefinition> environmentProperties;
 
-    public Environment() {
-        this.environmentProperties = new ArrayList<>();
+    public Environment(Map<String, AbstractPropertyDefinition> environmentProperties) {
+        this.environmentProperties = environmentProperties;
     }
 
-    public Environment(List<BasePropertyDefinition> envProperties) {
-        this.environmentProperties = envProperties;
-    }
-
-    public void addProp(BasePropertyDefinition prop) {
-
+    public void addProp(String propName, AbstractPropertyDefinition propertyDefinition) {
+        environmentProperties.put(propName, propertyDefinition);
     }
 }
