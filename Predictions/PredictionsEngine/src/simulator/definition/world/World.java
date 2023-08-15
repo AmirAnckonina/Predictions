@@ -26,4 +26,12 @@ public class World {
 
     }
 
+    public Environment getEnvironment() {
+        return environment;
+    }
+
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
+    }
+
 }

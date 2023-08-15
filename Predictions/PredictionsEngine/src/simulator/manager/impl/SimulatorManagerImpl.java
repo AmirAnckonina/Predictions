@@ -66,6 +66,8 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
     @Override
     public SimulatorResponse setEnvironmentVariableValue(String propName, String type, String value) {
+        SetPropertySimulatorResponseDto responseDto;
+        SimulatorResponse response;
         try {
             ePropertyType eType = ePropertyType.STRING;
             switch (type.toLowerCase())
@@ -91,11 +93,17 @@ public class SimulatorManagerImpl implements SimulatorManager {
             EnvironmentManagerImpl environmentManager = new EnvironmentManagerImpl();
             environmentManager.addPropertyInstance(propName, eType, value, this.world);
 
+            responseDto = new SetPropertySimulatorResponseDto(eSetPropertyStatus.SUCCEEDED,
+                    "Environment Variable Value has been set with " + value);
+            response =  new SimulatorResponse(true,
+                    "Environment Variable Value has been set with " + value,
+                                responseDto);
+
         } catch (Exception e) {
-            SetPropertySimulatorResponseDto response = new SetPropertySimulatorResponseDto(eSetPropertyStatus.FAILED, e.getMessage());
-            return new SimulatorResponse(false, e.getMessage());
+            responseDto = new SetPropertySimulatorResponseDto(eSetPropertyStatus.FAILED, e.getMessage());
+            response =  new SimulatorResponse(false, e.getMessage(), responseDto);
         }
-        return null;
+        return response;
     }
 
     @Override

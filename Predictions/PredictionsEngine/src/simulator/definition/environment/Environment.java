@@ -4,7 +4,7 @@ package simulator.definition.environment;
 import simulator.definition.property.api.AbstractPropertyDefinition;
 import javafx.beans.property.ListPropertyBase;
 import simulator.definition.exception.AmbiguousException;
-import simulator.definition.property.api.BasePropertyDefinition;
+import simulator.definition.property.api.PropertyDefinition;
 
 import java.util.HashMap;
 import java.util.List;
