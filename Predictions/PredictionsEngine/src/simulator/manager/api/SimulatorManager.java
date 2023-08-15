@@ -32,4 +32,7 @@ public interface SimulatorManager {
 
 
     public void endSetEnvironmentSession();
+
+    SimulatorResponse startEnvironmentSession();
+    SimulatorResponse endEnvironmentSession();
 }

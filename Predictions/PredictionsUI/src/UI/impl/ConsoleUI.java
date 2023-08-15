@@ -32,13 +32,21 @@ public class ConsoleUI implements UserInterface {
     }
 
     public void activeEnvironmentSession() {
+        startEnvironmentSessionSignal();
         EnvironmentPropertiesDto propertiesDto = this.simulator.getEnvironmentProperties();
         List<BasePropertyDto> properties = propertiesDto.getPropertiesList();
         printPropertiesList(properties);
         List<Integer> propertiesUserUpdatedList = handleUserChoice(properties);
-        this.simulator.endSetEnvironmentSession();
+        endEnvironmentSessionSignal();
 
         this.simulator.activateEnvironment();
+    }
+    private boolean startEnvironmentSessionSignal(){
+        return this.simulator.startEnvironmentSession().isSuccess();
+    }
+
+    private boolean endEnvironmentSessionSignal(){
+        return this.simulator.endEnvironmentSession().isSuccess();
     }
 
     private void setRandomValuesForUninitializedProperties(List<Integer> propertiesUserUpdatedList, EnvironmentPropertiesDto propertiesDto) {

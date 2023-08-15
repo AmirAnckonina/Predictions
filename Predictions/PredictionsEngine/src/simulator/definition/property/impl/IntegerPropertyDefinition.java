@@ -13,7 +13,7 @@ public class IntegerPropertyDefinition extends AbstractNumericPropertyDefinition
         super(name, propertyType, valueGenerator);
     }
 
-    public IntegerPropertyDefinition(String name, ePropertyType propertyType, ValueGenerator<Integer> valueGenerator, boolean hasRange, Range<Integer> range) {
-        super(name, propertyType, valueGenerator, hasRange, range);
+    public IntegerPropertyDefinition(String name, ePropertyType propertyType, ValueGenerator<Integer> valueGenerator, Range<Integer> range) {
+        super(name, propertyType, valueGenerator, range);
     }
 }

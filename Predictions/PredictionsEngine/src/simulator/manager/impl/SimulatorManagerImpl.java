@@ -68,7 +68,30 @@ public class SimulatorManagerImpl implements SimulatorManager {
     @Override
     public void endSetEnvironmentSession() {
         if(this.environmentManager != null) this.environmentManager.setRandomValuesForUninitializedProperties(
-                this.propertiesUpdatedByUser, this.world);
+                this.propertiesUpdatedByUser, this.world.getEnvironment());
+    }
+
+    @Override
+    public SimulatorResponse startEnvironmentSession() {
+        // might be used in the future
+        SimulatorResponse response = new SimulatorResponse<>(true, "session started successfully",
+                null);
+        return response;
+    }
+
+    @Override
+    public SimulatorResponse endEnvironmentSession() {
+        try {
+            this.environmentManager.setRandomValuesForUninitializedProperties(this.propertiesUpdatedByUser,
+                    this.world.getEnvironment());
+            SimulatorResponse response = new SimulatorResponse<>(true, "session ended successfully",
+                    null);
+            return response;
+        }catch (Exception e){
+            SimulatorResponse response = new SimulatorResponse<>(false, "end session action failed",
+                    null);
+            return response;
+        }
     }
 
     @Override
@@ -103,7 +126,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
                     break;
             }
             environmentManager = new EnvironmentManagerImpl();
-            environmentManager.addPropertyInstance(propName, eType, value, this.world);
+            environmentManager.addPropertyInstance(propName, eType, value, this.world.getEnvironment());
 
             responseDto = new SetPropertySimulatorResponseDto(eSetPropertyStatus.SUCCEEDED,
                     "Environment Variable Value has been set with " + value);

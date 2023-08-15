@@ -13,7 +13,7 @@ public class FloatPropertyDefinition extends AbstractNumericPropertyDefinition<F
         super(name, propertyType, valueGenerator);
     }
 
-    public FloatPropertyDefinition(String name, ePropertyType propertyType, ValueGenerator<Float> valueGenerator, boolean hasRange, Range<Float> range) {
-        super(name, propertyType, valueGenerator, hasRange, range);
+    public FloatPropertyDefinition(String name, ePropertyType propertyType, ValueGenerator<Float> valueGenerator, Range<Float> range) {
+        super(name, propertyType, valueGenerator, range);
     }
 }

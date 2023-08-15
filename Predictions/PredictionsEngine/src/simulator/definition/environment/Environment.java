@@ -9,6 +9,7 @@ import simulator.definition.property.api.PropertyDefinition;
 import simulator.definition.property.valueGenerator.api.ValueGenerator;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +46,16 @@ public class Environment {
             this.environmentProperties.get(propertyName).setValueGenerator(valueGenerator);
         }
         else throw new MapValueException("Property does not exist");
+    }
+
+    public List<String> getPropertiesNames(){
+        List<String> propertiesNames = new LinkedList<>();
+        for (Map.Entry<String, AbstractPropertyDefinition> entry:
+                this.environmentProperties.entrySet()) {
+            propertiesNames.add(entry.getKey());
+        }
+
+        return propertiesNames;
     }
 
 }

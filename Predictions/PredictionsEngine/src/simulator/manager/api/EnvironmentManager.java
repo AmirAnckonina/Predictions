@@ -13,5 +13,5 @@ public interface EnvironmentManager {
     void addPropertyInstance(String propName, ePropertyType type, String value, Environment environment);
 
     SimulatorResponse<String> setRandomValuesForUninitializedProperties(List<String> propertiesUserUpdatedList,
-                                                                        World world);
+                                                                        Environment environment);
 }
