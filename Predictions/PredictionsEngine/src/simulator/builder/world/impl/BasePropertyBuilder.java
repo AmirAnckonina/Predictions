@@ -1,5 +1,6 @@
-package simulator.builder.world.api;
+package simulator.builder.world.impl;
 
+import simulator.builder.world.api.PropertyBuilder;
 import simulator.builder.world.utils.exception.WorldBuilderException;
 import simulator.definition.property.api.AbstractPropertyDefinition;
 import simulator.definition.property.enums.ePropertyType;
@@ -7,7 +8,7 @@ import simulator.definition.property.impl.*;
 import simulator.definition.property.valueGenerator.api.ValueGenerator;
 import simulator.definition.property.valueGenerator.utils.factory.ValueGeneratorFactory;
 
-public abstract class AbstractPropertyBuilder implements PropertyBuilder {
+public class BasePropertyBuilder implements PropertyBuilder {
 
     @Override
     public AbstractPropertyDefinition buildProperty(String name, ePropertyType propertyType, Range range) {

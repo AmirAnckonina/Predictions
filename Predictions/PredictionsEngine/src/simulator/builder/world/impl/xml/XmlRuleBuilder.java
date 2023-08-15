@@ -31,7 +31,15 @@ public class XmlRuleBuilder implements RuleBuilder {
 
     @Override
     public Activation buildActivation() {
-        return null;
+
+        Activation activation = null;
+        if (generatedRule.getPRDActivation() != null) {
+            Integer ticksInterval = generatedRule.getPRDActivation().getTicks();
+            Double probability = generatedRule.getPRDActivation().getProbability();
+            activation = new Activation(ticksInterval, probability);
+        }
+
+        return activation;
     }
 
     @Override

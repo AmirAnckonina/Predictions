@@ -16,13 +16,10 @@ public class XmlEntityBuilder implements EntityBuilder {
     private PRDEntity generatedEntity;
 
     public XmlEntityBuilder(PRDEntity generatedEntity) {
+
         this.generatedEntity = generatedEntity;
     }
 
-
-    public XmlEntityBuilder() {
-        super();
-    }
 
     @Override
     public Entity buildEntity() {
@@ -36,7 +33,7 @@ public class XmlEntityBuilder implements EntityBuilder {
         Map<String, AbstractPropertyDefinition> envProperties = new HashMap<>();
 
         for (PRDProperty genEntityProp : generatedEntity.getPRDProperties().getPRDProperty()) {
-            AbstractPropertyDefinition newEntityProperty = new XmlPropertyBuilder(genEntityProp).buildEntityProperty();
+            AbstractPropertyDefinition newEntityProperty = new XmlEntityPropertyBuilder(genEntityProp).buildEntityProperty();
             if (!envProperties.containsKey(newEntityProperty.getName())) {
                 envProperties.put(newEntityProperty.getName(), newEntityProperty);
             } else {

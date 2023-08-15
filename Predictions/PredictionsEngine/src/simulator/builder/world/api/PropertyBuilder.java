@@ -5,7 +5,5 @@ import simulator.definition.property.enums.ePropertyType;
 import simulator.definition.property.impl.Range;
 
 public interface PropertyBuilder {
-    AbstractPropertyDefinition buildEntityProperty();
-    AbstractPropertyDefinition buildEnvironmentProperty();
     AbstractPropertyDefinition buildProperty(String name, ePropertyType propertyType, Range range);
 }
