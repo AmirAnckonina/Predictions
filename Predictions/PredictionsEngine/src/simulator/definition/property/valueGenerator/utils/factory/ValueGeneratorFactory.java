@@ -1,5 +1,6 @@
 package simulator.definition.property.valueGenerator.utils.factory;
 
+import simulator.definition.property.impl.Range;
 import simulator.definition.property.valueGenerator.api.ValueGenerator;
 import simulator.definition.property.valueGenerator.impl.fixed.FixedValueGenerator;
 import simulator.definition.property.valueGenerator.impl.random.impl.bool.BooleanRandomValueGenerator;
@@ -11,18 +12,21 @@ public interface ValueGeneratorFactory {
     static <T> ValueGenerator<T> createFixed(T value) {
         return new FixedValueGenerator<T>(value);
     }
-
     static ValueGenerator<Boolean> createRandomBooleanGenerator() {
         return new BooleanRandomValueGenerator();
     }
-
     static ValueGenerator<String> createRandomStringGenerator() { return new StringRandomValueGenerator();}
-
-    static ValueGenerator<Integer> createRandomIntegerGenerator(Integer from, Integer to) {
-        return new IntegerRandomValueGenerator(from, to);
+    static ValueGenerator<Integer> createRandomRangedIntegerGenerator(Range range) {
+        return new IntegerRandomValueGenerator(range);
     }
-    static ValueGenerator<Float> createRandomFloatGenerator(Float from, Float to) {
-        return new FloatRandomValueGenerator(from, to);
+    static ValueGenerator<Float> createRandomRangedFloatGenerator(Range range) {
+        return new FloatRandomValueGenerator(range);
+    }
+    static ValueGenerator<Integer> createRandomUnlimitedIntegerGenerator() {
+        return new IntegerRandomValueGenerator();
+    }
+    static ValueGenerator<Float> createRandomUnlimitedFloatGenerator() {
+        return new FloatRandomValueGenerator();
     }
 
 }

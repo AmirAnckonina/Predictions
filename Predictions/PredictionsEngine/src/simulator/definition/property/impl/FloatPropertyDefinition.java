@@ -1,25 +1,19 @@
 package simulator.definition.property.impl;
 
+import simulator.definition.property.api.AbstractNumericPropertyDefinition;
 import simulator.definition.property.api.AbstractPropertyDefinition;
 import simulator.definition.property.enums.ePropertyType;
 import simulator.definition.property.valueGenerator.api.ValueGenerator;
 
 import java.util.Optional;
 
-public class FloatPropertyDefinition extends AbstractPropertyDefinition<Float> {
-    // Consider add propType in c'tor.
+public class FloatPropertyDefinition extends AbstractNumericPropertyDefinition<Float> {
 
-    private final Optional<Float> from;
-    private final Optional<Float> to;
-    public FloatPropertyDefinition(String name, ValueGenerator<Float> valueGenerator) {
-        super(name, ePropertyType.FLOAT, valueGenerator);
-        this.from = Optional.empty();
-        this.to = Optional.empty();
+    public FloatPropertyDefinition(String name, ePropertyType propertyType, ValueGenerator<Float> valueGenerator) {
+        super(name, propertyType, valueGenerator);
     }
 
-    public FloatPropertyDefinition(String name, ePropertyType propertyType, ValueGenerator<Float> valueGenerator, float from, float to) {
-        super(name, propertyType, valueGenerator);
-        this.from = Optional.of(from);
-        this.to = Optional.of(to);
+    public FloatPropertyDefinition(String name, ePropertyType propertyType, ValueGenerator<Float> valueGenerator, boolean hasRange, Range<Float> range) {
+        super(name, propertyType, valueGenerator, hasRange, range);
     }
 }

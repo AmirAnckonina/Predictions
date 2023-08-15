@@ -11,19 +11,10 @@ import simulator.definition.property.api.AbstractPropertyDefinition;
 import java.util.HashMap;
 import java.util.Map;
 
-public class XmlEnvironmentBuilder extends AbstractFileComponentBuilder implements EnvironmentBuilder {
+public class XmlEnvironmentBuilder implements EnvironmentBuilder {
     private PRDEvironment generatedEnvironment;
 
     public XmlEnvironmentBuilder(PRDEvironment generatedEnvironment) {
-        super();
-        this.generatedEnvironment = generatedEnvironment;
-    }
-
-    public XmlEnvironmentBuilder() {
-        super();
-    }
-
-    public void setGeneratedEnvironment(PRDEvironment generatedEnvironment) {
         this.generatedEnvironment = generatedEnvironment;
     }
 

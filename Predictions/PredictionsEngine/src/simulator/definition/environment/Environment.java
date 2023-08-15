@@ -21,13 +21,6 @@ public class Environment {
 
     public void addProp(String propName, AbstractPropertyDefinition propertyDefinition) {
         environmentProperties.put(propName, propertyDefinition);
-
-    public void addProp(BasePropertyDefinition prop) throws AmbiguousException {
-        for(BasePropertyDefinition property : this.environmentProperties){
-            if (property.getName() == prop.getName())
-                throw new AmbiguousException("Datamember already exist");
-        }
-        this.environmentProperties.add(prop);
-
     }
+
 }

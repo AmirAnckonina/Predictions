@@ -11,12 +11,11 @@ import simulator.definition.property.api.AbstractPropertyDefinition;
 import java.util.HashMap;
 import java.util.Map;
 
-public class XmlEntityBuilder extends AbstractFileComponentBuilder implements EntityBuilder {
+public class XmlEntityBuilder implements EntityBuilder {
 
     private PRDEntity generatedEntity;
 
     public XmlEntityBuilder(PRDEntity generatedEntity) {
-        super();
         this.generatedEntity = generatedEntity;
     }
 

@@ -13,12 +13,11 @@ import simulator.definition.rule.activation.Activation;
 import java.util.ArrayList;
 import java.util.List;
 
-public class XmlRuleBuilder extends AbstractFileComponentBuilder implements RuleBuilder {
+public class XmlRuleBuilder implements RuleBuilder {
 
     private final PRDRule generatedRule;
 
     public XmlRuleBuilder(PRDRule generatedRule) {
-
         this.generatedRule = generatedRule;
     }
 

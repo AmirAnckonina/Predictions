@@ -10,7 +10,7 @@ import simulator.definition.termination.Termination;
 
 import java.util.List;
 
-public class XmlTerminationBuilder extends AbstractFileComponentBuilder implements TerminationBuilder {
+public class XmlTerminationBuilder implements TerminationBuilder {
 
     private PRDTermination generatedTermination;
 
