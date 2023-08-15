@@ -11,19 +11,15 @@ import simulator.definition.property.api.AbstractPropertyDefinition;
 import java.util.HashMap;
 import java.util.Map;
 
-public class XmlEntityBuilder extends AbstractFileComponentBuilder implements EntityBuilder {
+public class XmlEntityBuilder implements EntityBuilder {
 
     private PRDEntity generatedEntity;
 
     public XmlEntityBuilder(PRDEntity generatedEntity) {
-        super();
+
         this.generatedEntity = generatedEntity;
     }
 
-
-    public XmlEntityBuilder() {
-        super();
-    }
 
     @Override
     public Entity buildEntity() {
@@ -37,7 +33,7 @@ public class XmlEntityBuilder extends AbstractFileComponentBuilder implements En
         Map<String, AbstractPropertyDefinition> envProperties = new HashMap<>();
 
         for (PRDProperty genEntityProp : generatedEntity.getPRDProperties().getPRDProperty()) {
-            AbstractPropertyDefinition newEntityProperty = new XmlPropertyBuilder(genEntityProp).buildEntityProperty();
+            AbstractPropertyDefinition newEntityProperty = new XmlEntityPropertyBuilder(genEntityProp).buildEntityProperty();
             if (!envProperties.containsKey(newEntityProperty.getName())) {
                 envProperties.put(newEntityProperty.getName(), newEntityProperty);
             } else {

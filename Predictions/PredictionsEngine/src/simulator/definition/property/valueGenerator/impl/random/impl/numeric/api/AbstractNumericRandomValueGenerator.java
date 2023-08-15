@@ -1,17 +1,24 @@
 package simulator.definition.property.valueGenerator.impl.random.impl.numeric.api;
 
+import simulator.definition.property.impl.Range;
 import simulator.definition.property.valueGenerator.impl.random.api.BaseRandomValueGenerator;
 
-public abstract class AbstractNumericRandomValueGenerator<T> extends BaseRandomValueGenerator<T> {
+import java.util.Optional;
 
-    protected final T from;
-    protected final T to;
+public abstract class AbstractNumericRandomValueGenerator<T extends Number> extends BaseRandomValueGenerator<T> {
 
-    protected AbstractNumericRandomValueGenerator(T from, T to) {
-        this.from = from;
-        this.to = to;
+    protected Range<T> range;
+
+    protected AbstractNumericRandomValueGenerator(Range range) {
+        this.range = range;
     }
 
+    protected AbstractNumericRandomValueGenerator() {
+        this(null);
+    }
+    public Optional<Range<T>> getRange() {
+        return Optional.ofNullable(range);
+    }
 }
 
 

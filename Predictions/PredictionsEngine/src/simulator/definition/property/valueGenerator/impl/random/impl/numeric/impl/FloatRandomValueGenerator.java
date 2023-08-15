@@ -1,15 +1,24 @@
 package simulator.definition.property.valueGenerator.impl.random.impl.numeric.impl;
 
+import simulator.definition.property.impl.Range;
 import simulator.definition.property.valueGenerator.impl.random.impl.numeric.api.AbstractNumericRandomValueGenerator;
 
 public class FloatRandomValueGenerator extends AbstractNumericRandomValueGenerator<Float> {
+    public FloatRandomValueGenerator(Range<Float> range) {
 
-    public FloatRandomValueGenerator(Float from, Float to) {
-        super(from, to);
+        super(range);
     }
+
+    public FloatRandomValueGenerator() {
+        super();
+    }
+
     @Override
     public Float generateValue()  {
-
-        return from + ((to - from) * random.nextFloat());
+        if (getRange().isPresent()) {
+            return range.getFrom() + (range.getTo() - range.getFrom()) * random.nextFloat();
+        } else {
+            return random.nextInt() + random.nextFloat();
+        }
     }
 }

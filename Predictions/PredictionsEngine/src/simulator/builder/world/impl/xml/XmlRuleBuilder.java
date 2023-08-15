@@ -13,12 +13,11 @@ import simulator.definition.rule.activation.Activation;
 import java.util.ArrayList;
 import java.util.List;
 
-public class XmlRuleBuilder extends AbstractFileComponentBuilder implements RuleBuilder {
+public class XmlRuleBuilder implements RuleBuilder {
 
     private final PRDRule generatedRule;
 
     public XmlRuleBuilder(PRDRule generatedRule) {
-
         this.generatedRule = generatedRule;
     }
 
@@ -32,7 +31,15 @@ public class XmlRuleBuilder extends AbstractFileComponentBuilder implements Rule
 
     @Override
     public Activation buildActivation() {
-        return null;
+
+        Activation activation = null;
+        if (generatedRule.getPRDActivation() != null) {
+            Integer ticksInterval = generatedRule.getPRDActivation().getTicks();
+            Double probability = generatedRule.getPRDActivation().getProbability();
+            activation = new Activation(ticksInterval, probability);
+        }
+
+        return activation;
     }
 
     @Override

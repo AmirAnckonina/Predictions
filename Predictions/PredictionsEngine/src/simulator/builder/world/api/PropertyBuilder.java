@@ -1,11 +1,9 @@
 package simulator.builder.world.api;
 
-import simulator.builder.world.utils.exception.WorldBuilderException;
 import simulator.definition.property.api.AbstractPropertyDefinition;
-
-import java.util.Map;
+import simulator.definition.property.enums.ePropertyType;
+import simulator.definition.property.impl.Range;
 
 public interface PropertyBuilder {
-    AbstractPropertyDefinition buildEntityProperty();
-    AbstractPropertyDefinition buildEnvironmentProperty();
+    AbstractPropertyDefinition buildProperty(String name, ePropertyType propertyType, Range range);
 }

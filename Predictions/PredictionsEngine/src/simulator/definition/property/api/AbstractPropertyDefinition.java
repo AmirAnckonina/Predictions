@@ -14,6 +14,7 @@ public abstract class AbstractPropertyDefinition<T> implements PropertyDefinitio
         this.valueGenerator = valueGenerator;
     }
     public void setValueGenerator(ValueGenerator<T> valueGenerator) {
+
         this.valueGenerator = valueGenerator;
     }
 
