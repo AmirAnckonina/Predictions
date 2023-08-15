@@ -3,11 +3,19 @@ package dto;
 import dto.builder.params.enums.eSetPropertyStatus;
 
 public class SetPropertySimulatorResponseDto {
-    eSetPropertyStatus processStatus;
-    String message;
+    private eSetPropertyStatus processStatus;
+    private String message;
 
     public SetPropertySimulatorResponseDto(eSetPropertyStatus processStatus, String message) {
         this.processStatus = processStatus;
         this.message = message;
+    }
+
+    public eSetPropertyStatus getProcessStatus() {
+        return processStatus;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }
