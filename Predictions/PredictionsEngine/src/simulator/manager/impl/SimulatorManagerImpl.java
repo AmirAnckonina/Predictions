@@ -2,6 +2,7 @@ package simulator.manager.impl;
 
 import dto.EnvironmentPropertiesDto;
 import dto.SetPropertySimulatorResponseDto;
+import dto.SimulationDetailsDto;
 import dto.builder.params.BasePropertyDto;
 import dto.builder.params.enums.eSetPropertyStatus;
 import response.SimulatorResponse;
@@ -61,7 +62,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
-    public Object runSimulator(Integer simulationId) {
+    public SimulationDetailsDto runSimulator() {
         return null;
     }
 

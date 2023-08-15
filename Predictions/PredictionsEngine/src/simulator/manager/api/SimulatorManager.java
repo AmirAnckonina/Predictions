@@ -1,6 +1,7 @@
 package simulator.manager.api;
 import dto.BuildSimulatorDto;
 import dto.EnvironmentPropertiesDto;
+import dto.SimulationDetailsDto;
 import response.SimulatorResponse;
 import simulator.definition.property.enums.ePropertyType;
 
@@ -25,7 +26,7 @@ public interface SimulatorManager {
 
     // Return type: PredictionsResponse<T> , PredictionsResponse<SimulationResultDTO>
     // T data , String status, string message
-    public Object runSimulator(Integer simulationID);
+    public SimulationDetailsDto runSimulator();
 
     // Not sure what we should return here, maybe just a clean-up procedure.
     public Object exitSimulator();
