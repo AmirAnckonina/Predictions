@@ -1,24 +1,25 @@
 package simulator.definition.entity;
 
 
-import simulator.definition.property.api.BasePropertyDefinition;
-import simulator.definition.property.api.PropertyDefinition;
-
-import java.util.HashMap;
-import java.util.Map;
+import simulator.definition.property.api.AbstractPropertyDefinition;
 
 import java.util.Map;
 
 public class Entity {
     private String name;
-
-    private Map<String, BasePropertyDefinition> properties;
+    private Map<String, AbstractPropertyDefinition> properties;
 
     public String getName() {
         return name;
     }
 
-    public Map<String, BasePropertyDefinition> getProperties() {
+    public Entity(String name, Map<String, AbstractPropertyDefinition> properties) {
+        this.name = name;
+        this.properties = properties;
+    }
+
+    public Map<String, AbstractPropertyDefinition> getProperties() {
+
         return properties;
     }
 
@@ -28,7 +29,7 @@ public class Entity {
      * @param propertyValue The value of the attribute
      * @return true if inserting the new property was succeeded. False if a property named propertyName already exist.
      */
-    public  Boolean setNewProperty(String propertyName, BasePropertyDefinition propertyValue ){
+    public  Boolean setNewProperty(String propertyName, AbstractPropertyDefinition propertyValue ){
         boolean res = false;
         if(!this.properties.containsKey(propertyName)) {
             this.properties.put(propertyName, propertyValue);

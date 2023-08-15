@@ -4,13 +4,14 @@ import resources.jaxb.schema.generated.PRDEnvProperty;
 import resources.jaxb.schema.generated.PRDEvironment;
 import simulator.builder.world.api.AbstractFileComponentBuilder;
 import simulator.builder.world.api.EnvironmentBuilder;
+import simulator.builder.world.utils.exception.WorldBuilderException;
 import simulator.definition.environment.Environment;
-import simulator.definition.property.api.BasePropertyDefinition;
+import simulator.definition.property.api.AbstractPropertyDefinition;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-public class XmlEnvironmentBuilder extends AbstractFileComponentBuilder<Environment> implements EnvironmentBuilder {
+public class XmlEnvironmentBuilder extends AbstractFileComponentBuilder implements EnvironmentBuilder {
     private PRDEvironment generatedEnvironment;
 
     public XmlEnvironmentBuilder(PRDEvironment generatedEnvironment) {
@@ -28,25 +29,25 @@ public class XmlEnvironmentBuilder extends AbstractFileComponentBuilder<Environm
 
     @Override
     public Environment buildEnvironment() {
-
-        Environment environment;
-
-        List<BasePropertyDefinition> envProperties = buildEnvironmentProperties();
-
+        // Need to ensure each property added is a new one and doesn't exist.
+        Map<String, AbstractPropertyDefinition> envProperties = buildEnvironmentProperties();
         return new Environment(envProperties);
     }
 
-    @Override
-    public List<BasePropertyDefinition> buildEnvironmentProperties() {
-        List<BasePropertyDefinition> envProperties = new ArrayList<>();
 
-        List<PRDEnvProperty> generatedEnvProperties = generatedEnvironment.getPRDEnvProperty();
-        for (PRDEnvProperty generatedEnvProp : generatedEnvProperties) {
-            XmlPropertyBuilder propBuilder = new XmlPropertyBuilder(generatedEnvProp);
-            BasePropertyDefinition newProperty = propBuilder.buildEnvironmentProperty();
-            envProperties.add(newProperty);
+    public Map<String, AbstractPropertyDefinition> buildEnvironmentProperties() {
+
+        Map<String, AbstractPropertyDefinition> envProperties = new HashMap<>();
+
+        for (PRDEnvProperty genEnvProp : generatedEnvironment.getPRDEnvProperty()) {
+            AbstractPropertyDefinition newEnvProperty = new XmlPropertyBuilder(genEnvProp).buildEnvironmentProperty();
+            if (!envProperties.containsKey(newEnvProperty.getName())) {
+                envProperties.put(newEnvProperty.getName(), newEnvProperty);
+            } else {
+                throw new WorldBuilderException(
+                        "Environment property build failed. The following env property name already exists: " + newEnvProperty.getName());
+            }
         }
-
         return envProperties;
     }
 }

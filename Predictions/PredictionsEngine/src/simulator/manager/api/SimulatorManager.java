@@ -10,7 +10,7 @@ public interface SimulatorManager {
     // Strategy design pattern? readFile vs. UI input
     // Option A: 1. ReadFile 2. Deserialize 3. Fill World Obj
     // Option B: GetDto , then fill Obj
-    public BuildSimulatorDto buildSimulationWorld(String filePath);
+    public SimulatorResponse buildSimulationWorld(String filePath);
 
 
     // Parameters: consider support SimulationId and SimulationName

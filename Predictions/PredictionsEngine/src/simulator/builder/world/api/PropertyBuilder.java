@@ -1,8 +1,11 @@
 package simulator.builder.world.api;
 
-import simulator.definition.property.api.BasePropertyDefinition;
+import simulator.builder.world.utils.exception.WorldBuilderException;
+import simulator.definition.property.api.AbstractPropertyDefinition;
+
+import java.util.Map;
 
 public interface PropertyBuilder {
-    <T> BasePropertyDefinition<T> buildEnvironmentProperty();
-    <T> BasePropertyDefinition<T> buildEntityProperty();
+    AbstractPropertyDefinition buildEntityProperty();
+    AbstractPropertyDefinition buildEnvironmentProperty();
 }

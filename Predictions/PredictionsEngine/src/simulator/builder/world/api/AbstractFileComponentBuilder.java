@@ -2,8 +2,7 @@ package simulator.builder.world.api;
 
 import java.io.File;
 
-public abstract class AbstractFileComponentBuilder<T> {
-    protected T component;
+public abstract class AbstractFileComponentBuilder {
     protected File dataSrcFile;
 
     public AbstractFileComponentBuilder() {
@@ -16,9 +15,5 @@ public abstract class AbstractFileComponentBuilder<T> {
 
     public void setDataSrcFile(File dataSrcFile) {
         this.dataSrcFile = dataSrcFile;
-    }
-
-    public T getComponent() {
-        return component;
     }
 }
