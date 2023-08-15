@@ -4,7 +4,7 @@ package simulator.definition.environment;
 import simulator.definition.property.api.AbstractPropertyDefinition;
 import javafx.beans.property.ListPropertyBase;
 import simulator.definition.exception.AmbiguousException;
-import simulator.definition.property.api.BasePropertyDefinition;
+import simulator.definition.property.api.PropertyDefinition;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,13 +21,14 @@ public class Environment {
 
     public void addProp(String propName, AbstractPropertyDefinition propertyDefinition) {
         environmentProperties.put(propName, propertyDefinition);
+    }
 
-    public void addProp(BasePropertyDefinition prop) throws AmbiguousException {
-        for(BasePropertyDefinition property : this.environmentProperties){
-            if (property.getName() == prop.getName())
+    public void addProp(AbstractPropertyDefinition property) throws AmbiguousException {
+        for (Map.Entry<String, AbstractPropertyDefinition> entry:
+                this.environmentProperties.entrySet()) {
+            if (entry.getValue().getName() == property.getName())
                 throw new AmbiguousException("Datamember already exist");
+            this.environmentProperties.put(property.getName(), property);
         }
-        this.environmentProperties.add(prop);
-
     }
 }
