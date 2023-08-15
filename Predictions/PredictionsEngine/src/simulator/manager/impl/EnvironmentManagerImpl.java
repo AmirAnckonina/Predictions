@@ -1,58 +1,79 @@
 package simulator.manager.impl;
-import simulator.definition.property.api.AbstractPropertyDefinition;
+
 import response.SimulatorResponse;
 import simulator.definition.environment.Environment;
+import simulator.definition.property.api.AbstractNumericPropertyDefinition;
+import simulator.definition.property.api.AbstractPropertyDefinition;
 import simulator.definition.property.enums.ePropertyType;
-import simulator.definition.property.impl.BooleanPropertyDefinition;
-import simulator.definition.property.impl.FloatPropertyDefinition;
-import simulator.definition.property.impl.IntegerPropertyDefinition;
-import simulator.definition.property.impl.StringPropertyDefinition;
+import simulator.definition.property.impl.*;
 import simulator.definition.property.valueGenerator.impl.fixed.FixedValueGenerator;
-import simulator.definition.property.valueGenerator.utils.factory.ValueGeneratorFactory;
 import simulator.definition.world.World;
 import simulator.manager.api.EnvironmentManager;
 
+import java.nio.file.OpenOption;
 import java.util.List;
+import java.util.Optional;
 
 public class EnvironmentManagerImpl implements EnvironmentManager {
-    @Override
-    public void addPropertyInstance(String propName, ePropertyType type, String value, World world) {
-        switch (type){
-            case DECIMAL:
-            case FLOAT:
-                FloatPropertyDefinition floatProperty = new FloatPropertyDefinition(propName,
-                        new FixedValueGenerator<Float>(Float.parseFloat(value)));
-                break;
-            case BOOLEAN:
-                BooleanPropertyDefinition booleanProperty = new BooleanPropertyDefinition(propName,
-                        new FixedValueGenerator<Boolean>(Boolean.parseBoolean(value)));
-                break;
-            case STRING:
-                StringPropertyDefinition stringProperty = new StringPropertyDefinition(propName,
-                        new FixedValueGenerator<String>(value));
-                break;
-            case INTEGER:
-                IntegerPropertyDefinition integerProperty = new IntegerPropertyDefinition(propName,
-                        new FixedValueGenerator<Integer>(Integer.parseInt(value)));
-                break;
-        }
 
-        /*setValues
-                for (map....)
-                    if (map(key) != null) {
-                        prop.getType()
-                        AbstractPropertyDefinition a = a.setValueGenerator(ValueGeneratorFactory.createFixed(value));
-                        ValueGen
-                    } else {
-
-                    }*/
+    public void addPropertyInstance(String propName, ePropertyType type, String value, World world)
+    {
+        addPropertyInstance(propName, type, value, world.getEnvironment());
     }
 
     @Override
-    public SimulatorResponse<String> setRandomValuesForUninitializedProperties(List<Integer> propertiesUserUpdatedList,
-                                                                               World world) {
-        Environment environment = world.getEnvironment();
+    public void addPropertyInstance(String propName, ePropertyType type, String value, Environment environment) {
+        AbstractPropertyDefinition propertyDefinition = environment.getPropertyByName(propName);
+        if(type == ePropertyType.BOOLEAN){
+            switch (value){
+                case "True":
+                case "true":
+                case "yes":
+                case "y":
+                case "false":
+                case "False":
+                case "No":
+                case "no":
+                    break;
+                default:
+                    throw new RuntimeException("Invalid input");
+            }
+            environment.setPropertyValueByName(propName, new FixedValueGenerator<>(Boolean.parseBoolean(value)));
+        } else if (type == ePropertyType.DECIMAL || type == ePropertyType.FLOAT) {
+            Range<Double> range = (Range<Double>) Optional.ofNullable(((AbstractNumericPropertyDefinition)propertyDefinition)
+                    .getRange().get()).orElse(null);
+            if(range != null){
+                Float valueInFloat = Float.parseFloat(value);
+                if(valueInFloat > range.getTo() || valueInFloat < range.getFrom()){
+                    throw new RuntimeException("Invalid input");
+                }
+            }
+            environment.setPropertyValueByName(propName, new FixedValueGenerator<>(Float.parseFloat(value)));
+        } else if (type == ePropertyType.INTEGER) {
+            Range<Integer> range = (Range<Integer>) Optional.ofNullable(((AbstractNumericPropertyDefinition)propertyDefinition)
+                    .getRange().get()).orElse(null);
+            if(range != null){
+                Integer valueInFloat = Integer.parseInt(value);
+                if(valueInFloat > range.getTo() || valueInFloat < range.getFrom()){
+                    throw new RuntimeException("Invalid input");
+                }
+            }
+            environment.setPropertyValueByName(propName, new FixedValueGenerator<>(Integer.parseInt(value)));
+        }
+        else{
+            environment.setPropertyValueByName(propName, new FixedValueGenerator<>(value));
+        }
+    }
 
+    @Override
+    public SimulatorResponse<String> setRandomValuesForUninitializedProperties(List<String> propertiesUserUpdatedList,
+                                                                               Environment environment) {
+        for (String propertyName:environment.getPropertiesNames()
+             ) {
+            if(!propertiesUserUpdatedList.contains(propertyName)){
+                environment.getPropertyByName(propertyName).generateValue();
+            }
+        }
 
         return null;
     }
