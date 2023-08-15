@@ -28,7 +28,46 @@ public class ConsoleUI implements UserInterface {
 
     @Override
     public void runMenu() {
+        printMenuOptions();
+    }
 
+    private void printMenuOptions() {
+        System.out.println(eMainMenuChoices.SetEnvironmentsVariables.ordinal() + ". Set environment variables");
+        System.out.println("...");
+        System.out.print("Choose an option by typing the option number: ");
+    }
+
+    private int handleMainMenuUserChoice(){
+        Scanner scanner = new Scanner(System.in);
+        int selectedIndex = -1;
+
+        while (true) {
+            if (scanner.hasNextInt()) {
+                selectedIndex = scanner.nextInt();
+                scanner.nextLine(); // Consume the newline character
+
+                if (selectedIndex >= 1 && selectedIndex <= eMainMenuChoices.values().length) {
+                    break;
+                } else {
+                    System.out.println("Invalid index. Please choose a valid index.");
+                }
+            } else {
+                System.out.println("Invalid input. Please enter a valid index.");
+                scanner.nextLine(); // Consume the invalid input
+            }
+        }
+
+        return selectedIndex - 1;
+    }
+
+    private void mapUserChoiceToAction(int userChoice){
+        switch (eMainMenuChoices.values()[userChoice]){
+            case SetEnvironmentsVariables:
+                activeEnvironmentSession();
+                break;
+            case Option2:
+                break;
+        }
     }
 
     public void activeEnvironmentSession() {
