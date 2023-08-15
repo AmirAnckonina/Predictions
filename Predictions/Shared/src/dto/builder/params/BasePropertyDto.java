@@ -8,7 +8,7 @@ public class BasePropertyDto {
     private String value; // Anko - if you are prefer not to keep it here and create "ResponseBasePropertyDto" instead
                           // it fine either
 
-    public BasePropertyDto(String name, String propertyType, String from, String to, String value, String environmentVariableName) {
+    public BasePropertyDto(String name, String propertyType, String from, String to, String value) {
         this.name = name;
         this.propertyType = propertyType;
         this.from = from;

@@ -2,13 +2,17 @@ package simulator.manager.impl;
 
 import dto.EnvironmentPropertiesDto;
 import dto.SetPropertySimulatorResponseDto;
+import dto.builder.params.BasePropertyDto;
 import dto.builder.params.enums.eSetPropertyStatus;
 import response.SimulatorResponse;
 import simulator.builder.world.api.WorldBuilder;
 import simulator.builder.world.utils.enums.eBuilderDataSrcType;
 import simulator.builder.world.utils.exception.WorldBuilderException;
 import simulator.builder.world.utils.factory.SimulationBuilderFactory;
+import simulator.definition.property.api.AbstractNumericPropertyDefinition;
+import simulator.definition.property.api.AbstractPropertyDefinition;
 import simulator.definition.property.enums.ePropertyType;
+import simulator.definition.property.impl.Range;
 import simulator.definition.world.World;
 import dto.BuildSimulatorDto;
 import simulator.manager.api.SimulatorManager;
@@ -18,6 +22,7 @@ import java.io.File;
 import java.nio.file.attribute.UserPrincipalLookupService;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 public class SimulatorManagerImpl implements SimulatorManager {
     private World world;
@@ -96,7 +101,27 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
     @Override
     public EnvironmentPropertiesDto getEnvironmentProperties() {
-        return null;
+        List<BasePropertyDto> propertyDtoList = new LinkedList<>();
+        for (String propertyName:this.world.getEnvironment().getPropertiesNames()
+             ) {
+            AbstractPropertyDefinition property = this.world.getEnvironment().getPropertyByName(propertyName);
+            if (property instanceof AbstractNumericPropertyDefinition) {
+                Range range = (Range) ((AbstractNumericPropertyDefinition) property).getRange().orElse(null);
+                if (range != null) {
+                    BasePropertyDto propertyDto = new BasePropertyDto(propertyName,
+                            property.getType().toString(), range.getFrom().toString(),
+                            range.getTo().toString(), null);
+                    propertyDtoList.add(propertyDto);
+                    continue;
+                }
+            }
+            BasePropertyDto propertyDto = new BasePropertyDto(propertyName,
+                    property.getType().toString(), null, null, null);
+            propertyDtoList.add(propertyDto);
+        }
+        EnvironmentPropertiesDto response = new EnvironmentPropertiesDto(propertyDtoList);
+
+        return response;
     }
 
     @Override
