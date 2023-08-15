@@ -36,4 +36,6 @@ public interface SimulatorManager {
 
     SimulatorResponse startEnvironmentSession();
     SimulatorResponse endEnvironmentSession();
+    SimulatorResponse endLoadingSimulationSessionSignal();
+    SimulatorResponse startLoadingSimulationSessionSignal();
 }

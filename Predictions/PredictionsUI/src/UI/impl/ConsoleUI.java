@@ -11,10 +11,12 @@ import simulator.manager.api.SimulatorManager;
 import simulator.manager.impl.SimulatorManagerImpl;
 
 import java.util.*;
+import java.io.File;
 
 public class ConsoleUI implements UserInterface {
 
     private SimulatorManager simulator;
+    private String simulationID;
 
     @Override
     public void runSimulatorUI() {
@@ -80,9 +82,40 @@ public class ConsoleUI implements UserInterface {
 
     private void runSimulationSession(){
         SimulationDetailsDto result = this.simulator.runSimulator();
+        this.simulationID = result.getId();
     }
     private void loadSimulationSession(){
+        startLoadingSimulationSessionSignal();
+        printLoadingSimulationMenu();
+        String simulationFilePath = handleLoadingSimulationUserChoice();
+        this.simulator.buildSimulationWorld(simulationFilePath);
+        endLoadingSimulationSessionSignal();
+    }
 
+    private void endLoadingSimulationSessionSignal() {
+        this.simulator.endLoadingSimulationSessionSignal();
+    }
+
+    private String handleLoadingSimulationUserChoice() {
+        String filePath;
+        Scanner scanner = new Scanner(System.in);
+        boolean isValidFile;
+        filePath = scanner.nextLine();
+        do {
+            File file = new File(filePath);
+            isValidFile = file.exists() && !file.isDirectory();
+        }while (!isValidFile);
+
+        return filePath;
+    }
+
+    private void printLoadingSimulationMenu() {
+        System.out.println("Inset the full path of the XML file and press enter:");
+
+    }
+
+    private void startLoadingSimulationSessionSignal() {
+        this.simulator.startLoadingSimulationSessionSignal();
     }
 
     public void activeEnvironmentSession() {

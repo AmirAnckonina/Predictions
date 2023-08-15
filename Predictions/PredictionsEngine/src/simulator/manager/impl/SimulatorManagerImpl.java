@@ -101,6 +101,20 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
+    public SimulatorResponse endLoadingSimulationSessionSignal() {
+        SimulatorResponse response = new SimulatorResponse<>(true, "end loading simulation successfully",
+                null);
+        return response;
+    }
+
+    @Override
+    public SimulatorResponse startLoadingSimulationSessionSignal() {
+        SimulatorResponse response = new SimulatorResponse<>(true, "start loading simulation successfully",
+                null);
+        return response;
+    }
+
+    @Override
     public EnvironmentPropertiesDto getEnvironmentProperties() {
         List<BasePropertyDto> propertyDtoList = new LinkedList<>();
         for (String propertyName:this.world.getEnvironment().getPropertiesNames()
