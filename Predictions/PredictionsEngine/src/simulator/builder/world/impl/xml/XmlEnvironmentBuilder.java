@@ -2,7 +2,6 @@ package simulator.builder.world.impl.xml;
 
 import resources.jaxb.schema.generated.PRDEnvProperty;
 import resources.jaxb.schema.generated.PRDEvironment;
-import simulator.builder.world.api.AbstractFileComponentBuilder;
 import simulator.builder.world.api.EnvironmentBuilder;
 import simulator.builder.world.utils.exception.WorldBuilderException;
 import simulator.definition.environment.Environment;
@@ -25,13 +24,13 @@ public class XmlEnvironmentBuilder implements EnvironmentBuilder {
         return new Environment(envProperties);
     }
 
-
+    @Override
     public Map<String, AbstractPropertyDefinition> buildEnvironmentProperties() {
 
         Map<String, AbstractPropertyDefinition> envProperties = new HashMap<>();
 
         for (PRDEnvProperty genEnvProp : generatedEnvironment.getPRDEnvProperty()) {
-            AbstractPropertyDefinition newEnvProperty = new XmlPropertyBuilder(genEnvProp).buildEnvironmentProperty();
+            AbstractPropertyDefinition newEnvProperty = new XmlEnvironmentPropertyBuilder(genEnvProp).buildEnvironmentProperty();
             if (!envProperties.containsKey(newEnvProperty.getName())) {
                 envProperties.put(newEnvProperty.getName(), newEnvProperty);
             } else {

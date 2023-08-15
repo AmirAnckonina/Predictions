@@ -8,6 +8,5 @@ import java.util.Map;
 public interface EntityBuilder {
 
     Entity buildEntity();
-
     Map<String,AbstractPropertyDefinition> buildEntityProperties();
 }

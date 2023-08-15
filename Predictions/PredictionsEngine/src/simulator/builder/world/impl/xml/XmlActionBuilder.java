@@ -14,19 +14,14 @@ public class XmlActionBuilder implements ActionBuilder {
     PRDAction generatedAction;
 
     public XmlActionBuilder(PRDAction generatedAction) {
-
         this.generatedAction = generatedAction;
     }
 
 
     @Override
     public AbstractAction BuildAction() {
-        //generatedAction
-//        generatedAction.getType();
-//        switch(type)
-//        {
-//            new IncreaseAction(eActionType.INCREASE, "Smoker", "prop", new MethodExpression());
-//        }
+        eActionType actionType = eActionType.valueOf(generatedAction.getType());
+
         return null;
     }
 

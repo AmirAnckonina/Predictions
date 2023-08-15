@@ -4,24 +4,21 @@ import simulator.definition.property.enums.ePropertyType;
 import simulator.definition.property.impl.Range;
 import simulator.definition.property.valueGenerator.api.ValueGenerator;
 
+import java.util.Optional;
+
 public class AbstractNumericPropertyDefinition<T extends Number> extends AbstractPropertyDefinition<T> {
-
-    private boolean hasRange;
     private Range<T> range;
+
+    public AbstractNumericPropertyDefinition(String name, ePropertyType propertyType, ValueGenerator<T> valueGenerator, Range<T> range) {
+        super(name, propertyType, valueGenerator);
+        this.range = range;
+    }
+
     public AbstractNumericPropertyDefinition(String name, ePropertyType propertyType, ValueGenerator<T> valueGenerator) {
-        super(name, propertyType, valueGenerator);
-        this.hasRange = false;
-        this.range = null;
+        this(name, propertyType, valueGenerator, null);
     }
 
-    public AbstractNumericPropertyDefinition(String name, ePropertyType propertyType, ValueGenerator<T> valueGenerator, boolean hasRange, Range<T> range) {
-        super(name, propertyType, valueGenerator);
-        this.hasRange = hasRange;
-        this.range = range;
-    }
-
-    public void setRange(Range<T> range) {
-        this.range = range;
-        this.hasRange = true;
+    public Optional<Range<T>> getRange() {
+        return Optional.ofNullable(range);
     }
 }

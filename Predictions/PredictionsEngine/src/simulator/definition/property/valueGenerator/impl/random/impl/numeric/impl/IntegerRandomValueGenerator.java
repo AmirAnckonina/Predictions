@@ -14,7 +14,7 @@ public class IntegerRandomValueGenerator extends AbstractNumericRandomValueGener
 
     @Override
     public Integer generateValue()  {
-        if (hasRange) {
+        if (getRange().isPresent()) {
             return range.getFrom() + random.nextInt(range.getTo());
         } else {
             return random.nextInt();
