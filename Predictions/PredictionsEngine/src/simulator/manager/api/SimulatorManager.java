@@ -31,4 +31,5 @@ public interface SimulatorManager {
     public Object exitSimulator();
 
 
+    public void endSetEnvironmentSession();
 }

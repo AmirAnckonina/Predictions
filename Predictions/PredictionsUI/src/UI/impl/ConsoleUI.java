@@ -9,10 +9,7 @@ import response.SimulatorResponse;
 import simulator.manager.api.SimulatorManager;
 import simulator.manager.impl.SimulatorManagerImpl;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class ConsoleUI implements UserInterface {
 
@@ -39,7 +36,7 @@ public class ConsoleUI implements UserInterface {
         List<BasePropertyDto> properties = propertiesDto.getPropertiesList();
         printPropertiesList(properties);
         List<Integer> propertiesUserUpdatedList = handleUserChoice(properties);
-        setRandomValuesForUninitializedProperties(propertiesUserUpdatedList, propertiesDto);
+        this.simulator.endSetEnvironmentSession();
 
         this.simulator.activateEnvironment();
     }
@@ -76,9 +73,13 @@ public class ConsoleUI implements UserInterface {
                 System.out.println("Invalid input. Please enter a valid index.");
                 scanner.nextLine(); // Consume the invalid input
             }
-
-            System.out.print("Do you want to continue? (y/n): ");
-            String continueChoice = scanner.nextLine();
+            String continueChoice = null;
+            System.out.print("Do you want to update more variables? (y/n): ");
+            continueChoice = scanner.nextLine();
+            while (!continueChoice.equalsIgnoreCase("n") && !continueChoice.equalsIgnoreCase("y")) {
+                System.out.print("\nInvalid input! type 'y' for yes and 'n' for no only: ");
+                continueChoice = scanner.nextLine();
+            }
             if (!continueChoice.equalsIgnoreCase("y")) {
                 break;
             }
@@ -90,17 +91,18 @@ public class ConsoleUI implements UserInterface {
     private void startSettingPropertySession(BasePropertyDto property) {
         String propertyName = new String(property.getName());
         String propertyType = new String(property.getPropertyType());
+        String propertyRangeString = new String("from: " + property.getFrom() + "to: " + property.getTo());
         Scanner scanner = new Scanner(System.in);
 
         setPropertyIntroduction();
-        setPropertyDisplay(propertyName, propertyType);
+        setPropertyDisplay(propertyName, propertyType, propertyRangeString);
         String value = scanner.nextLine();
         SimulatorResponse<SetPropertySimulatorResponseDto> resResponse = this.simulator.setEnvironmentVariableValue(
                 propertyName, propertyType, value);
 
         while (!resResponse.isSuccess()){
             System.out.println("Illegal value! " + resResponse.getData());
-            setPropertyDisplay(propertyName, propertyType);
+            setPropertyDisplay(propertyName, propertyType, propertyRangeString);
             value = scanner.nextLine();
             resResponse = this.simulator.setEnvironmentVariableValue(propertyName, property.getPropertyType(), value);
         }
@@ -111,8 +113,8 @@ public class ConsoleUI implements UserInterface {
         System.out.println("Initializing environment properties...\n");
     }
 
-    private void setPropertyDisplay(String propertyName, String propertyType){
-        System.out.print("Property name: " + propertyName + ".");
+    private void setPropertyDisplay(String propertyName, String propertyType, String range){
+        System.out.print("Property name: " + propertyName + "." + ((range != null)?"values must be " + range:""));
         switch (propertyType.toLowerCase())
         {
             case "string":

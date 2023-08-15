@@ -8,7 +8,6 @@ import java.util.Optional;
 
 public class FloatPropertyDefinition extends AbstractPropertyDefinition<Float> {
     // Consider add propType in c'tor.
-
     private final Optional<Float> from;
     private final Optional<Float> to;
     public FloatPropertyDefinition(String name, ValueGenerator<Float> valueGenerator) {
@@ -21,5 +20,14 @@ public class FloatPropertyDefinition extends AbstractPropertyDefinition<Float> {
         super(name, propertyType, valueGenerator);
         this.from = Optional.of(from);
         this.to = Optional.of(to);
+    }
+
+
+    public Optional<Float> getFrom() {
+        return from;
+    }
+
+    public Optional<Float> getTo() {
+        return to;
     }
 }

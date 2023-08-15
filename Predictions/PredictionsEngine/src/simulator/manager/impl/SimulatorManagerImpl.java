@@ -15,12 +15,18 @@ import simulator.manager.api.SimulatorManager;
 import simulator.manager.utils.SimulatorUtils;
 
 import java.io.File;
+import java.nio.file.attribute.UserPrincipalLookupService;
+import java.util.LinkedList;
+import java.util.List;
 
 public class SimulatorManagerImpl implements SimulatorManager {
     private World world;
     private WorldBuilder worldBuilder;
+    private List<String> propertiesUpdatedByUser;
+    private EnvironmentManagerImpl environmentManager;
 
     public SimulatorManagerImpl() {
+        this.propertiesUpdatedByUser = new LinkedList<>();
     }
 
     private void loadedSimulation(){
@@ -60,6 +66,12 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
+    public void endSetEnvironmentSession() {
+        if(this.environmentManager != null) this.environmentManager.setRandomValuesForUninitializedProperties(
+                this.propertiesUpdatedByUser, this.world);
+    }
+
+    @Override
     public EnvironmentPropertiesDto getEnvironmentProperties() {
         return null;
     }
@@ -90,7 +102,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
                     eType = ePropertyType.INTEGER;
                     break;
             }
-            EnvironmentManagerImpl environmentManager = new EnvironmentManagerImpl();
+            environmentManager = new EnvironmentManagerImpl();
             environmentManager.addPropertyInstance(propName, eType, value, this.world);
 
             responseDto = new SetPropertySimulatorResponseDto(eSetPropertyStatus.SUCCEEDED,
@@ -98,6 +110,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
             response =  new SimulatorResponse(true,
                     "Environment Variable Value has been set with " + value,
                                 responseDto);
+            this.propertiesUpdatedByUser.add(propName);
 
         } catch (Exception e) {
             responseDto = new SetPropertySimulatorResponseDto(eSetPropertyStatus.FAILED, e.getMessage());
