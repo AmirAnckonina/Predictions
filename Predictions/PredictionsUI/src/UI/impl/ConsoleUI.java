@@ -4,6 +4,7 @@ import UI.api.UserInterface;
 import dto.BuildSimulatorDto;
 import dto.EnvironmentPropertiesDto;
 import dto.SetPropertySimulatorResponseDto;
+import dto.SimulationDetailsDto;
 import dto.builder.params.BasePropertyDto;
 import response.SimulatorResponse;
 import simulator.manager.api.SimulatorManager;
@@ -78,7 +79,7 @@ public class ConsoleUI implements UserInterface {
     }
 
     private void runSimulationSession(){
-
+        SimulationDetailsDto result = this.simulator.runSimulator();
     }
     private void loadSimulationSession(){
 
