@@ -17,19 +17,19 @@ public class ConsoleUI implements UserInterface {
 
     @Override
     public void runSimulatorUI() {
-        runMenu();
+
     }
 
     @Override
     public void buildSimulator() {
         this.simulator = new SimulatorManagerImpl();
         SimulatorResponse<BuildSimulatorDto> buildSimulatorResult = this.simulator.buildSimulationWorld("resources/ex1-cigarets.xml");
-        mapUserChoiceToAction(handleMainMenuUserChoice());
     }
 
     @Override
     public void runMenu() {
         printMenuOptions();
+        mapUserChoiceToAction(handleMainMenuUserChoice());
     }
 
     private void printMenuOptions() {
