@@ -1,5 +1,7 @@
 package simulator.manager.impl;
 
+import response.SimulatorResponse;
+import simulator.definition.environment.Environment;
 import simulator.definition.property.api.BasePropertyDefinition;
 import simulator.definition.property.enums.ePropertyType;
 import simulator.definition.property.impl.BooleanPropertyDefinition;
@@ -9,6 +11,8 @@ import simulator.definition.property.impl.StringPropertyDefinition;
 import simulator.definition.property.valueGenerator.impl.fixed.FixedValueGenerator;
 import simulator.definition.world.World;
 import simulator.manager.api.EnvironmentManager;
+
+import java.util.List;
 
 public class EnvironmentManagerImpl implements EnvironmentManager {
     @Override
@@ -33,4 +37,14 @@ public class EnvironmentManagerImpl implements EnvironmentManager {
                 break;
         }
     }
+
+    @Override
+    public SimulatorResponse<String> setRandomValuesForUninitializedProperties(List<Integer> propertiesUserUpdatedList,
+                                                                               World world) {
+        Environment environment = world.getEnvironment();
+
+
+        return null;
+    }
+
 }
