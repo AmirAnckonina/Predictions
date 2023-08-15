@@ -17,13 +17,14 @@ public class ConsoleUI implements UserInterface {
 
     @Override
     public void runSimulatorUI() {
-
+        runMenu();
     }
 
     @Override
     public void buildSimulator() {
         this.simulator = new SimulatorManagerImpl();
         SimulatorResponse<BuildSimulatorDto> buildSimulatorResult = this.simulator.buildSimulationWorld("resources/ex1-cigarets.xml");
+        mapUserChoiceToAction(handleMainMenuUserChoice());
     }
 
     @Override
@@ -33,6 +34,8 @@ public class ConsoleUI implements UserInterface {
 
     private void printMenuOptions() {
         System.out.println(eMainMenuChoices.SetEnvironmentsVariables.ordinal() + ". Set environment variables");
+        System.out.println(eMainMenuChoices.LoadSimulation.ordinal() + ". Load simulation");
+        System.out.println(eMainMenuChoices.RunSimulation.ordinal() + ". Run simulation");
         System.out.println("...");
         System.out.print("Choose an option by typing the option number: ");
     }
@@ -65,9 +68,20 @@ public class ConsoleUI implements UserInterface {
             case SetEnvironmentsVariables:
                 activeEnvironmentSession();
                 break;
-            case Option2:
+            case LoadSimulation:
+                loadSimulationSession();
+                break;
+            case RunSimulation:
+                runSimulationSession();
                 break;
         }
+    }
+
+    private void runSimulationSession(){
+
+    }
+    private void loadSimulationSession(){
+
     }
 
     public void activeEnvironmentSession() {
@@ -86,10 +100,6 @@ public class ConsoleUI implements UserInterface {
 
     private boolean endEnvironmentSessionSignal(){
         return this.simulator.endEnvironmentSession().isSuccess();
-    }
-
-    private void setRandomValuesForUninitializedProperties(List<Integer> propertiesUserUpdatedList, EnvironmentPropertiesDto propertiesDto) {
-        //
     }
 
     private void printPropertiesList(List<BasePropertyDto> propertyDtoList){
