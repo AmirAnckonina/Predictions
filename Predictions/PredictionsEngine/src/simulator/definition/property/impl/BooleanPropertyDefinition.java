@@ -6,9 +6,8 @@ import simulator.definition.property.valueGenerator.api.ValueGenerator;
 import simulator.definition.property.valueGenerator.utils.factory.ValueGeneratorFactory;
 
 public class BooleanPropertyDefinition extends AbstractPropertyDefinition<Boolean> {
-    // Consider add propType in c'tor.
-    public BooleanPropertyDefinition(String name, ValueGenerator<Boolean> valueGenerator) {
-        super(name, ePropertyType.BOOLEAN, valueGenerator);
-    }
 
+    public BooleanPropertyDefinition(String name, ePropertyType propertyType, ValueGenerator<Boolean> valueGenerator) {
+        super(name, propertyType, valueGenerator);
+    }
 }

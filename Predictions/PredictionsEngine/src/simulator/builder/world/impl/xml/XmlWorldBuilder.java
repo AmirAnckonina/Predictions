@@ -25,6 +25,10 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
         setDataSrcFile(dataSrcFile);
     }
 
+    public XmlWorldBuilder(PRDWorld generatedWorld) {
+        this.generatedWorld = generatedWorld;
+    }
+
     @Override
     public void setDataSrcFile(File dataSrcFile) {
         super.setDataSrcFile(dataSrcFile);

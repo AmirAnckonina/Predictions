@@ -10,7 +10,7 @@ import simulator.definition.rule.action.utils.eActionType;
 import java.util.List;
 
 
-public class XmlActionBuilder extends AbstractFileComponentBuilder implements ActionBuilder {
+public class XmlActionBuilder implements ActionBuilder {
     PRDAction generatedAction;
 
     public XmlActionBuilder(PRDAction generatedAction) {

@@ -23,12 +23,4 @@ public class Environment {
         environmentProperties.put(propName, propertyDefinition);
     }
 
-    public void addProp(AbstractPropertyDefinition property) throws AmbiguousException {
-        for (Map.Entry<String, AbstractPropertyDefinition> entry:
-                this.environmentProperties.entrySet()) {
-            if (entry.getValue().getName() == property.getName())
-                throw new AmbiguousException("Datamember already exist");
-            this.environmentProperties.put(property.getName(), property);
-        }
-    }
 }

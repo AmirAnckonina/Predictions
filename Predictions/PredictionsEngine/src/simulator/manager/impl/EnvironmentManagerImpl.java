@@ -1,14 +1,14 @@
 package simulator.manager.impl;
-
+import simulator.definition.property.api.AbstractPropertyDefinition;
 import response.SimulatorResponse;
 import simulator.definition.environment.Environment;
-import simulator.definition.property.api.AbstractPropertyDefinition;
 import simulator.definition.property.enums.ePropertyType;
 import simulator.definition.property.impl.BooleanPropertyDefinition;
 import simulator.definition.property.impl.FloatPropertyDefinition;
 import simulator.definition.property.impl.IntegerPropertyDefinition;
 import simulator.definition.property.impl.StringPropertyDefinition;
 import simulator.definition.property.valueGenerator.impl.fixed.FixedValueGenerator;
+import simulator.definition.property.valueGenerator.utils.factory.ValueGeneratorFactory;
 import simulator.definition.world.World;
 import simulator.manager.api.EnvironmentManager;
 
@@ -36,6 +36,16 @@ public class EnvironmentManagerImpl implements EnvironmentManager {
                         new FixedValueGenerator<Integer>(Integer.parseInt(value)));
                 break;
         }
+
+        /*setValues
+                for (map....)
+                    if (map(key) != null) {
+                        prop.getType()
+                        AbstractPropertyDefinition a = a.setValueGenerator(ValueGeneratorFactory.createFixed(value));
+                        ValueGen
+                    } else {
+
+                    }*/
     }
 
     @Override
