@@ -2,18 +2,21 @@ package simulator.builder.world.impl.xml;
 
 import resources.jaxb.schema.generated.PRDEnvProperty;
 import resources.jaxb.schema.generated.PRDEvironment;
+import simulator.builder.world.api.AbstractComponentBuilder;
 import simulator.builder.world.api.EnvironmentBuilder;
 import simulator.builder.world.utils.exception.WorldBuilderException;
+import simulator.builder.world.validator.api.WorldContextBuilderHelper;
 import simulator.definition.environment.Environment;
 import simulator.definition.property.api.AbstractPropertyDefinition;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class XmlEnvironmentBuilder implements EnvironmentBuilder {
+public class XmlEnvironmentBuilder extends AbstractComponentBuilder implements EnvironmentBuilder {
     private PRDEvironment generatedEnvironment;
 
-    public XmlEnvironmentBuilder(PRDEvironment generatedEnvironment) {
+    public XmlEnvironmentBuilder(PRDEvironment generatedEnvironment, WorldContextBuilderHelper contextValidator) {
+        super(contextValidator);
         this.generatedEnvironment = generatedEnvironment;
     }
 
@@ -31,8 +34,12 @@ public class XmlEnvironmentBuilder implements EnvironmentBuilder {
 
         for (PRDEnvProperty genEnvProp : generatedEnvironment.getPRDEnvProperty()) {
             AbstractPropertyDefinition newEnvProperty = new XmlEnvironmentPropertyBuilder(genEnvProp).buildEnvironmentProperty();
-            if (!envProperties.containsKey(newEnvProperty.getName())) {
-                envProperties.put(newEnvProperty.getName(), newEnvProperty);
+            String newEnvPropName = newEnvProperty.getName();
+            boolean propVerified =
+                    contextValidator.validateEnvironmentPropertyUniqueness(newEnvPropName);
+            if (propVerified && !envProperties.containsKey(newEnvPropName)) {
+                envProperties.put(newEnvPropName, newEnvProperty);
+                contextValidator.addEnvironemntProperty(newEnvPropName);
             } else {
                 throw new WorldBuilderException(
                         "Environment property build failed. The following env property name already exists: " + newEnvProperty.getName());

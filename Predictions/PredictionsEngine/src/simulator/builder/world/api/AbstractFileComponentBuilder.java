@@ -1,19 +1,13 @@
 package simulator.builder.world.api;
 
-import java.io.File;
+import simulator.builder.world.validator.api.WorldContextBuilderHelper;
 
-public abstract class AbstractFileComponentBuilder {
-    protected File dataSrcFile;
+public abstract class AbstractFileComponentBuilder extends AbstractComponentBuilder {
+    protected String dataSrcFilePath;
 
-    public AbstractFileComponentBuilder() {
-    }
 
-    public AbstractFileComponentBuilder(File dataSrcFile) {
-        this();
-        this.dataSrcFile = dataSrcFile;
-    }
-
-    public void setDataSrcFile(File dataSrcFile) {
-        this.dataSrcFile = dataSrcFile;
+    public AbstractFileComponentBuilder(String dataSrcFilePath, WorldContextBuilderHelper contextValidator) {
+        super(contextValidator);
+        this.dataSrcFilePath = dataSrcFilePath;
     }
 }

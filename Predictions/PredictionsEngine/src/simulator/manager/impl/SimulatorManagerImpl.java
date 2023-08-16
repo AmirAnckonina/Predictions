@@ -7,8 +7,7 @@ import dto.builder.params.BasePropertyDto;
 import dto.builder.params.enums.eSetPropertyStatus;
 import response.SimulatorResponse;
 import simulator.builder.world.api.WorldBuilder;
-import simulator.builder.world.utils.enums.eBuilderDataSrcType;
-import simulator.builder.world.utils.exception.WorldBuilderException;
+import simulator.builder.world.utils.enums.eDataFileType;
 import simulator.builder.world.utils.factory.SimulationBuilderFactory;
 import simulator.definition.property.api.AbstractNumericPropertyDefinition;
 import simulator.definition.property.api.AbstractPropertyDefinition;
@@ -17,13 +16,10 @@ import simulator.definition.property.impl.Range;
 import simulator.definition.world.World;
 import dto.BuildSimulatorDto;
 import simulator.manager.api.SimulatorManager;
-import simulator.manager.utils.SimulatorUtils;
+import simulator.builder.world.utils.WorldBuilderUtils;
 
-import java.io.File;
-import java.nio.file.attribute.UserPrincipalLookupService;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 import static simulator.manager.utils.SimulatorUtils.getGUID;
 
@@ -38,7 +34,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
         this.propertiesUpdatedByUser = new LinkedList<>();
     }
 
-    private void loadedSimulation(){
+    private void loadedSimulation() {
         // Load instances
     };
 
@@ -48,9 +44,8 @@ public class SimulatorManagerImpl implements SimulatorManager {
         BuildSimulatorDto buildSimulatorResult;
 
         try {
-            File simulationConfigFile = SimulatorUtils.getFileByPath(filePath);
-            eBuilderDataSrcType dataSrcType = SimulatorUtils.getDataSrcTypeByFileExtention(filePath);
-            worldBuilder = SimulationBuilderFactory.createSimulationBuilder(dataSrcType, simulationConfigFile);
+            eDataFileType dataSrcType = WorldBuilderUtils.getDataFileTypeByFileExtension(filePath);
+            worldBuilder = SimulationBuilderFactory.createSimulationBuilder(dataSrcType, filePath);
             world = worldBuilder.buildWorld();
             return new SimulatorResponse(true, "the following file has loaded successfully" + filePath);
         } catch(Exception ex) {

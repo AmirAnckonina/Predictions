@@ -2,22 +2,22 @@ package simulator.builder.world.impl.xml;
 
 import resources.jaxb.schema.generated.PRDAction;
 import resources.jaxb.schema.generated.PRDRule;
-import resources.jaxb.schema.generated.PRDRules;
-import simulator.builder.world.api.AbstractFileComponentBuilder;
+import simulator.builder.world.api.AbstractComponentBuilder;
 import simulator.builder.world.api.RuleBuilder;
+import simulator.builder.world.validator.api.WorldContextBuilderHelper;
 import simulator.definition.rule.Rule;
 import simulator.definition.rule.action.api.AbstractAction;
-import simulator.definition.rule.action.api.Action;
 import simulator.definition.rule.activation.Activation;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class XmlRuleBuilder implements RuleBuilder {
+public class XmlRuleBuilder extends AbstractComponentBuilder implements RuleBuilder {
 
     private final PRDRule generatedRule;
 
-    public XmlRuleBuilder(PRDRule generatedRule) {
+    public XmlRuleBuilder(PRDRule generatedRule, WorldContextBuilderHelper contextValidator) {
+        super(contextValidator);
         this.generatedRule = generatedRule;
     }
 
@@ -46,7 +46,7 @@ public class XmlRuleBuilder implements RuleBuilder {
     public List<AbstractAction> buildActions() {
         List<AbstractAction> actions = new ArrayList<>();
         for (PRDAction genAction: generatedRule.getPRDActions().getPRDAction()) {
-            AbstractAction newAction = new XmlActionBuilder(genAction).BuildAction();
+            AbstractAction newAction = new XmlActionBuilder(genAction, contextValidator).BuildAction();
             actions.add(newAction);
         }
         return null;

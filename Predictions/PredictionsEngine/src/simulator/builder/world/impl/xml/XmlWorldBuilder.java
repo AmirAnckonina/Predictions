@@ -2,9 +2,12 @@ package simulator.builder.world.impl.xml;
 
 import resources.jaxb.schema.generated.*;
 import simulator.builder.world.api.AbstractFileComponentBuilder;
-import simulator.builder.world.api.RuleBuilder;
 import simulator.builder.world.api.WorldBuilder;
 import simulator.builder.world.impl.xml.utils.XmlBuilderUtils;
+import simulator.builder.world.utils.WorldBuilderUtils;
+import simulator.builder.world.utils.enums.eDataFileType;
+import simulator.builder.world.utils.exception.WorldBuilderException;
+import simulator.builder.world.validator.api.WorldContextBuilderHelper;
 import simulator.definition.entity.Entity;
 import simulator.definition.environment.Environment;
 import simulator.definition.rule.Rule;
@@ -20,30 +23,40 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
     private PRDWorld generatedWorld;
     private final static String JAXB_PACKAGE_NAME = "jaxb.schema.generated";
 
-    public XmlWorldBuilder(File dataSrcFile) {
-        super(dataSrcFile);
-        setDataSrcFile(dataSrcFile);
+    public XmlWorldBuilder(String filePath, WorldContextBuilderHelper contextValidator) {
+        super(filePath, contextValidator);
+        worldBuilderFileSetup(filePath);
     }
 
-    public XmlWorldBuilder(PRDWorld generatedWorld) {
-        this.generatedWorld = generatedWorld;
+    public void worldBuilderFileSetup(String filePath) {
+        // The file should be already set in this stage.
+            boolean isExist = contextValidator.validateFileExist(filePath);
+            boolean isXmlFile = contextValidator.validateFileType(
+                     eDataFileType.XML, WorldBuilderUtils.getDataFileTypeByFileExtension(filePath));
+            if (isExist && isXmlFile) {
+                try {
+                    File dataFile = WorldBuilderUtils.getFileByPath(filePath);
+                    generatedWorld = XmlBuilderUtils.getGeneratedClassFromFile(dataFile, JAXB_PACKAGE_NAME);
+                }
+                catch (Exception ex) {
+                    throw new WorldBuilderException("An issue detected while accessing the generated world class.");
+                }
+
+            } else {
+                throw new WorldBuilderException("The data source file is invalid.");
+            }
+
     }
 
-    @Override
-    public void setDataSrcFile(File dataSrcFile) {
-        super.setDataSrcFile(dataSrcFile);
-        try {
-            generatedWorld = XmlBuilderUtils.getGeneratedClassFromFile(dataSrcFile, JAXB_PACKAGE_NAME);
-        }
-        catch (Exception e) {
-
-        }
-    }
-
+    /**
+     * // The order is mandatory! buildEnv and Entities ahould be before Rules.
+     * @return
+     */
     @Override
     public World buildWorld() {
 
         try {
+
             Environment environment = buildEnvironemnt();
             List<Entity> entities = buildEntities();
             List<Rule> rules = buildRules();
@@ -59,7 +72,7 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
     @Override
     public Environment buildEnvironemnt() {
         PRDEvironment generatedEnv = generatedWorld.getPRDEvironment();
-        return new XmlEnvironmentBuilder(generatedEnv).buildEnvironment();
+        return new XmlEnvironmentBuilder(generatedEnv, contextValidator).buildEnvironment();
     }
 
     @Override
@@ -68,7 +81,7 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
 
         List<PRDEntity> generatedEntitiesList =  generatedWorld.getPRDEntities().getPRDEntity();
         for (PRDEntity singleGeneratedEntity : generatedEntitiesList) {
-            Entity newEntity = new XmlEntityBuilder(singleGeneratedEntity).buildEntity();
+            Entity newEntity = new XmlEntityBuilder(singleGeneratedEntity, contextValidator).buildEntity();
             entities.add(newEntity);
         }
 
@@ -80,7 +93,7 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
         List<Rule> rules = new ArrayList<>();
 
         for (PRDRule generatedRule : generatedWorld.getPRDRules().getPRDRule()) {
-            Rule newRule = new XmlRuleBuilder(generatedRule).buildRule();
+            Rule newRule = new XmlRuleBuilder(generatedRule, contextValidator).buildRule();
             rules.add(newRule);
         }
 

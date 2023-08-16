@@ -2,43 +2,52 @@ package simulator.builder.world.impl.xml;
 
 import resources.jaxb.schema.generated.PRDEntity;
 import resources.jaxb.schema.generated.PRDProperty;
-import simulator.builder.world.api.AbstractFileComponentBuilder;
+import simulator.builder.world.api.AbstractComponentBuilder;
 import simulator.builder.world.api.EntityBuilder;
 import simulator.builder.world.utils.exception.WorldBuilderException;
+import simulator.builder.world.validator.api.WorldContextBuilderHelper;
 import simulator.definition.entity.Entity;
 import simulator.definition.property.api.AbstractPropertyDefinition;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class XmlEntityBuilder implements EntityBuilder {
+public class XmlEntityBuilder extends AbstractComponentBuilder implements EntityBuilder {
 
     private PRDEntity generatedEntity;
 
-    public XmlEntityBuilder(PRDEntity generatedEntity) {
-
+    public XmlEntityBuilder(PRDEntity generatedEntity, WorldContextBuilderHelper contextValidator) {
+        super(contextValidator);
         this.generatedEntity = generatedEntity;
     }
 
 
     @Override
     public Entity buildEntity() {
-        String name = generatedEntity.getName();
+        String entityName = generatedEntity.getName();
+        contextValidator.addEntity(entityName);
         Map<String, AbstractPropertyDefinition> entityProperties = buildEntityProperties();
-        return new Entity(name, entityProperties);
+        return new Entity(entityName, entityProperties);
     }
 
     @Override
     public Map<String, AbstractPropertyDefinition> buildEntityProperties() {
+
         Map<String, AbstractPropertyDefinition> envProperties = new HashMap<>();
 
         for (PRDProperty genEntityProp : generatedEntity.getPRDProperties().getPRDProperty()) {
-            AbstractPropertyDefinition newEntityProperty = new XmlEntityPropertyBuilder(genEntityProp).buildEntityProperty();
-            if (!envProperties.containsKey(newEntityProperty.getName())) {
-                envProperties.put(newEntityProperty.getName(), newEntityProperty);
+
+            AbstractPropertyDefinition newProp = new XmlEntityPropertyBuilder(genEntityProp).buildEntityProperty();
+            boolean propVerified =
+                    contextValidator.validateEntityPropertyUniqueness(
+                            generatedEntity.getName(), newProp.getName());
+
+            if (propVerified && !envProperties.containsKey(newProp.getName())) {
+                envProperties.put(newProp.getName(), newProp);
+                contextValidator.addPropertyToEntityProperties(generatedEntity.getName(), newProp.getName());
             } else {
                 throw new WorldBuilderException(
-                        "Entity property build failed. The following entity property name already exists: " + newEntityProperty.getName());
+                        "Entity property build failed. The following entity property name already exists: " + newProp.getName());
             }
         }
         return envProperties;
