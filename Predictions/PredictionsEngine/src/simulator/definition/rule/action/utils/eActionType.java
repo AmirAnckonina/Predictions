@@ -4,6 +4,8 @@ public enum eActionType {
     INCREASE,
     DECREASE,
     CALCULATION,
+    MULTIPLY,
+    DIVIDE,
     CONDITION,
     SET,
     KILL,

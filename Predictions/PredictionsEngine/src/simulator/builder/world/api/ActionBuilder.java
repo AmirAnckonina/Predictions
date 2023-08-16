@@ -1,10 +1,9 @@
 package simulator.builder.world.api;
 
 import simulator.definition.rule.action.api.AbstractAction;
-import simulator.definition.rule.action.impl.IncreaseAction;
+import simulator.definition.rule.action.api.AbstractCalculationAction;
+import simulator.definition.rule.action.impl.*;
 import simulator.definition.rule.action.utils.eActionType;
-
-import java.util.List;
 
 
 public interface ActionBuilder {
@@ -17,14 +16,13 @@ public interface ActionBuilder {
 7	Replace	2
 8	Proximity	2
 */
-    AbstractAction BuildAction(eActionType actionType);
-
+    AbstractAction BuildAction();
     IncreaseAction buildIncreaseAction();
     DecreaseAction buildDecreaseAction();
-    CalculationAction buildCalculationAction();
-    // MultiplyAction buildMultiplyAction();
-    // DivideAction buildDivideAction();
-
+    AbstractCalculationAction buildCalculationAction();
+    MultiplyAction buildMultiplyAction();
+    DivideAction buildDivideAction();
     ConditionAction buildConditionAction();
-
+    SetAction buildSetAction();
+    KillAction buildKillAction();
 }
