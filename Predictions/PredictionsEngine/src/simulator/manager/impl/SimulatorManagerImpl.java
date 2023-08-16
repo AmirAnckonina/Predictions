@@ -25,11 +25,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+import static simulator.manager.utils.SimulatorUtils.getGUID;
+
 public class SimulatorManagerImpl implements SimulatorManager {
     private World world;
     private WorldBuilder worldBuilder;
     private List<String> propertiesUpdatedByUser;
     private EnvironmentManagerImpl environmentManager;
+    private String simulationID;
 
     public SimulatorManagerImpl() {
         this.propertiesUpdatedByUser = new LinkedList<>();
@@ -62,7 +65,10 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
-    public SimulationDetailsDto runSimulator() {
+    public SimulatorResponse runSimulator() {
+        this.simulationID = getGUID();
+
+        SimulatorResponse<String> response = new SimulatorResponse<>(true, "", simulationID);
         return null;
     }
 
