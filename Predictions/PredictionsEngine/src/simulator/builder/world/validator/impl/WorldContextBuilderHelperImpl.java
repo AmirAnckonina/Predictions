@@ -1,7 +1,10 @@
 package simulator.builder.world.validator.impl;
 
+import javafx.util.Pair;
 import simulator.builder.world.utils.enums.eDataFileType;
 import simulator.builder.world.validator.api.WorldContextBuilderHelper;
+import simulator.definition.property.api.AbstractPropertyDefinition;
+import simulator.definition.property.enums.ePropertyType;
 import simulator.definition.rule.action.utils.eActionType;
 
 import java.nio.file.Files;
@@ -13,13 +16,13 @@ import java.util.Map;
 import java.util.Set;
 
 public class WorldContextBuilderHelperImpl implements WorldContextBuilderHelper {
-    private Set<String> environmentProperties;
+    private Map<String, ePropertyType> environmentPropertiesToTypeMapper;
     private Set<String> entities;
     private Map<String,Set<String>> entityPropertiesMapper;
     private Set<String> simulatorSystemMethods;
 
     public WorldContextBuilderHelperImpl() {
-        this.environmentProperties = new HashSet<>();
+        this.environmentPropertiesToTypeMapper = new HashMap<>();
         this.entities = new HashSet<>();
         // Please note, while adding new entity to "entityPropertiesMapper", a new set should be initialize!!!!
         this.entityPropertiesMapper = new HashMap<>();
@@ -47,7 +50,7 @@ public class WorldContextBuilderHelperImpl implements WorldContextBuilderHelper 
      */
     @Override
     public boolean validateEnvironmentPropertyUniqueness(String envPropertyName) {
-        return !environmentProperties.contains(envPropertyName);
+        return !environmentPropertiesToTypeMapper.containsKey(envPropertyName);
     }
 
     /**
@@ -79,8 +82,8 @@ public class WorldContextBuilderHelperImpl implements WorldContextBuilderHelper 
     }
 
     @Override
-    public void addEnvironemntProperty(String newEnvPropName) {
-            environmentProperties.add(newEnvPropName);
+    public void addEnvironemntProperty(String newEnvPropName, ePropertyType type) {
+        environmentPropertiesToTypeMapper.put(newEnvPropName, type);
     }
 
     @Override
@@ -93,4 +96,14 @@ public class WorldContextBuilderHelperImpl implements WorldContextBuilderHelper 
         entities.add(entity);
         entityPropertiesMapper.put(entity, new HashSet<>());
     }
+
+    @Override
+    public boolean isProperty(String propertySuspect) {
+        return this.environmentPropertiesToTypeMapper.containsKey(propertySuspect);
+    }
+
+    public boolean isAppropriateType(String propertyName, ePropertyType type){
+        return this.environmentPropertiesToTypeMapper.get(propertyName) == type;
+    }
+
 }
