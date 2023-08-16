@@ -81,9 +81,19 @@ public class ConsoleUI implements UserInterface {
     }
 
     private void runSimulationSession(){
-        SimulationDetailsDto result = this.simulator.runSimulator();
-        this.simulationID = result.getId();
+        EnvironmentPropertiesDto environmentPropertiesDto = this.simulator.getEnvironmentProperties();
+        printEnvironmentPropertiesValues(environmentPropertiesDto.getPropertiesList());
+        SimulatorResponse<String> result = this.simulator.runSimulator();
+        this.simulationID = result.getData();
     }
+
+    private void printEnvironmentPropertiesValues(List<BasePropertyDto> properties) {
+        for (int i = 0; i < properties.size(); i++) {
+            BasePropertyDto property = properties.get(i);
+            System.out.println((i + 1) + ". " + property.getName() + ": " + property.getValue());
+        }
+    }
+
     private void loadSimulationSession(){
         startLoadingSimulationSessionSignal();
         printLoadingSimulationMenu();

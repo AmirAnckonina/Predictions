@@ -26,7 +26,7 @@ public interface SimulatorManager {
 
     // Return type: PredictionsResponse<T> , PredictionsResponse<SimulationResultDTO>
     // T data , String status, string message
-    public SimulationDetailsDto runSimulator();
+    public SimulatorResponse runSimulator();
 
     // Not sure what we should return here, maybe just a clean-up procedure.
     public Object exitSimulator();
