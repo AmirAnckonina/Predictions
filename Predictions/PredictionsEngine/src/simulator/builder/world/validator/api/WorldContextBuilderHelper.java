@@ -1,7 +1,11 @@
 package simulator.builder.world.validator.api;
 
 import simulator.builder.world.utils.enums.eDataFileType;
+import simulator.definition.property.api.AbstractPropertyDefinition;
+import simulator.definition.property.enums.ePropertyType;
 import simulator.definition.rule.action.utils.eActionType;
+
+import java.util.List;
 
 public interface WorldContextBuilderHelper {
     boolean validateFileExist(String filePath);
@@ -14,4 +18,8 @@ public interface WorldContextBuilderHelper {
     void addEnvironemntProperty(String newEnvPropName);
     void addPropertyToEntityProperties(String entity, String entityProperty);
     void addEntity(String entity);
+    boolean isProperty(String propertySuspect);
+
+    boolean isAppropriateType(String propertyName, ePropertyType type);
+
 }
