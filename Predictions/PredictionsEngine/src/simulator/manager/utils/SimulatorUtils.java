@@ -10,7 +10,6 @@ import java.util.UUID;
 
 public final class SimulatorUtils {
     public static File getFileByPath(String filePath) {
-
         return new File(filePath);
     }
 
