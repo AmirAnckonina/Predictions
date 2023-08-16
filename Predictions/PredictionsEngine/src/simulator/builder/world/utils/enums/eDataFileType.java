@@ -1,6 +1,6 @@
 package simulator.builder.world.utils.enums;
 
-public enum eBuilderDataSrcType {
+public enum eDataFileType {
     XML,
     JSON,
     DTO

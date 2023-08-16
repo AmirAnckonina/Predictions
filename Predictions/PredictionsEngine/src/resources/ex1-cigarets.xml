@@ -39,7 +39,7 @@
 	<PRD-rules>
 		<PRD-rule name="aging">
 			<PRD-actions>
-				<PRD-action entity="Smoker" type="increase" property="age" by="1"/>
+				<PRD-action entity="Smoker" type="increase" property="age" by="environment(var)"/>
 			</PRD-actions>
 			<PRD-activation ticks="12"/>
 		</PRD-rule>
