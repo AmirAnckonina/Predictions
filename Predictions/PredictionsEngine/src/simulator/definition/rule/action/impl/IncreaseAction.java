@@ -2,7 +2,7 @@ package simulator.definition.rule.action.impl;
 
 import simulator.definition.rule.action.api.AbstractPropertyAction;
 import simulator.definition.rule.action.utils.eActionType;
-import simulator.execution.context.api.Context;
+import simulator.execution.context.api.ExecutionContext;
 import simulator.definition.rule.action.expression.api.Expression;
 
 
@@ -14,7 +14,7 @@ public class IncreaseAction extends AbstractPropertyAction {
     }
 
     @Override
-    public void invoke(Context context) {
-        //
+    public void invoke(ExecutionContext context) {
+        context.getProperyInstance(propertyName).value + by.getValue(context);
     }
 }

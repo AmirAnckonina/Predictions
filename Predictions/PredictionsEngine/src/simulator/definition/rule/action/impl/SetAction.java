@@ -3,7 +3,7 @@ package simulator.definition.rule.action.impl;
 import simulator.definition.rule.action.api.AbstractPropertyAction;
 import simulator.definition.rule.action.expression.api.Expression;
 import simulator.definition.rule.action.utils.eActionType;
-import simulator.execution.context.api.Context;
+import simulator.execution.context.api.ExecutionContext;
 
 public class SetAction extends AbstractPropertyAction {
     Expression value;
@@ -14,7 +14,7 @@ public class SetAction extends AbstractPropertyAction {
     }
 
     @Override
-    public void invoke(Context context) {
+    public void invoke(ExecutionContext context) {
 
     }
 }

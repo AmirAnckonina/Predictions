@@ -2,12 +2,10 @@ package simulator.builder.world.impl;
 
 import simulator.builder.world.api.AbstractComponentBuilder;
 import simulator.builder.world.api.ExpressionBuilder;
-import simulator.builder.world.utils.enums.eExpressionExpectedValueType;
 import simulator.builder.world.utils.enums.eExpressionMethod;
 import simulator.builder.world.validator.api.WorldBuilderContextValidator;
 import simulator.definition.property.enums.ePropertyType;
 import simulator.definition.rule.action.expression.api.Expression;
-import simulator.definition.rule.action.expression.api.AbstractMethodExpression;
 import simulator.definition.rule.action.expression.impl.EnvironmentMethodExpressionImpl;
 import simulator.definition.rule.action.expression.impl.PropertyExpressionImpl;
 import simulator.definition.rule.action.expression.impl.RandomMethodExpressionImpl;
@@ -28,14 +26,16 @@ public class BaseExpressionBuilder extends AbstractComponentBuilder implements E
             switch (eExpressionMethod.valueOf(method.toUpperCase())){
                 case ENVIRONMENT:
                     if(contextValidator.isEnvironmentProperty(rawExpression) &&
-                            (this.contextValidator.isAppropriateType(rawExpression, ePropertyType.valueOf(type.toString())))){
+                            (this.contextValidator
+                                    .validateEnvironemntPropertyTypeAsExpected(rawExpression, type) ) ) {
+
                         expression = new EnvironmentMethodExpressionImpl(eExpressionMethod.ENVIRONMENT, getEnvironmentDataMemberName(rawExpression));
                     }
                     else throw new RuntimeException();
                     break;
 
                 case RANDOM:
-                    if(type != ePropertyType.STRING){
+                    if(type != ePropertyType.STRING) {
                         throw new RuntimeException();
                     }
                     expression = new RandomMethodExpressionImpl(eExpressionMethod.RANDOM, (new Random()).nextInt());
@@ -43,10 +43,11 @@ public class BaseExpressionBuilder extends AbstractComponentBuilder implements E
             }
 
         } else if (contextValidator.isEnvironmentProperty(rawExpression)) {
-            if(this.contextValidator.isAppropriateType(rawExpression, ePropertyType.valueOf(type.toString()))){
+            if (this.contextValidator.validateEnvironemntPropertyTypeAsExpected(
+                    rawExpression, type)){
                 expression = new PropertyExpressionImpl(rawExpression);
             }
-        }else {
+        } else {
             switch (type) {
 
                 case DECIMAL:
@@ -77,7 +78,7 @@ public class BaseExpressionBuilder extends AbstractComponentBuilder implements E
         return expression;
     }
 
-    private String getEnvironmentDataMemberName(String rawExpression){
+    private String getEnvironmentDataMemberName(String rawExpression) {
         return rawExpression.substring(eExpressionMethod.ENVIRONMENT.toString().length() + 1, rawExpression.length() - 1);
     }
 
