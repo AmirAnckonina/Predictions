@@ -7,7 +7,10 @@ import simulator.builder.world.utils.enums.eExpressionMethod;
 import simulator.builder.world.validator.api.WorldBuilderContextValidator;
 import simulator.definition.property.enums.ePropertyType;
 import simulator.definition.rule.action.expression.api.Expression;
-import simulator.definition.rule.action.expression.impl.MethodExpressionImpl;
+import simulator.definition.rule.action.expression.api.AbstractMethodExpression;
+import simulator.definition.rule.action.expression.impl.EnvironmentMethodExpressionImpl;
+import simulator.definition.rule.action.expression.impl.PropertyExpressionImpl;
+import simulator.definition.rule.action.expression.impl.RandomMethodExpressionImpl;
 import simulator.definition.rule.action.expression.impl.ValueExpressionImpl;
 import java.util.Random;
 
@@ -18,26 +21,30 @@ public class BaseExpressionBuilder extends AbstractComponentBuilder implements E
     }
 
     @Override
-    public Expression buildExpression(String rawExpression, eExpressionExpectedValueType type) {
+    public Expression buildExpression(String rawExpression, ePropertyType type) {
         Expression expression = null;
-        if(rawExpression.toUpperCase().equals(eExpressionMethod.RANDOM.toString()) ||
-            rawExpression.toUpperCase().equals(eExpressionMethod.ENVIRONMENT.name())){
-            switch (eExpressionMethod.valueOf(rawExpression.toUpperCase())){
+        if(isIdentifiesEnvironmentMethod(rawExpression)){
+            String method = getEnvironmentMethodName(rawExpression);
+            switch (eExpressionMethod.valueOf(method.toUpperCase())){
                 case ENVIRONMENT:
-                    if(contextValidator.isProperty(rawExpression) &&
+                    if(contextValidator.isEnvironmentProperty(rawExpression) &&
                             (this.contextValidator.isAppropriateType(rawExpression, ePropertyType.valueOf(type.toString())))){
-                        expression = new MethodExpressionImpl(eExpressionMethod.ENVIRONMENT, getByValue(rawExpression));
+                        expression = new EnvironmentMethodExpressionImpl(eExpressionMethod.ENVIRONMENT, getEnvironmentDataMemberName(rawExpression));
                     }
                     else throw new RuntimeException();
                     break;
+
                 case RANDOM:
-                    expression = new MethodExpressionImpl(eExpressionMethod.ENVIRONMENT, (new Random()).nextInt());
+                    if(type != ePropertyType.STRING){
+                        throw new RuntimeException();
+                    }
+                    expression = new RandomMethodExpressionImpl(eExpressionMethod.RANDOM, (new Random()).nextInt());
                     break;
             }
 
-        } else if (contextValidator.isProperty(rawExpression)) {
+        } else if (contextValidator.isEnvironmentProperty(rawExpression)) {
             if(this.contextValidator.isAppropriateType(rawExpression, ePropertyType.valueOf(type.toString()))){
-                //implement expression
+                expression = new PropertyExpressionImpl(rawExpression);
             }
         }else {
             switch (type) {
@@ -48,21 +55,21 @@ public class BaseExpressionBuilder extends AbstractComponentBuilder implements E
                     break;
                 case BOOLEAN:
                     Boolean booleanValue = Boolean.parseBoolean(rawExpression);
-                    expression = new ValueExpressionImpl<Boolean>(booleanValue);
+                    expression = new ValueExpressionImpl(booleanValue);
                     break;
                 case STRING:
                     String stringValue = rawExpression;
-                    expression = new ValueExpressionImpl<String>(stringValue);
+                    expression = new ValueExpressionImpl(stringValue);
 
                     break;
                 case FLOAT:
                     Float floatValue = Float.parseFloat(rawExpression);
-                    expression = new ValueExpressionImpl<Float>(floatValue);
+                    expression = new ValueExpressionImpl(floatValue);
 
                     break;
                 case INTEGER:
                     Integer intValue = Integer.parseInt(rawExpression);
-                    expression = new ValueExpressionImpl<Integer>(intValue);
+                    expression = new ValueExpressionImpl(intValue);
                     break;
             }
         }
@@ -70,27 +77,35 @@ public class BaseExpressionBuilder extends AbstractComponentBuilder implements E
         return expression;
     }
 
-    private String getByValue(String rawExpression) {
-        String cleanValue = getCleanRowExpression(rawExpression);
-        if(cleanValue.startsWith(eExpressionMethod.ENVIRONMENT.toString())){
-            return
-        }
+    private String getEnvironmentDataMemberName(String rawExpression){
+        return rawExpression.substring(eExpressionMethod.ENVIRONMENT.toString().length() + 1, rawExpression.length() - 1);
     }
 
-    private String getCleanRowExpression(String exppresion){
-        return exppresion.substring(4, exppresion.length() - 1);
-    }
-
-    private String getEnvironmentDataMemberName(String cleanValue){
-        return cleanValue.substring(eExpressionMethod.ENVIRONMENT.toString().length() + 1, cleanValue.length() - 1);
-
-    }
-
-
-    private boolean isEnvironmentProperty(WorldBuilderContextValidator contextValidator) {
+    private boolean isEnvironmentProperty(String rawExpression) {
+        return this.contextValidator.isEnvironmentProperty(rawExpression);
     }
 
     private boolean isIdentifiesEnvironmentMethod(String rawExpression) {
+        return rawExpression.startsWith("environment") ||
+                rawExpression.startsWith("random");
+    }
+    
+    private String getEnvironmentMethodName(String rawExpression){
+        String res = null;
+        
+        if(rawExpression.startsWith("environment")){
+            res = "environment";
+        } else if (rawExpression.startsWith("random")) {
+            res = "random";
+        } else if (rawExpression.startsWith("evaluate")) {
+            res = "evaluate";
+        } else if (rawExpression.startsWith("percent")) {
+            res = "percent";
+        } else if (rawExpression.startsWith("ticks")) {
+            res = "ticks";
+        }
+
+        return res;
     }
 
 }

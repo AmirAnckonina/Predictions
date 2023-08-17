@@ -16,7 +16,7 @@ public interface WorldBuilderContextValidator {
     void addEntityProperty(String entityName, String entityProperty);
     void addPrimaryEntity(String entity);
     void addSecondaryEntity(String entity);
-    boolean isProperty(String propertySuspect);
+    boolean isEnvironmentProperty(String propertySuspect);
 
     boolean isAppropriateType(String propertyName, ePropertyType type);
 
