@@ -14,7 +14,7 @@ import java.util.Random;
 
 public class BaseExpressionBuilder extends AbstractComponentBuilder implements ExpressionBuilder {
 
-    public BaseExpressionBuilder(WorldBuilderContextValidator contextValidator, ExpressionBuilder) {
+    public BaseExpressionBuilder(WorldBuilderContextValidator contextValidator) {
         super(contextValidator);
     }
 
