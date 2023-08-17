@@ -26,9 +26,10 @@ public class XmlEntityBuilder extends AbstractComponentBuilder implements Entity
     @Override
     public Entity buildEntity() {
         String entityName = generatedEntity.getName();
+        int population = generatedEntity.getPRDPopulation();
         contextValidator.addPrimaryEntity(entityName);
         Map<String, AbstractPropertyDefinition> entityProperties = buildEntityProperties();
-        return new Entity(entityName, entityProperties);
+        return new Entity(entityName,population, entityProperties);
     }
 
     @Override

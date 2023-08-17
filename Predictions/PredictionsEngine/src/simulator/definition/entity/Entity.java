@@ -11,10 +11,12 @@ public class Entity {
     private Map<String, AbstractPropertyDefinition> properties;
 
 
-    public Entity(String name, Map<String, AbstractPropertyDefinition> properties) {
+    public Entity(String name, int population, Map<String, AbstractPropertyDefinition> properties) {
         this.name = name;
+        this.population = population;
         this.properties = properties;
     }
+
     public String getName() {
         return name;
     }
