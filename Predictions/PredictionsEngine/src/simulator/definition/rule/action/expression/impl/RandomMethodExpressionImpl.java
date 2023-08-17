@@ -2,7 +2,8 @@ package simulator.definition.rule.action.expression.impl;
 
 import simulator.builder.world.utils.enums.eExpressionMethod;
 import simulator.definition.rule.action.expression.api.AbstractMethodExpression;
-import simulator.execution.context.api.Context;
+import simulator.execution.context.api.ExecutionContext;
+
 
 public class RandomMethodExpressionImpl extends AbstractMethodExpression<Integer> {
     public RandomMethodExpressionImpl(eExpressionMethod method, Integer methodParameter) {
@@ -10,7 +11,7 @@ public class RandomMethodExpressionImpl extends AbstractMethodExpression<Integer
     }
 
     @Override
-    public Integer getValue(Context context) {
+    public Integer getValue(ExecutionContext context) {
         return this.methodParameter;
     }
 

@@ -2,7 +2,7 @@ package simulator.definition.rule.action.expression.impl;
 
 
 import simulator.definition.rule.action.expression.api.Expression;
-import simulator.execution.context.api.Context;
+import simulator.execution.context.api.ExecutionContext;
 
 public class PropertyExpressionImpl implements Expression<String> {
 
@@ -13,8 +13,8 @@ public class PropertyExpressionImpl implements Expression<String> {
     }
 
     @Override
-    public String getValue(Context context) {
-        return context.getPropertyValueByName(propertyName);
+    public String getValue(ExecutionContext context) {
+        return null;//context.getPropertyValueByName(propertyName);
     }
 
     @Override

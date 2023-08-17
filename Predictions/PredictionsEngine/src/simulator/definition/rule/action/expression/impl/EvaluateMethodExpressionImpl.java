@@ -2,7 +2,7 @@ package simulator.definition.rule.action.expression.impl;
 
 import simulator.builder.world.utils.enums.eExpressionMethod;
 import simulator.definition.rule.action.expression.api.AbstractMethodExpression;
-import simulator.execution.context.api.Context;
+import simulator.execution.context.api.ExecutionContext;
 
 
 public class EvaluateMethodExpressionImpl extends AbstractMethodExpression<Double>{
@@ -11,7 +11,7 @@ public class EvaluateMethodExpressionImpl extends AbstractMethodExpression<Doubl
     }
 
     @Override
-    public Double getValue(Context context) {
+    public Double getValue(ExecutionContext context) {
         return null;
     }
 

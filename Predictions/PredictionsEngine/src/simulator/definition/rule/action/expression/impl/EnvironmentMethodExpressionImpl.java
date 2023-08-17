@@ -3,7 +3,7 @@ package simulator.definition.rule.action.expression.impl;
 import simulator.builder.world.utils.enums.eExpressionMethod;
 import simulator.definition.property.enums.ePropertyType;
 import simulator.definition.rule.action.expression.api.AbstractMethodExpression;
-import simulator.execution.context.api.Context;
+import simulator.execution.context.api.ExecutionContext;
 
 public class EnvironmentMethodExpressionImpl extends AbstractMethodExpression<Object> {
     public EnvironmentMethodExpressionImpl(eExpressionMethod method, Object methodParameter) {
@@ -11,7 +11,7 @@ public class EnvironmentMethodExpressionImpl extends AbstractMethodExpression<Ob
     }
 
     @Override
-    public Object getValue(Context context) {
+    public Object getValue(ExecutionContext context) {
         String value = context.getPropertyValueByName((String) this.methodParameter);
         String type = context.getPropertyTypeByName((String) this.methodParameter);
         Object returnValue = null;

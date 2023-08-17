@@ -165,7 +165,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
         Expression argValueExpression =
                 new BaseExpressionBuilder(contextValidator)
                         .buildExpression(generatedAction.getValue(), propType);
-        new SetAction(
+        return new SetAction(
                 eActionType.SET,
                 generatedAction.getEntity(),
                 generatedAction.getProperty(),

@@ -1,6 +1,5 @@
 package simulator.manager.utils;
 
-import simulator.builder.world.utils.enums.eBuilderDataSrcType;
 import simulator.builder.world.utils.enums.eDataFileType;
 
 import java.io.File;
