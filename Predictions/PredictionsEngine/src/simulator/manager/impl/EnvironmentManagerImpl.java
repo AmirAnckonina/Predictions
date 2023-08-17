@@ -10,7 +10,6 @@ import simulator.definition.property.valueGenerator.impl.fixed.FixedValueGenerat
 import simulator.definition.world.World;
 import simulator.manager.api.EnvironmentManager;
 
-import java.nio.file.OpenOption;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +37,7 @@ public class EnvironmentManagerImpl implements EnvironmentManager {
                 default:
                     throw new RuntimeException("Invalid input");
             }
-            environment.setPropertyValueByName(propName, new FixedValueGenerator<>(Boolean.parseBoolean(value)));
+            environment.setValueGeneratorByPropertyName(propName, new FixedValueGenerator<>(Boolean.parseBoolean(value)));
         } else if (type == ePropertyType.DECIMAL || type == ePropertyType.FLOAT) {
             Range<Double> range = (Range<Double>) Optional.ofNullable(((AbstractNumericPropertyDefinition)propertyDefinition)
                     .getRange().get()).orElse(null);
@@ -48,7 +47,7 @@ public class EnvironmentManagerImpl implements EnvironmentManager {
                     throw new RuntimeException("Invalid input");
                 }
             }
-            environment.setPropertyValueByName(propName, new FixedValueGenerator<>(Float.parseFloat(value)));
+            environment.setValueGeneratorByPropertyName(propName, new FixedValueGenerator<>(Float.parseFloat(value)));
         } else if (type == ePropertyType.INTEGER) {
             Range<Integer> range = (Range<Integer>) Optional.ofNullable(((AbstractNumericPropertyDefinition)propertyDefinition)
                     .getRange().get()).orElse(null);
@@ -58,10 +57,10 @@ public class EnvironmentManagerImpl implements EnvironmentManager {
                     throw new RuntimeException("Invalid input");
                 }
             }
-            environment.setPropertyValueByName(propName, new FixedValueGenerator<>(Integer.parseInt(value)));
+            environment.setValueGeneratorByPropertyName(propName, new FixedValueGenerator<>(Integer.parseInt(value)));
         }
         else{
-            environment.setPropertyValueByName(propName, new FixedValueGenerator<>(value));
+            environment.setValueGeneratorByPropertyName(propName, new FixedValueGenerator<>(value));
         }
     }
 
