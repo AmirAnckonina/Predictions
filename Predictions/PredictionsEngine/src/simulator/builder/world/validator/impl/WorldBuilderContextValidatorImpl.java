@@ -114,7 +114,7 @@ public class WorldBuilderContextValidatorImpl implements WorldBuilderContextVali
     }
 
     @Override
-    public boolean validateEnvironmentPropertyExist(String propertySuspect) {
+    public boolean isEnvironmentProperty(String propertySuspect) {
         return this.environmentPropertiesToTypeMapper.containsKey(propertySuspect);
     }
 
