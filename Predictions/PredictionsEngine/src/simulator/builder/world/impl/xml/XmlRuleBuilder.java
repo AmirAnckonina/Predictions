@@ -4,7 +4,7 @@ import resources.jaxb.schema.generated.PRDAction;
 import resources.jaxb.schema.generated.PRDRule;
 import simulator.builder.world.api.AbstractComponentBuilder;
 import simulator.builder.world.api.RuleBuilder;
-import simulator.builder.world.validator.api.WorldContextBuilderHelper;
+import simulator.builder.world.validator.api.WorldBuilderContextValidator;
 import simulator.definition.rule.Rule;
 import simulator.definition.rule.action.api.AbstractAction;
 import simulator.definition.rule.activation.Activation;
@@ -16,7 +16,7 @@ public class XmlRuleBuilder extends AbstractComponentBuilder implements RuleBuil
 
     private final PRDRule generatedRule;
 
-    public XmlRuleBuilder(PRDRule generatedRule, WorldContextBuilderHelper contextValidator) {
+    public XmlRuleBuilder(PRDRule generatedRule, WorldBuilderContextValidator contextValidator) {
         super(contextValidator);
         this.generatedRule = generatedRule;
     }

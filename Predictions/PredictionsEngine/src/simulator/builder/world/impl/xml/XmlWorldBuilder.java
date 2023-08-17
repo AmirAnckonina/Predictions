@@ -7,7 +7,7 @@ import simulator.builder.world.impl.xml.utils.XmlBuilderUtils;
 import simulator.builder.world.utils.WorldBuilderUtils;
 import simulator.builder.world.utils.enums.eDataFileType;
 import simulator.builder.world.utils.exception.WorldBuilderException;
-import simulator.builder.world.validator.api.WorldContextBuilderHelper;
+import simulator.builder.world.validator.api.WorldBuilderContextValidator;
 import simulator.definition.entity.Entity;
 import simulator.definition.environment.Environment;
 import simulator.definition.rule.Rule;
@@ -23,7 +23,7 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
     private PRDWorld generatedWorld;
     private final static String JAXB_PACKAGE_NAME = "jaxb.schema.generated";
 
-    public XmlWorldBuilder(String filePath, WorldContextBuilderHelper contextValidator) {
+    public XmlWorldBuilder(String filePath, WorldBuilderContextValidator contextValidator) {
         super(filePath, contextValidator);
         worldBuilderFileSetup(filePath);
     }
@@ -57,12 +57,12 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
 
         try {
 
-            Environment environment = buildEnvironemnt();
-            List<Entity> entities = buildEntities();
+            Environment environment = buildEnvironment();
+            Entity primaryEntity = buildPrimaryEntity();
             List<Rule> rules = buildRules();
             Termination termination = buildTermination();
             //return new World(environment, new Set<String, new Entity()>(), rules, termination);
-            return new World();
+            return new World(environment, primaryEntity, rules, termination);
 
         } catch (Exception e) {
             return null;
@@ -70,22 +70,16 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
     }
 
     @Override
-    public Environment buildEnvironemnt() {
+    public Environment buildEnvironment() {
         PRDEvironment generatedEnv = generatedWorld.getPRDEvironment();
         return new XmlEnvironmentBuilder(generatedEnv, contextValidator).buildEnvironment();
     }
 
     @Override
-    public List<Entity> buildEntities() {
-        List<Entity> entities = new ArrayList<>();
+    public Entity buildPrimaryEntity() {
 
-        List<PRDEntity> generatedEntitiesList =  generatedWorld.getPRDEntities().getPRDEntity();
-        for (PRDEntity singleGeneratedEntity : generatedEntitiesList) {
-            Entity newEntity = new XmlEntityBuilder(singleGeneratedEntity, contextValidator).buildEntity();
-            entities.add(newEntity);
-        }
-
-        return entities;
+        PRDEntity generatedPrimaryEntity =  generatedWorld.getPRDEntities().getPRDEntity().get(0);
+        return new XmlEntityBuilder(generatedPrimaryEntity, contextValidator).buildEntity();
     }
 
     @Override

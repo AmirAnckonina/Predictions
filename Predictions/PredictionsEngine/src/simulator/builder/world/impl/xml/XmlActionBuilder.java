@@ -5,7 +5,7 @@ import simulator.builder.world.api.AbstractComponentBuilder;
 import simulator.builder.world.api.ActionBuilder;
 import simulator.builder.world.impl.BaseExpressionBuilder;
 import simulator.builder.world.utils.exception.WorldBuilderException;
-import simulator.builder.world.validator.api.WorldContextBuilderHelper;
+import simulator.builder.world.validator.api.WorldBuilderContextValidator;
 import simulator.definition.rule.action.api.AbstractAction;
 import simulator.definition.rule.action.api.AbstractCalculationAction;
 import simulator.definition.rule.action.expression.api.Expression;
@@ -16,7 +16,7 @@ import simulator.definition.rule.action.utils.eActionType;
 public class XmlActionBuilder extends AbstractComponentBuilder implements ActionBuilder {
     PRDAction generatedAction;
 
-    public XmlActionBuilder(PRDAction generatedAction, WorldContextBuilderHelper contextValidator) {
+    public XmlActionBuilder(PRDAction generatedAction, WorldBuilderContextValidator contextValidator) {
         super(contextValidator);
         this.generatedAction = generatedAction;
     }

@@ -2,13 +2,12 @@ package simulator.manager.impl;
 
 import dto.EnvironmentPropertiesDto;
 import dto.SetPropertySimulatorResponseDto;
-import dto.SimulationDetailsDto;
 import dto.builder.params.BasePropertyDto;
 import dto.builder.params.enums.eSetPropertyStatus;
 import response.SimulatorResponse;
 import simulator.builder.world.api.WorldBuilder;
 import simulator.builder.world.utils.enums.eDataFileType;
-import simulator.builder.world.utils.factory.SimulationBuilderFactory;
+import simulator.builder.world.utils.factory.WorldBuilderFactory;
 import simulator.definition.property.api.AbstractNumericPropertyDefinition;
 import simulator.definition.property.api.AbstractPropertyDefinition;
 import simulator.definition.property.enums.ePropertyType;
@@ -45,7 +44,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
         try {
             eDataFileType dataSrcType = WorldBuilderUtils.getDataFileTypeByFileExtension(filePath);
-            worldBuilder = SimulationBuilderFactory.createSimulationBuilder(dataSrcType, filePath);
+            worldBuilder = WorldBuilderFactory.createSimulationBuilder(dataSrcType, filePath);
             world = worldBuilder.buildWorld();
             return new SimulatorResponse(true, "the following file has loaded successfully" + filePath);
         } catch(Exception ex) {

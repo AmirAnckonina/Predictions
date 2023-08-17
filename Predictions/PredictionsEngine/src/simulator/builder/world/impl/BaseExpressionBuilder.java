@@ -4,7 +4,7 @@ import simulator.builder.world.api.AbstractComponentBuilder;
 import simulator.builder.world.api.ExpressionBuilder;
 import simulator.builder.world.utils.enums.eExpressionExpectedValueType;
 import simulator.builder.world.utils.enums.eExpressionMethod;
-import simulator.builder.world.validator.api.WorldContextBuilderHelper;
+import simulator.builder.world.validator.api.WorldBuilderContextValidator;
 import simulator.definition.property.enums.ePropertyType;
 import simulator.definition.rule.action.expression.api.Expression;
 import simulator.definition.rule.action.expression.impl.MethodExpressionImpl;
@@ -13,7 +13,7 @@ import java.util.Random;
 
 public class BaseExpressionBuilder extends AbstractComponentBuilder implements ExpressionBuilder {
 
-    public BaseExpressionBuilder(WorldContextBuilderHelper contextValidator, ExpressionBuilder) {
+    public BaseExpressionBuilder(WorldBuilderContextValidator contextValidator, ExpressionBuilder) {
         super(contextValidator);
     }
 
@@ -87,7 +87,7 @@ public class BaseExpressionBuilder extends AbstractComponentBuilder implements E
     }
 
 
-    private boolean isEnvironmentProperty(WorldContextBuilderHelper contextValidator) {
+    private boolean isEnvironmentProperty(WorldBuilderContextValidator contextValidator) {
     }
 
     private boolean isIdentifiesEnvironmentMethod(String rawExpression) {
