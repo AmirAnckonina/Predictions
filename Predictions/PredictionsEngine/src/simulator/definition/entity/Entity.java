@@ -7,15 +7,16 @@ import java.util.Map;
 
 public class Entity {
     private String name;
+    private int population;
     private Map<String, AbstractPropertyDefinition> properties;
 
-    public String getName() {
-        return name;
-    }
 
     public Entity(String name, Map<String, AbstractPropertyDefinition> properties) {
         this.name = name;
         this.properties = properties;
+    }
+    public String getName() {
+        return name;
     }
 
     public Map<String, AbstractPropertyDefinition> getProperties() {
@@ -46,6 +47,7 @@ public class Entity {
      * @return if the entity contains a property object named propertyName, it will return it or null otherwise.
      */
     public Object getPropertyValue(String propertyName){
+
         return this.properties.get(propertyName);
     }
 

@@ -10,8 +10,8 @@ import java.util.List;
 
 public interface WorldBuilder {
     World buildWorld();
-    Environment buildEnvironemnt();
-    List<Entity> buildEntities();
+    Environment buildEnvironment();
+    Entity buildPrimaryEntity();
     List<Rule> buildRules();
     Termination buildTermination();
 

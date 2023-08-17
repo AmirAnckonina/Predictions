@@ -1,32 +1,33 @@
 package simulator.builder.world.validator.impl;
 
-import javafx.util.Pair;
 import simulator.builder.world.utils.enums.eDataFileType;
-import simulator.builder.world.validator.api.WorldContextBuilderHelper;
-import simulator.definition.property.api.AbstractPropertyDefinition;
+import simulator.builder.world.utils.enums.eExpressionMethod;
+import simulator.builder.world.utils.exception.WorldBuilderException;
+import simulator.builder.world.validator.api.WorldBuilderContextValidator;
 import simulator.definition.property.enums.ePropertyType;
 import simulator.definition.rule.action.utils.eActionType;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-public class WorldContextBuilderHelperImpl implements WorldContextBuilderHelper {
+public class WorldBuilderContextValidatorImpl implements WorldBuilderContextValidator {
     private Map<String, ePropertyType> environmentPropertiesToTypeMapper;
-    private Set<String> entities;
-    private Map<String,Set<String>> entityPropertiesMapper;
-    private Set<String> simulatorSystemMethods;
+    private String primaryEntity;
+    private String secondaryEntity;
+    private Set<String> allEntities;
+    private Set<String> primaryEntityProperties;
+    private Set<String> secondaryEntityProperties;
+    private Set<eExpressionMethod> simulatorSystemMethods;
 
-    public WorldContextBuilderHelperImpl() {
+    public WorldBuilderContextValidatorImpl() {
         this.environmentPropertiesToTypeMapper = new HashMap<>();
-        this.entities = new HashSet<>();
+        this.allEntities = new HashSet<>();
         // Please note, while adding new entity to "entityPropertiesMapper", a new set should be initialize!!!!
-        this.entityPropertiesMapper = new HashMap<>();
-        this.simulatorSystemMethods = new HashSet<>();
+        this.primaryEntityProperties = new HashSet<>();
+        this.simulatorSystemMethods = new HashSet<>(
+                Arrays.asList(eExpressionMethod.ENVIRONMENT, eExpressionMethod.RANDOM));
     }
 
 
@@ -61,8 +62,8 @@ public class WorldContextBuilderHelperImpl implements WorldContextBuilderHelper 
      * @return
      */
     @Override
-    public boolean validateEntityPropertyUniqueness(String entityName ,String entityPropertyName) {
-        return !entityPropertiesMapper.get(entityName).contains(entityPropertyName);
+    public boolean validatePrimaryEntityPropertyUniqueness(String entityPropertyName) {
+        return !primaryEntityProperties.contains(entityPropertyName);
     }
 
     @Override
@@ -87,14 +88,27 @@ public class WorldContextBuilderHelperImpl implements WorldContextBuilderHelper 
     }
 
     @Override
-    public void addPropertyToEntityProperties(String entity, String entityProperty) {
-        entityPropertiesMapper.get(entity).add(entityProperty);
+    public void addEntityProperty(String entityName, String entityProperty) {
+
+        if (entityName.equals(primaryEntity)) {
+            primaryEntityProperties.add(entityProperty);
+
+        } else if (entityName.equals(secondaryEntity)) {
+            secondaryEntityProperties.add(entityProperty);
+        } else {
+            throw new WorldBuilderException("entity name couln't be found for adding new property to contextValidator.");
+        }
     }
 
     @Override
-    public void addEntity(String entity) {
-        entities.add(entity);
-        entityPropertiesMapper.put(entity, new HashSet<>());
+    public void addPrimaryEntity(String entity) {
+        this.primaryEntity = entity;
+        this.allEntities.add(entity);
+    }
+    
+    @Override
+    public void addSecondaryEntity(String entity) {
+        this.secondaryEntity = entity;
     }
 
     @Override

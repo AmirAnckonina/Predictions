@@ -5,7 +5,7 @@ import resources.jaxb.schema.generated.PRDEvironment;
 import simulator.builder.world.api.AbstractComponentBuilder;
 import simulator.builder.world.api.EnvironmentBuilder;
 import simulator.builder.world.utils.exception.WorldBuilderException;
-import simulator.builder.world.validator.api.WorldContextBuilderHelper;
+import simulator.builder.world.validator.api.WorldBuilderContextValidator;
 import simulator.definition.environment.Environment;
 import simulator.definition.property.api.AbstractPropertyDefinition;
 
@@ -15,7 +15,7 @@ import java.util.Map;
 public class XmlEnvironmentBuilder extends AbstractComponentBuilder implements EnvironmentBuilder {
     private PRDEvironment generatedEnvironment;
 
-    public XmlEnvironmentBuilder(PRDEvironment generatedEnvironment, WorldContextBuilderHelper contextValidator) {
+    public XmlEnvironmentBuilder(PRDEvironment generatedEnvironment, WorldBuilderContextValidator contextValidator) {
         super(contextValidator);
         this.generatedEnvironment = generatedEnvironment;
     }
@@ -39,7 +39,7 @@ public class XmlEnvironmentBuilder extends AbstractComponentBuilder implements E
                     contextValidator.validateEnvironmentPropertyUniqueness(newEnvPropName);
             if (propVerified && !envProperties.containsKey(newEnvPropName)) {
                 envProperties.put(newEnvPropName, newEnvProperty);
-                contextValidator.addEnvironemntProperty(newEnvPropName);
+                contextValidator.addEnvironemntProperty(newEnvPropName, newEnvProperty.getType());
             } else {
                 throw new WorldBuilderException(
                         "Environment property build failed. The following env property name already exists: " + newEnvProperty.getName());
