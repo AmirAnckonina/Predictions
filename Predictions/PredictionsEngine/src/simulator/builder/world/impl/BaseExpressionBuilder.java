@@ -24,8 +24,8 @@ public class BaseExpressionBuilder extends AbstractComponentBuilder implements E
             rawExpression.toUpperCase().equals(eExpressionMethod.ENVIRONMENT.name())){
             switch (eExpressionMethod.valueOf(rawExpression.toUpperCase())){
                 case ENVIRONMENT:
-                    if(contextValidator.isProperty(rawExpression) &&
-                            (this.contextValidator.isAppropriateType(rawExpression, ePropertyType.valueOf(type.toString())))){
+                    if(contextValidator.validateEnvironmentPropertyExist(rawExpression) &&
+                            (this.contextValidator.validateEnvironemntPropertyTypeAsExpected(rawExpression, type))){
                         expression = new MethodExpressionImpl(eExpressionMethod.ENVIRONMENT, getByValue(rawExpression));
                     }
                     else throw new RuntimeException();
@@ -35,8 +35,8 @@ public class BaseExpressionBuilder extends AbstractComponentBuilder implements E
                     break;
             }
 
-        } else if (contextValidator.isProperty(rawExpression)) {
-            if(this.contextValidator.isAppropriateType(rawExpression, ePropertyType.valueOf(type.toString()))){
+        } else if (contextValidator.validateEnvironmentPropertyExist(rawExpression)) {
+            if(this.contextValidator.validateEnvironemntPropertyTypeAsExpected(rawExpression, ePropertyType.valueOf(type.toString()))){
                 //implement expression
             }
         }else {

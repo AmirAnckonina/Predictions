@@ -8,6 +8,7 @@ import simulator.builder.world.utils.exception.WorldBuilderException;
 import simulator.builder.world.validator.api.WorldBuilderContextValidator;
 import simulator.definition.entity.Entity;
 import simulator.definition.property.api.AbstractPropertyDefinition;
+import simulator.definition.property.enums.ePropertyType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +44,8 @@ public class XmlEntityBuilder extends AbstractComponentBuilder implements Entity
 
             if (propVerified && !envProperties.containsKey(newProp.getName())) {
                 envProperties.put(newProp.getName(), newProp);
-                contextValidator.addEntityProperty(newProp.getName(),newProp.getName());
+                contextValidator.addEntityProperty(
+                        generatedEntity.getName(), newProp.getName(), newProp.getType());
             } else {
                 throw new WorldBuilderException(
                         "Entity property build failed. The following entity property name already exists: " + newProp.getName());

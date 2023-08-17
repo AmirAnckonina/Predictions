@@ -39,7 +39,7 @@ public class XmlEnvironmentBuilder extends AbstractComponentBuilder implements E
                     contextValidator.validateEnvironmentPropertyUniqueness(newEnvPropName);
             if (propVerified && !envProperties.containsKey(newEnvPropName)) {
                 envProperties.put(newEnvPropName, newEnvProperty);
-                contextValidator.addEnvironemntProperty(newEnvPropName, newEnvProperty.getType());
+                contextValidator.addEnvironmentProperty(newEnvPropName, newEnvProperty.getType());
             } else {
                 throw new WorldBuilderException(
                         "Environment property build failed. The following env property name already exists: " + newEnvProperty.getName());

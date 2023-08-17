@@ -17,15 +17,15 @@ public class WorldBuilderContextValidatorImpl implements WorldBuilderContextVali
     private String primaryEntity;
     private String secondaryEntity;
     private Set<String> allEntities;
-    private Set<String> primaryEntityProperties;
-    private Set<String> secondaryEntityProperties;
+    private Map<String, ePropertyType> primaryEntityPropertiesToTypeMapper;
+    private Map<String, ePropertyType> secondaryEntityPropertiesToTypeMapper;
     private Set<eExpressionMethod> simulatorSystemMethods;
 
     public WorldBuilderContextValidatorImpl() {
         this.environmentPropertiesToTypeMapper = new HashMap<>();
         this.allEntities = new HashSet<>();
         // Please note, while adding new entity to "entityPropertiesMapper", a new set should be initialize!!!!
-        this.primaryEntityProperties = new HashSet<>();
+        this.primaryEntityPropertiesToTypeMapper = new HashMap<>();
         this.simulatorSystemMethods = new HashSet<>(
                 Arrays.asList(eExpressionMethod.ENVIRONMENT, eExpressionMethod.RANDOM));
     }
@@ -63,7 +63,7 @@ public class WorldBuilderContextValidatorImpl implements WorldBuilderContextVali
      */
     @Override
     public boolean validatePrimaryEntityPropertyUniqueness(String entityPropertyName) {
-        return !primaryEntityProperties.contains(entityPropertyName);
+        return !primaryEntityPropertiesToTypeMapper.containsKey(entityPropertyName);
     }
 
     @Override
@@ -83,18 +83,19 @@ public class WorldBuilderContextValidatorImpl implements WorldBuilderContextVali
     }
 
     @Override
-    public void addEnvironemntProperty(String newEnvPropName, ePropertyType type) {
+    public void addEnvironmentProperty(String newEnvPropName, ePropertyType type) {
         environmentPropertiesToTypeMapper.put(newEnvPropName, type);
     }
 
     @Override
-    public void addEntityProperty(String entityName, String entityProperty) {
+    public void addEntityProperty(String entityName, String entityProperty, ePropertyType type) {
 
         if (entityName.equals(primaryEntity)) {
-            primaryEntityProperties.add(entityProperty);
+            primaryEntityPropertiesToTypeMapper.put(entityProperty, type);
 
         } else if (entityName.equals(secondaryEntity)) {
-            secondaryEntityProperties.add(entityProperty);
+            secondaryEntityPropertiesToTypeMapper.put(entityProperty, type);
+
         } else {
             throw new WorldBuilderException("entity name couln't be found for adding new property to contextValidator.");
         }
@@ -105,19 +106,37 @@ public class WorldBuilderContextValidatorImpl implements WorldBuilderContextVali
         this.primaryEntity = entity;
         this.allEntities.add(entity);
     }
-    
+
     @Override
     public void addSecondaryEntity(String entity) {
         this.secondaryEntity = entity;
+        this.allEntities.add(entity);
     }
 
     @Override
-    public boolean isProperty(String propertySuspect) {
+    public boolean validateEnvironmentPropertyExist(String propertySuspect) {
         return this.environmentPropertiesToTypeMapper.containsKey(propertySuspect);
     }
 
-    public boolean isAppropriateType(String propertyName, ePropertyType type){
+    /**
+     *
+     * @param propertyName
+     * @param type
+     * @return
+     */
+    public boolean validateEnvironemntPropertyTypeAsExpected(String propertyName, ePropertyType type){
         return this.environmentPropertiesToTypeMapper.get(propertyName) == type;
+    }
+
+    /**
+     *
+     * @param propertyName
+     * Impllemented Currently only of propertie of the PrimaryEntity
+     * @return
+     */
+    @Override
+    public ePropertyType getPropertyType(String propertyName) {
+        return primaryEntityPropertiesToTypeMapper.get(propertyName);
     }
 
 }

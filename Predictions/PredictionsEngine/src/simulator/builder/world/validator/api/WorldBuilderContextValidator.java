@@ -12,12 +12,12 @@ public interface WorldBuilderContextValidator {
     boolean validateActionEntityContext(String entityName);
     boolean validateActionEntityPropertyContext(String entityName, String entityPropertyName);
     boolean validateActionArguments(eActionType actionType, String... actionArgs);
-    void addEnvironemntProperty(String newEnvPropName, ePropertyType type);
-    void addEntityProperty(String entityName, String entityProperty);
+    void addEnvironmentProperty(String newEnvPropName, ePropertyType type);
+    void addEntityProperty(String entityName, String entityProperty, ePropertyType type);
     void addPrimaryEntity(String entity);
     void addSecondaryEntity(String entity);
-    boolean isProperty(String propertySuspect);
-
-    boolean isAppropriateType(String propertyName, ePropertyType type);
+    boolean validateEnvironmentPropertyExist(String propertySuspect);
+    boolean validateEnvironemntPropertyTypeAsExpected(String propertyName, ePropertyType type);
+    ePropertyType getPropertyType(String propertyName);
 
 }
