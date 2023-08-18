@@ -52,5 +52,8 @@ public class Entity {
 
         return this.properties.get(propertyName);
     }
+    public int getPopulation() {
+        return population;
+    }
 
 }
