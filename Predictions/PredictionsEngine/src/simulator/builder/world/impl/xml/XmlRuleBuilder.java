@@ -2,8 +2,8 @@ package simulator.builder.world.impl.xml;
 
 import resources.jaxb.schema.generated.PRDAction;
 import resources.jaxb.schema.generated.PRDRule;
-import simulator.builder.world.api.AbstractComponentBuilder;
-import simulator.builder.world.api.RuleBuilder;
+import simulator.builder.world.api.abstracts.AbstractComponentBuilder;
+import simulator.builder.world.api.interfaces.RuleBuilder;
 import simulator.builder.world.validator.api.WorldBuilderContextValidator;
 import simulator.definition.rule.Rule;
 import simulator.definition.rule.action.api.AbstractAction;

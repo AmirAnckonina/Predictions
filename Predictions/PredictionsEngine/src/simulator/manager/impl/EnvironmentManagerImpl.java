@@ -2,9 +2,9 @@ package simulator.manager.impl;
 
 import response.SimulatorResponse;
 import simulator.definition.environment.Environment;
-import simulator.definition.property.api.AbstractNumericPropertyDefinition;
-import simulator.definition.property.api.AbstractPropertyDefinition;
-import simulator.definition.property.enums.ePropertyType;
+import simulator.definition.property.api.abstracts.AbstractNumericPropertyDefinition;
+import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
+import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.property.impl.*;
 import simulator.definition.property.valueGenerator.impl.fixed.FixedValueGenerator;
 import simulator.definition.world.World;

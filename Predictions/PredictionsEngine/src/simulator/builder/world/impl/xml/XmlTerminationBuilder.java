@@ -3,8 +3,7 @@ package simulator.builder.world.impl.xml;
 import resources.jaxb.schema.generated.PRDBySecond;
 import resources.jaxb.schema.generated.PRDByTicks;
 import resources.jaxb.schema.generated.PRDTermination;
-import simulator.builder.world.api.AbstractFileComponentBuilder;
-import simulator.builder.world.api.TerminationBuilder;
+import simulator.builder.world.api.interfaces.TerminationBuilder;
 import simulator.builder.world.utils.exception.WorldBuilderException;
 import simulator.definition.termination.Termination;
 

@@ -1,7 +1,7 @@
 package simulator.builder.world.impl.xml;
 
 import resources.jaxb.schema.generated.PRDEnvProperty;
-import simulator.definition.property.api.AbstractPropertyDefinition;
+import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 
 public class XmlEnvironmentPropertyBuilder extends XmlPropertyBuilder {
     private PRDEnvProperty generatedEnvironmentProperty;

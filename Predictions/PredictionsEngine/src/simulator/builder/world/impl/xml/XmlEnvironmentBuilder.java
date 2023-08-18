@@ -2,12 +2,12 @@ package simulator.builder.world.impl.xml;
 
 import resources.jaxb.schema.generated.PRDEnvProperty;
 import resources.jaxb.schema.generated.PRDEvironment;
-import simulator.builder.world.api.AbstractComponentBuilder;
-import simulator.builder.world.api.EnvironmentBuilder;
+import simulator.builder.world.api.abstracts.AbstractComponentBuilder;
+import simulator.builder.world.api.interfaces.EnvironmentBuilder;
 import simulator.builder.world.utils.exception.WorldBuilderException;
 import simulator.builder.world.validator.api.WorldBuilderContextValidator;
 import simulator.definition.environment.Environment;
-import simulator.definition.property.api.AbstractPropertyDefinition;
+import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 
 import java.util.HashMap;
 import java.util.Map;

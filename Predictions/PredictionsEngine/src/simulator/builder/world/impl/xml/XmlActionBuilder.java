@@ -1,17 +1,17 @@
 package simulator.builder.world.impl.xml;
 
 import resources.jaxb.schema.generated.PRDAction;
-import simulator.builder.world.api.AbstractComponentBuilder;
-import simulator.builder.world.api.ActionBuilder;
-import simulator.builder.world.impl.BaseExpressionBuilder;
+import simulator.builder.world.api.abstracts.AbstractComponentBuilder;
+import simulator.builder.world.api.interfaces.ActionBuilder;
+import simulator.builder.world.impl.baseImpl.BaseExpressionBuilder;
 import simulator.builder.world.utils.exception.WorldBuilderException;
 import simulator.builder.world.validator.api.WorldBuilderContextValidator;
-import simulator.definition.property.enums.ePropertyType;
+import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.rule.action.api.AbstractAction;
 import simulator.definition.rule.action.api.AbstractCalculationAction;
-import simulator.definition.rule.action.expression.api.Expression;
+import simulator.definition.rule.action.expression.api.interfaces.Expression;
 import simulator.definition.rule.action.impl.*;
-import simulator.definition.rule.action.utils.eActionType;
+import simulator.definition.rule.action.utils.enums.eActionType;
 
 
 public class XmlActionBuilder extends AbstractComponentBuilder implements ActionBuilder {
