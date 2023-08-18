@@ -8,12 +8,16 @@ import response.SimulatorResponse;
 import simulator.builder.world.api.interfaces.WorldBuilder;
 import simulator.builder.world.utils.file.enums.eDataFileType;
 import simulator.builder.world.utils.factory.WorldBuilderFactory;
+import simulator.definition.environment.Environment;
 import simulator.definition.property.api.abstracts.AbstractNumericPropertyDefinition;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.property.impl.Range;
 import simulator.definition.world.World;
 import dto.BuildSimulatorDto;
+import simulator.execution.context.api.PropertyInstance;
+import simulator.execution.instance.environment.EnvironmentInstanceImpl;
+import simulator.execution.instance.property.PropertyInstanceImpl;
 import simulator.manager.api.SimulatorManager;
 import simulator.builder.world.utils.file.WorldBuilderFileUtils;
 
@@ -184,6 +188,12 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
     @Override
     public Object activateEnvironment() {
+        EnvironmentInstanceImpl environmentInstance = new EnvironmentInstanceImpl();
+        for (String propertyName:world.getEnvironment().getPropertiesNames() ){
+            PropertyInstance propertyInstance = new PropertyInstanceImpl(world.getEnvironment().getPropertyByName(propertyName),
+                    world.getEnvironment().getPropertyByName(propertyName).generateValue());
+            environmentInstance.addPropertyInstance(propertyInstance);
+        }
         // instances = manager.instance.createInstances();
         // env = manager.activateEnvironment(dto );
         // manager.initializeRunner(instances, env);
