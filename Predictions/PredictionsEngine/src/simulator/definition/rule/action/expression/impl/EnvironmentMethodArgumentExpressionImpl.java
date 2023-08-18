@@ -1,12 +1,12 @@
 package simulator.definition.rule.action.expression.impl;
 
 import simulator.definition.rule.action.expression.utils.enums.eExpressionMethod;
-import simulator.definition.rule.action.expression.api.abstracts.AbstractMethodExpression;
+import simulator.definition.rule.action.expression.api.abstracts.AbstractMethodArgumentExpression;
 import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.execution.context.api.ExecutionContext;
 
-public class EnvironmentMethodExpressionImpl extends AbstractMethodExpression<Object> {
-    public EnvironmentMethodExpressionImpl(eExpressionMethod method, Object methodParameter) {
+public class EnvironmentMethodArgumentExpressionImpl extends AbstractMethodArgumentExpression<Object> {
+    public EnvironmentMethodArgumentExpressionImpl(eExpressionMethod method, Object methodParameter) {
         super(method, methodParameter);
     }
 

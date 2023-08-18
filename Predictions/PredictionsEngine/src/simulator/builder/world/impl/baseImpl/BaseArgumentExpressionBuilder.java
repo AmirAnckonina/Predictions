@@ -1,26 +1,26 @@
 package simulator.builder.world.impl.baseImpl;
 
 import simulator.builder.world.api.abstracts.AbstractComponentBuilder;
-import simulator.builder.world.api.interfaces.ExpressionBuilder;
+import simulator.builder.world.api.interfaces.ArgumentExpressionBuilder;
 import simulator.definition.rule.action.expression.utils.enums.eExpressionMethod;
 import simulator.builder.world.validator.api.WorldBuilderContextValidator;
 import simulator.definition.property.utils.enums.ePropertyType;
-import simulator.definition.rule.action.expression.api.interfaces.Expression;
-import simulator.definition.rule.action.expression.impl.EnvironmentMethodExpressionImpl;
-import simulator.definition.rule.action.expression.impl.PropertyExpressionImpl;
-import simulator.definition.rule.action.expression.impl.RandomMethodExpressionImpl;
-import simulator.definition.rule.action.expression.impl.ValueExpressionImpl;
+import simulator.definition.rule.action.expression.api.interfaces.ArgumentExpression;
+import simulator.definition.rule.action.expression.impl.EnvironmentMethodArgumentExpressionImpl;
+import simulator.definition.rule.action.expression.impl.PropertyArgumentExpressionImpl;
+import simulator.definition.rule.action.expression.impl.RandomMethodArgumentExpressionImpl;
+import simulator.definition.rule.action.expression.impl.ValueArgumentExpressionImpl;
 import java.util.Random;
 
-public class BaseExpressionBuilder extends AbstractComponentBuilder implements ExpressionBuilder {
+public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder implements ArgumentExpressionBuilder {
 
-    public BaseExpressionBuilder(WorldBuilderContextValidator contextValidator) {
+    public BaseArgumentExpressionBuilder(WorldBuilderContextValidator contextValidator) {
         super(contextValidator);
     }
 
     @Override
-    public Expression buildExpression(String rawExpression, ePropertyType type) {
-        Expression expression = null;
+    public ArgumentExpression buildExpression(String rawExpression, ePropertyType type) {
+        ArgumentExpression argumentExpression = null;
         if(isIdentifiesEnvironmentMethod(rawExpression)){
             String method = getEnvironmentMethodName(rawExpression);
             switch (eExpressionMethod.valueOf(method.toUpperCase())){
@@ -29,7 +29,7 @@ public class BaseExpressionBuilder extends AbstractComponentBuilder implements E
                             (this.contextValidator
                                     .validateEnvironemntPropertyTypeAsExpected(rawExpression, type) ) ) {
 
-                        expression = new EnvironmentMethodExpressionImpl(eExpressionMethod.ENVIRONMENT, getEnvironmentDataMemberName(rawExpression));
+                        argumentExpression = new EnvironmentMethodArgumentExpressionImpl(eExpressionMethod.ENVIRONMENT, getEnvironmentDataMemberName(rawExpression));
                     }
                     else throw new RuntimeException();
                     break;
@@ -38,44 +38,44 @@ public class BaseExpressionBuilder extends AbstractComponentBuilder implements E
                     if(type != ePropertyType.STRING) {
                         throw new RuntimeException();
                     }
-                    expression = new RandomMethodExpressionImpl(eExpressionMethod.RANDOM, (new Random()).nextInt());
+                    argumentExpression = new RandomMethodArgumentExpressionImpl(eExpressionMethod.RANDOM, (new Random()).nextInt());
                     break;
             }
 
         } else if (contextValidator.isEnvironmentProperty(rawExpression)) {
             if (this.contextValidator.validateEnvironemntPropertyTypeAsExpected(
                     rawExpression, type)){
-                expression = new PropertyExpressionImpl(rawExpression);
+                argumentExpression = new PropertyArgumentExpressionImpl(rawExpression);
             }
         } else {
             switch (type) {
 
                 case DECIMAL:
                     Double doubleValue = Double.parseDouble(rawExpression);
-                    expression = new ValueExpressionImpl(doubleValue);
+                    argumentExpression = new ValueArgumentExpressionImpl(doubleValue);
                     break;
                 case BOOLEAN:
                     Boolean booleanValue = Boolean.parseBoolean(rawExpression);
-                    expression = new ValueExpressionImpl(booleanValue);
+                    argumentExpression = new ValueArgumentExpressionImpl(booleanValue);
                     break;
                 case STRING:
                     String stringValue = rawExpression;
-                    expression = new ValueExpressionImpl(stringValue);
+                    argumentExpression = new ValueArgumentExpressionImpl(stringValue);
 
                     break;
                 case FLOAT:
                     Float floatValue = Float.parseFloat(rawExpression);
-                    expression = new ValueExpressionImpl(floatValue);
+                    argumentExpression = new ValueArgumentExpressionImpl(floatValue);
 
                     break;
                 case INTEGER:
                     Integer intValue = Integer.parseInt(rawExpression);
-                    expression = new ValueExpressionImpl(intValue);
+                    argumentExpression = new ValueArgumentExpressionImpl(intValue);
                     break;
             }
         }
 
-        return expression;
+        return argumentExpression;
     }
 
     private String getEnvironmentDataMemberName(String rawExpression) {

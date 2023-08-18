@@ -1,7 +1,7 @@
 package simulator.definition.rule.action.conditionExpression.impl.single;
 
 import simulator.definition.rule.action.conditionExpression.api.abstracts.AbstractSingleConditionExpression;
-import simulator.definition.rule.action.expression.api.interfaces.Expression;
+import simulator.definition.rule.action.expression.api.interfaces.ArgumentExpression;
 
 public class EqualityConditionExpression extends AbstractSingleConditionExpression {
 
@@ -11,7 +11,7 @@ public class EqualityConditionExpression extends AbstractSingleConditionExpressi
      * @param comparedValue In this stage the comparedValue expression should be with the current T value,
      *                      according to buildExpression procedure.
      */
-    public EqualityConditionExpression(String entityName, String propertyName, Expression comparedValue) {
+    public EqualityConditionExpression(String entityName, String propertyName, ArgumentExpression comparedValue) {
         super(entityName, propertyName, comparedValue);
     }
 
