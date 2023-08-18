@@ -1,14 +1,14 @@
 package simulator.definition.rule.action.impl;
 
-import simulator.definition.rule.action.expression.api.interfaces.Expression;
+import simulator.definition.rule.action.expression.api.interfaces.ArgumentExpression;
 import simulator.definition.rule.action.utils.enums.eActionType;
 import simulator.definition.rule.action.api.abstracts.AbstractCalculationAction;
 import simulator.execution.context.api.ExecutionContext;
 
 public class MultiplyAction extends AbstractCalculationAction {
 
-    public MultiplyAction(eActionType type, String entityName, String propertyName, Expression expression1, Expression expression2) {
-        super(type, entityName, propertyName, expression1, expression2);
+    public MultiplyAction(eActionType type, String entityName, String propertyName, ArgumentExpression argumentExpression1, ArgumentExpression argumentExpression2) {
+        super(type, entityName, propertyName, argumentExpression1, argumentExpression2);
     }
 
     @Override

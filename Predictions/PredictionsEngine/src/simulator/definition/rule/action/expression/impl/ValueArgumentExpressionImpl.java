@@ -1,12 +1,12 @@
 package simulator.definition.rule.action.expression.impl;
 
-import simulator.definition.rule.action.expression.api.interfaces.Expression;
+import simulator.definition.rule.action.expression.api.interfaces.ArgumentExpression;
 import simulator.execution.context.api.ExecutionContext;
 
-public class ValueExpressionImpl<T> implements Expression<T> {
+public class ValueArgumentExpressionImpl<T> implements ArgumentExpression<T> {
 
     private T value;
-    public ValueExpressionImpl(T value) {
+    public ValueArgumentExpressionImpl(T value) {
         this.value = value;
     }
 

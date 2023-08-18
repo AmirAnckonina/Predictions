@@ -1,7 +1,7 @@
 package simulator.definition.rule.action.conditionExpression.impl.single;
 
 import simulator.definition.rule.action.conditionExpression.api.abstracts.AbstractSingleConditionExpression;
-import simulator.definition.rule.action.expression.api.interfaces.Expression;
+import simulator.definition.rule.action.expression.api.interfaces.ArgumentExpression;
 
 public class BiggerThanConditionExpression extends AbstractSingleConditionExpression {
     /**
@@ -10,7 +10,7 @@ public class BiggerThanConditionExpression extends AbstractSingleConditionExpres
      * @param comparedValue In this stage the comparedValue expression should be with the current T value,
      *                      according to buildExpression procedure.
      */
-    public BiggerThanConditionExpression(String entityName, String propertyName, Expression comparedValue) {
+    public BiggerThanConditionExpression(String entityName, String propertyName, ArgumentExpression comparedValue) {
         super(entityName, propertyName, comparedValue);
     }
 
