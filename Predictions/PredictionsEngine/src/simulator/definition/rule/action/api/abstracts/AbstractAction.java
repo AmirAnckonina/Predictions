@@ -1,5 +1,6 @@
-package simulator.definition.rule.action.api;
+package simulator.definition.rule.action.api.abstracts;
 
+import simulator.definition.rule.action.api.interfaces.Action;
 import simulator.definition.rule.action.utils.enums.eActionType;
 
 public abstract class AbstractAction implements Action {

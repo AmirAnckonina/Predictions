@@ -3,7 +3,7 @@ package simulator.builder.world.impl.xml;
 import resources.jaxb.schema.generated.*;
 import simulator.builder.world.api.abstracts.AbstractFileComponentBuilder;
 import simulator.builder.world.api.interfaces.WorldBuilder;
-import simulator.builder.world.impl.xml.utils.XmlBuilderUtils;
+import simulator.builder.world.utils.file.XmlBuilderUtils;
 import simulator.builder.world.utils.file.WorldBuilderFileUtils;
 import simulator.builder.world.utils.file.enums.eDataFileType;
 import simulator.builder.world.utils.exception.WorldBuilderException;

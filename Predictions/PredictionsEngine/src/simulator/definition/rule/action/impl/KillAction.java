@@ -1,6 +1,6 @@
 package simulator.definition.rule.action.impl;
 
-import simulator.definition.rule.action.api.AbstractAction;
+import simulator.definition.rule.action.api.abstracts.AbstractAction;
 import simulator.definition.rule.action.utils.enums.eActionType;
 import simulator.execution.context.api.ExecutionContext;
 

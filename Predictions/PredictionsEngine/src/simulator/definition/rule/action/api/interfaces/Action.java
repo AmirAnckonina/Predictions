@@ -1,4 +1,4 @@
-package simulator.definition.rule.action.api;
+package simulator.definition.rule.action.api.interfaces;
 
 import simulator.definition.rule.action.utils.enums.eActionType;
 import simulator.execution.context.api.ExecutionContext;

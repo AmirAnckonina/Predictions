@@ -6,7 +6,7 @@ import simulator.builder.world.api.abstracts.AbstractComponentBuilder;
 import simulator.builder.world.api.interfaces.RuleBuilder;
 import simulator.builder.world.validator.api.WorldBuilderContextValidator;
 import simulator.definition.rule.Rule;
-import simulator.definition.rule.action.api.AbstractAction;
+import simulator.definition.rule.action.api.abstracts.AbstractAction;
 import simulator.definition.rule.activation.Activation;
 
 import java.util.ArrayList;
