@@ -30,7 +30,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
     public AbstractAction BuildAction() {
         boolean actionContextIsValid = validateActionContextProcedure();
         if (actionContextIsValid) {
-            eActionType actionType = eActionType.valueOf(generatedAction.getType());
+            eActionType actionType = eActionType.valueOf(generatedAction.getType().toUpperCase());
 
             switch(actionType) {
                 case INCREASE:

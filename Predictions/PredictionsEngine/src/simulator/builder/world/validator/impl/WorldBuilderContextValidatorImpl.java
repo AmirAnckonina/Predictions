@@ -7,6 +7,7 @@ import simulator.builder.world.validator.api.WorldBuilderContextValidator;
 import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.rule.action.utils.enums.eActionType;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -68,18 +69,18 @@ public class WorldBuilderContextValidatorImpl implements WorldBuilderContextVali
 
     @Override
     public boolean validateActionEntityContext(String entityName) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean validateActionEntityPropertyContext(String entityName, String entityPropertyName) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean validateActionArguments(eActionType actionType, String... actionArgs) {
 
-        return false;
+        return true;
     }
 
     @Override

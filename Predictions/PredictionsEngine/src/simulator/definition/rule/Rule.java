@@ -8,7 +8,9 @@ import simulator.definition.rule.activation.Activation;
 
 public class Rule {
     private String name;
+
     private List<AbstractAction> actions;
+
     private Optional<Activation> activation;
 
     public Rule(String name, List<AbstractAction> actions, Activation activation) {
@@ -21,4 +23,13 @@ public class Rule {
         this.actions = actions;
         this.activation = Optional.empty();
     }
+
+    public Optional<Activation> getActivation() {
+        return activation;
+    }
+
+    public List<AbstractAction> getActions() {
+        return actions;
+    }
+
 }

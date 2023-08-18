@@ -17,7 +17,6 @@ public class ConsoleUI implements UserInterface {
 
     private SimulatorManager simulator;
     private String simulationID;
-    private WorldInstance worldInstance;
 
     @Override
     public void runSimulatorUI() {
@@ -28,20 +27,20 @@ public class ConsoleUI implements UserInterface {
     public void buildSimulator() {
         this.simulator = new SimulatorManagerImpl();
         SimulatorResponse<BuildSimulatorDto> buildSimulatorResult =
-                this.simulator.buildSimulationWorld("resources/ex1-cigarets.xml");
+                this.simulator.buildSimulationWorld("PredictionsEngine/src/resources/ex1-cigarets.xml");
     }
 
     @Override
     public void runMenu() {
+        buildSimulator();
         printMenuOptions();
         mapUserChoiceToAction(handleMainMenuUserChoice());
     }
 
     private void printMenuOptions() {
-        System.out.println(eMainMenuChoices.SetEnvironmentsVariables.ordinal() + ". Set environment variables");
-        System.out.println(eMainMenuChoices.LoadSimulation.ordinal() + ". Load simulation");
-        System.out.println(eMainMenuChoices.RunSimulation.ordinal() + ". Run simulation");
-        System.out.println("...");
+        System.out.println(((int) eMainMenuChoices.SetEnvironmentsVariables.ordinal() + 1) + ". Set environment variables");
+        System.out.println(((int) eMainMenuChoices.LoadSimulation.ordinal() + 1) + ". Load simulation");
+        System.out.println(((int)eMainMenuChoices.RunSimulation.ordinal() + 1) + ". Run simulation");
         System.out.print("Choose an option by typing the option number: ");
     }
 
@@ -78,7 +77,6 @@ public class ConsoleUI implements UserInterface {
                 break;
             case RunSimulation:
                 runSimulationSessionForActivatedEnvironment();
-                this.simulator.runSimulator();
                 break;
         }
     }

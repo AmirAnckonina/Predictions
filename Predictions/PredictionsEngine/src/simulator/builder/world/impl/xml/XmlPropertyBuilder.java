@@ -10,7 +10,7 @@ public class XmlPropertyBuilder extends BasePropertyBuilder {
 
     public AbstractPropertyDefinition buildPropertyDefinitionByXmlGeneratedData(String prdName, String prdType, PRDRange prdRange) {
         String propName = prdName;
-        ePropertyType propType = ePropertyType.valueOf(prdType);
+        ePropertyType propType = ePropertyType.valueOf(prdType.toUpperCase());
         Range range = null;
         if (prdRange != null) {
             double from = prdRange.getFrom();

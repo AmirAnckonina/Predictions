@@ -15,10 +15,16 @@ public final class WorldBuilderFileUtils {
 
             eDataFileType dataSrcType;
             Path path = Paths.get(filePath);
-            String fileExtenstion = path.getFileName().toString();
-            return eDataFileType.valueOf(fileExtenstion);
+            String fileExtenstion = extractFileType(path.getFileName().toString());
+            return eDataFileType.valueOf(fileExtenstion.toUpperCase());
     }
 
-
+    public static String extractFileType(String filePath) {
+        int lastDotIndex = filePath.lastIndexOf(".");
+        if (lastDotIndex != -1 && lastDotIndex < filePath.length() - 1) {
+            return filePath.substring(lastDotIndex + 1);
+        }
+        return null;  // Return null if the file path doesn't contain a valid file extension
+    }
 
 }
