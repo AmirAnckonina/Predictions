@@ -15,13 +15,13 @@ import java.util.Optional;
 
 public class EnvironmentManagerImpl implements EnvironmentManager {
 
-    public void addPropertyInstance(String propName, ePropertyType type, String value, World world)
+    public void setFixedValuePropertyDefinition(String propName, ePropertyType type, String value, World world)
     {
-        addPropertyInstance(propName, type, value, world.getEnvironment());
+        setFixedValuePropertyDefinition(propName, type, value, world.getEnvironment());
     }
 
     @Override
-    public void addPropertyInstance(String propName, ePropertyType type, String value, Environment environment) {
+    public void setFixedValuePropertyDefinition(String propName, ePropertyType type, String value, Environment environment) {
         AbstractPropertyDefinition propertyDefinition = environment.getPropertyByName(propName);
         if(type == ePropertyType.BOOLEAN){
             switch (value){
@@ -64,17 +64,17 @@ public class EnvironmentManagerImpl implements EnvironmentManager {
         }
     }
 
-    @Override
-    public SimulatorResponse<String> setRandomValuesForUninitializedProperties(List<String> propertiesUserUpdatedList,
-                                                                               Environment environment) {
-        for (String propertyName:environment.getPropertiesNames()
-             ) {
-            if(!propertiesUserUpdatedList.contains(propertyName)){
-                environment.getPropertyByName(propertyName).generateValue();
-            }
-        }
-
-        return null;
-    }
+//    @Override
+//    public SimulatorResponse<String> setRandomValuesForUninitializedProperties(List<String> propertiesUserUpdatedList,
+//                                                                               Environment environment) {
+//        for (String propertyName:environment.getPropertiesNames()
+//             ) {
+//            if(!propertiesUserUpdatedList.contains(propertyName)){
+//                environment.getPropertyByName(propertyName).generateValue();
+//            }
+//        }
+//
+//        return null;
+//    }
 
 }

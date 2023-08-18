@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface EnvironmentManager {
 
-    void addPropertyInstance(String propName, ePropertyType type, String value, World world);
-    void addPropertyInstance(String propName, ePropertyType type, String value, Environment environment);
+    void setFixedValuePropertyDefinition(String propName, ePropertyType type, String value, World world);
+    void setFixedValuePropertyDefinition(String propName, ePropertyType type, String value, Environment environment);
 
-    SimulatorResponse<String> setRandomValuesForUninitializedProperties(List<String> propertiesUserUpdatedList,
-                                                                        Environment environment);
+//    SimulatorResponse<String> setRandomValuesForUninitializedProperties(List<String> propertiesUserUpdatedList,
+//                                                                        Environment environment);
 }
