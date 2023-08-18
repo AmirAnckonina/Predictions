@@ -1,26 +1,22 @@
 package simulator.definition.termination;
 
+import java.util.Optional;
+
 public class Termination {
-    private int ticksTermination;
-    private int secondsTermination;
+    private final Integer ticksTermination;
+    private final Integer secondsTermination;
 
-    public Termination() {
-    }
-
-    public void setTicksTermination(int ticksTermination) {
-
-        this.ticksTermination = ticksTermination;
-    }
-
-    public void setSecondsTermination(int secondsTermination) {
+    public Termination(Integer ticksTermination, Integer secondsTermination) {
+        this.ticksTermination =  ticksTermination;
         this.secondsTermination = secondsTermination;
     }
 
-    public int getTicksTermination() {
-        return ticksTermination;
+    public Optional<Integer> getTicksTermination() {
+
+        return Optional.ofNullable(ticksTermination);
     }
 
-    public int getSecondsTermination() {
-        return secondsTermination;
+    public Optional<Integer> getSecondsTermination() {
+           return Optional.ofNullable(secondsTermination);
     }
 }

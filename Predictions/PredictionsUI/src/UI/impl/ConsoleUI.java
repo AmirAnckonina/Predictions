@@ -27,7 +27,8 @@ public class ConsoleUI implements UserInterface {
     @Override
     public void buildSimulator() {
         this.simulator = new SimulatorManagerImpl();
-        SimulatorResponse<BuildSimulatorDto> buildSimulatorResult = this.simulator.buildSimulationWorld("resources/ex1-cigarets.xml");
+        SimulatorResponse<BuildSimulatorDto> buildSimulatorResult =
+                this.simulator.buildSimulationWorld("resources/ex1-cigarets.xml");
     }
 
     @Override

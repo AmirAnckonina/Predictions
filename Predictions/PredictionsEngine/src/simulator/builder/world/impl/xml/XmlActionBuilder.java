@@ -9,13 +9,16 @@ import simulator.builder.world.validator.api.WorldBuilderContextValidator;
 import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.rule.action.api.abstracts.AbstractAction;
 import simulator.definition.rule.action.api.abstracts.AbstractCalculationAction;
+import simulator.definition.rule.action.conditionExpression.api.interfaces.ConditionExpression;
 import simulator.definition.rule.action.expression.api.interfaces.ArgumentExpression;
 import simulator.definition.rule.action.impl.*;
 import simulator.definition.rule.action.utils.enums.eActionType;
 
+import java.util.List;
+
 
 public class XmlActionBuilder extends AbstractComponentBuilder implements ActionBuilder {
-    PRDAction generatedAction;
+    private PRDAction generatedAction;
 
     public XmlActionBuilder(PRDAction generatedAction, WorldBuilderContextValidator contextValidator) {
         super(contextValidator);
@@ -114,6 +117,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
 
     @Override
     public MultiplyAction buildMultiplyAction() {
+
         ePropertyType propType = contextValidator.getPropertyType(generatedAction.getProperty());
         ArgumentExpression arg1ArgumentExpression =
                 new BaseArgumentExpressionBuilder(contextValidator)
@@ -156,7 +160,34 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
 
     @Override
     public ConditionAction buildConditionAction() {
-        return null;
+
+        // build ConditionExpression by sending root generatedCondition
+        ConditionExpression conditionExpression =
+                new XmlConditionExpressionBuilder(
+                        generatedAction.getPRDCondition(), contextValidator)
+                        .buildConditionExpression();
+
+        // build Then - it's like to build Action;
+        List<AbstractAction> thenActions =
+                new XmlActionListBuilder(
+                        generatedAction.getPRDThen().getPRDAction(), contextValidator)
+                        .buildActions();
+
+        // build Else - it's like to build Action
+        List<AbstractAction> elseActions = null;
+        if (generatedAction.getPRDElse() != null) {
+
+            elseActions =
+                    new XmlActionListBuilder(generatedAction.getPRDElse().getPRDAction(), contextValidator)
+                            .buildActions();
+        }
+
+        return new ConditionAction(
+                eActionType.CONDITION,
+                generatedAction.getEntity(),
+                conditionExpression,
+                thenActions,
+                elseActions);
     }
 
     @Override

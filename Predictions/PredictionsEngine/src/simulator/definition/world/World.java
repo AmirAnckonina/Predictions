@@ -26,24 +26,12 @@ public class World {
         return environment;
     }
 
-    public void setEnvironment(Environment environment) {
-        this.environment = environment;
-    }
-
     public Entity getPrimaryEntity() {
         return primaryEntity;
     }
 
     public Entity getSecondaryEntity() {
         return secondaryEntity;
-    }
-
-    public void setPrimaryEntity(Entity primaryEntity) {
-        this.primaryEntity = primaryEntity;
-    }
-
-    public void setSecondaryEntity(Entity secondaryEntity) {
-        this.secondaryEntity = secondaryEntity;
     }
 
     public List<Rule> getRules() {

@@ -7,6 +7,7 @@ public class Activation {
     private Double probability;
 
     public Activation(Integer ticksInterval, Double probability) {
+
         this.ticksInterval = Optional.ofNullable(ticksInterval).orElse(1);
         this.probability = Optional.ofNullable(probability).orElse(1.0);
     }

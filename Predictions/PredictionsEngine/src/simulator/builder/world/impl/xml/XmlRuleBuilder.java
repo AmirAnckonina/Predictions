@@ -44,12 +44,8 @@ public class XmlRuleBuilder extends AbstractComponentBuilder implements RuleBuil
 
     @Override
     public List<AbstractAction> buildActions() {
-        List<AbstractAction> actions = new ArrayList<>();
-        for (PRDAction genAction: generatedRule.getPRDActions().getPRDAction()) {
-            AbstractAction newAction = new XmlActionBuilder(genAction, contextValidator).BuildAction();
-            actions.add(newAction);
-        }
-        return null;
-
+        return new XmlActionListBuilder(
+                        generatedRule.getPRDActions().getPRDAction(), contextValidator)
+                        .buildActions();
     }
 }

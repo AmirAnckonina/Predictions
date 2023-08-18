@@ -19,26 +19,31 @@ public class XmlTerminationBuilder implements TerminationBuilder {
 
     @Override
     public Termination buildTermination() {
-        Termination termination = new Termination();
+
+        Integer ticksTermination = null;
+        Integer secondsTermination = null;
 
         List<Object> generatedTerminationConditions = generatedTermination.getPRDByTicksOrPRDBySecond();
-        for (int i = 0; i < 2; i++) {
-            mapSingleTerminationProcedure(termination, generatedTerminationConditions.get(i));
+        int numOfTerminationConditions = generatedTerminationConditions.size();
+        if (numOfTerminationConditions == 0) {
+            throw new WorldBuilderException("Termination prvoided doesn't contain any condition.");
         }
-            return termination;
-    }
 
-    private void mapSingleTerminationProcedure (Termination termination, Object generatesTerminationCondition){
+        for (int i = 0; i < numOfTerminationConditions; i++) {
 
-        if (generatesTerminationCondition instanceof PRDByTicks) {
-            PRDByTicks generatedTicksTermination = (PRDByTicks) generatesTerminationCondition;
-            termination.setTicksTermination(generatedTicksTermination.getCount());
-        } else if (generatesTerminationCondition instanceof PRDBySecond) {
-            PRDBySecond generatedSecondsTermination = (PRDBySecond) generatesTerminationCondition;
-            termination.setSecondsTermination(generatedSecondsTermination.getCount());
-        } else {
-            throw new WorldBuilderException("Can't build termination definition. PRDTermination structure is invalid");
+            if (generatedTerminationConditions.get(i) instanceof PRDByTicks) {
+                PRDByTicks generatedTicksTermination = (PRDByTicks) generatedTerminationConditions.get(i);
+                ticksTermination = generatedTicksTermination.getCount();
+            } else if (generatedTerminationConditions.get(i) instanceof PRDBySecond) {
+                PRDBySecond generatedSecondsTermination = (PRDBySecond) generatedTerminationConditions.get(i);
+                secondsTermination = generatedSecondsTermination.getCount();
+            } else {
+                throw new WorldBuilderException(
+                        "Can't build termination definition. PRDTermination structure is invalid");
+            }
         }
+
+        return new Termination(ticksTermination, secondsTermination);
     }
 }
 
