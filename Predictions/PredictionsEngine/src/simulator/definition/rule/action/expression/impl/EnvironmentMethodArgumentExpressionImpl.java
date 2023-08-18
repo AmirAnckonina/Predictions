@@ -12,7 +12,7 @@ public class EnvironmentMethodArgumentExpressionImpl extends AbstractMethodArgum
 
     @Override
     public Object getValue(ExecutionContext context) {
-        String value = context.getPropertyValueByName((String) this.methodParameter);
+        String value = (String) context.getPropertyValueByName((String) this.methodParameter);
         String type = context.getPropertyTypeByName((String) this.methodParameter);
         Object returnValue = null;
         switch (ePropertyType.valueOf(type)){

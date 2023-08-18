@@ -21,7 +21,7 @@ import java.util.List;
 public class XmlWorldBuilder extends AbstractFileComponentBuilder implements WorldBuilder {
 
     private PRDWorld generatedWorld;
-    private final static String JAXB_PACKAGE_NAME = "jaxb.schema.generated";
+    private final static String JAXB_PACKAGE_NAME = "resources.jaxb.schema.generated";
 
     public XmlWorldBuilder(String filePath, WorldBuilderContextValidator contextValidator) {
         super(filePath, contextValidator);
@@ -54,20 +54,13 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
      */
     @Override
     public World buildWorld() {
-
-        try {
-
-            Environment environment = buildEnvironment();
-            Entity primaryEntity = buildPrimaryEntity();
-            // Entity secondaryEntity = buildSecondaryEntity();
-            List<Rule> rules = buildRules();
-            Termination termination = buildTermination();
-            //return new World(environment, new Set<String, new Entity()>(), rules, termination);
-            return new World(environment, primaryEntity, rules, termination);
-
-        } catch (Exception e) {
-            return null;
-        }
+        Environment environment = buildEnvironment();
+        Entity primaryEntity = buildPrimaryEntity();
+        // Entity secondaryEntity = buildSecondaryEntity();
+        List<Rule> rules = buildRules();
+        Termination termination = buildTermination();
+        //return new World(environment, new Set<String, new Entity()>(), rules, termination);
+        return new World(environment, primaryEntity, rules, termination);
     }
 
     @Override

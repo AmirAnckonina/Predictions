@@ -26,7 +26,8 @@ public class BasePropertyBuilder implements PropertyBuilder {
             case DECIMAL:
 
                 if (range != null) {
-                    Range intRange = new Range((Integer) range.getFrom(), (Integer) range.getTo());
+                    Range intRange = new Range(Double.valueOf((double)range.getFrom()).intValue(),
+                            Double.valueOf((double)range.getTo()).intValue());
                     ValueGenerator integerValGen = ValueGeneratorFactory.createRandomRangedIntegerGenerator(intRange);
 
                     return new IntegerPropertyDefinition(

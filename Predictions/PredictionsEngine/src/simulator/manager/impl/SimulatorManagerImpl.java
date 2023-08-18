@@ -16,6 +16,7 @@ import simulator.definition.world.World;
 import dto.BuildSimulatorDto;
 import simulator.execution.context.api.PropertyInstance;
 import simulator.execution.context.api.WorldInstance;
+import simulator.execution.impl.SimulatorRunnerImpl;
 import simulator.execution.instance.entity.EntityInstanceImpl;
 import simulator.execution.instance.environment.EnvironmentInstanceImpl;
 import simulator.execution.instance.property.PropertyInstanceImpl;
@@ -36,6 +37,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
     private List<String> propertiesUpdatedByUser;
     private EnvironmentManagerImpl environmentManager;
     private String simulationID;
+    private SimulatorRunnerImpl simulatorRunner;
 
     public SimulatorManagerImpl() {
         this.propertiesUpdatedByUser = new LinkedList<>();
@@ -72,6 +74,8 @@ public class SimulatorManagerImpl implements SimulatorManager {
         this.worldInstance = createSimulation();
         this.worldInstance.setRules(this.world.getRules());
         this.worldInstance.setTermination(this.world.getTermination());
+        this.simulatorRunner = new SimulatorRunnerImpl(this.worldInstance);
+        this.simulatorRunner.run();
         this.simulationID = getGUID();
 
         SimulatorResponse<String> response = new SimulatorResponse<>(true, "", simulationID);

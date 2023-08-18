@@ -25,11 +25,13 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
             String method = getEnvironmentMethodName(rawExpression);
             switch (eExpressionMethod.valueOf(method.toUpperCase())){
                 case ENVIRONMENT:
-                    if(contextValidator.isEnvironmentProperty(rawExpression) &&
+                    if(contextValidator.isEnvironmentProperty(getEnvironmentDataMemberName(rawExpression)) &&
                             (this.contextValidator
-                                    .validateEnvironemntPropertyTypeAsExpected(rawExpression, type) ) ) {
+                                    .validateEnvironemntPropertyTypeAsExpected(getEnvironmentDataMemberName(rawExpression)
+                                            , type) ) ) {
 
-                        argumentExpression = new EnvironmentMethodArgumentExpressionImpl(eExpressionMethod.ENVIRONMENT, getEnvironmentDataMemberName(rawExpression));
+                        argumentExpression = new EnvironmentMethodArgumentExpressionImpl(eExpressionMethod.ENVIRONMENT,
+                                getEnvironmentDataMemberName(rawExpression));
                     }
                     else throw new RuntimeException();
                     break;

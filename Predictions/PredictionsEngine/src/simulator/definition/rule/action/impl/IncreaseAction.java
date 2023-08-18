@@ -15,6 +15,6 @@ public class IncreaseAction extends AbstractPropertyAction {
 
     @Override
     public void invoke(ExecutionContext context) {
-        //context.getProperyInstance(propertyName).value + by.getValue(context);
+        //context.setPropertyInstanceValue(this.propertyName, Double.parseDouble(context.getPropertyValueByName(this.propertyName)) + by.getValue(context));
     }
 }
