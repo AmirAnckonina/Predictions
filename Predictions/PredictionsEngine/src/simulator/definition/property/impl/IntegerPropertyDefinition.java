@@ -1,11 +1,8 @@
 package simulator.definition.property.impl;
 
-import simulator.definition.property.api.AbstractNumericPropertyDefinition;
-import simulator.definition.property.api.AbstractPropertyDefinition;
-import simulator.definition.property.enums.ePropertyType;
+import simulator.definition.property.api.abstracts.AbstractNumericPropertyDefinition;
+import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.property.valueGenerator.api.ValueGenerator;
-
-import java.util.Optional;
 
 public class IntegerPropertyDefinition extends AbstractNumericPropertyDefinition<Integer> {
 

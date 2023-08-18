@@ -2,7 +2,7 @@ package simulator.manager.api;
 
 import response.SimulatorResponse;
 import simulator.definition.environment.Environment;
-import simulator.definition.property.enums.ePropertyType;
+import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.world.World;
 
 import java.util.List;

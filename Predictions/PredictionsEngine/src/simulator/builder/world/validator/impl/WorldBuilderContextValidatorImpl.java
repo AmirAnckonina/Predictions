@@ -1,11 +1,11 @@
 package simulator.builder.world.validator.impl;
 
-import simulator.builder.world.utils.enums.eDataFileType;
-import simulator.builder.world.utils.enums.eExpressionMethod;
+import simulator.builder.world.utils.file.enums.eDataFileType;
+import simulator.definition.rule.action.expression.utils.enums.eExpressionMethod;
 import simulator.builder.world.utils.exception.WorldBuilderException;
 import simulator.builder.world.validator.api.WorldBuilderContextValidator;
-import simulator.definition.property.enums.ePropertyType;
-import simulator.definition.rule.action.utils.eActionType;
+import simulator.definition.property.utils.enums.ePropertyType;
+import simulator.definition.rule.action.utils.enums.eActionType;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

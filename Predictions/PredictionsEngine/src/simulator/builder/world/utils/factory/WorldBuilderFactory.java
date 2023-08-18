@@ -1,7 +1,7 @@
 package simulator.builder.world.utils.factory;
 
-import simulator.builder.world.api.WorldBuilder;
-import simulator.builder.world.utils.enums.eDataFileType;
+import simulator.builder.world.api.interfaces.WorldBuilder;
+import simulator.builder.world.utils.file.enums.eDataFileType;
 import simulator.builder.world.impl.xml.XmlWorldBuilder;
 import simulator.builder.world.utils.exception.WorldBuilderException;
 import simulator.builder.world.validator.impl.WorldBuilderContextValidatorImpl;

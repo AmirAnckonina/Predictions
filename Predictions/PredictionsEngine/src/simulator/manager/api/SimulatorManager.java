@@ -1,9 +1,6 @@
 package simulator.manager.api;
-import dto.BuildSimulatorDto;
 import dto.EnvironmentPropertiesDto;
-import dto.SimulationDetailsDto;
 import response.SimulatorResponse;
-import simulator.definition.property.enums.ePropertyType;
 
 public interface SimulatorManager {
 

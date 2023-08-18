@@ -1,7 +1,5 @@
 package simulator.definition.rule.action.mathExpression.api;
 
-import com.sun.org.apache.xalan.internal.xsltc.runtime.Operators;
-import simulator.definition.rule.action.mathExpression.api.MathExpression;
 import simulator.definition.rule.action.mathExpression.enums.eMathOperator;
 
 public abstract class BinaryMathExpression implements MathExpression {

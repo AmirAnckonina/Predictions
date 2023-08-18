@@ -1,6 +1,6 @@
 package simulator.definition.rule.action.api;
 
-import simulator.definition.rule.action.utils.eActionType;
+import simulator.definition.rule.action.utils.enums.eActionType;
 
 public abstract class AbstractPropertyAction extends AbstractAction {
     protected String propertyName;

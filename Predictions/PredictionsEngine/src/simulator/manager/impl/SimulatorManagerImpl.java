@@ -5,17 +5,17 @@ import dto.SetPropertySimulatorResponseDto;
 import dto.builder.params.BasePropertyDto;
 import dto.builder.params.enums.eSetPropertyStatus;
 import response.SimulatorResponse;
-import simulator.builder.world.api.WorldBuilder;
-import simulator.builder.world.utils.enums.eDataFileType;
+import simulator.builder.world.api.interfaces.WorldBuilder;
+import simulator.builder.world.utils.file.enums.eDataFileType;
 import simulator.builder.world.utils.factory.WorldBuilderFactory;
-import simulator.definition.property.api.AbstractNumericPropertyDefinition;
-import simulator.definition.property.api.AbstractPropertyDefinition;
-import simulator.definition.property.enums.ePropertyType;
+import simulator.definition.property.api.abstracts.AbstractNumericPropertyDefinition;
+import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
+import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.property.impl.Range;
 import simulator.definition.world.World;
 import dto.BuildSimulatorDto;
 import simulator.manager.api.SimulatorManager;
-import simulator.builder.world.utils.WorldBuilderUtils;
+import simulator.builder.world.utils.file.WorldBuilderFileUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -43,7 +43,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
         BuildSimulatorDto buildSimulatorResult;
 
         try {
-            eDataFileType dataSrcType = WorldBuilderUtils.getDataFileTypeByFileExtension(filePath);
+            eDataFileType dataSrcType = WorldBuilderFileUtils.getDataFileTypeByFileExtension(filePath);
             worldBuilder = WorldBuilderFactory.createSimulationBuilder(dataSrcType, filePath);
             world = worldBuilder.buildWorld();
             return new SimulatorResponse(true, "the following file has loaded successfully" + filePath);

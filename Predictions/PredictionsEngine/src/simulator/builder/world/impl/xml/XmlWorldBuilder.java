@@ -1,11 +1,11 @@
 package simulator.builder.world.impl.xml;
 
 import resources.jaxb.schema.generated.*;
-import simulator.builder.world.api.AbstractFileComponentBuilder;
-import simulator.builder.world.api.WorldBuilder;
+import simulator.builder.world.api.abstracts.AbstractFileComponentBuilder;
+import simulator.builder.world.api.interfaces.WorldBuilder;
 import simulator.builder.world.impl.xml.utils.XmlBuilderUtils;
-import simulator.builder.world.utils.WorldBuilderUtils;
-import simulator.builder.world.utils.enums.eDataFileType;
+import simulator.builder.world.utils.file.WorldBuilderFileUtils;
+import simulator.builder.world.utils.file.enums.eDataFileType;
 import simulator.builder.world.utils.exception.WorldBuilderException;
 import simulator.builder.world.validator.api.WorldBuilderContextValidator;
 import simulator.definition.entity.Entity;
@@ -32,10 +32,10 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
         // The file should be already set in this stage.
             boolean isExist = contextValidator.validateFileExist(filePath);
             boolean isXmlFile = contextValidator.validateFileType(
-                     eDataFileType.XML, WorldBuilderUtils.getDataFileTypeByFileExtension(filePath));
+                     eDataFileType.XML, WorldBuilderFileUtils.getDataFileTypeByFileExtension(filePath));
             if (isExist && isXmlFile) {
                 try {
-                    File dataFile = WorldBuilderUtils.getFileByPath(filePath);
+                    File dataFile = WorldBuilderFileUtils.getFileByPath(filePath);
                     generatedWorld = XmlBuilderUtils.getGeneratedClassFromFile(dataFile, JAXB_PACKAGE_NAME);
                 }
                 catch (Exception ex) {

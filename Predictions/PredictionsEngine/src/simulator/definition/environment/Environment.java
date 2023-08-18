@@ -1,9 +1,8 @@
 package simulator.definition.environment;
 
 
-import simulator.definition.exception.MapValueException;
-import simulator.definition.property.api.AbstractPropertyDefinition;
-import simulator.definition.exception.AmbiguousException;
+import simulator.definition.utils.exception.MapValueException;
+import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 import simulator.definition.property.valueGenerator.api.ValueGenerator;
 
 import java.util.LinkedList;
