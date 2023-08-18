@@ -1,4 +1,4 @@
-package simulator.definition.rule.action.api;
+package simulator.definition.rule.action.api.abstracts;
 
 import simulator.definition.rule.action.expression.api.interfaces.Expression;
 import simulator.definition.rule.action.utils.enums.eActionType;

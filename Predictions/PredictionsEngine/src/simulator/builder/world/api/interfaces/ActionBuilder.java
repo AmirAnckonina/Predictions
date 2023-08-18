@@ -1,7 +1,7 @@
 package simulator.builder.world.api.interfaces;
 
-import simulator.definition.rule.action.api.AbstractAction;
-import simulator.definition.rule.action.api.AbstractCalculationAction;
+import simulator.definition.rule.action.api.abstracts.AbstractAction;
+import simulator.definition.rule.action.api.abstracts.AbstractCalculationAction;
 import simulator.definition.rule.action.impl.*;
 
 

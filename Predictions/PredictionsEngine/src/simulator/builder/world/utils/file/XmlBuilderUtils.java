@@ -1,4 +1,4 @@
-package simulator.builder.world.impl.xml.utils;
+package simulator.builder.world.utils.file;
 
 import resources.jaxb.schema.generated.*;
 import simulator.definition.entity.Entity;
