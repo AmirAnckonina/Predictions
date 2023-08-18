@@ -59,6 +59,7 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
 
             Environment environment = buildEnvironment();
             Entity primaryEntity = buildPrimaryEntity();
+            // Entity secondaryEntity = buildSecondaryEntity();
             List<Rule> rules = buildRules();
             Termination termination = buildTermination();
             //return new World(environment, new Set<String, new Entity()>(), rules, termination);
@@ -80,6 +81,12 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
 
         PRDEntity generatedPrimaryEntity =  generatedWorld.getPRDEntities().getPRDEntity().get(0);
         return new XmlEntityBuilder(generatedPrimaryEntity, contextValidator).buildEntity();
+    }
+
+    public Entity buildSecondaryEntity() {
+
+        PRDEntity generatedSecondaryEntity =  generatedWorld.getPRDEntities().getPRDEntity().get(1);
+        return new XmlEntityBuilder(generatedSecondaryEntity, contextValidator).buildEntity();
     }
 
     @Override

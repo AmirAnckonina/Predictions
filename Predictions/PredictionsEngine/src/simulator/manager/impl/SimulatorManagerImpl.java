@@ -14,16 +14,24 @@ import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.property.impl.Range;
 import simulator.definition.world.World;
 import dto.BuildSimulatorDto;
+import simulator.execution.context.api.PropertyInstance;
+import simulator.execution.context.api.WorldInstance;
+import simulator.execution.instance.entity.EntityInstanceImpl;
+import simulator.execution.instance.environment.EnvironmentInstanceImpl;
+import simulator.execution.instance.property.PropertyInstanceImpl;
+import simulator.execution.instance.world.WorldInstanceImpl;
 import simulator.manager.api.SimulatorManager;
 import simulator.builder.world.utils.file.WorldBuilderFileUtils;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import static simulator.manager.utils.SimulatorUtils.getGUID;
 
 public class SimulatorManagerImpl implements SimulatorManager {
     private World world;
+    private WorldInstanceImpl worldInstance;
     private WorldBuilder worldBuilder;
     private List<String> propertiesUpdatedByUser;
     private EnvironmentManagerImpl environmentManager;
@@ -46,6 +54,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
             eDataFileType dataSrcType = WorldBuilderFileUtils.getDataFileTypeByFileExtension(filePath);
             worldBuilder = WorldBuilderFactory.createSimulationBuilder(dataSrcType, filePath);
             world = worldBuilder.buildWorld();
+            worldInstance = new WorldInstanceImpl();
             return new SimulatorResponse(true, "the following file has loaded successfully" + filePath);
         } catch(Exception ex) {
             return new SimulatorResponse(false, ex.getMessage());
@@ -60,6 +69,9 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
     @Override
     public SimulatorResponse runSimulator() {
+        this.worldInstance = createSimulation();
+        this.worldInstance.setRules(this.world.getRules());
+        this.worldInstance.setTermination(this.world.getTermination());
         this.simulationID = getGUID();
 
         SimulatorResponse<String> response = new SimulatorResponse<>(true, "", simulationID);
@@ -73,8 +85,8 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
     @Override
     public void endSetEnvironmentSession() {
-        if(this.environmentManager != null) this.environmentManager.setRandomValuesForUninitializedProperties(
-                this.propertiesUpdatedByUser, this.world.getEnvironment());
+//        if(this.environmentManager != null) this.environmentManager.setRandomValuesForUninitializedProperties(
+//                this.propertiesUpdatedByUser, this.world.getEnvironment());
     }
 
     @Override
@@ -87,17 +99,18 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
     @Override
     public SimulatorResponse endEnvironmentSession() {
-        try {
-            this.environmentManager.setRandomValuesForUninitializedProperties(this.propertiesUpdatedByUser,
-                    this.world.getEnvironment());
-            SimulatorResponse response = new SimulatorResponse<>(true, "session ended successfully",
-                    null);
-            return response;
-        }catch (Exception e){
-            SimulatorResponse response = new SimulatorResponse<>(false, "end session action failed",
-                    null);
-            return response;
-        }
+//        try {
+//            this.environmentManager.setRandomValuesForUninitializedProperties(this.propertiesUpdatedByUser,
+//                    this.world.getEnvironment());
+//            SimulatorResponse response = new SimulatorResponse<>(true, "session ended successfully",
+//                    null);
+//            return response;
+//        }catch (Exception e){
+//            SimulatorResponse response = new SimulatorResponse<>(false, "end session action failed",
+//                    null);
+//            return response;
+//        }
+        return null;
     }
 
     @Override
@@ -166,7 +179,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
                     break;
             }
             environmentManager = new EnvironmentManagerImpl();
-            environmentManager.addPropertyInstance(propName, eType, value, this.world.getEnvironment());
+            environmentManager.setFixedValuePropertyDefinition(propName, eType, value, this.world.getEnvironment());
 
             responseDto = new SetPropertySimulatorResponseDto(eSetPropertyStatus.SUCCEEDED,
                     "Environment Variable Value has been set with " + value);
@@ -182,13 +195,50 @@ public class SimulatorManagerImpl implements SimulatorManager {
         return response;
     }
 
+    public WorldInstanceImpl createSimulation(){
+        WorldInstanceImpl worldInstance = new WorldInstanceImpl();
+
+        worldInstance.setEnvironmentInstance(activateEnvironment());
+        worldInstance.setPrimaryEntities(creatPrimaryInstance());
+
+        return worldInstance;
+    }
+
     @Override
-    public Object activateEnvironment() {
+    public EnvironmentInstanceImpl activateEnvironment() {
+        EnvironmentInstanceImpl environmentInstance = new EnvironmentInstanceImpl();
+        for (String propertyName:world.getEnvironment().getPropertiesNames() ){
+            PropertyInstance propertyInstance = new PropertyInstanceImpl(propertyName,
+                    world.getEnvironment().getPropertyByName(propertyName).generateValue(),
+                    world.getEnvironment().getPropertyByName(propertyName).getType());
+            environmentInstance.addPropertyInstance(propertyInstance);
+        }
         // instances = manager.instance.createInstances();
         // env = manager.activateEnvironment(dto );
         // manager.initializeRunner(instances, env);
         // manager.run();
-        return null;
+        return environmentInstance;
+    }
+
+    public List<EntityInstanceImpl> creatPrimaryInstance(){
+        List<EntityInstanceImpl> singlePrimaryInstances = new LinkedList<>();
+        //EntityInstances primaryInstance;
+        for(int index = 0; index<this.world.getPrimaryEntity().getPopulation(); index++){
+
+            EntityInstanceImpl singlePrimaryInstance = new EntityInstanceImpl();
+            for (Map.Entry<String, AbstractPropertyDefinition> entry : this.world.getPrimaryEntity().getProperties().entrySet()){
+                String propertyName = entry.getKey();
+                AbstractPropertyDefinition propertyDefinition = entry.getValue();
+                PropertyInstance propertyInstance = new PropertyInstanceImpl(propertyDefinition.getName(),
+                        propertyDefinition.generateValue(),
+                        propertyDefinition.getType());
+                singlePrimaryInstance.addProperty(propertyName, propertyInstance);
+            }
+
+            singlePrimaryInstances.add(singlePrimaryInstance);
+        }
+
+        return singlePrimaryInstances;
     }
 
 
