@@ -1,8 +1,8 @@
-package simulator.execution.instance.environment;
+package simulator.execution.instance.environment.impl;
 
-import simulator.execution.context.api.EnvironmentInstance;
-import simulator.execution.context.api.PropertyInstance;
-import simulator.execution.instance.property.PropertyInstanceImpl;
+import simulator.execution.instance.environment.api.EnvironmentInstance;
+import simulator.execution.instance.property.api.PropertyInstance;
+import simulator.execution.instance.property.impl.PropertyInstanceImpl;
 
 import java.util.Map;
 

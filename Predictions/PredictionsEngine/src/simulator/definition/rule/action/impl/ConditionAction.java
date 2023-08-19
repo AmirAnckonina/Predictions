@@ -27,6 +27,6 @@ public class ConditionAction extends AbstractAction {
 
     @Override
     public void invoke(ExecutionContext context) {
-
+        //condition.test() ->
     }
 }

@@ -1,8 +1,7 @@
-package simulator.execution.instance.property;
+package simulator.execution.instance.property.impl;
 
-import simulator.definition.property.api.interfaces.PropertyDefinition;
 import simulator.definition.property.utils.enums.ePropertyType;
-import simulator.execution.context.api.PropertyInstance;
+import simulator.execution.instance.property.api.PropertyInstance;
 
 public class PropertyInstanceImpl<T> implements PropertyInstance<T> {
     private String propertyName;

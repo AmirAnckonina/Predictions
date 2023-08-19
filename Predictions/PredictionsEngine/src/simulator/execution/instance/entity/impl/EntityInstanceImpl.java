@@ -1,8 +1,7 @@
-package simulator.execution.instance.entity;
+package simulator.execution.instance.entity.impl;
 
-import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
-import simulator.execution.context.api.EntityInstance;
-import simulator.execution.context.api.PropertyInstance;
+import simulator.execution.instance.entity.api.EntityInstance;
+import simulator.execution.instance.property.api.PropertyInstance;
 
 import java.util.Map;
 

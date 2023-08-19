@@ -1,7 +1,7 @@
 package simulator.execution.context.impl;
 
 import simulator.execution.context.api.ExecutionContext;
-import simulator.execution.instance.world.WorldInstanceImpl;
+import simulator.execution.instance.world.impl.WorldInstanceImpl;
 
 public class ExecutionContextImpl implements ExecutionContext {
     WorldInstanceImpl worldInstance;

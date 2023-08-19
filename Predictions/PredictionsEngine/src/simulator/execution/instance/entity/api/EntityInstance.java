@@ -1,6 +1,6 @@
-package simulator.execution.context.api;
+package simulator.execution.instance.entity.api;
 
-import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
+import simulator.execution.instance.property.api.PropertyInstance;
 
 public interface EntityInstance {
     PropertyInstance getPropertyByName(String propertyName);

@@ -1,11 +1,10 @@
-package simulator.execution.instance.world;
+package simulator.execution.instance.world.impl;
 
 import simulator.definition.rule.Rule;
 import simulator.definition.termination.Termination;
-import simulator.execution.context.api.EnvironmentInstance;
-import simulator.execution.context.api.WorldInstance;
-import simulator.execution.instance.entity.EntityInstanceImpl;
-import simulator.execution.instance.entity.EntityInstancesImpl;
+import simulator.execution.instance.environment.api.EnvironmentInstance;
+import simulator.execution.instance.world.api.WorldInstance;
+import simulator.execution.instance.entity.impl.EntityInstanceImpl;
 
 import java.util.List;
 

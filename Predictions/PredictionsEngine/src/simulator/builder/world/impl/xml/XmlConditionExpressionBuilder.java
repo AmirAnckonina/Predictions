@@ -37,7 +37,7 @@ public class XmlConditionExpressionBuilder extends AbstractComponentBuilder impl
     public ConditionExpression buildConditionExpression() {
 
         eConditionSingularity conditionSingularity =
-                eConditionSingularity.valueOf(generatedCondition.getSingularity());
+                eConditionSingularity.valueOf(generatedCondition.getSingularity().toUpperCase());
 
         if (conditionSingularity == eConditionSingularity.SINGLE) {
 
@@ -58,7 +58,6 @@ public class XmlConditionExpressionBuilder extends AbstractComponentBuilder impl
         String entityName = generatedCondition.getEntity();
         String propertyName = generatedCondition.getProperty();
 
-
         ArgumentExpression conditionComparedValue =
                 new BaseArgumentExpressionBuilder(contextValidator)
                         .buildExpression(
@@ -67,7 +66,7 @@ public class XmlConditionExpressionBuilder extends AbstractComponentBuilder impl
 
         eConditionCompartorType comparatorType =
                 WorldBuilderUtils
-                        .convertOperatorSignToComparatorType(generatedCondition.getOperator());
+                        .convertOperatorSignToComparatorType(generatedCondition.getOperator().toUpperCase());
 
         switch (comparatorType) {
             case EQAULITY:

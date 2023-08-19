@@ -13,4 +13,9 @@ public class FixedValueGenerator<T> implements ValueGenerator<T> {
     public T generateValue() {
         return fixedValue;
     }
+
+    @Override
+    public String toString() {
+        return "fixed";
+    }
 }

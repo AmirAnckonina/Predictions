@@ -4,9 +4,9 @@ import simulator.definition.rule.action.conditionExpression.api.interfaces.Condi
 import simulator.definition.rule.action.expression.api.interfaces.ArgumentExpression;
 
 public abstract class AbstractSingleConditionExpression implements ConditionExpression {
-    private final String entityName;
-    private final String propertyName;
-    private final ArgumentExpression comparedValue;
+    protected final String entityName;
+    protected final String propertyName;
+    protected final ArgumentExpression comparedValue;
 
     /**
      *
