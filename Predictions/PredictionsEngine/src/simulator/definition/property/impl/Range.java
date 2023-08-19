@@ -17,6 +17,10 @@ public class Range<T extends Number> {
         return to;
     }
 
+//    public boolean isInRange(T numToCheck){
+//        return numToCheck >= from && numToCheck <= to;
+//    }
+
     @Override
     public String toString() {
         return "Range{" +

@@ -16,6 +16,7 @@ import java.io.File;
 public class ConsoleUI implements UserInterface {
 
     private SimulatorManager simulatorManager;
+    private boolean endSessionFlag = false;
     private String simulationID;
 
     @Override
@@ -44,16 +45,19 @@ public class ConsoleUI implements UserInterface {
     @Override
     public void runMenu() {
 
-        buildSimulator();
-        showLoadedSimulationWorldDetails();
-        printMenuOptions();
-        mapUserChoiceToAction(handleMainMenuUserChoice());
+        while (!this.endSessionFlag){
+            buildSimulator();
+            showLoadedSimulationWorldDetails();
+            printMenuOptions();
+            mapUserChoiceToAction(handleMainMenuUserChoice());
+        }
     }
 
     private void printMenuOptions() {
         System.out.println(((int) eMainMenuChoices.SetEnvironmentsVariables.ordinal() + 1) + ". Set environment variables");
         System.out.println(((int) eMainMenuChoices.LoadSimulation.ordinal() + 1) + ". Load simulation");
         System.out.println(((int)eMainMenuChoices.RunSimulation.ordinal() + 1) + ". Run simulation");
+        System.out.println(((int)eMainMenuChoices.Exit.ordinal() + 1) + ". Exit");
         System.out.print("Choose an option by typing the option number: ");
     }
 
@@ -91,6 +95,8 @@ public class ConsoleUI implements UserInterface {
             case RunSimulation:
                 runSimulationSessionForActivatedEnvironment();
                 break;
+            case Exit:
+                this.endSessionFlag = true;
         }
     }
 
@@ -167,7 +173,7 @@ public class ConsoleUI implements UserInterface {
 
     private List<Integer> handleUserChoice(List<BasePropertyDto> propertyDtoList){
         System.out.println("Select a property to set a value.");
-        System.out.print("Enter the index of the book: ");
+        System.out.print("Enter the index of the property you would like to update: ");
         List<Integer> propertiesUserUpdatedList = new LinkedList<>();
         Scanner scanner = new Scanner(System.in);
 
@@ -205,7 +211,8 @@ public class ConsoleUI implements UserInterface {
     private void startSettingPropertySession(BasePropertyDto property) {
         String propertyName = new String(property.getName());
         String propertyType = new String(property.getPropertyType());
-        String propertyRangeString = new String("from: " + property.getFrom() + "to: " + property.getTo());
+        String propertyRangeString = (property.getFrom() != null && property.getTo() != null)
+                ?new String("from: " + property.getFrom() + "to: " + property.getTo()):null;
         Scanner scanner = new Scanner(System.in);
 
         setPropertyIntroduction();

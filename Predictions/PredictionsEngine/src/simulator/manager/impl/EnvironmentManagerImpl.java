@@ -39,9 +39,10 @@ public class EnvironmentManagerImpl implements EnvironmentManager {
             }
             environment.setValueGeneratorByPropertyName(propName, new FixedValueGenerator<>(Boolean.parseBoolean(value)));
         } else if (type == ePropertyType.FLOAT) {
-            Range<Double> range = (Range<Double>) Optional.ofNullable(((AbstractNumericPropertyDefinition)propertyDefinition)
-                    .getRange().get()).orElse(null);
-            if(range != null){
+            FloatPropertyDefinition floatPropertyDefinition = (FloatPropertyDefinition)propertyDefinition;
+            Optional<Range<Float>> optionalRange = floatPropertyDefinition.getRange();
+            if(optionalRange.isPresent()){
+                Range<Float> range = optionalRange.get();
                 Float valueInFloat = Float.parseFloat(value);
                 if(valueInFloat > range.getTo() || valueInFloat < range.getFrom()){
                     throw new RuntimeException("Invalid input");
@@ -49,9 +50,11 @@ public class EnvironmentManagerImpl implements EnvironmentManager {
             }
             environment.setValueGeneratorByPropertyName(propName, new FixedValueGenerator<>(Float.parseFloat(value)));
         } else if (type == ePropertyType.DECIMAL) {
-            Range<Integer> range = (Range<Integer>) Optional.ofNullable(((AbstractNumericPropertyDefinition)propertyDefinition)
-                    .getRange().get()).orElse(null);
-            if(range != null){
+            DecimalPropertyDefinition decimalPropertyDefinition = (DecimalPropertyDefinition)propertyDefinition;
+            Optional<Range<Integer>> optionalRange = decimalPropertyDefinition.getRange();
+
+            if(optionalRange.isPresent()){
+                Range<Integer> range = optionalRange.get();
                 Integer valueInFloat = Integer.parseInt(value);
                 if(valueInFloat > range.getTo() || valueInFloat < range.getFrom()){
                     throw new RuntimeException("Invalid input");
@@ -63,6 +66,10 @@ public class EnvironmentManagerImpl implements EnvironmentManager {
             environment.setValueGeneratorByPropertyName(propName, new FixedValueGenerator<>(value));
         }
     }
+
+//    private <T> boolean isInRange(Optional<Range<T>>){
+//
+//    }
 
 //    @Override
 //    public SimulatorResponse<String> setRandomValuesForUninitializedProperties(List<String> propertiesUserUpdatedList,
