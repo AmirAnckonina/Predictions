@@ -33,7 +33,7 @@ public class Rule {
         StringBuilder sb = new StringBuilder();
 
         sb.append("rule name: ").append(name).append(System.lineSeparator());
-        sb.append("activation: ").append(activation.toString()).append(System.lineSeparator());
+        sb.append(activation.toString()).append(System.lineSeparator());
         sb.append("Number of actions under rule: ").append(actions.size()).append(System.lineSeparator());
 
         return sb.toString();

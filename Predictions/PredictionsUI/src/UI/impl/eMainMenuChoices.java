@@ -1,10 +1,12 @@
 package UI.impl;
 
+/**
+ * Should change the dependency on the order and set a number to each enum instead
+ */
 public enum eMainMenuChoices {
-    SetEnvironmentsVariables,
-    ShowLoadedSimulationWorldDetails,
-    GetHistoricalSimulationDetails,
     LoadSimulation,
+    ShowLoadedSimulationWorldDetails,
     RunSimulation,
-    Exit
+    GetHistoricalSimulationDetails,
+    Exit;
 }

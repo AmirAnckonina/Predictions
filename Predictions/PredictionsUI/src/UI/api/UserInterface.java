@@ -4,10 +4,9 @@ import dto.SimulationDetailsDto;
 
 public interface UserInterface {
     void runSimulatorUI();
-
-    void buildSimulator();
-
+    void loadSimulationSession();
     void showLoadedSimulationWorldDetails();
-
-    void runMenu();
+    void runSimulationSession();
+    void showHistoricalSimulationResult();
+    void exitSimulator();
 }

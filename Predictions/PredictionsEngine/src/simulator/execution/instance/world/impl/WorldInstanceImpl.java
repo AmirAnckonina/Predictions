@@ -12,9 +12,16 @@ import java.util.List;
 public class WorldInstanceImpl implements WorldInstance {
     private EnvironmentInstance environmentInstance;
     private List<EntityInstance> primaryEntityInstances;
-
     private List<Rule> rules;
     private Termination termination;
+
+    public WorldInstanceImpl(EnvironmentInstance environmentInstance, List<EntityInstance> primaryEntityInstances, List<Rule> rules, Termination termination) {
+        this.environmentInstance = environmentInstance;
+        this.primaryEntityInstances = primaryEntityInstances;
+        this.rules = rules;
+        this.termination = termination;
+    }
+
     public WorldInstanceImpl() {
         this(null, null, null);
     }

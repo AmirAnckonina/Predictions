@@ -1,8 +1,8 @@
 package UI.impl;
 
 import UI.api.UserInterface;
-import dto.BuildSimulatorDto;
 import dto.EnvironmentPropertiesDto;
+import dto.EstablishedEnvironmentInfoDto;
 import dto.SetPropertySimulatorResponseDto;
 import dto.SimulationDetailsDto;
 import dto.builder.params.BasePropertyDto;
@@ -19,17 +19,24 @@ public class ConsoleUI implements UserInterface {
     private boolean endSessionFlag = false;
     private String simulationID;
 
-    @Override
-    public void runSimulatorUI() {
-        runMenu();
+    public ConsoleUI() {
+        this.simulatorManager = new SimulatorManagerImpl();
     }
 
     @Override
-    public void buildSimulator() {
-        this.simulatorManager = new SimulatorManagerImpl();
-        SimulatorResponse<BuildSimulatorDto> buildSimulatorResult =
-                this.simulatorManager.buildSimulationWorld(
-                        "PredictionsEngine/src/resources/ex1-cigarets.xml");
+    public void runSimulatorUI() {
+        runConsoleMenu();
+    }
+
+    @Override
+    public void loadSimulationSession() {
+        startLoadingSimulationSessionSignal();
+        printLoadingSimulationMenu();
+        //String simulationFilePath = handleLoadingSimulationUserChoice();
+        String simulationFilePath = "PredictionsEngine/src/resources/ex1-cigarets.xml";
+        SimulatorResponse response = simulatorManager.buildSimulationWorld(simulationFilePath);
+        System.out.println(response.getMessage());
+        endLoadingSimulationSessionSignal();
     }
 
     @Override
@@ -44,11 +51,35 @@ public class ConsoleUI implements UserInterface {
     }
 
     @Override
-    public void runMenu() {
+    public void runSimulationSession() {
 
-        while (!this.endSessionFlag){
-            buildSimulator();
-            showLoadedSimulationWorldDetails();
+        setEnvironmentPropertiesValues();
+        SimulatorResponse response = simulatorManager.establishSimulation();
+        if (response.isSuccess()) {
+            runSimulationSessionForEstablishedEnvironment();
+        } else {
+            System.out.println(response.getMessage());
+        }
+    }
+
+    private void establishSimulationSession() {
+
+
+    }
+
+    @Override
+    public void showHistoricalSimulationResult() {
+
+    }
+
+    @Override
+    public void exitSimulator() {
+
+    }
+
+    private void runConsoleMenu() {
+
+        while (!this.endSessionFlag) {
             printMenuOptions();
             mapUserChoiceToAction(handleMainMenuUserChoice());
         }
@@ -87,32 +118,47 @@ public class ConsoleUI implements UserInterface {
         return selectedIndex - 1;
     }
 
-    private void mapUserChoiceToAction(int userChoice){
-        switch (eMainMenuChoices.values()[userChoice]){
-            case SetEnvironmentsVariables:
-                setEnvironmentPropertiesValues();
+    private void mapUserChoiceToAction(int userChoice) {
+
+        switch (eMainMenuChoices.values()[userChoice]) {
+            case LoadSimulation:
+                loadSimulationSession();
                 break;
             case ShowLoadedSimulationWorldDetails:
                 showLoadedSimulationWorldDetails();
                 break;
-            case GetHistoricalSimulationDetails:
-                break;
-            case LoadSimulation:
-                loadSimulationSession();
-                break;
             case RunSimulation:
-                runSimulationSessionForActivatedEnvironment();
+                runSimulationSession();
+                break;
+            case GetHistoricalSimulationDetails:
                 break;
             case Exit:
                 this.endSessionFlag = true;
         }
     }
 
-    private void runSimulationSessionForActivatedEnvironment(){
-        EnvironmentPropertiesDto environmentPropertiesDto = this.simulatorManager.getEnvironmentProperties();
-        printEnvironmentPropertiesValues(environmentPropertiesDto.getPropertiesList());
-        SimulatorResponse<String> result = this.simulatorManager.runSimulator();
+    private void runSimulationSessionForEstablishedEnvironment() {
+        showEstablishedEnvironmentInfo();
+        SimulatorResponse<String> result = simulatorManager.runSimulator();
         this.simulationID = result.getData();
+    }
+
+    private void showEstablishedEnvironmentInfo() {
+        SimulatorResponse<EstablishedEnvironmentInfoDto> environmentInfoResponse =
+                simulatorManager.getEstablishedEnvironmentInfo();
+
+        if (environmentInfoResponse.isSuccess()) {
+            System.out.println("Environment established with the following properties values: ");
+            Map<String, String> envPropertiesInfo =
+                    environmentInfoResponse.getData().getEstablishedEnvironmentProperties();
+
+            for (Map.Entry<String, String> envProp : envPropertiesInfo.entrySet()) {
+                System.out.println(envProp.getKey() + "=" + envProp.getValue());
+            }
+
+        } else {
+            environmentInfoResponse.getMessage();
+        }
     }
 
     private void printEnvironmentPropertiesValues(List<BasePropertyDto> properties) {
@@ -122,16 +168,8 @@ public class ConsoleUI implements UserInterface {
         }
     }
 
-    private void loadSimulationSession(){
-        startLoadingSimulationSessionSignal();
-        printLoadingSimulationMenu();
-        String simulationFilePath = handleLoadingSimulationUserChoice();
-        this.simulatorManager.buildSimulationWorld(simulationFilePath);
-        endLoadingSimulationSessionSignal();
-    }
-
     private void endLoadingSimulationSessionSignal() {
-        this.simulatorManager.endLoadingSimulationSessionSignal();
+        simulatorManager.endLoadingSimulationSessionSignal();
     }
 
     private String handleLoadingSimulationUserChoice() {
@@ -142,7 +180,7 @@ public class ConsoleUI implements UserInterface {
         do {
             File file = new File(filePath);
             isValidFile = file.exists() && !file.isDirectory();
-        }while (!isValidFile);
+        } while (!isValidFile);
 
         return filePath;
     }
@@ -153,15 +191,16 @@ public class ConsoleUI implements UserInterface {
     }
 
     private void startLoadingSimulationSessionSignal() {
-        this.simulatorManager.startLoadingSimulationSessionSignal();
+
+        simulatorManager.startLoadingSimulationSessionSignal();
     }
 
-    public void setEnvironmentPropertiesValues() {
+    private void setEnvironmentPropertiesValues() {
+        Boolean doneFillingProperties = false;
         startEnvironmentSessionSignal();
-        EnvironmentPropertiesDto propertiesDto = this.simulatorManager.getEnvironmentProperties();
+        EnvironmentPropertiesDto propertiesDto = simulatorManager.getEnvironmentProperties();
         List<BasePropertyDto> properties = propertiesDto.getPropertiesList();
-        printPropertiesList(properties);
-        List<Integer> propertiesUserUpdatedList = handleUserChoice(properties);
+        List<Integer> propertiesUserUpdatedList = handleUserPropertyChoice(properties);
         endEnvironmentSessionSignal();
     }
 
@@ -179,13 +218,16 @@ public class ConsoleUI implements UserInterface {
         }
     }
 
-    private List<Integer> handleUserChoice(List<BasePropertyDto> propertyDtoList){
+    private List<Integer> handleUserPropertyChoice(List<BasePropertyDto> propertyDtoList) {
         System.out.println("Select a property to set a value.");
-        System.out.print("Enter the index of the property you would like to update: ");
-        List<Integer> propertiesUserUpdatedList = new LinkedList<>();
+
+        List<Integer> propertiesUserUpdatedList = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
+            printPropertiesList(propertyDtoList);
+            System.out.println("Enter the index of the property you would like to update: ");
+
             if (scanner.hasNextInt()) {
                 int selectedIndex = scanner.nextInt();
                 scanner.nextLine(); // Consume the newline character
@@ -204,13 +246,18 @@ public class ConsoleUI implements UserInterface {
             String continueChoice = null;
             System.out.print("Do you want to update more variables? (y/n): ");
             continueChoice = scanner.nextLine();
-            while (!continueChoice.equalsIgnoreCase("n") && !continueChoice.equalsIgnoreCase("y")) {
+
+            while (!continueChoice.equalsIgnoreCase("n") &&
+                    !continueChoice.equalsIgnoreCase("y")) {
+
                 System.out.print("\nInvalid input! type 'y' for yes and 'n' for no only: ");
                 continueChoice = scanner.nextLine();
             }
+
             if (!continueChoice.equalsIgnoreCase("y")) {
                 break;
             }
+
         }
 
         return propertiesUserUpdatedList;
