@@ -136,7 +136,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
 //                    null);
 //            return response;
 //        }
-        return null;
+        return new SimulatorResponse<>(true, "session ended successfully", null);
     }
 
     @Override
