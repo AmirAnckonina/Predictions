@@ -14,14 +14,4 @@ public interface ExecutionContext {
     EntityInstance getPrimaryEntityInstance();
     void removeEntity(EntityInstance entityInstance);
     PropertyInstance getEnvironmentVariable(String name);
-
-    /*Object getPropertyValueByName(String propertyName);
-
-    String getPropertyTypeByName(String methodParameter);
-
-    void removePraimerytInstance(String name);
-
-    void setPropertyInstanceValue(String propertyName, double value);
-
-    ePropertyType getPropertyType(String propertyName);*/
 }

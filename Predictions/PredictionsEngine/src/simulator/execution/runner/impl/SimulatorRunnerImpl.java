@@ -43,7 +43,7 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
     @Override
     public void run() {
 
-        int currentTicks = 0;
+        int currTick = 0;
         long currTime = 0;
         long startTime;
 
@@ -53,9 +53,8 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
         EnvironmentInstance environmentInstance = worldInstance.getEnvironmentInstance();
 
         startTime = System.currentTimeMillis();
-//        while (this.currTime < this.worldInstance.getTermination().getSecondsTermination().orElse((int)this.currTime + 1) &&
-//                this.currentTicks < this.worldInstance.getTermination().getTicksTermination().orElse(this.currentTicks + 1)){
-        while (!worldInstance.getTermination().shouldTerminate()) {
+
+        while (!worldInstance.getTermination().shouldTerminate(currTick, currTime)) {
 
             for (EntityInstance entityInstance : primaryEntityInstanceManager.getInstances()) {
 
@@ -65,16 +64,18 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
 
                 for (Rule rule : worldInstance.getRules()) {
 
-                    Activation activation = rule.getActivation();
-                    if (activation != null && activation.isActive(currentTicks)) {
+                    if (rule.getActivation().isActive(currTick)) {
 
-                        rule.getActions().forEach(action -> action.invoke(executionContext));
+                        rule.getActions()
+                                .forEach(action ->
+                                        action.invoke(executionContext));
                     }
                 }
             }
-            currentTicks += 1;
+            currTick += 1;
             currTime = System.currentTimeMillis() - startTime;
         }
-
     }
+
+    private void singleEntityInstanceTickProcedure() {}
 }
