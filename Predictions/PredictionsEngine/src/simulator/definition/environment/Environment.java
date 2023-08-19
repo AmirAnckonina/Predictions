@@ -16,6 +16,10 @@ public class Environment {
         this.environmentProperties = environmentProperties;
     }
 
+    public Map<String, AbstractPropertyDefinition> getEnvironmentProperties() {
+        return environmentProperties;
+    }
+
     public void addProp(String propName, AbstractPropertyDefinition propertyDefinition) {
         environmentProperties.put(propName, propertyDefinition);
     }

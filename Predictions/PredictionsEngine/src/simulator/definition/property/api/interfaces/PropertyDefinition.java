@@ -6,4 +6,5 @@ public interface PropertyDefinition<T> {
     String getName();
     ePropertyType getType();
     T generateValue();
+    String toString();
 }

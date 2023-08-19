@@ -36,4 +36,12 @@ public class Termination {
 
         return shouldTerminateBySeconds || shouldTerminateByTicks;
     }
+
+    @Override
+    public String toString() {
+        return "Termination{" +
+                "ticksTermination=" + ticksTermination +
+                ", secondsTermination=" + secondsTermination +
+                '}';
+    }
 }
