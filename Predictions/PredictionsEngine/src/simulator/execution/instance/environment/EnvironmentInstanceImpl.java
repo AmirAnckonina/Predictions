@@ -7,7 +7,11 @@ import simulator.execution.instance.property.PropertyInstanceImpl;
 import java.util.Map;
 
 public class EnvironmentInstanceImpl implements EnvironmentInstance {
-    private Map<String, PropertyInstanceImpl> environmentVariables;
+    private Map<String, PropertyInstance> environmentVariables;
+
+    public EnvironmentInstanceImpl() {
+
+    }
 
     @Override
     public PropertyInstance getProperty(String name) {

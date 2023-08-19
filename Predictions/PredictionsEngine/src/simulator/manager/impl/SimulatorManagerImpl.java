@@ -14,6 +14,7 @@ import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.property.impl.Range;
 import simulator.definition.world.World;
 import dto.BuildSimulatorDto;
+import simulator.execution.context.api.EntityInstance;
 import simulator.execution.context.api.PropertyInstance;
 import simulator.execution.context.api.WorldInstance;
 import simulator.execution.impl.SimulatorRunnerImpl;
@@ -224,8 +225,8 @@ public class SimulatorManagerImpl implements SimulatorManager {
         return environmentInstance;
     }
 
-    public List<EntityInstanceImpl> creatPrimaryInstance(){
-        List<EntityInstanceImpl> singlePrimaryInstances = new LinkedList<>();
+    public List<EntityInstance> creatPrimaryInstance(){
+        List<EntityInstance> singlePrimaryInstances = new LinkedList<>();
         //EntityInstances primaryInstance;
         for(int index = 0; index<this.world.getPrimaryEntity().getPopulation(); index++){
 
