@@ -9,17 +9,17 @@ import java.util.Map;
 public class EnvironmentInstanceImpl implements EnvironmentInstance {
     private Map<String, PropertyInstance> environmentVariables;
 
-    public EnvironmentInstanceImpl() {
-
+    public EnvironmentInstanceImpl(Map<String, PropertyInstance> environmentVariables) {
+        this.environmentVariables = environmentVariables;
     }
 
     @Override
-    public PropertyInstance getProperty(String name) {
-        return null;
+    public PropertyInstance getPropertyByName(String name) {
+        return environmentVariables.get(name);
     }
 
     @Override
     public void addPropertyInstance(PropertyInstance propertyInstance) {
-
+        environmentVariables.put(propertyInstance.getPropertyDefinition().getName() ,propertyInstance);
     }
 }

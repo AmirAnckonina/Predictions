@@ -7,6 +7,11 @@ public class PropertyInstanceImpl implements PropertyInstance {
     private AbstractPropertyDefinition propertyDefinition;
     private Object value;
 
+    public PropertyInstanceImpl(AbstractPropertyDefinition propertyDefinition, Object value) {
+        this.propertyDefinition = propertyDefinition;
+        this.value = value;
+    }
+
     @Override
     public AbstractPropertyDefinition getPropertyDefinition() {
         return null;

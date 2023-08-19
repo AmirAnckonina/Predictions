@@ -11,8 +11,11 @@ public class SimulatorResponse<T> {
     }
 
     public SimulatorResponse(boolean success, String message) {
-        this.success = success;
-        this.message = message;
+        this(success, message, null);
+    }
+
+    public SimulatorResponse(boolean success, T data) {
+        this(success, "", data);
     }
 
     public String getMessage() {
@@ -26,4 +29,5 @@ public class SimulatorResponse<T> {
     public boolean isSuccess() {
         return success;
     }
+
 }

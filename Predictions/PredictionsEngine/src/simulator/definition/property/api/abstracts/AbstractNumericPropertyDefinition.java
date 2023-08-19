@@ -21,4 +21,15 @@ public class AbstractNumericPropertyDefinition<T extends Number> extends Abstrac
     public Optional<Range<T>> getRange() {
         return Optional.ofNullable(range);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.toString()).append(System.lineSeparator());
+        if (getRange().isPresent()) {
+            sb.append(getRange().get().toString()).append(System.lineSeparator());
+       }
+
+        return sb.toString();
+    }
 }
