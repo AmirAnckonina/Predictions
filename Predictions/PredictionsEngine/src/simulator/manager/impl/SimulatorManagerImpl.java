@@ -1,8 +1,6 @@
 package simulator.manager.impl;
 
-import dto.EnvironmentPropertiesDto;
-import dto.SetPropertySimulatorResponseDto;
-import dto.SimulationDetailsDto;
+import dto.*;
 import dto.builder.params.BasePropertyDto;
 import dto.builder.params.enums.eSetPropertyStatus;
 import response.SimulatorResponse;
@@ -15,7 +13,8 @@ import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.property.impl.Range;
 import simulator.definition.rule.Rule;
 import simulator.definition.world.World;
-import dto.BuildSimulatorDto;
+import simulator.establishment.api.SimulationEstablishmentManager;
+import simulator.establishment.impl.SimulationEstablishmentManagerImpl;
 import simulator.execution.instance.environment.api.EnvironmentInstance;
 import simulator.execution.runner.api.SimulatorRunner;
 import simulator.execution.instance.entity.api.EntityInstance;
@@ -27,7 +26,6 @@ import simulator.execution.instance.property.impl.PropertyInstanceImpl;
 import simulator.execution.instance.world.api.WorldInstance;
 import simulator.execution.instance.world.impl.WorldInstanceImpl;
 import simulator.manager.api.EnvironmentManager;
-import simulator.manager.api.SimulationResult;
 import simulator.manager.api.SimulatorManager;
 import simulator.builder.world.utils.file.WorldBuilderFileUtils;
 
@@ -36,8 +34,10 @@ import java.util.*;
 import static simulator.manager.utils.SimulatorUtils.getGUID;
 
 public class SimulatorManagerImpl implements SimulatorManager {
+
+    private SimulationEstablishmentManager simulationEstablishmentManager;
     private World world;
-    private WorldInstance worldInstance;
+    private WorldInstance establishedWorldInstance;
     private WorldBuilder worldBuilder;
     private List<String> propertiesUpdatedByUser;
     private EnvironmentManager environmentManager;
@@ -49,11 +49,8 @@ public class SimulatorManagerImpl implements SimulatorManager {
     public SimulatorManagerImpl() {
         //this.simulatorResultManager = new  SimulatorResultManagerImpl();
         this.propertiesUpdatedByUser = new ArrayList<>();
+        this.simulationEstablishmentManager = new SimulationEstablishmentManagerImpl();
     }
-
-    private void loadedSimulation() {
-        // Load instances
-    };
 
     @Override
     public SimulatorResponse buildSimulationWorld(String filePath) {
@@ -75,6 +72,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
     @Override
     public SimulatorResponse<SimulationDetailsDto> getSimulationWorldDetails() {
+
         try {
             String entitiesInfo = world.getPrimaryEntity().toString();
             StringBuilder rulesSb = new StringBuilder();
@@ -98,18 +96,39 @@ public class SimulatorManagerImpl implements SimulatorManager {
             );
         }
 
-
     }
 
     @Override
+    public SimulatorResponse establishSimulation() {
+        try {
+
+            this.establishedWorldInstance = simulationEstablishmentManager.establishSimulation(this.world);
+            return  new SimulatorResponse<>(
+                    true,
+                    "Establishment done successfully");
+
+        } catch (Exception e) {
+
+            return  new SimulatorResponse<>(
+                    false,
+                    "An issue detected while trying to establish simulation.");
+        }
+    }
+    @Override
     public SimulatorResponse runSimulator() {
-        this.worldInstance = createSimulation();
-        this.worldInstance.setRules(this.world.getRules());
-        this.worldInstance.setTermination(this.world.getTermination());
-        this.simulatorRunner = new SimulatorRunnerImpl(new WorldInstanceImpl());
-        this.simulatorRunner.run();
-        this.simulationID = getGUID();
-        SimulationResult simulationResult = new SimulationResultImpl(this.worldInstance, this.simulationID, this.world);
+
+        try {
+            this.simulatorRunner = new SimulatorRunnerImpl(this.establishedWorldInstance);
+            this.simulatorRunner.run();
+            this.simulationID = getGUID();
+
+        } catch (Exception e) {
+
+            return new SimulatorResponse(
+                    false,
+                    "An error detected while running the simulation, couldn't complete the simulation"
+            );
+        }
 
         //simulatorResultManager.addNewExecutedSimulation(Guid, result...);
         SimulatorResponse<String> response = new SimulatorResponse<>(true, "", simulationID);
@@ -117,7 +136,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
-    public Object exitSimulator() {
+    public SimulatorResponse exitSimulator() {
         return null;
     }
 
@@ -153,7 +172,8 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
     @Override
     public SimulatorResponse endLoadingSimulationSessionSignal() {
-        SimulatorResponse response = new SimulatorResponse<>(true, "end loading simulation successfully",
+        SimulatorResponse response = new SimulatorResponse<>(
+                true, "end loading simulation successfully",
                 null);
         return response;
     }
@@ -166,10 +186,41 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
+    public SimulatorResponse<EstablishedEnvironmentInfoDto> getEstablishedEnvironmentInfo() {
+
+        try {
+            Map<String, String> envInfo = new HashMap<>();
+
+            Map<String, PropertyInstance> envPropInstances =
+                    establishedWorldInstance.getEnvironmentInstance().getAllEnvironmentPropertiesInstances();
+
+            for (Map.Entry<String, PropertyInstance> envPropInstance : envPropInstances.entrySet()) {
+                envInfo.put(
+                        envPropInstance.getKey(),
+                        envPropInstance.getValue().toString());
+            }
+
+            return new SimulatorResponse<>(
+                    true,
+                            new EstablishedEnvironmentInfoDto(envInfo)
+            );
+
+        } catch (Exception e) {
+
+            return new SimulatorResponse<>(
+                    false,
+                    "An issue detected while trying to get environment properties instances info."
+            );
+        }
+    }
+
+    @Override
     public EnvironmentPropertiesDto getEnvironmentProperties() {
-        List<BasePropertyDto> propertyDtoList = new LinkedList<>();
-        for (String propertyName:this.world.getEnvironment().getPropertiesNames()
-             ) {
+
+        List<BasePropertyDto> propertyDtoList = new ArrayList<>();
+
+        for (String propertyName : this.world.getEnvironment().getPropertiesNames()) {
+
             AbstractPropertyDefinition property = this.world.getEnvironment().getPropertyByName(propertyName);
             if (property instanceof AbstractNumericPropertyDefinition) {
                 Range range = (Range) ((AbstractNumericPropertyDefinition) property).getRange().orElse(null);
@@ -233,66 +284,6 @@ public class SimulatorManagerImpl implements SimulatorManager {
         return response;
     }
 
-    public WorldInstanceImpl createSimulation(){
-        WorldInstanceImpl worldInstance = new WorldInstanceImpl();
-
-        worldInstance.setEnvironmentInstance(activateEnvironment());
-        worldInstance.setPrimaryEntityInstances(createPrimaryEntityInstances());
-
-        return worldInstance;
-    }
-
-    @Override
-    public EnvironmentInstance activateEnvironment() {
-
-        Map<String, PropertyInstance> environmentVariables =
-                createPropertyInstances(world.getEnvironment().getEnvironmentProperties());
-
-        return new EnvironmentInstanceImpl(environmentVariables);
-    }
-
-    public List<EntityInstance> createPrimaryEntityInstances() {
-
-        // Result :
-        List<EntityInstance> primaryEntityInstances = new ArrayList<>();
-
-        for (int index = 0; index < world.getPrimaryEntity().getPopulation(); index++) {
-
-            EntityInstance singlePrimaryInstance;
-
-            Map<String, PropertyInstance> entityPropertyInstances =
-                    createPropertyInstances(world.getPrimaryEntity().getProperties());
-
-            singlePrimaryInstance = new EntityInstanceImpl(index + 1, entityPropertyInstances);
-
-            // Finally after we build singleEntityInstance with it properties, we add it to the list result.
-            primaryEntityInstances.add(singlePrimaryInstance);
-        }
-
-        return primaryEntityInstances;
-    }
-
-    public Map<String, PropertyInstance> createPropertyInstances(
-            Map<String, AbstractPropertyDefinition> propertyDefinitions) {
-
-        Map<String, PropertyInstance> propertyInstanceMap = new HashMap<>();
-
-        for (Map.Entry<String, AbstractPropertyDefinition> entry :
-                propertyDefinitions.entrySet()) {
-
-            /// Note - we should validate key (bane) == value.getName(); in each propery Entry <K,V>
-
-            String propName = entry.getKey();
-            AbstractPropertyDefinition propDefinition = entry.getValue();
-
-            PropertyInstance propertyInstance =
-                    new PropertyInstanceImpl(propDefinition, propDefinition.generateValue());
-
-            propertyInstanceMap.put(propName, propertyInstance);
-        }
-
-        return  propertyInstanceMap;
-    }
 
 
 }

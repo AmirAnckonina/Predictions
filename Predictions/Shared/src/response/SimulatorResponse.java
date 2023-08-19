@@ -15,6 +15,7 @@ public class SimulatorResponse<T> {
     }
 
     public SimulatorResponse(boolean success, T data) {
+
         this(success, "", data);
     }
 
