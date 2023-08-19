@@ -14,6 +14,14 @@ public class AndMultipleConditionExpression extends AbstractMultipleConditionExp
 
     @Override
     public boolean test(ExecutionContext context) {
-        return false;
+        boolean result = true;
+        for(ConditionExpression conditionExpression:this.conditions){
+            if(!conditionExpression.test(context)){
+                result = false;
+                break;
+            }
+        }
+
+        return result;
     }
 }
