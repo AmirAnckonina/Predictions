@@ -18,7 +18,9 @@ public class EqualityConditionExpression extends AbstractSingleConditionExpressi
 
     @Override
     public boolean test(ExecutionContext context) {
-        return context.getPropertyByName(this.propertyName).getValue()
+        return context.getPrimaryEntityInstance(this.entityName)
+                .getPropertyByName(this.propertyName)
+                .getValue()
                 == this.comparedValue;
     }
 }
