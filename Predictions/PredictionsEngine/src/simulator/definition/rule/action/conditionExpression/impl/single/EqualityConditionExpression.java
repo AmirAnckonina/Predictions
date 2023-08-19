@@ -1,5 +1,6 @@
 package simulator.definition.rule.action.conditionExpression.impl.single;
 
+import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.rule.action.conditionExpression.api.abstracts.AbstractSingleConditionExpression;
 import simulator.definition.rule.action.argumentExpression.api.interfaces.ArgumentExpression;
 import simulator.execution.context.api.ExecutionContext;
@@ -18,9 +19,30 @@ public class EqualityConditionExpression extends AbstractSingleConditionExpressi
 
     @Override
     public boolean test(ExecutionContext context) {
-        return context.getPrimaryEntityInstance(this.entityName)
-                .getPropertyByName(this.propertyName)
-                .getValue()
-                == this.comparedValue;
+        ePropertyType type = context.getPrimaryEntityInstance()
+                .getPropertyByName(this.propertyName).getPropertyDefinition().getType();
+
+        Boolean returnValue = false;
+        switch (type) {
+            case BOOLEAN:
+                returnValue = (Boolean) context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).getValue()
+                        == (Boolean) this.comparedValue.getValue(context);
+                break;
+            case STRING:
+                returnValue = ((String) context.getPrimaryEntityInstance().getPropertyByName(this.propertyName)
+                        .getValue()).equals((String) this.comparedValue.getValue(context));
+                break;
+            case FLOAT:
+                returnValue = (Float) context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).getValue()
+                        == (Float) this.comparedValue.getValue(context);
+                break;
+            case DECIMAL:
+                returnValue = (Integer) context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).getValue()
+                        == (Integer) this.comparedValue.getValue(context);
+                break;
+        }
+
+        return returnValue;
     }
+
 }

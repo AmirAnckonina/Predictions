@@ -55,11 +55,6 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
             }
         } else {
             switch (type) {
-
-                case DECIMAL:
-                    Double doubleValue = Double.parseDouble(rawExpression);
-                    argumentExpression = new ValueArgumentExpressionImpl(doubleValue);
-                    break;
                 case BOOLEAN:
                     Boolean booleanValue = Boolean.parseBoolean(rawExpression);
                     argumentExpression = new ValueArgumentExpressionImpl(booleanValue);
@@ -74,7 +69,7 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
                     argumentExpression = new ValueArgumentExpressionImpl(floatValue);
 
                     break;
-                case INTEGER:
+                case DECIMAL:
                     Integer intValue = Integer.parseInt(rawExpression);
                     argumentExpression = new ValueArgumentExpressionImpl(intValue);
                     break;

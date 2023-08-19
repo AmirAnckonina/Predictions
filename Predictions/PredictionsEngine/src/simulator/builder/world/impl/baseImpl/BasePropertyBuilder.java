@@ -30,12 +30,12 @@ public class BasePropertyBuilder implements PropertyBuilder {
                             Double.valueOf((double)range.getTo()).intValue());
                     ValueGenerator integerValGen = ValueGeneratorFactory.createRandomRangedIntegerGenerator(intRange);
 
-                    return new IntegerPropertyDefinition(
-                            name, ePropertyType.INTEGER, integerValGen);
+                    return new DecimalPropertyDefinition(
+                            name, ePropertyType.DECIMAL, integerValGen);
 
                 } else {
-                    return new IntegerPropertyDefinition(
-                            name, ePropertyType.INTEGER, ValueGeneratorFactory.createRandomUnlimitedIntegerGenerator());
+                    return new DecimalPropertyDefinition(
+                            name, ePropertyType.DECIMAL, ValueGeneratorFactory.createRandomUnlimitedDecimalGenerator());
                 }
 
 

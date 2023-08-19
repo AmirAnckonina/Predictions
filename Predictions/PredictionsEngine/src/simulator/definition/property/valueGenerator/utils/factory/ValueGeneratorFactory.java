@@ -22,7 +22,7 @@ public interface ValueGeneratorFactory {
     static ValueGenerator<Float> createRandomRangedFloatGenerator(Range range) {
         return new FloatRandomValueGenerator(range);
     }
-    static ValueGenerator<Integer> createRandomUnlimitedIntegerGenerator() {
+    static ValueGenerator<Integer> createRandomUnlimitedDecimalGenerator() {
         return new IntegerRandomValueGenerator();
     }
     static ValueGenerator<Float> createRandomUnlimitedFloatGenerator() {

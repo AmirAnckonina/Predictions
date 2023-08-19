@@ -1,8 +1,8 @@
 package simulator.definition.property.impl;
 
 public class Range<T extends Number> {
-    private T from;
-    private T to;
+    private final T from;
+    private final T to;
 
     public Range(T from, T to) {
         this.from = from;

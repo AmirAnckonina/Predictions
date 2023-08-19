@@ -5,31 +5,28 @@ import simulator.definition.rule.action.argumentExpression.api.abstracts.Abstrac
 import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.execution.context.api.ExecutionContext;
 
-public class EnvironmentMethodArgumentExpressionImpl extends AbstractMethodArgumentExpression<Object> {
-    public EnvironmentMethodArgumentExpressionImpl(eExpressionMethod method, Object methodParameter) {
+public class EnvironmentMethodArgumentExpressionImpl extends AbstractMethodArgumentExpression<String> {
+    public EnvironmentMethodArgumentExpressionImpl(eExpressionMethod method, String methodParameter) {
         super(method, methodParameter);
     }
 
     @Override
     public Object getValue(ExecutionContext context) {
-        String value = (String) context.getPropertyValueByName((String) this.methodParameter);
-        String type = context.getPropertyTypeByName((String) this.methodParameter);
+        Object value = context.getEnvironmentVariable(this.methodParameter).getValue();
+        ePropertyType type = context.getEnvironmentVariable(this.methodParameter).getPropertyDefinition().getType();
         Object returnValue = null;
-        switch (ePropertyType.valueOf(type)){
+        switch (type){
             case DECIMAL:
-                returnValue = new Double(value);
+                returnValue = (Double) value;
                 break;
             case BOOLEAN:
-                returnValue = new Boolean(value);
+                returnValue =  (Boolean) value;
                 break;
             case STRING:
-                returnValue = new String(value);
+                returnValue = (String) value;
                 break;
             case FLOAT:
-                returnValue = new Float(value);
-                break;
-            case INTEGER:
-                returnValue = new Integer(value);
+                returnValue = (Float) value;
                 break;
         }
 
@@ -37,7 +34,7 @@ public class EnvironmentMethodArgumentExpressionImpl extends AbstractMethodArgum
     }
 
     @Override
-    public void setValue(Object value) {
+    public void setValue(String value) {
 
     }
 }

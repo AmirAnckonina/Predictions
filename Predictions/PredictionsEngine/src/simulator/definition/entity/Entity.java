@@ -6,9 +6,9 @@ import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 import java.util.Map;
 
 public class Entity {
-    private String name;
-    private int population;
-    private Map<String, AbstractPropertyDefinition> properties;
+    private final String name;
+    private final int population;
+    private final Map<String, AbstractPropertyDefinition> properties;
 
     public Entity(String name, int population, Map<String, AbstractPropertyDefinition> properties) {
         this.name = name;

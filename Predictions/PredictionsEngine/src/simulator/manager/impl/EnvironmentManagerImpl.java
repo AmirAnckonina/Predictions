@@ -38,7 +38,7 @@ public class EnvironmentManagerImpl implements EnvironmentManager {
                     throw new RuntimeException("Invalid input");
             }
             environment.setValueGeneratorByPropertyName(propName, new FixedValueGenerator<>(Boolean.parseBoolean(value)));
-        } else if (type == ePropertyType.DECIMAL || type == ePropertyType.FLOAT) {
+        } else if (type == ePropertyType.FLOAT) {
             Range<Double> range = (Range<Double>) Optional.ofNullable(((AbstractNumericPropertyDefinition)propertyDefinition)
                     .getRange().get()).orElse(null);
             if(range != null){
@@ -48,7 +48,7 @@ public class EnvironmentManagerImpl implements EnvironmentManager {
                 }
             }
             environment.setValueGeneratorByPropertyName(propName, new FixedValueGenerator<>(Float.parseFloat(value)));
-        } else if (type == ePropertyType.INTEGER) {
+        } else if (type == ePropertyType.DECIMAL) {
             Range<Integer> range = (Range<Integer>) Optional.ofNullable(((AbstractNumericPropertyDefinition)propertyDefinition)
                     .getRange().get()).orElse(null);
             if(range != null){

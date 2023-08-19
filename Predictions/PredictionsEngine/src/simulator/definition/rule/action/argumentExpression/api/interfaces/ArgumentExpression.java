@@ -3,6 +3,6 @@ import simulator.execution.context.api.ExecutionContext;
 
 public interface ArgumentExpression<T> {
 
-    public T getValue(ExecutionContext context);
+    public Object getValue(ExecutionContext context);
     public void setValue(T value);
 }
