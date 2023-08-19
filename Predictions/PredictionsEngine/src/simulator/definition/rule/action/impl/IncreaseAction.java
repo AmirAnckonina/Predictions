@@ -38,11 +38,6 @@ public class IncreaseAction extends AbstractPropertyAction {
                 intPropertyValue += ePropertyType.FLOAT.convert((Double)by.getValue(context));
                 context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).updateValue(intPropertyValue);
                 break;
-//            case INTEGER:
-//                intPropertyValue = ePropertyType.DECIMAL.convert((Double) propertyValue);
-//                intPropertyValue += ePropertyType.DECIMAL.convert((Double)by.getValue(context));
-//                context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).updateValue(intPropertyValue);
-//                break;
         }
 
         context.getPrimaryEntityInstance().getPropertyByName(propertyName).getValue();
