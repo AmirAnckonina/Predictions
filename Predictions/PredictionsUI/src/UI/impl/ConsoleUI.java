@@ -28,7 +28,8 @@ public class ConsoleUI implements UserInterface {
     public void buildSimulator() {
         this.simulatorManager = new SimulatorManagerImpl();
         SimulatorResponse<BuildSimulatorDto> buildSimulatorResult =
-                this.simulatorManager.buildSimulationWorld("PredictionsEngine/src/resources/ex1-cigarets.xml");
+                this.simulatorManager.buildSimulationWorld(
+                        "PredictionsEngine/src/resources/ex1-cigarets.xml");
     }
 
     @Override
@@ -59,6 +60,7 @@ public class ConsoleUI implements UserInterface {
         System.out.println(((int) eMainMenuChoices.RunSimulation.ordinal() + 1) + ". Run loaded simulation");
         System.out.println(((int) eMainMenuChoices.GetHistoricalSimulationDetails.ordinal() + 1) + ". Get historical simulation results");
         System.out.println(((int) eMainMenuChoices.Exit.ordinal() + 1) + ". Exit");
+
         System.out.print("Choose an option by typing the option number: ");
     }
 
