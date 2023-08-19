@@ -13,12 +13,8 @@ public class Activation {
         this.probability = Optional.ofNullable(probability).orElse(1.0);
     }
 
-    public Activation(Integer ticksInterval) {
-        this(ticksInterval, null);
-    }
-
-    public Activation(Double probability) {
-        this(null, probability);
+    public Activation() {
+        this(null, null);
     }
 
     public Optional<Integer> getTicksInterval() {
@@ -29,7 +25,8 @@ public class Activation {
         return Optional.ofNullable(probability);
     }
 
-    public boolean isActive(int tickNumber){
+    public boolean isActive(int tickNumber) {
+
         Random random = new Random();
         double randomNumber = random.nextDouble();
         return this.ticksInterval % tickNumber == 0 && this.probability >= randomNumber;

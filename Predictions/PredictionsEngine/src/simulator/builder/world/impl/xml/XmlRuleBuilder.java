@@ -37,6 +37,8 @@ public class XmlRuleBuilder extends AbstractComponentBuilder implements RuleBuil
             Integer ticksInterval = generatedRule.getPRDActivation().getTicks();
             Double probability = generatedRule.getPRDActivation().getProbability();
             activation = new Activation(ticksInterval, probability);
+        } else {
+            activation = new Activation();
         }
 
         return activation;
