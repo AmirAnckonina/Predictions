@@ -41,14 +41,12 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
                     }
 
                 case RANDOM:
-//                    if(type != ePropertyType.STRING) {
-//                        throw new WorldBuilderException("Not implemented case random");
-//                    }
                     argumentExpression = new RandomMethodArgumentExpressionImpl(eExpressionMethod.RANDOM, (new Random()).nextInt());
                     break;
             }
 
         } else if (contextValidator.isEnvironmentProperty(rawExpression)) {
+            
             if (this.contextValidator.validateEnvironemntPropertyTypeAsExpected(
                     rawExpression, type)) {
                 argumentExpression = new PropertyArgumentExpressionImpl(rawExpression);
