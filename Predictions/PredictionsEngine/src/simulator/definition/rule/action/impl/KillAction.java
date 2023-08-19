@@ -11,6 +11,6 @@ public class KillAction extends AbstractAction {
 
     @Override
     public void invoke(ExecutionContext context) {
-        context.removePraimertInstance(this.getEntityName());
+        context.removePraimerytInstance(this.getEntityName());
     }
 }

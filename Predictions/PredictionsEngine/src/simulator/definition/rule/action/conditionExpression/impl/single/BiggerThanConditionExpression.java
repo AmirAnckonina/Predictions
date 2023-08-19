@@ -3,6 +3,7 @@ package simulator.definition.rule.action.conditionExpression.impl.single;
 import simulator.definition.rule.action.conditionExpression.api.abstracts.AbstractSingleConditionExpression;
 import simulator.definition.rule.action.expression.api.interfaces.ArgumentExpression;
 import simulator.execution.context.api.ExecutionContext;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class BiggerThanConditionExpression extends AbstractSingleConditionExpression {
     /**
@@ -18,7 +19,7 @@ public class BiggerThanConditionExpression extends AbstractSingleConditionExpres
     @Override
     public boolean test(ExecutionContext context) {
 
-
+        throw new NotImplementedException();
         //return propertyName.getValue() >=   comparedValue.getValue();
 
     }

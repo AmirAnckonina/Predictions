@@ -2,16 +2,20 @@ package simulator.execution.instance.world.impl;
 
 import simulator.definition.rule.Rule;
 import simulator.definition.termination.Termination;
+
+import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.environment.api.EnvironmentInstance;
 import simulator.execution.instance.world.api.WorldInstance;
 import simulator.execution.instance.entity.impl.EntityInstanceImpl;
+
+
 
 import java.util.List;
 
 public class WorldInstanceImpl implements WorldInstance {
     private EnvironmentInstance environmentInstance;
-    private List<EntityInstanceImpl> primaryEntities;
-    private List<EntityInstanceImpl> secondaryEntities;
+    private List<EntityInstance> primaryEntities;
+    private List<EntityInstance> secondaryEntities;
 
     private List<Rule>  rules;
     private Termination termination;
@@ -20,7 +24,7 @@ public class WorldInstanceImpl implements WorldInstance {
         this(null, null, null);
     }
 
-    public WorldInstanceImpl(EnvironmentInstance environmentInstance, List<EntityInstanceImpl> primaryEntities, List<EntityInstanceImpl> secondaryEntities) {
+    public WorldInstanceImpl(EnvironmentInstance environmentInstance, List<EntityInstance> primaryEntities, List<EntityInstance> secondaryEntities) {
         this.environmentInstance = environmentInstance;
         this.primaryEntities = primaryEntities;
         this.secondaryEntities = secondaryEntities;
@@ -34,19 +38,19 @@ public class WorldInstanceImpl implements WorldInstance {
         this.environmentInstance = environmentInstance;
     }
 
-    public List<EntityInstanceImpl> getPrimaryEntities() {
+    public List<EntityInstance> getPrimaryEntities() {
         return primaryEntities;
     }
 
-    public void setPrimaryEntities(List<EntityInstanceImpl> primaryEntities) {
+    public void setPrimaryEntities(List<EntityInstance> primaryEntities) {
         this.primaryEntities = primaryEntities;
     }
 
-    public List<EntityInstanceImpl> getSecondaryEntities() {
+    public List<EntityInstance> getSecondaryEntities() {
         return secondaryEntities;
     }
 
-    public void setSecondaryEntities(List<EntityInstanceImpl> secondaryEntities) {
+    public void setSecondaryEntities(List<EntityInstance> secondaryEntities) {
         this.secondaryEntities = secondaryEntities;
     }
 

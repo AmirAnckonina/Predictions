@@ -3,6 +3,7 @@ package simulator.definition.rule.action.conditionExpression.impl.mutiple;
 import simulator.definition.rule.action.conditionExpression.api.abstracts.AbstractMultipleConditionExpression;
 import simulator.definition.rule.action.conditionExpression.api.abstracts.AbstractSingleConditionExpression;
 import simulator.definition.rule.action.conditionExpression.api.interfaces.ConditionExpression;
+import simulator.execution.context.api.ExecutionContext;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class OrMultipleConditionExpression extends AbstractMultipleConditionExpr
     }
 
     @Override
-    public boolean test() {
+    public boolean test(ExecutionContext context) {
         return false;
     }
 }

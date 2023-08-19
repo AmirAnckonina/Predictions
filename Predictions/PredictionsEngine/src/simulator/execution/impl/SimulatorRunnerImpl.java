@@ -4,7 +4,11 @@ import simulator.definition.rule.Rule;
 import simulator.definition.rule.activation.Activation;
 import simulator.execution.api.SimulatorRunner;
 import simulator.execution.context.impl.ExecutionContextImpl;
+import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.world.impl.WorldInstanceImpl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SimulatorRunnerImpl implements SimulatorRunner {
 
@@ -43,7 +47,7 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
         while (this.currTime < this.worldInstance.getTermination().getSecondsTermination().orElse((int)this.currTime + 1) &&
                 this.currentTicks < this.worldInstance.getTermination().getTicksTermination().orElse(this.currentTicks + 1)){
 
-            for (EntityInstance entityInstance : entityInstanceMngr.getInstances()) {
+            for (EntityInstance entityInstance : new ArrayList<EntityInstance>(0)) {
 
                 for(Rule rule:this.worldInstance.getRules())
                 {
