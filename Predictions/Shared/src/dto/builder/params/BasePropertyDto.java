@@ -23,7 +23,6 @@ public class BasePropertyDto {
     public String getPropertyType() {
         return propertyType;
     }
-
     public String getFrom() {
         return from;
     }

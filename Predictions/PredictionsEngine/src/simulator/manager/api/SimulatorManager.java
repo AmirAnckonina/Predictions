@@ -1,33 +1,23 @@
 package simulator.manager.api;
 import dto.EnvironmentPropertiesDto;
+import dto.EstablishedEnvironmentInfoDto;
 import dto.SimulationDetailsDto;
 import response.SimulatorResponse;
 
 public interface SimulatorManager {
 
-    // We want to return informative response: Id, simulationID, status of building, etc.
-    // Strategy design pattern? readFile vs. UI input
-    // Option A: 1. ReadFile 2. Deserialize 3. Fill World Obj
-    // Option B: GetDto , then fill Obj
     public SimulatorResponse buildSimulationWorld(String filePath);
 
-
-    // Parameters: consider support SimulationId and SimulationName
-    // According to the simulation state (executed? or just built), we should return different types of data.
     public SimulatorResponse<SimulationDetailsDto> getSimulationWorldDetails();
 
     public EnvironmentPropertiesDto getEnvironmentProperties();
 
     public SimulatorResponse setEnvironmentVariableValue(String propName, String type, String value);
 
-    public Object activateEnvironment();
-
-    // Return type: PredictionsResponse<T> , PredictionsResponse<SimulationResultDTO>
-    // T data , String status, string message
+    public SimulatorResponse establishSimulation();
     public SimulatorResponse runSimulator();
 
-    // Not sure what we should return here, maybe just a clean-up procedure.
-    public Object exitSimulator();
+    public SimulatorResponse exitSimulator();
 
 
     public void endSetEnvironmentSession();
@@ -36,4 +26,6 @@ public interface SimulatorManager {
     SimulatorResponse endEnvironmentSession();
     SimulatorResponse endLoadingSimulationSessionSignal();
     SimulatorResponse startLoadingSimulationSessionSignal();
+
+    SimulatorResponse<EstablishedEnvironmentInfoDto> getEstablishedEnvironmentInfo();
 }
