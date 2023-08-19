@@ -1,7 +1,7 @@
-package simulator.definition.rule.action.expression.api.abstracts;
+package simulator.definition.rule.action.argumentExpression.api.abstracts;
 
-import simulator.definition.rule.action.expression.utils.enums.eExpressionMethod;
-import simulator.definition.rule.action.expression.api.interfaces.ArgumentExpression;
+import simulator.definition.rule.action.argumentExpression.utils.enums.eExpressionMethod;
+import simulator.definition.rule.action.argumentExpression.api.interfaces.ArgumentExpression;
 
 public abstract class AbstractMethodArgumentExpression<T> implements ArgumentExpression<T> {
 

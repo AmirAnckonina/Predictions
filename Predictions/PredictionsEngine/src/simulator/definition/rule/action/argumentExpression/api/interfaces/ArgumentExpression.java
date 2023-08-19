@@ -1,4 +1,4 @@
-package simulator.definition.rule.action.expression.api.interfaces;
+package simulator.definition.rule.action.argumentExpression.api.interfaces;
 import simulator.execution.context.api.ExecutionContext;
 
 public interface ArgumentExpression<T> {

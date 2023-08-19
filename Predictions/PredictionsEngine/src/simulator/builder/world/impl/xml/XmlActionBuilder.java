@@ -10,7 +10,7 @@ import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.rule.action.api.abstracts.AbstractAction;
 import simulator.definition.rule.action.api.abstracts.AbstractCalculationAction;
 import simulator.definition.rule.action.conditionExpression.api.interfaces.ConditionExpression;
-import simulator.definition.rule.action.expression.api.interfaces.ArgumentExpression;
+import simulator.definition.rule.action.argumentExpression.api.interfaces.ArgumentExpression;
 import simulator.definition.rule.action.impl.*;
 import simulator.definition.rule.action.utils.enums.eActionType;
 

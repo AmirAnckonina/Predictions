@@ -15,30 +15,31 @@ import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.property.impl.Range;
 import simulator.definition.world.World;
 import dto.BuildSimulatorDto;
+import simulator.execution.runner.api.SimulatorRunner;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
-import simulator.execution.impl.SimulatorRunnerImpl;
+import simulator.execution.runner.impl.SimulatorRunnerImpl;
 import simulator.execution.instance.entity.impl.EntityInstanceImpl;
 import simulator.execution.instance.environment.impl.EnvironmentInstanceImpl;
 import simulator.execution.instance.property.impl.PropertyInstanceImpl;
+import simulator.execution.instance.world.api.WorldInstance;
 import simulator.execution.instance.world.impl.WorldInstanceImpl;
+import simulator.manager.api.EnvironmentManager;
 import simulator.manager.api.SimulatorManager;
 import simulator.builder.world.utils.file.WorldBuilderFileUtils;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static simulator.manager.utils.SimulatorUtils.getGUID;
 
 public class SimulatorManagerImpl implements SimulatorManager {
     private World world;
-    private WorldInstanceImpl worldInstance;
+    private WorldInstance worldInstance;
     private WorldBuilder worldBuilder;
     private List<String> propertiesUpdatedByUser;
-    private EnvironmentManagerImpl environmentManager;
+    private EnvironmentManager environmentManager;
     private String simulationID;
-    private SimulatorRunnerImpl simulatorRunner;
+    private SimulatorRunner simulatorRunner;
 
     public SimulatorManagerImpl() {
         this.propertiesUpdatedByUser = new LinkedList<>();
@@ -81,7 +82,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
         this.worldInstance = createSimulation();
         this.worldInstance.setRules(this.world.getRules());
         this.worldInstance.setTermination(this.world.getTermination());
-        this.simulatorRunner = new SimulatorRunnerImpl(this.worldInstance);
+        this.simulatorRunner = new SimulatorRunnerImpl(new WorldInstanceImpl());
         this.simulatorRunner.run();
         this.simulationID = getGUID();
 
@@ -210,7 +211,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
         WorldInstanceImpl worldInstance = new WorldInstanceImpl();
 
         worldInstance.setEnvironmentInstance(activateEnvironment());
-        worldInstance.setPrimaryEntities(creatPrimaryInstance());
+        worldInstance.setPrimaryEntityInstances(createPrimaryEntityInstances());
 
         return worldInstance;
     }
@@ -231,25 +232,38 @@ public class SimulatorManagerImpl implements SimulatorManager {
         return environmentInstance;
     }
 
-    public List<EntityInstance> creatPrimaryInstance(){
-        List<EntityInstance> singlePrimaryInstances = new LinkedList<>();
-        //EntityInstances primaryInstance;
-        for(int index = 0; index<this.world.getPrimaryEntity().getPopulation(); index++){
+    public List<EntityInstance> createPrimaryEntityInstances() {
 
-            EntityInstanceImpl singlePrimaryInstance = new EntityInstanceImpl();
-            for (Map.Entry<String, AbstractPropertyDefinition> entry : this.world.getPrimaryEntity().getProperties().entrySet()){
+        // Result :
+        List<EntityInstance> primaryEntityInstances = new ArrayList<>();
+
+        for (int index = 0; index < world.getPrimaryEntity().getPopulation(); index++) {
+
+            EntityInstance singlePrimaryInstance;
+            Map<String, PropertyInstance> entityPropertyInstances = new HashMap<>();
+
+            for (Map.Entry<String, AbstractPropertyDefinition> entry : world.getPrimaryEntity().getProperties().entrySet()){
+
+                /// Note - we should validate key (bane) == value.getName(); in each propery Entry <K,V>
+
                 String propertyName = entry.getKey();
                 AbstractPropertyDefinition propertyDefinition = entry.getValue();
-                PropertyInstance propertyInstance = new PropertyInstanceImpl(propertyDefinition.getName(),
-                        propertyDefinition.generateValue(),
-                        propertyDefinition.getType());
-                singlePrimaryInstance.addProperty(propertyName, propertyInstance);
-            }
 
-            singlePrimaryInstances.add(singlePrimaryInstance);
+                PropertyInstance propertyInstance =
+                        new PropertyInstanceImpl(
+                                propertyDefinition.getName(),
+                                propertyDefinition.generateValue(),
+                                propertyDefinition.getType());
+
+                entityPropertyInstances.put(propertyName, propertyInstance);
+            }
+            singlePrimaryInstance = new EntityInstanceImpl(index + 1, entityPropertyInstances);
+
+            // Finally after we build singleEntityInstance with it properties, we add it to the list result.
+            primaryEntityInstances.add(singlePrimaryInstance);
         }
 
-        return singlePrimaryInstances;
+        return primaryEntityInstances;
     }
 
 

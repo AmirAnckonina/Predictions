@@ -1,7 +1,7 @@
-package simulator.definition.rule.action.expression.impl;
+package simulator.definition.rule.action.argumentExpression.impl;
 
-import simulator.definition.rule.action.expression.utils.enums.eExpressionMethod;
-import simulator.definition.rule.action.expression.api.abstracts.AbstractMethodArgumentExpression;
+import simulator.definition.rule.action.argumentExpression.utils.enums.eExpressionMethod;
+import simulator.definition.rule.action.argumentExpression.api.abstracts.AbstractMethodArgumentExpression;
 import simulator.execution.context.api.ExecutionContext;
 
 public class PercentMethodArgumentExpressionImpl extends AbstractMethodArgumentExpression<Float> {

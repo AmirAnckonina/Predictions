@@ -4,47 +4,40 @@ import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.execution.context.api.ExecutionContext;
 
 import simulator.execution.instance.entity.api.EntityInstance;
+import simulator.execution.instance.entity.manager.api.EntityInstanceManager;
 import simulator.execution.instance.environment.api.EnvironmentInstance;
+import simulator.execution.instance.property.api.PropertyInstance;
+import simulator.execution.instance.world.api.WorldInstance;
 import simulator.execution.instance.world.impl.WorldInstanceImpl;
 
 
 import java.util.List;
 
 public class ExecutionContextImpl implements ExecutionContext {
-    WorldInstanceImpl worldInstance;
-    EnvironmentInstance environmentInstance;
-    List<EntityInstance> entityInstances;
+    EntityInstance primaryEntityInstance;
+    EntityInstanceManager entityInstanceManager;
+    private EnvironmentInstance environmentInstance;
+
+    public ExecutionContextImpl(EntityInstance primaryEntityInstance, EntityInstanceManager entityInstanceManager, EnvironmentInstance environmentInstance) {
+        this.primaryEntityInstance = primaryEntityInstance;
+        this.entityInstanceManager = entityInstanceManager;
+        this.environmentInstance = environmentInstance;
+    }
 
 
-    public ExecutionContextImpl(WorldInstanceImpl worldInstance) {
-        this.worldInstance = worldInstance;
-        this.environmentInstance = worldInstance.getEnvironmentInstance();
-        this.entityInstances = worldInstance.getPrimaryEntities();
+    @Override
+    public EntityInstance getPrimaryEntityInstance() {
+        return primaryEntityInstance;
     }
 
     @Override
-    public Object getPropertyValueByName(String propertyName) {
-        return null;
+    public void removeEntity(EntityInstance entityInstance) {
+        entityInstanceManager.killEntity(entityInstance.getId());
     }
 
     @Override
-    public String getPropertyTypeByName(String methodParameter) {
+    public PropertyInstance getEnvironmentVariable(String name) {
 
-        return null;
-    }
-
-    @Override
-    public void removePraimerytInstance(String name) {
-        worldInstance.getPrimaryEntities().remove(name);
-    }
-
-    @Override
-    public void setPropertyInstanceValue(String propertyName, double value) {
-        //worldInstance.getPrimaryEntities().get(propertyName);
-    }
-
-    @Override
-    public ePropertyType getPropertyType(String propertyName) {
-        return null;
+        return environmentInstance.getProperty(name);
     }
 }

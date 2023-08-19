@@ -1,7 +1,7 @@
 package simulator.definition.rule.action.conditionExpression.api.abstracts;
 
 import simulator.definition.rule.action.conditionExpression.api.interfaces.ConditionExpression;
-import simulator.definition.rule.action.expression.api.interfaces.ArgumentExpression;
+import simulator.definition.rule.action.argumentExpression.api.interfaces.ArgumentExpression;
 
 public abstract class AbstractSingleConditionExpression implements ConditionExpression {
     protected final String entityName;
