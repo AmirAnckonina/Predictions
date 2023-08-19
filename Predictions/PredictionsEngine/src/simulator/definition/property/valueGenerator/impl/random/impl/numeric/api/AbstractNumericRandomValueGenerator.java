@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public abstract class AbstractNumericRandomValueGenerator<T extends Number> extends BaseRandomValueGenerator<T> {
 
-    protected Range<T> range;
+    protected final Range<T> range;
 
     protected AbstractNumericRandomValueGenerator(Range range) {
         this.range = range;

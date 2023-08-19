@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Environment {
-    private Map<String, AbstractPropertyDefinition> environmentProperties;
+    private final Map<String, AbstractPropertyDefinition> environmentProperties;
 
     public Environment(Map<String, AbstractPropertyDefinition> environmentProperties) {
         this.environmentProperties = environmentProperties;
