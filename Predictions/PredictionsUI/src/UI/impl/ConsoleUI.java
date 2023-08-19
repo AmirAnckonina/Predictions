@@ -7,9 +7,11 @@ import dto.SetPropertySimulatorResponseDto;
 import dto.SimulationDetailsDto;
 import dto.builder.params.BasePropertyDto;
 import response.SimulatorResponse;
+import simulator.manager.api.SimulationResult;
 import simulator.manager.api.SimulatorManager;
 import simulator.manager.impl.SimulatorManagerImpl;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.io.File;
 
@@ -311,5 +313,12 @@ public class ConsoleUI implements UserInterface {
                 System.out.println("(insert numbers only and press enter)");
                 break;
         }
+    }
+
+    private String getSimulatorStartingTimeInString(String simulationID, Map<String,SimulationResult> simulationResults){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy | HH.mm.ss");
+        String formattedTime = formatter.format(new Date(simulationResults.get(simulationID).getSimulationStartingTime()));
+
+        return formattedTime;
     }
 }
