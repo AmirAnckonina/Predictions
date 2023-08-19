@@ -153,7 +153,7 @@ public class ConsoleUI implements UserInterface {
                     environmentInfoResponse.getData().getEstablishedEnvironmentProperties();
 
             for (Map.Entry<String, String> envProp : envPropertiesInfo.entrySet()) {
-                System.out.println(envProp.getKey() + "=" + envProp.getValue());
+                System.out.println(envProp.getKey() + " = " + envProp.getValue());
             }
 
         } else {

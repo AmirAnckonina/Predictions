@@ -197,7 +197,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
             for (Map.Entry<String, PropertyInstance> envPropInstance : envPropInstances.entrySet()) {
                 envInfo.put(
                         envPropInstance.getKey(),
-                        envPropInstance.getValue().toString());
+                        ePropertyType.STRING.convert(envPropInstance.getValue().getValue().toString()));
             }
 
             return new SimulatorResponse<>(
