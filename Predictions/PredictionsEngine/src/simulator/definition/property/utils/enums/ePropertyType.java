@@ -2,11 +2,11 @@ package simulator.definition.property.utils.enums;
 
 public enum ePropertyType {
     DECIMAL{
-        public Double convert(Object value) {
-            if (!(value instanceof Double)) {
-                throw new IllegalArgumentException("value " + value + " is not of a DECIMAL type (expected Double class)");
+        public Integer convert(Object value) {
+            if (!(value instanceof Integer)) {
+                throw new IllegalArgumentException("value " + value + " is not of a DECIMAL type (expected Integer class)");
             }
-            return (Double) value;
+            return (Integer) value;
         }
     }, BOOLEAN{
         public Boolean convert(Object value) {
