@@ -12,7 +12,6 @@ import java.util.List;
 public class WorldInstanceImpl implements WorldInstance {
     private EnvironmentInstance environmentInstance;
     private List<EntityInstance> primaryEntityInstances;
-
     private List<Rule> rules;
     private Termination termination;
     public WorldInstanceImpl() {

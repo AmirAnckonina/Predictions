@@ -27,6 +27,7 @@ import simulator.execution.instance.property.impl.PropertyInstanceImpl;
 import simulator.execution.instance.world.api.WorldInstance;
 import simulator.execution.instance.world.impl.WorldInstanceImpl;
 import simulator.manager.api.EnvironmentManager;
+import simulator.manager.api.SimulationResult;
 import simulator.manager.api.SimulatorManager;
 import simulator.builder.world.utils.file.WorldBuilderFileUtils;
 
@@ -108,6 +109,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
         this.simulatorRunner = new SimulatorRunnerImpl(new WorldInstanceImpl());
         this.simulatorRunner.run();
         this.simulationID = getGUID();
+        SimulationResult simulationResult = new SimulationResultImpl(this.worldInstance, this.simulationID, this.world);
 
         //simulatorResultManager.addNewExecutedSimulation(Guid, result...);
         SimulatorResponse<String> response = new SimulatorResponse<>(true, "", simulationID);
