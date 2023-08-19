@@ -1,6 +1,7 @@
 package simulator.manager.impl;
 
 import simulator.execution.instance.entity.api.EntityInstance;
+import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.manager.api.SimulationResult;
 import simulator.manager.api.SimulatorResultManager;
 import simulator.execution.instance.entity.impl.EntitiesResult;
@@ -45,8 +46,14 @@ public class SimulatorResultManagerImpl implements SimulatorResultManager {
     }
 
     @Override
-    public List<EntityInstance> getAllEntitiesHasPropertyByPropertyName(String PropertyName) {
+    public Map<Integer,String> getAllEntitiesHasPropertyByPropertyName(String PropertyName) {
         return null;
+    }
+
+    @Override
+    public List<String> getAllPropertiesOfEntity() {
+        List<SimulationResult> simulationResultList = new ArrayList<>(simulationResults.values());
+        return simulationResultList.get(0).getEntityPropertiesNames();
     }
 
     public boolean addSimulationResult(String simulationID, SimulationResult simulationResult) {

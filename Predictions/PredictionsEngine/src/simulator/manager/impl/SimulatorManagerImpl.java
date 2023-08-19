@@ -28,6 +28,7 @@ import simulator.execution.instance.world.impl.WorldInstanceImpl;
 import simulator.manager.api.EnvironmentManager;
 import simulator.manager.api.SimulatorManager;
 import simulator.builder.world.utils.file.WorldBuilderFileUtils;
+import simulator.manager.api.SimulatorResultManager;
 
 import java.util.*;
 
@@ -43,6 +44,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
     private EnvironmentManager environmentManager;
     private String simulationID;
     private SimulatorRunner simulatorRunner;
+    private SimulatorResultManager simulatorResultManager;
 
     //SimulatorResultManager simulatorResultManager;
 
@@ -50,6 +52,8 @@ public class SimulatorManagerImpl implements SimulatorManager {
         //this.simulatorResultManager = new  SimulatorResultManagerImpl();
         this.propertiesUpdatedByUser = new ArrayList<>();
         this.simulationEstablishmentManager = new SimulationEstablishmentManagerImpl();
+        this.simulatorResultManager = new SimulatorResultManagerImpl();
+
     }
 
     @Override
@@ -121,6 +125,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
             this.simulatorRunner = new SimulatorRunnerImpl(this.establishedWorldInstance);
             this.simulatorRunner.run();
             this.simulationID = getGUID();
+            simulatorResultManager.addSimulationResult(simulationID ,new SimulationResultImpl(establishedWorldInstance, simulationID, world));
 
         } catch (Exception e) {
 
@@ -138,6 +143,11 @@ public class SimulatorManagerImpl implements SimulatorManager {
     @Override
     public SimulatorResponse exitSimulator() {
         return null;
+    }
+
+    @Override
+    public SimulatorResultManager getSimulatorResultManagerImpl() {
+        return this.simulatorResultManager;
     }
 
     @Override

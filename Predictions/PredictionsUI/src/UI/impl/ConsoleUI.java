@@ -7,8 +7,11 @@ import dto.SetPropertySimulatorResponseDto;
 import dto.SimulationDetailsDto;
 import dto.builder.params.BasePropertyDto;
 import response.SimulatorResponse;
+import simulator.execution.instance.entity.api.EntityInstance;
+import simulator.execution.instance.entity.impl.EntitiesResult;
 import simulator.manager.api.SimulationResult;
 import simulator.manager.api.SimulatorManager;
+import simulator.manager.api.SimulatorResultManager;
 import simulator.manager.impl.SimulatorManagerImpl;
 
 import java.text.SimpleDateFormat;
@@ -18,11 +21,14 @@ import java.io.File;
 public class ConsoleUI implements UserInterface {
 
     private SimulatorManager simulatorManager;
+    private SimulatorResultManager simulatorResultManager;
     private boolean endSessionFlag = false;
     private String simulationID;
 
     public ConsoleUI() {
+
         this.simulatorManager = new SimulatorManagerImpl();
+        this.simulatorResultManager = this.simulatorManager.getSimulatorResultManagerImpl();
     }
 
     @Override
@@ -133,9 +139,24 @@ public class ConsoleUI implements UserInterface {
                 runSimulationSession();
                 break;
             case GetHistoricalSimulationDetails:
+                getHistoricalSimulationDetails();
                 break;
             case Exit:
                 this.endSessionFlag = true;
+        }
+    }
+
+    private void getHistoricalSimulationDetails() {
+        List<SimulationResult> simulationResults = this.simulatorResultManager.getSortedHistoricalSimulationsList();
+
+        printHistoricalSimulationList(simulationResults);
+        handleUserSimulationResultChoice(simulationResults);
+    }
+
+    private void printHistoricalSimulationList(List<SimulationResult> simulationResults) {
+        for (int i = 0; i < simulationResults.size(); i++) {
+            System.out.println((i + 1) + ". \"" + simulationResults.get(i).getSimulationID() + " "
+                    + getSimulatorStartingTimeInString(simulationResults.get(i)) + "\"");
         }
     }
 
@@ -218,6 +239,114 @@ public class ConsoleUI implements UserInterface {
         for (int i = 0; i < propertyDtoList.size(); i++) {
             System.out.println((i + 1) + ". \"" + propertyDtoList.get(i).getName() + "\"");
         }
+    }
+
+    private void handleUserSimulationResultChoice(List<SimulationResult> simulationResults) {
+        Scanner scanner = new Scanner(System.in);
+        while(true) {
+            if (scanner.hasNextInt()) {
+                int selectedIndex = scanner.nextInt();
+                scanner.nextLine(); // Consume the newline character
+
+                if (selectedIndex >= 1 && selectedIndex <= simulationResults.size()) {
+                    showHowToPresentResultMenu();
+                    ePresentShowOptions showOption = howToPresentResultMenuChoiceHandler();
+                    showOptionPresenter(showOption);
+
+                } else {
+                    System.out.println("Invalid index. Please choose a valid index.");
+                }
+            } else {
+                System.out.println("Invalid input. Please enter a valid index.");
+                scanner.nextLine(); // Consume the invalid input
+            }
+        }
+    }
+
+    private void showOptionPresenter(ePresentShowOptions showOption) {
+        switch (showOption) {
+            case ByAmount:
+                 List<EntitiesResult> entitiesResultList = this.simulatorResultManager.getAllEntitiesExist(this.simulationID);
+                 printHowManyEntitiesInstancesExist(entitiesResultList);
+                break;
+            case ByProperty:
+                String propertiesName = new String();
+                List<String> propertiesNames = this.simulatorResultManager.getAllPropertiesOfEntity();
+                printPropertiesListAfterSimulation(propertiesNames);
+                String propertyNameChosen = propertyNameChosenForPresentResultHandler(propertiesNames);
+                Map<Integer,String> entityInstanceList = this.simulatorResultManager.getAllEntitiesHasPropertyByPropertyName(propertyNameChosen);
+                showAllEntitiesHavePropertyByPropertyName(entityInstanceList);
+                break;
+        }
+    }
+
+    private String propertyNameChosenForPresentResultHandler(List<String> propertiesNames) {
+        Scanner scanner = new Scanner(System.in);
+        while(true) {
+            if (scanner.hasNextInt()) {
+                int selectedIndex = scanner.nextInt();
+                scanner.nextLine(); // Consume the newline character
+
+                if (selectedIndex >= 1 && selectedIndex <= propertiesNames.size()) {
+                    return propertiesNames.get(selectedIndex - 1);
+                } else {
+                    System.out.println("Invalid index. Please choose a valid index.");
+                }
+            } else {
+                System.out.println("Invalid input. Please enter a valid index.");
+                scanner.nextLine(); // Consume the invalid input
+            }
+        }
+    }
+
+    private void showAllEntitiesHavePropertyByPropertyName(Map<Integer,String> entityInstanceList) {
+        int index = 1;
+        for (Map.Entry<Integer,String> entry : entityInstanceList.entrySet()) {
+            Integer key = entry.getKey();
+            String value = entry.getValue();
+            System.out.println( index+ ". There are " + key + " instances with the value " + value);
+        }
+    }
+
+    private void printHowManyEntitiesInstancesExist(List<EntitiesResult> entitiesResultList) {
+        EntitiesResult entitiesResult = entitiesResultList.get(0);
+        Integer i = 0;
+        System.out.println((i + 1) + ". \"" + entitiesResult.getName() + " "
+                + entitiesResult.getNumOfInstancesInEndOfSimulation()
+                + "/"
+                + entitiesResult.getNumOfInstancesInitialized());
+    }
+
+    private void printPropertiesListAfterSimulation(List<String> propertiesNamee) {
+        for (int i = 0; i < propertiesNamee.size(); i++) {
+            System.out.println((i + 1) + ". \"" + propertiesNamee.get(i));
+        }
+    }
+
+    private ePresentShowOptions howToPresentResultMenuChoiceHandler() {
+        Scanner scanner = new Scanner(System.in);
+        while(true) {
+            if (scanner.hasNextInt()) {
+                int selectedIndex = scanner.nextInt();
+                scanner.nextLine(); // Consume the newline character
+
+                if (selectedIndex >= 1 && selectedIndex <= ePresentShowOptions.values().length) {
+                    List<ePresentShowOptions> enumValues = Arrays.asList(ePresentShowOptions.values());
+                    return enumValues.get(selectedIndex - 1);
+                } else {
+                    System.out.println("Invalid index. Please choose a valid index.");
+                }
+            } else {
+                System.out.println("Invalid input. Please enter a valid index.");
+                scanner.nextLine(); // Consume the invalid input
+            }
+        }
+    }
+
+    private void showHowToPresentResultMenu() {
+        System.out.println("How would you like to see the results?");
+        System.out.println("1. By mount of entities");
+        System.out.println("2. By chosen property");
     }
 
     private List<Integer> handleUserPropertyChoice(List<BasePropertyDto> propertyDtoList) {
@@ -315,9 +444,9 @@ public class ConsoleUI implements UserInterface {
         }
     }
 
-    private String getSimulatorStartingTimeInString(String simulationID, Map<String,SimulationResult> simulationResults){
+    private String getSimulatorStartingTimeInString(SimulationResult simulationResults){
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy | HH.mm.ss");
-        String formattedTime = formatter.format(new Date(simulationResults.get(simulationID).getSimulationStartingTime()));
+        String formattedTime = formatter.format(new Date(simulationResults.getSimulationStartingTime()));
 
         return formattedTime;
     }

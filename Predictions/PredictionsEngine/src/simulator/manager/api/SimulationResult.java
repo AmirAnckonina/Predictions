@@ -13,7 +13,7 @@ public interface SimulationResult {
     PropertyInstance getEntityPropertyInstanceByPropertyName(String entityName, String PropertyName);
     Integer getNumOfInstancesOfEntityInitialized();
     Integer getNumOfInstancesOfEntityWhenSimulationStopped();
-    List<String> getEntityPropertiesNames(String entityName);
+    List<String> getEntityPropertiesNames();
     EntityInstance getEntityByName(Integer entityID);
     List<EntityInstance> getEntities();
 }

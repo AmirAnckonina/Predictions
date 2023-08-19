@@ -64,7 +64,7 @@ public class SimulationResultImpl implements SimulationResult{
     }
 
     @Override
-    public List<String> getEntityPropertiesNames(String entityName) {
+    public List<String> getEntityPropertiesNames() {
         List<String> propertiesNames = new LinkedList<>();
 
         for (Map.Entry<String, AbstractPropertyDefinition> entry : this.worldDefinition.getPrimaryEntity().getProperties().entrySet()) {

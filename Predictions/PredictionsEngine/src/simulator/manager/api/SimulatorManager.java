@@ -3,6 +3,7 @@ import dto.EnvironmentPropertiesDto;
 import dto.EstablishedEnvironmentInfoDto;
 import dto.SimulationDetailsDto;
 import response.SimulatorResponse;
+import simulator.manager.impl.SimulatorResultManagerImpl;
 
 public interface SimulatorManager {
 
@@ -19,6 +20,7 @@ public interface SimulatorManager {
 
     public SimulatorResponse exitSimulator();
 
+    SimulatorResultManager getSimulatorResultManagerImpl();
 
     public void endSetEnvironmentSession();
 
