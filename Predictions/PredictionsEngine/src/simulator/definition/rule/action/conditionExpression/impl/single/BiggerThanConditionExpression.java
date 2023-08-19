@@ -18,9 +18,7 @@ public class BiggerThanConditionExpression extends AbstractSingleConditionExpres
 
     @Override
     public boolean test(ExecutionContext context) {
-
-        throw new NotImplementedException();
-        //return propertyName.getValue() >=   comparedValue.getValue();
-
+        return context.getPropertyByName(this.propertyName).getValue()
+                > this.comparedValue;
     }
 }

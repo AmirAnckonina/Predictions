@@ -17,6 +17,7 @@ public class LowerThanConditionExpression extends AbstractSingleConditionExpress
 
     @Override
     public boolean test(ExecutionContext context) {
-        return false;
+        return context.getPropertyByName(this.propertyName).getValue()
+                < this.comparedValue;
     }
 }
