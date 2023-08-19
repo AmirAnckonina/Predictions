@@ -4,6 +4,7 @@ import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.rule.action.conditionExpression.api.abstracts.AbstractSingleConditionExpression;
 import simulator.definition.rule.action.argumentExpression.api.interfaces.ArgumentExpression;
 import simulator.execution.context.api.ExecutionContext;
+import simulator.execution.runner.utils.exceptions.RunnerException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class BiggerThanConditionExpression extends AbstractSingleConditionExpression {
@@ -25,22 +26,17 @@ public class BiggerThanConditionExpression extends AbstractSingleConditionExpres
         Boolean returnValue = false;
         switch (type) {
             case DECIMAL:
-                returnValue = (Double)context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).getValue()
-                        > (Double) this.comparedValue.getValue(context);
+                returnValue = (Integer) context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).getValue()
+                        > (Integer) this.comparedValue.getValue(context);
                 break;
             case BOOLEAN:
             case STRING:
-                throw new IllegalArgumentException("Different arguments types - Condition test is not available");
+                throw new RunnerException("Different arguments types - Condition test is not available");
             case FLOAT:
-                returnValue = (Float)context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).getValue()
+                returnValue = (Float) context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).getValue()
                         > (Float) this.comparedValue.getValue(context);
                 break;
-            case INTEGER:
-                returnValue = (Integer)context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).getValue()
-                        > (Integer) this.comparedValue.getValue(context);
-                break;
         }
-
         return returnValue;
     }
 }

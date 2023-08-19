@@ -22,7 +22,7 @@ public class WorldInstanceImpl implements WorldInstance {
     public WorldInstanceImpl(EnvironmentInstance environmentInstance, List<EntityInstance> primaryEntities, List<EntityInstance> secondaryEntities) {
         this.environmentInstance = environmentInstance;
         this.primaryEntityInstances = primaryEntities;
-        this.secondaryEntitiesInstances = secondaryEntities;
+        //this.secondaryEntitiesInstances = secondaryEntities;
     }
 
     @Override

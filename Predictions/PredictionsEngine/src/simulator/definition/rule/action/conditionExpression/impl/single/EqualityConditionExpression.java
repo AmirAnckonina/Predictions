@@ -24,10 +24,6 @@ public class EqualityConditionExpression extends AbstractSingleConditionExpressi
 
         Boolean returnValue = false;
         switch (type) {
-            case DECIMAL:
-                returnValue = (Double) context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).getValue()
-                        == (Double) this.comparedValue.getValue(context);
-                break;
             case BOOLEAN:
                 returnValue = (Boolean) context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).getValue()
                         == (Boolean) this.comparedValue.getValue(context);
@@ -40,7 +36,7 @@ public class EqualityConditionExpression extends AbstractSingleConditionExpressi
                 returnValue = (Float) context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).getValue()
                         == (Float) this.comparedValue.getValue(context);
                 break;
-            case INTEGER:
+            case DECIMAL:
                 returnValue = (Integer) context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).getValue()
                         == (Integer) this.comparedValue.getValue(context);
                 break;

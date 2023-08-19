@@ -5,6 +5,7 @@ import simulator.definition.rule.action.api.abstracts.AbstractPropertyAction;
 import simulator.definition.rule.action.argumentExpression.api.interfaces.ArgumentExpression;
 import simulator.definition.rule.action.utils.enums.eActionType;
 import simulator.execution.context.api.ExecutionContext;
+import simulator.execution.runner.utils.exceptions.RunnerException;
 
 
 public class IncreaseAction extends AbstractPropertyAction {
@@ -16,17 +17,33 @@ public class IncreaseAction extends AbstractPropertyAction {
 
     @Override
     public void invoke(ExecutionContext context) {
-        Integer intPropertyValue;
-        Object propertyValue = context.getPropertyValueByName(this.propertyName);
-        if(propertyValue instanceof Integer){
-            intPropertyValue = ePropertyType.INTEGER.convert(propertyValue);
-            intPropertyValue += (Integer) ePropertyType.INTEGER.convert(by.getValue(context));
-        } else if (propertyValue instanceof Double) {
-            intPropertyValue = ePropertyType.DECIMAL.convert(propertyValue);
-            intPropertyValue += ePropertyType.DECIMAL.convert(by.getValue(context));
-        }
-        context.setPropertyInstanceValue(this.propertyName, Double.parseDouble() + by.getValue(context));
+        Double intPropertyValue;
+        Object propertyValue = context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).getValue();
+        ePropertyType propertyType =
+                context.getPrimaryEntityInstance()
+                .getPropertyByName(this.propertyName)
+                .getPropertyDefinition().getType();
 
+        switch (propertyType) {
+            case DECIMAL:
+                intPropertyValue = ePropertyType.DECIMAL.convert((Double) propertyValue);
+                intPropertyValue += ePropertyType.DECIMAL.convert((Double)by.getValue(context));
+                context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).updateValue(intPropertyValue.intValue());
+                break;
+            case BOOLEAN:
+            case STRING:
+                throw new RunnerException("Different arguments types - Condition test is not available");
+            case FLOAT:
+                intPropertyValue = ePropertyType.FLOAT.convert((Double) propertyValue);
+                intPropertyValue += ePropertyType.FLOAT.convert((Double)by.getValue(context));
+                context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).updateValue(intPropertyValue);
+                break;
+//            case INTEGER:
+//                intPropertyValue = ePropertyType.DECIMAL.convert((Double) propertyValue);
+//                intPropertyValue += ePropertyType.DECIMAL.convert((Double)by.getValue(context));
+//                context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).updateValue(intPropertyValue);
+//                break;
+        }
 
         context.getPrimaryEntityInstance().getPropertyByName(propertyName).getValue();
         context.getPrimaryEntityInstance().getPropertyByName(propertyName).getPropertyDefinition().getType();

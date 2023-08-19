@@ -191,17 +191,16 @@ public class SimulatorManagerImpl implements SimulatorManager {
                     eType = ePropertyType.STRING;
                     break;
                 case "float":
+                    eType = ePropertyType.FLOAT;
+                    break;
                 case "decimal":
-                case "double":
+                case "int":
+                case "integer":
                     eType = ePropertyType.DECIMAL;
                     break;
                 case "boolean":
                 case "bool":
                     eType = ePropertyType.BOOLEAN;
-                    break;
-                case "integer":
-                case "int":
-                    eType = ePropertyType.INTEGER;
                     break;
             }
             environmentManager = new EnvironmentManagerImpl();

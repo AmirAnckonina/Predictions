@@ -4,6 +4,8 @@ import simulator.definition.rule.action.argumentExpression.utils.enums.eExpressi
 import simulator.definition.rule.action.argumentExpression.api.abstracts.AbstractMethodArgumentExpression;
 import simulator.execution.context.api.ExecutionContext;
 
+import java.util.Random;
+
 
 public class RandomMethodArgumentExpressionImpl extends AbstractMethodArgumentExpression<Integer> {
     public RandomMethodArgumentExpressionImpl(eExpressionMethod method, Integer methodParameter) {
@@ -12,7 +14,7 @@ public class RandomMethodArgumentExpressionImpl extends AbstractMethodArgumentEx
 
     @Override
     public Integer getValue(ExecutionContext context) {
-        return this.methodParameter;
+        return (new Random()).nextInt(methodParameter);
     }
 
     @Override
