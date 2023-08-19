@@ -1,5 +1,6 @@
 package simulator.definition.rule.action.conditionExpression.impl.single;
 
+import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.rule.action.conditionExpression.api.abstracts.AbstractSingleConditionExpression;
 import simulator.definition.rule.action.argumentExpression.api.interfaces.ArgumentExpression;
 import simulator.execution.context.api.ExecutionContext;
@@ -17,9 +18,28 @@ public class LowerThanConditionExpression extends AbstractSingleConditionExpress
 
     @Override
     public boolean test(ExecutionContext context) {
-        return context.getPrimaryEntityInstance(this.entityName)
-                .getPropertyByName(this.propertyName)
-                .getValue()
-                < this.comparedValue;
+        ePropertyType type = context.getPrimaryEntityInstance()
+                .getPropertyByName(this.propertyName).getPropertyDefinition().getType();
+
+        Boolean returnValue = false;
+        switch (type) {
+            case DECIMAL:
+                returnValue = (Double)context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).getValue()
+                        < (Double) this.comparedValue.getValue(context);
+                break;
+            case BOOLEAN:
+            case STRING:
+                throw new IllegalArgumentException("Different arguments types - Condition test is not available");
+            case FLOAT:
+                returnValue = (Float)context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).getValue()
+                        < (Float) this.comparedValue.getValue(context);
+                break;
+            case INTEGER:
+                returnValue = (Integer)context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).getValue()
+                        < (Integer) this.comparedValue.getValue(context);
+                break;
+        }
+
+        return returnValue;
     }
 }
