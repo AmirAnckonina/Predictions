@@ -55,10 +55,12 @@ public class ConsoleUI implements UserInterface {
     }
 
     private void printMenuOptions() {
-        System.out.println(((int) eMainMenuChoices.SetEnvironmentsVariables.ordinal() + 1) + ". Set environment variables");
         System.out.println(((int) eMainMenuChoices.LoadSimulation.ordinal() + 1) + ". Load simulation");
-        System.out.println(((int) eMainMenuChoices.RunSimulation.ordinal() + 1) + ". Run simulation");
-        System.out.println(((int)eMainMenuChoices.Exit.ordinal() + 1) + ". Exit");
+        System.out.println(((int) eMainMenuChoices.ShowLoadedSimulationWorldDetails.ordinal() + 1) + ". Show loaded simulation world details");
+        System.out.println(((int) eMainMenuChoices.RunSimulation.ordinal() + 1) + ". Run loaded simulation");
+        System.out.println(((int) eMainMenuChoices.GetHistoricalSimulationDetails.ordinal() + 1) + ". Get historical simulation results");
+        System.out.println(((int) eMainMenuChoices.Exit.ordinal() + 1) + ". Exit");
+
         System.out.print("Choose an option by typing the option number: ");
     }
 
@@ -89,6 +91,11 @@ public class ConsoleUI implements UserInterface {
         switch (eMainMenuChoices.values()[userChoice]){
             case SetEnvironmentsVariables:
                 setEnvironmentPropertiesValues();
+                break;
+            case ShowLoadedSimulationWorldDetails:
+                showLoadedSimulationWorldDetails();
+                break;
+            case GetHistoricalSimulationDetails:
                 break;
             case LoadSimulation:
                 loadSimulationSession();
