@@ -1,11 +1,12 @@
 package simulator.execution.context.impl;
 
 import simulator.definition.property.utils.enums.ePropertyType;
-import simulator.execution.context.api.EntityInstance;
-import simulator.execution.context.api.EnvironmentInstance;
 import simulator.execution.context.api.ExecutionContext;
-import simulator.execution.instance.environment.EnvironmentInstanceImpl;
-import simulator.execution.instance.world.WorldInstanceImpl;
+
+import simulator.execution.instance.entity.api.EntityInstance;
+import simulator.execution.instance.environment.api.EnvironmentInstance;
+import simulator.execution.instance.world.impl.WorldInstanceImpl;
+
 
 import java.util.List;
 

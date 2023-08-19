@@ -6,7 +6,6 @@ import dto.EnvironmentPropertiesDto;
 import dto.SetPropertySimulatorResponseDto;
 import dto.builder.params.BasePropertyDto;
 import response.SimulatorResponse;
-import simulator.execution.context.api.WorldInstance;
 import simulator.manager.api.SimulatorManager;
 import simulator.manager.impl.SimulatorManagerImpl;
 

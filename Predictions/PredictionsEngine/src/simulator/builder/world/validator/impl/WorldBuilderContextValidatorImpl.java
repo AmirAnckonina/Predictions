@@ -69,7 +69,7 @@ public class WorldBuilderContextValidatorImpl implements WorldBuilderContextVali
 
     @Override
     public boolean validateActionEntityContext(String entityName) {
-        return true;
+        return entityName.equals(primaryEntity) || entityName.equals(secondaryEntity);
     }
 
     @Override

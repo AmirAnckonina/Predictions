@@ -11,4 +11,9 @@ public abstract class BaseRandomValueGenerator<T> implements ValueGenerator<T> {
 
         random = new Random();
     }
+
+    @Override
+    public String toString() {
+        return "random";
+    }
 }

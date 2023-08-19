@@ -1,4 +1,4 @@
-package simulator.execution.instance.entity;
+package simulator.execution.instance.entity.impl;
 
 import simulator.definition.entity.Entity;
 

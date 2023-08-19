@@ -1,8 +1,12 @@
 package simulator.execution.context.api;
 
+import simulator.execution.instance.entity.api.EntityInstance;
+
 import simulator.definition.property.utils.enums.ePropertyType;
 
+
 public interface ExecutionContext {
+
     Object getPropertyValueByName(String propertyName);
 
     String getPropertyTypeByName(String methodParameter);

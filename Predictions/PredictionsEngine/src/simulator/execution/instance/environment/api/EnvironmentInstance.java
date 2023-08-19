@@ -1,4 +1,6 @@
-package simulator.execution.context.api;
+package simulator.execution.instance.environment.api;
+
+import simulator.execution.instance.property.api.PropertyInstance;
 
 public interface EnvironmentInstance {
     PropertyInstance getProperty(String name);

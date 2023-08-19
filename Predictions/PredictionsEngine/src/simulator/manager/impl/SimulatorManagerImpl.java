@@ -2,6 +2,7 @@ package simulator.manager.impl;
 
 import dto.EnvironmentPropertiesDto;
 import dto.SetPropertySimulatorResponseDto;
+import dto.SimulationDetailsDto;
 import dto.builder.params.BasePropertyDto;
 import dto.builder.params.enums.eSetPropertyStatus;
 import response.SimulatorResponse;
@@ -14,14 +15,13 @@ import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.property.impl.Range;
 import simulator.definition.world.World;
 import dto.BuildSimulatorDto;
-import simulator.execution.context.api.EntityInstance;
-import simulator.execution.context.api.PropertyInstance;
-import simulator.execution.context.api.WorldInstance;
+import simulator.execution.instance.entity.api.EntityInstance;
+import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.execution.impl.SimulatorRunnerImpl;
-import simulator.execution.instance.entity.EntityInstanceImpl;
-import simulator.execution.instance.environment.EnvironmentInstanceImpl;
-import simulator.execution.instance.property.PropertyInstanceImpl;
-import simulator.execution.instance.world.WorldInstanceImpl;
+import simulator.execution.instance.entity.impl.EntityInstanceImpl;
+import simulator.execution.instance.environment.impl.EnvironmentInstanceImpl;
+import simulator.execution.instance.property.impl.PropertyInstanceImpl;
+import simulator.execution.instance.world.impl.WorldInstanceImpl;
 import simulator.manager.api.SimulatorManager;
 import simulator.builder.world.utils.file.WorldBuilderFileUtils;
 
@@ -57,16 +57,22 @@ public class SimulatorManagerImpl implements SimulatorManager {
             eDataFileType dataSrcType = WorldBuilderFileUtils.getDataFileTypeByFileExtension(filePath);
             worldBuilder = WorldBuilderFactory.createSimulationBuilder(dataSrcType, filePath);
             world = worldBuilder.buildWorld();
-            worldInstance = new WorldInstanceImpl();
             return new SimulatorResponse(true, "the following file has loaded successfully" + filePath);
-        } catch(Exception ex) {
+
+        } catch (Exception ex) {
+
             return new SimulatorResponse(false, ex.getMessage());
         }
     }
 
 
     @Override
-    public Object getSimulationWorldDetails() {
+    public SimulationDetailsDto getSimulationWorldDetails() {
+        //entitiesInfo = world.getPrimaryEntity().toString();
+        String terminationInfo;
+        List<String> rulesInfo = null;
+        List<String> entitiesInfo;
+        //return new SimulationDetailsDto(entitiesInfo, rulesInfo, terminationInfo);
         return null;
     }
 

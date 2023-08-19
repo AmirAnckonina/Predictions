@@ -31,4 +31,15 @@ public abstract class AbstractPropertyDefinition<T> implements PropertyDefinitio
     public T generateValue() {
         return valueGenerator.generateValue();
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("entity name: ").append(name).append(System.lineSeparator());
+        sb.append("property type: ").append(propertyType.toString()).append(System.lineSeparator());
+        sb.append("value initialization type: ").append(valueGenerator.toString()).append(System.lineSeparator());
+
+        return sb.toString();
+    }
 }

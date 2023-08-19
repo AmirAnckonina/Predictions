@@ -11,20 +11,15 @@ public class Rule {
 
     private List<AbstractAction> actions;
 
-    private Optional<Activation> activation;
+    private Activation activation;
 
     public Rule(String name, List<AbstractAction> actions, Activation activation) {
         this.name = name;
         this.actions = actions;
-        this.activation = Optional.ofNullable(activation);
-    }
-    public Rule(String name, List<AbstractAction> actions) {
-        this.name = name;
-        this.actions = actions;
-        this.activation = Optional.empty();
+        this.activation = activation;
     }
 
-    public Optional<Activation> getActivation() {
+    public Activation getActivation() {
         return activation;
     }
 

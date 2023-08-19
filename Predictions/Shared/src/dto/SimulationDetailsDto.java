@@ -1,12 +1,15 @@
 package dto;
 
+import java.util.List;
+
 public class SimulationDetailsDto {
-    private String id;
+    private List<String> entitiesInfo;
+    private List<String> rulesInfo;
+    private String terminationInfo;
 
-    public SimulationDetailsDto(String simulationID){ this.id = simulationID;}
-
-    public String getId() {
-        return id;
+    public SimulationDetailsDto(List<String> entitiesInfo, List<String> rulesInfo, String terminationInfo) {
+        this.entitiesInfo = entitiesInfo;
+        this.rulesInfo = rulesInfo;
+        this.terminationInfo = terminationInfo;
     }
-
 }

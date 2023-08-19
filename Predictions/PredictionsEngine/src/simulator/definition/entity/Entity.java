@@ -10,7 +10,6 @@ public class Entity {
     private int population;
     private Map<String, AbstractPropertyDefinition> properties;
 
-
     public Entity(String name, int population, Map<String, AbstractPropertyDefinition> properties) {
         this.name = name;
         this.population = population;
@@ -56,4 +55,16 @@ public class Entity {
         return population;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("entity name: ").append(name).append(System.lineSeparator());
+        sb.append("population: ").append(population).append(System.lineSeparator());
+        for (AbstractPropertyDefinition property : properties.values()) {
+            sb.append(property.toString()).append(System.lineSeparator());
+        }
+
+        return sb.toString();
+    }
 }

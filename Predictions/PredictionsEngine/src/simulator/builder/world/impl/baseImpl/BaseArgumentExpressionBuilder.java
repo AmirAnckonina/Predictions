@@ -2,6 +2,7 @@ package simulator.builder.world.impl.baseImpl;
 
 import simulator.builder.world.api.abstracts.AbstractComponentBuilder;
 import simulator.builder.world.api.interfaces.ArgumentExpressionBuilder;
+import simulator.builder.world.utils.exception.WorldBuilderException;
 import simulator.definition.rule.action.expression.utils.enums.eExpressionMethod;
 import simulator.builder.world.validator.api.WorldBuilderContextValidator;
 import simulator.definition.property.utils.enums.ePropertyType;
@@ -21,32 +22,35 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
     @Override
     public ArgumentExpression buildExpression(String rawExpression, ePropertyType type) {
         ArgumentExpression argumentExpression = null;
-        if(isIdentifiesEnvironmentMethod(rawExpression)){
+        if (isIdentifiesEnvironmentMethod(rawExpression)){
             String method = getEnvironmentMethodName(rawExpression);
             switch (eExpressionMethod.valueOf(method.toUpperCase())){
                 case ENVIRONMENT:
                     if(contextValidator.isEnvironmentProperty(getEnvironmentDataMemberName(rawExpression)) &&
                             (this.contextValidator
-                                    .validateEnvironemntPropertyTypeAsExpected(getEnvironmentDataMemberName(rawExpression)
-                                            , type) ) ) {
+                                    .validateEnvironemntPropertyTypeAsExpected(
+                                            getEnvironmentDataMemberName(rawExpression) ,type) ) ) {
 
-                        argumentExpression = new EnvironmentMethodArgumentExpressionImpl(eExpressionMethod.ENVIRONMENT,
+                        argumentExpression = new EnvironmentMethodArgumentExpressionImpl(
+                                eExpressionMethod.ENVIRONMENT,
                                 getEnvironmentDataMemberName(rawExpression));
+                        break;
                     }
-                    else throw new RuntimeException();
-                    break;
+                    else {
+                        throw new WorldBuilderException("Cannot build Environemnt method Expression");
+                    }
 
                 case RANDOM:
-                    if(type != ePropertyType.STRING) {
-                        throw new RuntimeException();
-                    }
+//                    if(type != ePropertyType.STRING) {
+//                        throw new WorldBuilderException("Not implemented case random");
+//                    }
                     argumentExpression = new RandomMethodArgumentExpressionImpl(eExpressionMethod.RANDOM, (new Random()).nextInt());
                     break;
             }
 
         } else if (contextValidator.isEnvironmentProperty(rawExpression)) {
             if (this.contextValidator.validateEnvironemntPropertyTypeAsExpected(
-                    rawExpression, type)){
+                    rawExpression, type)) {
                 argumentExpression = new PropertyArgumentExpressionImpl(rawExpression);
             }
         } else {
