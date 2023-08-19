@@ -43,7 +43,10 @@ public class SimulatorManagerImpl implements SimulatorManager {
     private String simulationID;
     private SimulatorRunner simulatorRunner;
 
+    //SimulatorResultManager simulatorResultManager;
+
     public SimulatorManagerImpl() {
+        //this.simulatorResultManager = new  SimulatorResultManagerImpl();
         this.propertiesUpdatedByUser = new ArrayList<>();
     }
 
@@ -106,6 +109,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
         this.simulatorRunner.run();
         this.simulationID = getGUID();
 
+        //simulatorResultManager.addNewExecutedSimulation(Guid, result...);
         SimulatorResponse<String> response = new SimulatorResponse<>(true, "", simulationID);
         return null;
     }
