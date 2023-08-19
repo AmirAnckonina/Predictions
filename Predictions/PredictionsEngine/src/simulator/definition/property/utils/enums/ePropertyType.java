@@ -36,5 +36,7 @@ public enum ePropertyType {
             }
             return (Integer) value;
         }
-    }
+    };
+
+    public abstract <T> T convert(Object value);
 }
