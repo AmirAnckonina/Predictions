@@ -1,5 +1,6 @@
 package simulator.manager.api;
 import dto.EnvironmentPropertiesDto;
+import dto.SimulationDetailsDto;
 import response.SimulatorResponse;
 
 public interface SimulatorManager {
@@ -13,7 +14,7 @@ public interface SimulatorManager {
 
     // Parameters: consider support SimulationId and SimulationName
     // According to the simulation state (executed? or just built), we should return different types of data.
-    public Object getSimulationWorldDetails();
+    public SimulatorResponse<SimulationDetailsDto> getSimulationWorldDetails();
 
     public EnvironmentPropertiesDto getEnvironmentProperties();
 

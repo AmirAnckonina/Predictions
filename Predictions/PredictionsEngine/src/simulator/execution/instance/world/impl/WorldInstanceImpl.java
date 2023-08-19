@@ -45,7 +45,6 @@ public class WorldInstanceImpl implements WorldInstance {
         this.environmentInstance = environmentInstance;
     }
 
-
     @Override
     public Termination getTermination() {
         return termination;

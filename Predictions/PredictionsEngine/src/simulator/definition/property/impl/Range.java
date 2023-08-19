@@ -16,4 +16,12 @@ public class Range<T extends Number> {
     public T getTo() {
         return to;
     }
+
+    @Override
+    public String toString() {
+        return "Range{" +
+                "from=" + from +
+                ", to=" + to +
+                '}';
+    }
 }

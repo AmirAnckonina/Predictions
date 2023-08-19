@@ -15,6 +15,7 @@ import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.property.impl.Range;
 import simulator.definition.world.World;
 import dto.BuildSimulatorDto;
+import simulator.execution.instance.environment.api.EnvironmentInstance;
 import simulator.execution.runner.api.SimulatorRunner;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
@@ -42,7 +43,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
     private SimulatorRunner simulatorRunner;
 
     public SimulatorManagerImpl() {
-        this.propertiesUpdatedByUser = new LinkedList<>();
+        this.propertiesUpdatedByUser = new ArrayList<>();
     }
 
     private void loadedSimulation() {
@@ -68,13 +69,26 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
 
     @Override
-    public SimulationDetailsDto getSimulationWorldDetails() {
-        //entitiesInfo = world.getPrimaryEntity().toString();
-        String terminationInfo;
-        List<String> rulesInfo = null;
-        List<String> entitiesInfo;
-        //return new SimulationDetailsDto(entitiesInfo, rulesInfo, terminationInfo);
-        return null;
+    public SimulatorResponse<SimulationDetailsDto> getSimulationWorldDetails() {
+        try {
+            String entitiesInfo = world.getPrimaryEntity().toString();
+            String rulesInfo = world.getRules().toString();
+            String terminationInfo = world.getTermination().toString();
+
+            return new SimulatorResponse<>(
+                    true,
+                    new SimulationDetailsDto(entitiesInfo, rulesInfo, terminationInfo)
+            );
+
+        } catch (Exception e) {
+
+            return new SimulatorResponse<>(
+                    false,
+                    "An error occured while trying to fetch the the loaded simulation world details."
+            );
+        }
+
+
     }
 
     @Override
@@ -195,6 +209,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
             responseDto = new SetPropertySimulatorResponseDto(eSetPropertyStatus.SUCCEEDED,
                     "Environment Variable Value has been set with " + value);
+
             response =  new SimulatorResponse(true,
                     "Environment Variable Value has been set with " + value,
                                 responseDto);
@@ -217,19 +232,12 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
-    public EnvironmentInstanceImpl activateEnvironment() {
-        EnvironmentInstanceImpl environmentInstance = new EnvironmentInstanceImpl();
-        for (String propertyName:world.getEnvironment().getPropertiesNames() ){
-            PropertyInstance propertyInstance = new PropertyInstanceImpl(propertyName,
-                    world.getEnvironment().getPropertyByName(propertyName).generateValue(),
-                    world.getEnvironment().getPropertyByName(propertyName).getType());
-            environmentInstance.addPropertyInstance(propertyInstance);
-        }
-        // instances = manager.instance.createInstances();
-        // env = manager.activateEnvironment(dto );
-        // manager.initializeRunner(instances, env);
-        // manager.run();
-        return environmentInstance;
+    public EnvironmentInstance activateEnvironment() {
+
+        Map<String, PropertyInstance> environmentVariables =
+                createPropertyInstances(world.getEnvironment().getEnvironmentProperties());
+
+        return new EnvironmentInstanceImpl(environmentVariables);
     }
 
     public List<EntityInstance> createPrimaryEntityInstances() {
@@ -240,23 +248,10 @@ public class SimulatorManagerImpl implements SimulatorManager {
         for (int index = 0; index < world.getPrimaryEntity().getPopulation(); index++) {
 
             EntityInstance singlePrimaryInstance;
-            Map<String, PropertyInstance> entityPropertyInstances = new HashMap<>();
 
-            for (Map.Entry<String, AbstractPropertyDefinition> entry : world.getPrimaryEntity().getProperties().entrySet()){
+            Map<String, PropertyInstance> entityPropertyInstances =
+                    createPropertyInstances(world.getPrimaryEntity().getProperties());
 
-                /// Note - we should validate key (bane) == value.getName(); in each propery Entry <K,V>
-
-                String propertyName = entry.getKey();
-                AbstractPropertyDefinition propertyDefinition = entry.getValue();
-
-                PropertyInstance propertyInstance =
-                        new PropertyInstanceImpl(
-                                propertyDefinition.getName(),
-                                propertyDefinition.generateValue(),
-                                propertyDefinition.getType());
-
-                entityPropertyInstances.put(propertyName, propertyInstance);
-            }
             singlePrimaryInstance = new EntityInstanceImpl(index + 1, entityPropertyInstances);
 
             // Finally after we build singleEntityInstance with it properties, we add it to the list result.
@@ -264,6 +259,28 @@ public class SimulatorManagerImpl implements SimulatorManager {
         }
 
         return primaryEntityInstances;
+    }
+
+    public Map<String, PropertyInstance> createPropertyInstances(
+            Map<String, AbstractPropertyDefinition> propertyDefinitions) {
+
+        Map<String, PropertyInstance> propertyInstanceMap = new HashMap<>();
+
+        for (Map.Entry<String, AbstractPropertyDefinition> entry :
+                propertyDefinitions.entrySet()) {
+
+            /// Note - we should validate key (bane) == value.getName(); in each propery Entry <K,V>
+
+            String propName = entry.getKey();
+            AbstractPropertyDefinition propDefinition = entry.getValue();
+
+            PropertyInstance propertyInstance =
+                    new PropertyInstanceImpl(propDefinition, propDefinition.generateValue());
+
+            propertyInstanceMap.put(propName, propertyInstance);
+        }
+
+        return  propertyInstanceMap;
     }
 
 
