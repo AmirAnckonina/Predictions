@@ -3,14 +3,14 @@ package simulator.builder.world.impl.baseImpl;
 import simulator.builder.world.api.abstracts.AbstractComponentBuilder;
 import simulator.builder.world.api.interfaces.ArgumentExpressionBuilder;
 import simulator.builder.world.utils.exception.WorldBuilderException;
-import simulator.definition.rule.action.expression.utils.enums.eExpressionMethod;
+import simulator.definition.rule.action.argumentExpression.utils.enums.eExpressionMethod;
 import simulator.builder.world.validator.api.WorldBuilderContextValidator;
 import simulator.definition.property.utils.enums.ePropertyType;
-import simulator.definition.rule.action.expression.api.interfaces.ArgumentExpression;
-import simulator.definition.rule.action.expression.impl.EnvironmentMethodArgumentExpressionImpl;
-import simulator.definition.rule.action.expression.impl.PropertyArgumentExpressionImpl;
-import simulator.definition.rule.action.expression.impl.RandomMethodArgumentExpressionImpl;
-import simulator.definition.rule.action.expression.impl.ValueArgumentExpressionImpl;
+import simulator.definition.rule.action.argumentExpression.api.interfaces.ArgumentExpression;
+import simulator.definition.rule.action.argumentExpression.impl.EnvironmentMethodArgumentExpressionImpl;
+import simulator.definition.rule.action.argumentExpression.impl.PropertyArgumentExpressionImpl;
+import simulator.definition.rule.action.argumentExpression.impl.RandomMethodArgumentExpressionImpl;
+import simulator.definition.rule.action.argumentExpression.impl.ValueArgumentExpressionImpl;
 import java.util.Random;
 
 public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder implements ArgumentExpressionBuilder {

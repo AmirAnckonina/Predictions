@@ -1,33 +1,24 @@
 package simulator.execution.instance.property.impl;
 
-import simulator.definition.property.utils.enums.ePropertyType;
+import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 import simulator.execution.instance.property.api.PropertyInstance;
 
-public class PropertyInstanceImpl<T> implements PropertyInstance<T> {
-    private String propertyName;
-    private T value;
-    private ePropertyType propertyType;
+public class PropertyInstanceImpl implements PropertyInstance {
+    private AbstractPropertyDefinition propertyDefinition;
+    private Object value;
 
-    public PropertyInstanceImpl(String propertyName, T value, ePropertyType propertyType) {
-        this.propertyName = propertyName;
-        this.value = value;
-        this.propertyType = propertyType;
-    }
-
-    public String getPropertyDefinition() {
-        return propertyName;
-    }
-
-    public T getValue() {
-        return value;
-    }
-
-    public void updateValue(T value) {
-        this.value = value;
+    @Override
+    public AbstractPropertyDefinition getPropertyDefinition() {
+        return null;
     }
 
     @Override
-    public ePropertyType getPropertyType() {
-        return this.propertyType;
+    public Object getValue() {
+        return value;
+    }
+
+    @Override
+    public void updateValue(Object val) {
+        this.value = val;
     }
 }

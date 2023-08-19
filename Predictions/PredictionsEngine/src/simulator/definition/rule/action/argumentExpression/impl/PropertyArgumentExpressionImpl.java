@@ -1,7 +1,7 @@
-package simulator.definition.rule.action.expression.impl;
+package simulator.definition.rule.action.argumentExpression.impl;
 
 
-import simulator.definition.rule.action.expression.api.interfaces.ArgumentExpression;
+import simulator.definition.rule.action.argumentExpression.api.interfaces.ArgumentExpression;
 import simulator.execution.context.api.ExecutionContext;
 
 public class PropertyArgumentExpressionImpl implements ArgumentExpression<String> {

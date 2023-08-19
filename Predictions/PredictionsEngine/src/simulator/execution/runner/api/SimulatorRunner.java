@@ -1,4 +1,4 @@
-package simulator.execution.api;
+package simulator.execution.runner.api;
 
 public interface SimulatorRunner {
     void createInstances();

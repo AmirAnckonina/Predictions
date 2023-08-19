@@ -1,4 +1,4 @@
-package simulator.definition.rule.action.expression.utils.enums;
+package simulator.definition.rule.action.argumentExpression.utils.enums;
 
 public enum eExpressionMethod {
     ENVIRONMENT,

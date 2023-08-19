@@ -2,7 +2,7 @@ package simulator.definition.rule.action.impl;
 
 import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.rule.action.api.abstracts.AbstractPropertyAction;
-import simulator.definition.rule.action.expression.api.interfaces.ArgumentExpression;
+import simulator.definition.rule.action.argumentExpression.api.interfaces.ArgumentExpression;
 import simulator.definition.rule.action.utils.enums.eActionType;
 import simulator.execution.context.api.ExecutionContext;
 
@@ -26,5 +26,9 @@ public class IncreaseAction extends AbstractPropertyAction {
             intPropertyValue += ePropertyType.DECIMAL.convert(by.getValue(context));
         }
         context.setPropertyInstanceValue(this.propertyName, Double.parseDouble() + by.getValue(context));
+
+
+        context.getPrimaryEntityInstance().getPropertyByName(propertyName).getValue();
+        context.getPrimaryEntityInstance().getPropertyByName(propertyName).getPropertyDefinition().getType();
     }
 }

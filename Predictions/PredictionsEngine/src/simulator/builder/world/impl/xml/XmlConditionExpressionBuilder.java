@@ -16,7 +16,7 @@ import simulator.definition.rule.action.conditionExpression.impl.single.BiggerTh
 import simulator.definition.rule.action.conditionExpression.impl.single.EqualityConditionExpression;
 import simulator.definition.rule.action.conditionExpression.impl.single.InequalityConditionExpression;
 import simulator.definition.rule.action.conditionExpression.impl.single.LowerThanConditionExpression;
-import simulator.definition.rule.action.expression.api.interfaces.ArgumentExpression;
+import simulator.definition.rule.action.argumentExpression.api.interfaces.ArgumentExpression;
 import simulator.definition.rule.action.utils.enums.eConditionCompartorType;
 import simulator.definition.rule.action.utils.enums.eConditionSingularity;
 import simulator.definition.rule.action.utils.enums.eMultipleConditionLogicalOperator;
