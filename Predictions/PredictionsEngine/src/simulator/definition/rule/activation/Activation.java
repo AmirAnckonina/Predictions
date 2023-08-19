@@ -31,4 +31,12 @@ public class Activation {
         double randomNumber = random.nextDouble();
         return this.ticksInterval % tickNumber == 0 && this.probability >= randomNumber;
     }
+
+    @Override
+    public String toString() {
+        return "Activation{" +
+                "ticksInterval=" + ticksInterval +
+                ", probability=" + probability +
+                '}';
+    }
 }

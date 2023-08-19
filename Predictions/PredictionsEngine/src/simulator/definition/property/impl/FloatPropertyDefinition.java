@@ -7,7 +7,7 @@ import simulator.definition.property.valueGenerator.api.ValueGenerator;
 public class FloatPropertyDefinition extends AbstractNumericPropertyDefinition<Float> {
 
     public FloatPropertyDefinition(String name, ePropertyType propertyType, ValueGenerator<Float> valueGenerator) {
-        super(name, propertyType, valueGenerator);
+        this(name, propertyType, valueGenerator, null);
     }
 
     public FloatPropertyDefinition(String name, ePropertyType propertyType, ValueGenerator<Float> valueGenerator, Range<Float> range) {
