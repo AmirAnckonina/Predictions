@@ -7,7 +7,7 @@ import simulator.definition.property.valueGenerator.api.ValueGenerator;
 public class DecimalPropertyDefinition extends AbstractNumericPropertyDefinition<Integer> {
 
     public DecimalPropertyDefinition(String name, ePropertyType propertyType, ValueGenerator<Integer> valueGenerator) {
-        super(name, propertyType, valueGenerator);
+        this(name, propertyType, valueGenerator, null);
     }
 
     public DecimalPropertyDefinition(String name, ePropertyType propertyType, ValueGenerator<Integer> valueGenerator, Range<Integer> range) {

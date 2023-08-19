@@ -11,7 +11,7 @@ import simulator.definition.property.valueGenerator.utils.factory.ValueGenerator
 public class BasePropertyBuilder implements PropertyBuilder {
 
     @Override
-    public AbstractPropertyDefinition buildProperty(String name, ePropertyType propertyType, Range range) {
+    public AbstractPropertyDefinition buildProperty(String name, ePropertyType propertyType, Range doubledRange) {
         AbstractPropertyDefinition newPropDefinition = null;
         switch (propertyType) {
 
@@ -25,13 +25,16 @@ public class BasePropertyBuilder implements PropertyBuilder {
 
             case DECIMAL:
 
-                if (range != null) {
-                    Range intRange = new Range(Double.valueOf((double)range.getFrom()).intValue(),
-                            Double.valueOf((double)range.getTo()).intValue());
-                    ValueGenerator integerValGen = ValueGeneratorFactory.createRandomRangedIntegerGenerator(intRange);
+                if (doubledRange != null) {
+                    Range decimalRange =
+                            new Range(
+                                    doubledRange.getFrom().intValue(),
+                                    doubledRange.getTo().intValue()
+                            );
 
-                    return new DecimalPropertyDefinition(
-                            name, ePropertyType.DECIMAL, integerValGen);
+                    ValueGenerator integerValGen = ValueGeneratorFactory.createRandomRangedIntegerGenerator(decimalRange);
+
+                    return new DecimalPropertyDefinition(name, ePropertyType.DECIMAL, integerValGen, decimalRange);
 
                 } else {
                     return new DecimalPropertyDefinition(
@@ -40,14 +43,20 @@ public class BasePropertyBuilder implements PropertyBuilder {
 
 
             case FLOAT:
-                if (range != null) {
-                    Range floatRange = new Range((Float) range.getFrom(), (Float) range.getTo());
+                if (doubledRange != null) {
+                    Range floatRange =
+                            new Range(
+                                    doubledRange.getFrom().floatValue(),
+                                    doubledRange.getTo().floatValue()
+                            );
+
                     ValueGenerator floatValGen = ValueGeneratorFactory.createRandomRangedFloatGenerator(floatRange);
 
                     return new FloatPropertyDefinition(
-                            name, ePropertyType.FLOAT, floatValGen);
+                            name, ePropertyType.FLOAT, floatValGen, floatRange);
 
                 } else {
+
                     return new FloatPropertyDefinition(
                             name, ePropertyType.FLOAT, ValueGeneratorFactory.createRandomUnlimitedFloatGenerator());
                 }

@@ -57,6 +57,7 @@ public class Entity {
 
     @Override
     public String toString() {
+
         StringBuilder sb = new StringBuilder();
 
         sb.append("entity name: ").append(name).append(System.lineSeparator());

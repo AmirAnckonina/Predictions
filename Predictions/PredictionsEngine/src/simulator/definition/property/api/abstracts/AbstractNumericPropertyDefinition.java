@@ -7,7 +7,7 @@ import simulator.definition.property.valueGenerator.api.ValueGenerator;
 import java.util.Optional;
 
 public class AbstractNumericPropertyDefinition<T extends Number> extends AbstractPropertyDefinition<T> {
-    final private Range<T> range;
+    private Range<T> range;
 
     public AbstractNumericPropertyDefinition(String name, ePropertyType propertyType, ValueGenerator<T> valueGenerator, Range<T> range) {
         super(name, propertyType, valueGenerator);
@@ -25,11 +25,11 @@ public class AbstractNumericPropertyDefinition<T extends Number> extends Abstrac
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(super.toString()).append(System.lineSeparator());
+        sb.append(super.toString());
         if (getRange().isPresent()) {
-            sb.append(getRange().get().toString()).append(System.lineSeparator());
-       }
-
+            sb.append(range.toString());
+        }
+        sb.append(System.lineSeparator());
         return sb.toString();
     }
 }

@@ -26,6 +26,6 @@ public class Range<T extends Number> {
         return "Range{" +
                 "from=" + from +
                 ", to=" + to +
-                '}';
+                '}' + new StringBuilder(System.lineSeparator());
     }
 }

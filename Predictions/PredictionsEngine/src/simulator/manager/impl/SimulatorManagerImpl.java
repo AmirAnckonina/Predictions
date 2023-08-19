@@ -13,6 +13,7 @@ import simulator.definition.property.api.abstracts.AbstractNumericPropertyDefini
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.property.impl.Range;
+import simulator.definition.rule.Rule;
 import simulator.definition.world.World;
 import dto.BuildSimulatorDto;
 import simulator.execution.instance.environment.api.EnvironmentInstance;
@@ -72,7 +73,12 @@ public class SimulatorManagerImpl implements SimulatorManager {
     public SimulatorResponse<SimulationDetailsDto> getSimulationWorldDetails() {
         try {
             String entitiesInfo = world.getPrimaryEntity().toString();
-            String rulesInfo = world.getRules().toString();
+            StringBuilder rulesSb = new StringBuilder();
+            for (Rule rule : world.getRules()) {
+                rulesSb.append(rule.toString()).append(System.lineSeparator());
+            }
+
+            String rulesInfo = rulesSb.toString();
             String terminationInfo = world.getTermination().toString();
 
             return new SimulatorResponse<>(
