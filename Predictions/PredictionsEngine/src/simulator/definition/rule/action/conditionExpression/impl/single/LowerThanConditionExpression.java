@@ -4,7 +4,7 @@ import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.rule.action.conditionExpression.api.abstracts.AbstractSingleConditionExpression;
 import simulator.definition.rule.action.argumentExpression.api.interfaces.ArgumentExpression;
 import simulator.execution.context.api.ExecutionContext;
-import simulator.execution.runner.utils.exceptions.RunnerException;
+import simulator.execution.runner.utils.exceptions.SimulatorRunnerException;
 
 public class LowerThanConditionExpression extends AbstractSingleConditionExpression {
     /**
@@ -30,7 +30,7 @@ public class LowerThanConditionExpression extends AbstractSingleConditionExpress
                 break;
             case BOOLEAN:
             case STRING:
-                throw new RunnerException("Different arguments types - Condition test is not available");
+                throw new SimulatorRunnerException("Different arguments types - Condition test is not available");
             case FLOAT:
                 returnValue = (Float)context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).getValue()
                         < (Float) this.comparedValue.getValue(context);
