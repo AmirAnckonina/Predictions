@@ -1,5 +1,6 @@
 package simulator.definition.rule.action.impl;
 
+import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.rule.action.api.abstracts.AbstractPropertyAction;
 import simulator.definition.rule.action.argumentExpression.api.interfaces.ArgumentExpression;
@@ -16,31 +17,42 @@ public class IncreaseAction extends AbstractPropertyAction {
     }
 
     @Override
-    public void invoke(ExecutionContext context) {
-        Double intPropertyValue;
-        Object propertyValue = context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).getValue();
-        ePropertyType propertyType =
-                context.getPrimaryEntityInstance()
+    public void invoke(ExecutionContext executionContext) {
+        Object propertyValue = executionContext.getPrimaryEntityInstance().getPropertyByName(this.propertyName).getValue();
+        AbstractPropertyDefinition propDefinition =
+                executionContext
+                .getPrimaryEntityInstance()
                 .getPropertyByName(this.propertyName)
-                .getPropertyDefinition().getType();
+                .getPropertyDefinition();
+
+        ePropertyType propertyType = propDefinition.getType();
 
         switch (propertyType) {
+
             case DECIMAL:
-                intPropertyValue = ePropertyType.DECIMAL.convert((Double) propertyValue);
-                intPropertyValue += ePropertyType.DECIMAL.convert((Double)by.getValue(context));
-                context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).updateValue(intPropertyValue.intValue());
+
+                Integer integerValue = (Integer) ePropertyType.DECIMAL.convert(propertyValue);
+                Double doubledByExpValue =  Double.valueOf(by.getValue(executionContext).toString());
+                Double rawSumResultForDecimal = integerValue + doubledByExpValue;
+                executionContext
+                        .getPrimaryEntityInstance()
+                        .getPropertyByName(this.propertyName)
+                        .updateValue(rawSumResultForDecimal.intValue());
                 break;
+
+            case FLOAT:
+                Float floatValue = (Float) ePropertyType.FLOAT.convert(propertyValue);
+                Double doubleByExpValue = Double.valueOf(by.getValue(executionContext).toString());
+                Double rawSumResultForFloat = floatValue + doubleByExpValue;
+                executionContext
+                        .getPrimaryEntityInstance()
+                        .getPropertyByName(this.propertyName)
+                        .updateValue(rawSumResultForFloat.floatValue());
+                break;
+
             case BOOLEAN:
             case STRING:
                 throw new RunnerException("Different arguments types - Condition test is not available");
-            case FLOAT:
-                intPropertyValue = ePropertyType.FLOAT.convert((Double) propertyValue);
-                intPropertyValue += ePropertyType.FLOAT.convert((Double)by.getValue(context));
-                context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).updateValue(intPropertyValue);
-                break;
         }
-
-        context.getPrimaryEntityInstance().getPropertyByName(propertyName).getValue();
-        context.getPrimaryEntityInstance().getPropertyByName(propertyName).getPropertyDefinition().getType();
     }
 }

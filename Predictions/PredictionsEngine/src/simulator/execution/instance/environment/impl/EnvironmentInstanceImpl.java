@@ -27,8 +27,4 @@ public class EnvironmentInstanceImpl implements EnvironmentInstance {
     public void addPropertyInstance(PropertyInstance propertyInstance) {
         environmentVariables.put(propertyInstance.getPropertyDefinition().getName() ,propertyInstance);
     }
-
-
-
-
 }

@@ -14,7 +14,7 @@ public class PropertyInstanceImpl implements PropertyInstance {
 
     @Override
     public AbstractPropertyDefinition getPropertyDefinition() {
-        return null;
+        return propertyDefinition;
     }
 
     @Override
@@ -24,6 +24,7 @@ public class PropertyInstanceImpl implements PropertyInstance {
 
     @Override
     public void updateValue(Object val) {
+
         this.value = val;
     }
 }

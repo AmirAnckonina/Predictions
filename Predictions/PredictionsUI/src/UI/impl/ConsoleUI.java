@@ -64,6 +64,7 @@ public class ConsoleUI implements UserInterface {
         setEnvironmentPropertiesValues();
         SimulatorResponse response = simulatorManager.establishSimulation();
         if (response.isSuccess()) {
+            yesNoSession();
             runSimulationSessionForEstablishedEnvironment();
         } else {
             System.out.println(response.getMessage());
@@ -210,7 +211,6 @@ public class ConsoleUI implements UserInterface {
 
     private void printLoadingSimulationMenu() {
         System.out.println("Inset the full path of the XML file and press enter:");
-
     }
 
     private void startLoadingSimulationSessionSignal() {
@@ -219,7 +219,6 @@ public class ConsoleUI implements UserInterface {
     }
 
     private void setEnvironmentPropertiesValues() {
-        Boolean doneFillingProperties = false;
         startEnvironmentSessionSignal();
         EnvironmentPropertiesDto propertiesDto = simulatorManager.getEnvironmentProperties();
         List<BasePropertyDto> properties = propertiesDto.getPropertiesList();
@@ -356,7 +355,26 @@ public class ConsoleUI implements UserInterface {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
+            String continueChoice = null;
             printPropertiesList(propertyDtoList);
+            System.out.print("Do you want to set value for one of the environment properties? (y/n): ");
+//            continueChoice = scanner.nextLine();
+//
+//            while (!continueChoice.equalsIgnoreCase("n") &&
+//                    !continueChoice.equalsIgnoreCase("y")) {
+//
+//                System.out.print("\nInvalid input! type 'y' for yes and 'n' for no only: ");
+//                continueChoice = scanner.nextLine();
+//            }
+
+//            if (!continueChoice.equalsIgnoreCase("y")) {
+//                break;
+//            }
+
+            // If true return - that meands the user want to insertValues to props.
+            if (!yesNoSession()) {
+                break;
+            }
             System.out.println("Enter the index of the property you would like to update: ");
 
             if (scanner.hasNextInt()) {
@@ -374,25 +392,32 @@ public class ConsoleUI implements UserInterface {
                 System.out.println("Invalid input. Please enter a valid index.");
                 scanner.nextLine(); // Consume the invalid input
             }
-            String continueChoice = null;
-            System.out.print("Do you want to update more variables? (y/n): ");
-            continueChoice = scanner.nextLine();
 
-            while (!continueChoice.equalsIgnoreCase("n") &&
-                    !continueChoice.equalsIgnoreCase("y")) {
-
-                System.out.print("\nInvalid input! type 'y' for yes and 'n' for no only: ");
-                continueChoice = scanner.nextLine();
-            }
-
-            if (!continueChoice.equalsIgnoreCase("y")) {
-                break;
-            }
 
         }
 
         return propertiesUserUpdatedList;
     }
+
+    private boolean yesNoSession() {
+        String continueChoice;
+        Scanner scanner = new Scanner(System.in);
+        continueChoice = scanner.nextLine();
+
+        while (!continueChoice.equalsIgnoreCase("n") &&
+                !continueChoice.equalsIgnoreCase("y")) {
+
+            System.out.print("\nInvalid input! type 'y' for yes and 'n' for no only: ");
+            continueChoice = scanner.nextLine();
+        }
+
+        if (continueChoice.equalsIgnoreCase("y")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     private void startSettingPropertySession(BasePropertyDto property) {
         String propertyName = new String(property.getName());

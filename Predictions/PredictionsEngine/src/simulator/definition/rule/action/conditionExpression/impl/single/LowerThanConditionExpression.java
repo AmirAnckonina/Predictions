@@ -35,10 +35,6 @@ public class LowerThanConditionExpression extends AbstractSingleConditionExpress
                 returnValue = (Float)context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).getValue()
                         < (Float) this.comparedValue.getValue(context);
                 break;
-//            case INTEGER:
-//                returnValue = (Integer)context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).getValue()
-//                        < (Integer) this.comparedValue.getValue(context);
-//                break;
         }
 
         return returnValue;

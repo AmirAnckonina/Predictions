@@ -11,58 +11,147 @@ import simulator.definition.property.valueGenerator.utils.factory.ValueGenerator
 public class BasePropertyBuilder implements PropertyBuilder {
 
     @Override
-    public AbstractPropertyDefinition buildProperty(String name, ePropertyType propertyType, Range doubledRange) {
-        AbstractPropertyDefinition newPropDefinition = null;
-        switch (propertyType) {
+    public AbstractPropertyDefinition buildProperty(
+            String name, ePropertyType propertyType, Range doubledRange, String rawInitValue) {
 
-            case BOOLEAN:
-                return new BooleanPropertyDefinition(
-                        name, ePropertyType.BOOLEAN, ValueGeneratorFactory.createRandomBooleanGenerator());
+        try {
+            AbstractPropertyDefinition newPropDefinition = null;
+            switch (propertyType) {
 
-            case STRING:
-                return new StringPropertyDefinition(
-                        name, ePropertyType.STRING, ValueGeneratorFactory.createRandomStringGenerator());
+                case BOOLEAN:
+                    return buildBooleanProperty(name, propertyType, doubledRange, rawInitValue);
 
-            case DECIMAL:
+                case STRING:
+                    return buildStringProperty(name, propertyType, doubledRange, rawInitValue);
 
-                if (doubledRange != null) {
-                    Range decimalRange =
-                            new Range(
-                                    doubledRange.getFrom().intValue(),
-                                    doubledRange.getTo().intValue()
-                            );
+                case DECIMAL:
+                    return buildDecimalProperty(name, propertyType, doubledRange, rawInitValue);
 
-                    ValueGenerator integerValGen = ValueGeneratorFactory.createRandomRangedIntegerGenerator(decimalRange);
+                case FLOAT:
+                    return buildFloatProperty(name, propertyType, doubledRange, rawInitValue);
 
-                    return new DecimalPropertyDefinition(name, ePropertyType.DECIMAL, integerValGen, decimalRange);
-
-                } else {
-                    return new DecimalPropertyDefinition(
-                            name, ePropertyType.DECIMAL, ValueGeneratorFactory.createRandomUnlimitedDecimalGenerator());
-                }
-
-
-            case FLOAT:
-                if (doubledRange != null) {
-                    Range floatRange =
-                            new Range(
-                                    doubledRange.getFrom().floatValue(),
-                                    doubledRange.getTo().floatValue()
-                            );
-
-                    ValueGenerator floatValGen = ValueGeneratorFactory.createRandomRangedFloatGenerator(floatRange);
-
-                    return new FloatPropertyDefinition(
-                            name, ePropertyType.FLOAT, floatValGen, floatRange);
-
-                } else {
-
-                    return new FloatPropertyDefinition(
-                            name, ePropertyType.FLOAT, ValueGeneratorFactory.createRandomUnlimitedFloatGenerator());
-                }
-
-            default:
-                throw new WorldBuilderException("Unsupported property type");
+                default:
+                    throw new WorldBuilderException("Unsupported property type");
+            }
+        } catch (Exception e) {
+            throw new WorldBuilderException(
+                    "An error detected while trying to build property definition: " + e.getMessage());
         }
+
+    }
+
+    public BasePropertyBuilder() {
+        super();
+    }
+
+
+    @Override
+    public AbstractPropertyDefinition buildBooleanProperty(
+            String name, ePropertyType propertyType, Range doubledRange, String rawInitValue) {
+
+        AbstractPropertyDefinition propDefinition;
+        if (rawInitValue != null) {
+
+            propDefinition = new BooleanPropertyDefinition(
+                    name,
+                    ePropertyType.BOOLEAN,
+                    ValueGeneratorFactory.createFixed(Boolean.parseBoolean(rawInitValue)));
+        } else {
+
+            propDefinition = new BooleanPropertyDefinition(
+                    name, ePropertyType.BOOLEAN, ValueGeneratorFactory.createRandomBooleanGenerator());
+        }
+
+        return propDefinition;
+    }
+
+    @Override
+    public AbstractPropertyDefinition buildStringProperty(String name, ePropertyType propertyType, Range doubledRange, String rawInitValue) {
+
+        AbstractPropertyDefinition propDefinition;
+
+        if (rawInitValue != null) {
+            propDefinition = new StringPropertyDefinition(
+                    name, ePropertyType.STRING, ValueGeneratorFactory.createFixed(rawInitValue));
+        } else {
+            propDefinition = new StringPropertyDefinition(
+                    name, ePropertyType.STRING, ValueGeneratorFactory.createRandomStringGenerator());
+        }
+
+        return propDefinition;
+    }
+
+    @Override
+    public AbstractPropertyDefinition buildDecimalProperty(String name, ePropertyType propertyType, Range doubledRange, String rawInitValue) {
+        AbstractPropertyDefinition propDefinition;
+        ValueGenerator decimalValueGenerator;
+
+        if (doubledRange != null) {
+            Range decimalRange =
+                    new Range(
+                            doubledRange.getFrom().intValue(),
+                            doubledRange.getTo().intValue()
+                    );
+            if (rawInitValue != null)
+            {
+                 decimalValueGenerator = ValueGeneratorFactory.createFixed(Integer.parseInt(rawInitValue));
+            } else {
+                decimalValueGenerator = ValueGeneratorFactory.createRandomRangedIntegerGenerator(decimalRange);
+            }
+
+            propDefinition =
+                    new DecimalPropertyDefinition(
+                            name, ePropertyType.DECIMAL, decimalValueGenerator, decimalRange);
+
+        } else {
+
+            if (rawInitValue != null)
+            {
+                decimalValueGenerator = ValueGeneratorFactory.createFixed(Integer.parseInt(rawInitValue));
+            } else {
+                decimalValueGenerator = ValueGeneratorFactory.createRandomUnlimitedDecimalGenerator();
+            }
+            propDefinition = new DecimalPropertyDefinition(
+                    name, ePropertyType.DECIMAL, decimalValueGenerator);
+        }
+
+        return propDefinition;
+    }
+
+    @Override
+    public AbstractPropertyDefinition buildFloatProperty(String name, ePropertyType propertyType, Range doubledRange, String rawInitValue) {
+
+        AbstractPropertyDefinition propertyDefinition;
+        ValueGenerator floatValGenerator;
+
+        if (doubledRange != null) {
+            Range floatRange =
+                    new Range(
+                            doubledRange.getFrom().floatValue(),
+                            doubledRange.getTo().floatValue()
+                    );
+
+            if (rawInitValue != null)
+            {
+                floatValGenerator = ValueGeneratorFactory.createFixed(Float.parseFloat(rawInitValue));
+            } else {
+               floatValGenerator = ValueGeneratorFactory.createRandomRangedFloatGenerator(floatRange);
+            }
+
+            propertyDefinition = new FloatPropertyDefinition(
+                    name, ePropertyType.FLOAT, floatValGenerator, floatRange);
+
+        } else {
+            if (rawInitValue != null)
+            {
+                floatValGenerator = ValueGeneratorFactory.createFixed(Float.parseFloat(rawInitValue));
+            } else {
+                floatValGenerator = ValueGeneratorFactory.createRandomUnlimitedFloatGenerator();
+            }
+            propertyDefinition = new FloatPropertyDefinition(
+                    name, ePropertyType.FLOAT, floatValGenerator);
+        }
+
+        return propertyDefinition;
     }
 }

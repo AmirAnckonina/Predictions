@@ -38,7 +38,9 @@ public class XmlEntityBuilder extends AbstractComponentBuilder implements Entity
 
         for (PRDProperty genEntityProp : generatedEntity.getPRDProperties().getPRDProperty()) {
 
-            AbstractPropertyDefinition newProp = new XmlEntityPropertyBuilder(genEntityProp).buildEntityProperty();
+            AbstractPropertyDefinition newProp =
+                    new XmlEntityPropertyBuilder(genEntityProp).buildEntityProperty();
+
             boolean propVerified =
                     contextValidator.validatePrimaryEntityPropertyUniqueness(newProp.getName());
 
