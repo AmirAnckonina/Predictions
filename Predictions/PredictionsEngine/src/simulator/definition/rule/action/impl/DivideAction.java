@@ -12,7 +12,7 @@ public class DivideAction extends AbstractCalculationAction {
     }
 
     @Override
-    public void invoke(ExecutionContext context) {
+    public void invoke(ExecutionContext executionContext) {
        // arg1.getExprssion()
     }
 }

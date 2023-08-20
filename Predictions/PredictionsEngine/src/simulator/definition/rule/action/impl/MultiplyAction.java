@@ -12,7 +12,7 @@ public class MultiplyAction extends AbstractCalculationAction {
     }
 
     @Override
-    public void invoke(ExecutionContext context) {
+    public void invoke(ExecutionContext executionContext) {
 //        Integer = context.getEmtity.getProproeo.getvalue();
 //        if it's numeric
 //

@@ -1,9 +1,12 @@
 package simulator.builder.world.impl.xml;
 
 import resources.jaxb.schema.generated.PRDEnvProperty;
+import simulator.builder.world.impl.baseImpl.BasePropertyBuilder;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
+import simulator.definition.property.impl.Range;
+import simulator.definition.property.utils.enums.ePropertyType;
 
-public class XmlEnvironmentPropertyBuilder extends XmlPropertyBuilder {
+public class XmlEnvironmentPropertyBuilder extends BasePropertyBuilder {
     private PRDEnvProperty generatedEnvironmentProperty;
 
     public XmlEnvironmentPropertyBuilder(PRDEnvProperty generatedEnvironmentProperty) {
@@ -11,9 +14,20 @@ public class XmlEnvironmentPropertyBuilder extends XmlPropertyBuilder {
     }
 
     public AbstractPropertyDefinition buildEnvironmentProperty() {
-        return buildPropertyDefinitionByXmlGeneratedData(
-                generatedEnvironmentProperty.getPRDName(),
-                generatedEnvironmentProperty.getType(),
-                generatedEnvironmentProperty.getPRDRange());
+        String propName = generatedEnvironmentProperty.getPRDName();
+        ePropertyType propType = ePropertyType.valueOf( generatedEnvironmentProperty.getType().toUpperCase());
+        Range range = null;
+        String rawInitValue = null;
+        if ( generatedEnvironmentProperty.getPRDRange() != null) {
+            double from =  generatedEnvironmentProperty.getPRDRange().getFrom();
+            double to =  generatedEnvironmentProperty.getPRDRange().getTo();
+            range = new Range(from, to);
+        }
+
+        return buildProperty(propName, propType, range, rawInitValue);
+//        return buildPropertyDefinitionByXmlGeneratedData(
+//                generatedEnvironmentProperty.getPRDName(),
+//                generatedEnvironmentProperty.getType(),
+//                generatedEnvironmentProperty.getPRDRange());
     }
 }

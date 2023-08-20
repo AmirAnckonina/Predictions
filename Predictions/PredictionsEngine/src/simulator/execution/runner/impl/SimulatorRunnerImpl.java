@@ -1,6 +1,7 @@
 package simulator.execution.runner.impl;
 
 import simulator.definition.rule.Rule;
+import simulator.definition.rule.action.api.abstracts.AbstractAction;
 import simulator.definition.rule.activation.Activation;
 import simulator.execution.instance.entity.manager.api.EntityInstanceManager;
 import simulator.execution.instance.entity.manager.impl.EntityInstanceMangerImpl;
@@ -63,12 +64,18 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
                                 entityInstance, primaryEntityInstanceManager, environmentInstance);
 
                 for (Rule rule : worldInstance.getRules()) {
-
                     if (rule.getActivation().isActive(currTick)) {
+                        for (AbstractAction action : rule.getActions()) {
+                            try {
+                                action.invoke(executionContext);
+                            } catch (Exception e) {
 
-                        rule.getActions()
-                                .forEach(action ->
-                                        action.invoke(executionContext));
+                            }
+                        }
+
+//                        rule.getActions()
+//                                .forEach(action ->
+//                                        action.invoke(executionContext));
                     }
                 }
             }

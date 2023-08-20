@@ -26,7 +26,25 @@ public class ConditionAction extends AbstractAction {
     }
 
     @Override
-    public void invoke(ExecutionContext context) {
-        //condition.test() ->
+    public void invoke(ExecutionContext executionContext) {
+        if (condition.test(executionContext)) {
+
+            for (AbstractAction action : thenActions) {
+                try {
+                    action.invoke(executionContext);
+                } catch (Exception e) {
+
+                }
+            }
+
+        } else {
+
+            for (AbstractAction action : elseActions) {
+                try {
+                    action.invoke(executionContext);
+                } catch (Exception e) {
+                }
+            }
+        }
     }
 }

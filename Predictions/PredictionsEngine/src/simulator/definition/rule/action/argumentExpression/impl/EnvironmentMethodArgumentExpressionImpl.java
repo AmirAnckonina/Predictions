@@ -17,7 +17,7 @@ public class EnvironmentMethodArgumentExpressionImpl extends AbstractMethodArgum
         Object returnValue = null;
         switch (type){
             case DECIMAL:
-                returnValue = (Double) value;
+                returnValue = (Integer) value;
                 break;
             case BOOLEAN:
                 returnValue =  (Boolean) value;

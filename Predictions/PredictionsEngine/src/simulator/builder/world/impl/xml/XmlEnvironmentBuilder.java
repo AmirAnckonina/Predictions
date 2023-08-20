@@ -33,7 +33,8 @@ public class XmlEnvironmentBuilder extends AbstractComponentBuilder implements E
         Map<String, AbstractPropertyDefinition> envProperties = new HashMap<>();
 
         for (PRDEnvProperty genEnvProp : generatedEnvironment.getPRDEnvProperty()) {
-            AbstractPropertyDefinition newEnvProperty = new XmlEnvironmentPropertyBuilder(genEnvProp).buildEnvironmentProperty();
+            AbstractPropertyDefinition newEnvProperty =
+                    new XmlEnvironmentPropertyBuilder(genEnvProp).buildEnvironmentProperty();
             String newEnvPropName = newEnvProperty.getName();
             boolean propVerified =
                     contextValidator.validateEnvironmentPropertyUniqueness(newEnvPropName);
