@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface SimulationResult {
 
-    String getSimulationID();
+    String getSimulationUuid();
     Long getSimulationStartingTime();
     PropertyInstance getEntityPropertyInstanceByPropertyName(String entityName, String PropertyName);
     Integer getNumOfInstancesOfEntityInitialized();
@@ -16,4 +16,5 @@ public interface SimulationResult {
     List<String> getEntityPropertiesNames();
     EntityInstance getEntityByName(Integer entityID);
     List<EntityInstance> getEntities();
+    void setInitializedEntityPopulation();
 }

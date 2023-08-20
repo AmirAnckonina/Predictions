@@ -20,14 +20,15 @@ public class Termination {
            return Optional.ofNullable(secondsTermination);
     }
 
-    public boolean shouldTerminate(int currTick, long currTime) {
+    public boolean shouldTerminate(int currTick, long currTimeInMilliSec) {
 
 
         boolean shouldTerminateBySeconds = false;
         boolean shouldTerminateByTicks = false;
 
         if (getSecondsTermination().isPresent()) {
-            shouldTerminateBySeconds = getSecondsTermination().get() <= currTime;
+            Float currTimeInSec = (currTimeInMilliSec / 1000f);
+            shouldTerminateBySeconds = getSecondsTermination().get() <= currTimeInSec;
         }
 
         if (getTicksTermination().isPresent()) {

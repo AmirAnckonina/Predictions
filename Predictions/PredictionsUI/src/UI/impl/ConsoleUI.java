@@ -7,7 +7,6 @@ import dto.SetPropertySimulatorResponseDto;
 import dto.SimulationDetailsDto;
 import dto.builder.params.BasePropertyDto;
 import response.SimulatorResponse;
-import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.entity.impl.EntitiesResult;
 import simulator.manager.api.SimulationResult;
 import simulator.manager.api.SimulatorManager;
@@ -171,7 +170,8 @@ public class ConsoleUI implements UserInterface {
 
     private void printHistoricalSimulationList(List<SimulationResult> simulationResults) {
         for (int i = 0; i < simulationResults.size(); i++) {
-            System.out.println((i + 1) + ". SimulationID:\"" + simulationResults.get(i).getSimulationID() + "\"" + ": "
+
+            System.out.println((i + 1) + ". SimulationUuid:\"" + simulationResults.get(i).getSimulationUuid() + "\"" + ": "
                     + getSimulatorStartingTimeInString(simulationResults.get(i)));
         }
         System.out.print("Choose simulation to present: ");
@@ -236,7 +236,7 @@ public class ConsoleUI implements UserInterface {
 
     private void setEnvironmentPropertiesValues() {
         startEnvironmentSessionSignal();
-        EnvironmentPropertiesDto propertiesDto = simulatorManager.getEnvironmentProperties();
+        EnvironmentPropertiesDto propertiesDto = simulatorManager.getEnvironmentPropertiesDefinition();
         List<BasePropertyDto> properties = propertiesDto.getPropertiesList();
         List<Integer> propertiesUserUpdatedList = handleUserPropertyChoice(properties);
         endEnvironmentSessionSignal();
@@ -282,9 +282,12 @@ public class ConsoleUI implements UserInterface {
     private void showOptionPresenter(ePresentShowOptions showOption) {
         switch (showOption) {
             case ByAmount:
-                 List<EntitiesResult> entitiesResultList = this.simulatorResultManager.getAllEntitiesExist(this.simulationID);
+                 List<EntitiesResult> entitiesResultList =
+                         this.simulatorResultManager.getAllEntitiesExist(this.simulationID);
+
                  printHowManyEntitiesInstancesExist(entitiesResultList);
                 break;
+
             case ByProperty:
                 String propertiesName = new String();
                 List<String> propertiesNames = this.simulatorResultManager.getAllPropertiesOfEntity();
@@ -438,14 +441,14 @@ public class ConsoleUI implements UserInterface {
         setPropertyIntroduction();
         setPropertyDisplay(propertyName, propertyType, propertyRangeString);
         String value = scanner.nextLine();
-        SimulatorResponse<SetPropertySimulatorResponseDto> resResponse = this.simulatorManager.setEnvironmentVariableValue(
+        SimulatorResponse<SetPropertySimulatorResponseDto> resResponse = this.simulatorManager.setSelectedEnvironmentVariablesValue(
                 propertyName, propertyType, value);
 
         while (!resResponse.isSuccess()){
             System.out.println("Invalid value! " + resResponse.getData());
             setPropertyDisplay(propertyName, propertyType, propertyRangeString);
             value = scanner.nextLine();
-            resResponse = this.simulatorManager.setEnvironmentVariableValue(propertyName, property.getPropertyType(), value);
+            resResponse = this.simulatorManager.setSelectedEnvironmentVariablesValue(propertyName, property.getPropertyType(), value);
         }
 
     }

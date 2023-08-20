@@ -10,29 +10,36 @@ import simulator.manager.api.SimulationResult;
 import java.util.*;
 import java.util.Map.Entry;
 
-public class SimulationResultImpl implements SimulationResult{
+public class SimulationResultImpl implements SimulationResult {
+    private String simulationUuid;
     private WorldInstance worldInstance;
     private World worldDefinition;
     private Map<String, Integer> initializedStatus = new HashMap<>();
-    private String simulationID;
     private Long simulatorStartingTime;
 
-    public SimulationResultImpl(WorldInstance worldInstance, String simulationID, World worldDefinition) {
+    public SimulationResultImpl(String simulationGuid, WorldInstance worldInstance) {
+        this.simulationUuid = simulationGuid;
+        this.worldInstance = worldInstance;
+        setInitializedEntityPopulation();
+    }
+
+    /*public SimulationResultImpl(WorldInstance worldInstance, String simulationID, World worldDefinition) {
         this.simulatorStartingTime = System.currentTimeMillis();
         this.worldDefinition = worldDefinition;
         this.worldInstance = worldInstance;
-        this.simulationID = simulationID;
-        saveInitializedStatus();
-    }
+        this.simulationUuid = simulationID;
+        //setInitializedEntityPopulation();
+    }*/
 
-    private void saveInitializedStatus() {
-        initializedStatus.put(worldDefinition.getPrimaryEntity().getName(),worldDefinition.getPrimaryEntity().getPopulation());
-        //initializedStatus.put(worldDefinition.getSecondaryEntity().getName(),worldDefinition.getSecondaryEntity().getPopulation());
+    public void setInitializedEntityPopulation() {
+        String entityName  = worldDefinition.getPrimaryEntity().getName();
+        int population =  worldDefinition.getPrimaryEntity().getPopulation();
+        initializedStatus.put(entityName, population);
     }
 
     @Override
-    public String getSimulationID() {
-        return this.simulationID;
+    public String getSimulationUuid() {
+        return this.simulationUuid;
     }
 
     @Override

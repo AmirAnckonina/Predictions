@@ -1,5 +1,6 @@
 package simulator.establishment.api;
 
+import dto.EstablishedEnvironmentInfoDto;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 import simulator.definition.world.World;
 import simulator.execution.instance.entity.api.EntityInstance;
@@ -15,4 +16,5 @@ public interface SimulationEstablishmentManager {
     EnvironmentInstance activateEnvironment();
     List<EntityInstance> createPrimaryEntityInstances();
     Map<String, PropertyInstance> createPropertyInstances(Map<String, AbstractPropertyDefinition> propertyDefinitions);
+    Map<String, String> getEstablishedEnvironmentInfo(WorldInstance establishedWorldInstance);
 }

@@ -1,10 +1,7 @@
 package simulator.execution.runner.api;
 
-public interface SimulatorRunner {
-    void createInstances();
-    void activateEnvironment();
-    void reset();
+import simulator.manager.api.SimulationResult;
 
-    void run();
-    //SimulationResult run();
+public interface SimulatorRunner {
+    SimulationResult run();
 }
