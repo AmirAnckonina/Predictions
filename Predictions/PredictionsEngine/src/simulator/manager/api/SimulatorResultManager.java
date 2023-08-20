@@ -16,7 +16,7 @@ public interface SimulatorResultManager {
 
     public List<EntitiesResult> getAllEntitiesExist(String simulationID);
 
-    Map<Integer,String> getAllEntitiesHasPropertyByPropertyName(String PropertyName);
+    Map<Integer,String> getAllEntitiesHasPropertyByPropertyName(String uuid, String PropertyName);
 
     List<String> getAllPropertiesOfEntity();
 
