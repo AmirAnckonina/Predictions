@@ -1,6 +1,7 @@
 package simulator.manager.impl;
 
 import simulator.execution.instance.entity.api.EntityInstance;
+import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.manager.api.SimulationResult;
 import simulator.manager.api.SimulatorResultManager;
 import simulator.execution.instance.entity.impl.EntitiesResult;
@@ -45,8 +46,30 @@ public class SimulatorResultManagerImpl implements SimulatorResultManager {
     }
 
     @Override
-    public List<EntityInstance> getAllEntitiesHasPropertyByPropertyName(String PropertyName) {
-        return null;
+    public Map<Integer,String> getAllEntitiesHasPropertyByPropertyName(String propertyName) {
+        List<EntityInstance> entityInstanceList = this.simulationResults.get(0).getEntities();
+        Map<String, Integer> valueCountMap = new HashMap<>();
+        Map<Integer, String> result = new HashMap<>();
+
+        for (EntityInstance instance : entityInstanceList) {
+            PropertyInstance propertyInstance = instance.getPropertyByName(propertyName);
+            if (propertyInstance != null) {
+                Object value = propertyInstance.getValue();
+                valueCountMap.put("" + value, valueCountMap.getOrDefault(value, 0) + 1);
+            }
+        }
+
+        for (Map.Entry<String, Integer> entry : valueCountMap.entrySet()) {
+            result.put(entry.getValue(), entry.getKey());
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<String> getAllPropertiesOfEntity() {
+        List<SimulationResult> simulationResultList = new ArrayList<>(simulationResults.values());
+        return simulationResultList.get(0).getEntityPropertiesNames();
     }
 
     public boolean addSimulationResult(String simulationID, SimulationResult simulationResult) {

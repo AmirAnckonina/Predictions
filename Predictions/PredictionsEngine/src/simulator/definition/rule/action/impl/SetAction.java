@@ -14,8 +14,7 @@ public class SetAction extends AbstractPropertyAction {
     }
 
     @Override
-    public void invoke(ExecutionContext executionContext) {
-        Object newValue;
-       // context.updatePropertyValue(this.value.getValue(context));
+    public void invoke(ExecutionContext context) {
+        context.getPrimaryEntityInstance().getPropertyByName(propertyName).updateValue(value);
     }
 }

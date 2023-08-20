@@ -29,7 +29,12 @@ public class Activation {
 
         Random random = new Random();
         double randomNumber = random.nextDouble();
-        return tickNumber % this.ticksInterval == 0 && this.probability >= randomNumber;
+        if (this.ticksInterval == null) {
+            return tickNumber % 12 == 0;
+        } else {
+            return tickNumber % this.ticksInterval == 0 && this.probability >= randomNumber;
+        }
+
     }
 
     @Override
