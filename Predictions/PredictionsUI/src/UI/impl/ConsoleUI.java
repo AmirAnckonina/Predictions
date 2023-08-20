@@ -257,25 +257,29 @@ public class ConsoleUI implements UserInterface {
     }
 
     private void handleUserSimulationResultChoice(List<SimulationResult> simulationResults) {
-        Scanner scanner = new Scanner(System.in);
-        while(true) {
-            if (scanner.hasNextInt()) {
-                int selectedIndex = scanner.nextInt();
-                scanner.nextLine(); // Consume the newline character
+        if(simulationResults.size() > 0) {
+            Scanner scanner = new Scanner(System.in);
+            while (true) {
+                if (scanner.hasNextInt()) {
+                    int selectedIndex = scanner.nextInt();
+                    scanner.nextLine(); // Consume the newline character
 
-                if (selectedIndex >= 1 && selectedIndex <= simulationResults.size()) {
-                    showHowToPresentResultMenu();
-                    ePresentShowOptions showOption = howToPresentResultMenuChoiceHandler();
-                    showOptionPresenter(showOption);
-                    break;
+                    if (selectedIndex >= 1 && selectedIndex <= simulationResults.size()) {
+                        showHowToPresentResultMenu();
+                        ePresentShowOptions showOption = howToPresentResultMenuChoiceHandler();
+                        showOptionPresenter(showOption);
+                        break;
 
+                    } else {
+                        System.out.println("Invalid index. Please choose a valid index.");
+                    }
                 } else {
-                    System.out.println("Invalid index. Please choose a valid index.");
+                    System.out.println("Invalid input. Please enter a valid index.");
+                    scanner.nextLine(); // Consume the invalid input
                 }
-            } else {
-                System.out.println("Invalid input. Please enter a valid index.");
-                scanner.nextLine(); // Consume the invalid input
             }
+        }else {
+            System.out.println("There is no simulation History\nReturn to main menu\n");
         }
     }
 
