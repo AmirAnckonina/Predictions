@@ -13,6 +13,6 @@ public class DivideAction extends AbstractCalculationAction {
 
     @Override
     public void invoke(ExecutionContext context) {
-       // arg1.getExprssion()
+        context.getPrimaryEntityInstance().getPropertyByName(propertyName).updateValue((double)arg1.getValue(context) * (double)arg2.getValue(context));
     }
 }
