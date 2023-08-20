@@ -13,9 +13,6 @@ public class MultiplyAction extends AbstractCalculationAction {
 
     @Override
     public void invoke(ExecutionContext context) {
-//        Integer = context.getEmtity.getProproeo.getvalue();
-//        if it's numeric
-//
-//        Multiply multExp = new Multiply(new Number(),new Number()).evaluate();
+        context.getPrimaryEntityInstance().getPropertyByName(propertyName).updateValue((double)arg1.getValue(context) * (double)arg2.getValue(context));
     }
 }

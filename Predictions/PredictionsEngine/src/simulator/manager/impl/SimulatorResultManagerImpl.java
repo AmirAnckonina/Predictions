@@ -46,8 +46,24 @@ public class SimulatorResultManagerImpl implements SimulatorResultManager {
     }
 
     @Override
-    public Map<Integer,String> getAllEntitiesHasPropertyByPropertyName(String PropertyName) {
-        return null;
+    public Map<Integer,String> getAllEntitiesHasPropertyByPropertyName(String propertyName) {
+        List<EntityInstance> entityInstanceList = this.simulationResults.get(0).getEntities();
+        Map<String, Integer> valueCountMap = new HashMap<>();
+        Map<Integer, String> result = new HashMap<>();
+
+        for (EntityInstance instance : entityInstanceList) {
+            PropertyInstance propertyInstance = instance.getPropertyByName(propertyName);
+            if (propertyInstance != null) {
+                Object value = propertyInstance.getValue();
+                valueCountMap.put("" + value, valueCountMap.getOrDefault(value, 0) + 1);
+            }
+        }
+
+        for (Map.Entry<String, Integer> entry : valueCountMap.entrySet()) {
+            result.put(entry.getValue(), entry.getKey());
+        }
+
+        return result;
     }
 
     @Override
