@@ -6,7 +6,7 @@ import simulator.definition.rule.action.api.abstracts.AbstractPropertyAction;
 import simulator.definition.rule.action.argumentExpression.api.interfaces.ArgumentExpression;
 import simulator.definition.rule.action.utils.enums.eActionType;
 import simulator.execution.context.api.ExecutionContext;
-import simulator.execution.runner.utils.exceptions.RunnerException;
+import simulator.execution.runner.utils.exceptions.SimulatorRunnerException;
 
 
 public class IncreaseAction extends AbstractPropertyAction {
@@ -52,7 +52,7 @@ public class IncreaseAction extends AbstractPropertyAction {
 
             case BOOLEAN:
             case STRING:
-                throw new RunnerException("Different arguments types - Condition test is not available");
+                throw new SimulatorRunnerException("Different arguments types - Condition test is not available");
         }
     }
 }

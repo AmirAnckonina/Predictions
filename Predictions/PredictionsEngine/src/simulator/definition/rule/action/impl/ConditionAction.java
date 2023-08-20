@@ -25,6 +25,10 @@ public class ConditionAction extends AbstractAction {
         this.elseActions = elseActions;
     }
 
+    public ConditionAction(eActionType type, String entityName, ConditionExpression condition, List<AbstractAction> thenActions) {
+        this(type, entityName, condition, thenActions, null);
+    }
+
     @Override
     public void invoke(ExecutionContext executionContext) {
         if (condition.test(executionContext)) {
@@ -37,7 +41,7 @@ public class ConditionAction extends AbstractAction {
                 }
             }
 
-        } else {
+        } else if (elseActions != null) {
 
             for (AbstractAction action : elseActions) {
                 try {

@@ -69,7 +69,7 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
                             try {
                                 action.invoke(executionContext);
                             } catch (Exception e) {
-
+                                System.out.println("bla");
                             }
                         }
 
