@@ -14,8 +14,9 @@ public class PropertyArgumentExpressionImpl implements ArgumentExpression<String
     }
 
     @Override
-    public String getValue(ExecutionContext context) {
-        throw new SimulatorRunnerException("Not impl propertyArgExp...");
+    public Object getValue(ExecutionContext context) {
+        return context.getPrimaryEntityInstance().getPropertyByName(propertyName).getValue();
+        //throw new SimulatorRunnerException("Not impl propertyArgExp...");
     }
 
     @Override

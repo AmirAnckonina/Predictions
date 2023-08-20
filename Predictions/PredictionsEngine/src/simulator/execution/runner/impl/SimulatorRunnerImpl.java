@@ -68,6 +68,7 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
                         for (AbstractAction action : rule.getActions()) {
                             try {
                                 action.invoke(executionContext);
+
                             } catch (Exception e) {
                                 System.out.println("bla");
                             }
@@ -84,5 +85,4 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
         }
     }
 
-    private void singleEntityInstanceTickProcedure() {}
 }

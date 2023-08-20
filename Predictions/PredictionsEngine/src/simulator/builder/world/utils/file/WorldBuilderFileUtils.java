@@ -26,5 +26,4 @@ public final class WorldBuilderFileUtils {
         }
         return null;  // Return null if the file path doesn't contain a valid file extension
     }
-
 }

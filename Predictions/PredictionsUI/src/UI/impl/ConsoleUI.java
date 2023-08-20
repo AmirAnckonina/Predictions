@@ -33,7 +33,17 @@ public class ConsoleUI implements UserInterface {
 
     @Override
     public void runSimulatorUI() {
-        runConsoleMenu();
+
+        try {
+            runConsoleMenu();
+        } catch (Exception e) {
+            System.out.println("An error detected: " + e.getMessage());
+            if (yesNoSession()) {
+                runSimulatorUI();
+            } else {
+                System.out.println("Goodbye!");
+            }
+        }
     }
 
     @Override
@@ -64,7 +74,7 @@ public class ConsoleUI implements UserInterface {
         setEnvironmentPropertiesValues();
         SimulatorResponse response = simulatorManager.establishSimulation();
         if (response.isSuccess()) {
-            yesNoSession();
+            //yesNoSession();
             runSimulationSessionForEstablishedEnvironment();
         } else {
             System.out.println(response.getMessage());

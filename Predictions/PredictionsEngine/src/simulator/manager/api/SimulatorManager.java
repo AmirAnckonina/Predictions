@@ -16,7 +16,7 @@ public interface SimulatorManager {
     public SimulatorResponse setEnvironmentVariableValue(String propName, String type, String value);
 
     public SimulatorResponse establishSimulation();
-    public SimulatorResponse runSimulator();
+    public SimulatorResponse<String> runSimulator();
 
     public SimulatorResponse exitSimulator();
 

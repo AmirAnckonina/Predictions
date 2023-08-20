@@ -65,7 +65,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
             eDataFileType dataSrcType = WorldBuilderFileUtils.getDataFileTypeByFileExtension(filePath);
             worldBuilder = WorldBuilderFactory.createSimulationBuilder(dataSrcType, filePath);
             world = worldBuilder.buildWorld();
-            return new SimulatorResponse(true, "the following file has loaded successfully" + filePath);
+            return new SimulatorResponse(true, "the following file has loaded successfully: " + filePath);
 
         } catch (Exception ex) {
 
@@ -119,14 +119,21 @@ public class SimulatorManagerImpl implements SimulatorManager {
         }
     }
     @Override
-    public SimulatorResponse runSimulator() {
+    public SimulatorResponse<String> runSimulator() {
 
         try {
             this.simulatorRunner = new SimulatorRunnerImpl(this.establishedWorldInstance);
             this.simulatorRunner.run();
             this.simulationID = getGUID();
-            simulatorResultManager.addSimulationResult(simulationID ,new SimulationResultImpl(establishedWorldInstance, simulationID, world));
+            simulatorResultManager.addSimulationResult(
+                    simulationID ,new SimulationResultImpl(establishedWorldInstance, simulationID, world));
+            return new SimulatorResponse<String>(
+                    true,
+                    "run succesffuly, ID : " + simulationID ,
+                    simulationID
+            );
 
+            //simulatorResultManager.addNewExecutedSimulation(Guid, result...);
         } catch (Exception e) {
 
             return new SimulatorResponse(
@@ -134,10 +141,6 @@ public class SimulatorManagerImpl implements SimulatorManager {
                     "An error detected while running the simulation, couldn't complete the simulation"
             );
         }
-
-        //simulatorResultManager.addNewExecutedSimulation(Guid, result...);
-        SimulatorResponse<String> response = new SimulatorResponse<>(true, "", simulationID);
-        return null;
     }
 
     @Override
