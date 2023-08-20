@@ -15,24 +15,18 @@ import simulator.definition.rule.Rule;
 import simulator.definition.world.World;
 import simulator.establishment.api.SimulationEstablishmentManager;
 import simulator.establishment.impl.SimulationEstablishmentManagerImpl;
-import simulator.execution.instance.environment.api.EnvironmentInstance;
 import simulator.execution.runner.api.SimulatorRunner;
-import simulator.execution.instance.entity.api.EntityInstance;
-import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.execution.runner.impl.SimulatorRunnerImpl;
-import simulator.execution.instance.entity.impl.EntityInstanceImpl;
-import simulator.execution.instance.environment.impl.EnvironmentInstanceImpl;
-import simulator.execution.instance.property.impl.PropertyInstanceImpl;
 import simulator.execution.instance.world.api.WorldInstance;
-import simulator.execution.instance.world.impl.WorldInstanceImpl;
 import simulator.manager.api.EnvironmentManager;
+import simulator.manager.api.SimulationResult;
 import simulator.manager.api.SimulatorManager;
 import simulator.builder.world.utils.file.WorldBuilderFileUtils;
 import simulator.manager.api.SimulatorResultManager;
+import simulator.manager.utils.SimulatorUtils;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.*;
-
-import static simulator.manager.utils.SimulatorUtils.getGUID;
 
 public class SimulatorManagerImpl implements SimulatorManager {
 
@@ -106,7 +100,9 @@ public class SimulatorManagerImpl implements SimulatorManager {
     public SimulatorResponse establishSimulation() {
         try {
 
-            this.establishedWorldInstance = simulationEstablishmentManager.establishSimulation(this.world);
+            this.establishedWorldInstance =
+                    simulationEstablishmentManager.establishSimulation(this.world);
+
             return  new SimulatorResponse<>(
                     true,
                     "Establishment done successfully");
@@ -123,17 +119,18 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
         try {
             this.simulatorRunner = new SimulatorRunnerImpl(this.establishedWorldInstance);
-            this.simulatorRunner.run();
-            this.simulationID = getGUID();
+            String guid = SimulatorUtils.getGUID();
+            SimulationResult simulationResult = this.simulatorRunner.run();
             simulatorResultManager.addSimulationResult(
-                    simulationID ,new SimulationResultImpl(establishedWorldInstance, simulationID, world));
-            return new SimulatorResponse<String>(
-                    true,
-                    "run succesffuly, ID : " + simulationID ,
-                    simulationID
+                    simulationResult.getSimulationUuid(),
+                    simulationResult
             );
 
-            //simulatorResultManager.addNewExecutedSimulation(Guid, result...);
+            return new SimulatorResponse<String>(
+                    true,
+                    "run succesffuly, ID : " + guid,
+                    guid
+            );
         } catch (Exception e) {
 
             return new SimulatorResponse(
@@ -145,18 +142,12 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
     @Override
     public SimulatorResponse exitSimulator() {
-        return null;
+        throw new NotImplementedException();
     }
 
     @Override
     public SimulatorResultManager getSimulatorResultManagerImpl() {
         return this.simulatorResultManager;
-    }
-
-    @Override
-    public void endSetEnvironmentSession() {
-//        if(this.environmentManager != null) this.environmentManager.setRandomValuesForUninitializedProperties(
-//                this.propertiesUpdatedByUser, this.world.getEnvironment());
     }
 
     @Override
@@ -169,17 +160,6 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
     @Override
     public SimulatorResponse endEnvironmentSession() {
-//        try {
-//            this.environmentManager.setRandomValuesForUninitializedProperties(this.propertiesUpdatedByUser,
-//                    this.world.getEnvironment());
-//            SimulatorResponse response = new SimulatorResponse<>(true, "session ended successfully",
-//                    null);
-//            return response;
-//        }catch (Exception e){
-//            SimulatorResponse response = new SimulatorResponse<>(false, "end session action failed",
-//                    null);
-//            return response;
-//        }
         return new SimulatorResponse<>(true, "session ended successfully", null);
     }
 
@@ -202,16 +182,9 @@ public class SimulatorManagerImpl implements SimulatorManager {
     public SimulatorResponse<EstablishedEnvironmentInfoDto> getEstablishedEnvironmentInfo() {
 
         try {
-            Map<String, String> envInfo = new HashMap<>();
 
-            Map<String, PropertyInstance> envPropInstances =
-                    establishedWorldInstance.getEnvironmentInstance().getAllEnvironmentPropertiesInstances();
-
-            for (Map.Entry<String, PropertyInstance> envPropInstance : envPropInstances.entrySet()) {
-                envInfo.put(
-                        envPropInstance.getKey(),
-                        ePropertyType.STRING.convert(envPropInstance.getValue().getValue().toString()));
-            }
+            Map<String, String> envInfo =
+                    simulationEstablishmentManager.getEstablishedEnvironmentInfo(establishedWorldInstance);
 
             return new SimulatorResponse<>(
                     true,
@@ -228,7 +201,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
-    public EnvironmentPropertiesDto getEnvironmentProperties() {
+    public EnvironmentPropertiesDto getEnvironmentPropertiesDefinition() {
 
         List<BasePropertyDto> propertyDtoList = new ArrayList<>();
 
@@ -255,7 +228,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
-    public SimulatorResponse setEnvironmentVariableValue(String propName, String type, String value) {
+    public SimulatorResponse setSelectedEnvironmentVariablesValue(String propName, String type, String value) {
         SetPropertySimulatorResponseDto responseDto;
         SimulatorResponse response;
         try {
@@ -279,18 +252,23 @@ public class SimulatorManagerImpl implements SimulatorManager {
                     eType = ePropertyType.BOOLEAN;
                     break;
             }
+
+            // Should change to SimulatorEnvironmentManager????? data member!!!
             environmentManager = new EnvironmentManagerImpl();
             environmentManager.setFixedValuePropertyDefinition(propName, eType, value, this.world.getEnvironment());
 
-            responseDto = new SetPropertySimulatorResponseDto(eSetPropertyStatus.SUCCEEDED,
-                    "Environment Variable Value has been set with " + value);
+            responseDto = new SetPropertySimulatorResponseDto(
+                    eSetPropertyStatus.SUCCEEDED,
+                    "Environment Variable Value has been set with " + value.toString());
 
-            response =  new SimulatorResponse(true,
-                    "Environment Variable Value has been set with " + value,
+            response =  new SimulatorResponse(
+                    true,
+                    "Environment Variable Value has been set with " + value.toString(),
                                 responseDto);
             this.propertiesUpdatedByUser.add(propName);
 
         } catch (Exception e) {
+
             responseDto = new SetPropertySimulatorResponseDto(eSetPropertyStatus.FAILED, e.getMessage());
             response =  new SimulatorResponse(false, e.getMessage(), responseDto);
         }

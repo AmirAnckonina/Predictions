@@ -2,7 +2,6 @@ package simulator.execution.runner.impl;
 
 import simulator.definition.rule.Rule;
 import simulator.definition.rule.action.api.abstracts.AbstractAction;
-import simulator.definition.rule.activation.Activation;
 import simulator.execution.instance.entity.manager.api.EntityInstanceManager;
 import simulator.execution.instance.entity.manager.impl.EntityInstanceMangerImpl;
 import simulator.execution.runner.api.SimulatorRunner;
@@ -11,51 +10,36 @@ import simulator.execution.context.impl.ExecutionContextImpl;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.environment.api.EnvironmentInstance;
 import simulator.execution.instance.world.api.WorldInstance;
-
-import java.util.List;
+import simulator.manager.api.SimulationResult;
+import simulator.manager.impl.SimulationResultImpl;
+import simulator.manager.utils.SimulatorUtils;
 
 public class SimulatorRunnerImpl implements SimulatorRunner {
 
-    private WorldInstance worldInstance;
+    private final WorldInstance worldInstance;
+    private final EntityInstanceManager primaryEntityInstanceManager;
+    private final EnvironmentInstance environmentInstance;
 
     public SimulatorRunnerImpl(WorldInstance worldInstance) {
         this.worldInstance = worldInstance;
-        // Consider to set here the runner:
+        this.primaryEntityInstanceManager =
+                new EntityInstanceMangerImpl(worldInstance.getPrimaryEntityInstances());
+        this.environmentInstance = worldInstance.getEnvironmentInstance();
     }
 
     @Override
-    public void createInstances() {
-        //this.worldInstance.setPrimaryEntities();
-
-        //this.worldInstance = new WorldInstanceImpl(environmentInstance);
-
-    }
-
-    @Override
-    public void activateEnvironment() {
-
-    }
-
-    @Override
-    public void reset() {
-
-    }
-
-    @Override
-    public void run() {
+    public SimulationResult run() {
 
         int currTick = 0;
-        long currTime = 0;
-        long startTime;
+        long currTimeInMilliSec = 0;
+        long startTimeInMilliSec;
 
-        EntityInstanceManager primaryEntityInstanceManager =
-                new EntityInstanceMangerImpl(worldInstance.getPrimaryEntityInstances());
+        String simulationGuid = SimulatorUtils.getGUID();
+        SimulationResult simulationResult = new SimulationResultImpl(simulationGuid, worldInstance);
 
-        EnvironmentInstance environmentInstance = worldInstance.getEnvironmentInstance();
+        startTimeInMilliSec = System.currentTimeMillis();
 
-        startTime = System.currentTimeMillis();
-
-        while (!worldInstance.getTermination().shouldTerminate(currTick, currTime)) {
+        while (!worldInstance.getTermination().shouldTerminate(currTick, currTimeInMilliSec)) {
 
             for (EntityInstance entityInstance : primaryEntityInstanceManager.getInstances()) {
 
@@ -73,16 +57,17 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
                                 System.out.println("bla");
                             }
                         }
-
-//                        rule.getActions()
-//                                .forEach(action ->
-//                                        action.invoke(executionContext));
                     }
                 }
             }
             currTick += 1;
-            currTime = System.currentTimeMillis() - startTime;
+            currTimeInMilliSec = System.currentTimeMillis() - startTimeInMilliSec;
         }
+
+        // Extract the terimnation Reason...
+        return simulationResult;
     }
+
+    // private EntityInstanceManager
 
 }

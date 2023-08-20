@@ -1,6 +1,7 @@
 package simulator.establishment.impl;
 
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
+import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.rule.Rule;
 import simulator.definition.termination.Termination;
 import simulator.definition.world.World;
@@ -95,5 +96,21 @@ public class SimulationEstablishmentManagerImpl implements SimulationEstablishme
         }
 
         return  propertyInstanceMap;
+    }
+
+    @Override
+    public Map<String, String> getEstablishedEnvironmentInfo(WorldInstance establishedWorldInstance) {
+        Map<String, String> envInfo = new HashMap<>();
+
+        Map<String, PropertyInstance> envPropInstances =
+                establishedWorldInstance.getEnvironmentInstance().getAllEnvironmentPropertiesInstances();
+
+        for (Map.Entry<String, PropertyInstance> envPropInstance : envPropInstances.entrySet()) {
+            envInfo.put(
+                    envPropInstance.getKey(),
+                    ePropertyType.STRING.convert(envPropInstance.getValue().getValue().toString()));
+        }
+
+        return envInfo;
     }
 }
