@@ -37,7 +37,7 @@ public class ConsoleUI implements UserInterface {
         try {
             runConsoleMenu();
         } catch (Exception e) {
-            System.out.println("An error detected: " + e.getMessage());
+            System.out.println("An error detected: " + e.getMessage() + "\n" + "Would you like to restart or quit? (y/n)");
             if (yesNoSession()) {
                 runSimulatorUI();
             } else {
@@ -79,6 +79,11 @@ public class ConsoleUI implements UserInterface {
         } else {
             System.out.println(response.getMessage());
         }
+        announceEndSimulation();
+    }
+
+    private void announceEndSimulation() {
+        System.out.println("Simulation ended!\n");
     }
 
     private void establishSimulationSession() {
@@ -166,9 +171,10 @@ public class ConsoleUI implements UserInterface {
 
     private void printHistoricalSimulationList(List<SimulationResult> simulationResults) {
         for (int i = 0; i < simulationResults.size(); i++) {
-            System.out.println((i + 1) + ". \"" + simulationResults.get(i).getSimulationID() + " "
-                    + getSimulatorStartingTimeInString(simulationResults.get(i)) + "\"");
+            System.out.println((i + 1) + ". SimulationID:\"" + simulationResults.get(i).getSimulationID() + "\"" + ": "
+                    + getSimulatorStartingTimeInString(simulationResults.get(i)));
         }
+        System.out.print("Choose simulation to present: ");
     }
 
     private void runSimulationSessionForEstablishedEnvironment() {
@@ -261,6 +267,7 @@ public class ConsoleUI implements UserInterface {
                     showHowToPresentResultMenu();
                     ePresentShowOptions showOption = howToPresentResultMenuChoiceHandler();
                     showOptionPresenter(showOption);
+                    break;
 
                 } else {
                     System.out.println("Invalid index. Please choose a valid index.");
@@ -283,7 +290,7 @@ public class ConsoleUI implements UserInterface {
                 List<String> propertiesNames = this.simulatorResultManager.getAllPropertiesOfEntity();
                 printPropertiesListAfterSimulation(propertiesNames);
                 String propertyNameChosen = propertyNameChosenForPresentResultHandler(propertiesNames);
-                Map<Integer,String> entityInstanceList = this.simulatorResultManager.getAllEntitiesHasPropertyByPropertyName(propertyNameChosen);
+                Map<Integer,String> entityInstanceList = this.simulatorResultManager.getAllEntitiesHasPropertyByPropertyName(this.simulationID, propertyNameChosen);
                 showAllEntitiesHavePropertyByPropertyName(entityInstanceList);
                 break;
         }
@@ -313,23 +320,26 @@ public class ConsoleUI implements UserInterface {
         for (Map.Entry<Integer,String> entry : entityInstanceList.entrySet()) {
             Integer key = entry.getKey();
             String value = entry.getValue();
-            System.out.println( index+ ". There are " + key + " instances with the value " + value);
+            System.out.println( index+ ". There are " + key + " instances with the value " + value + "\n");
         }
     }
 
     private void printHowManyEntitiesInstancesExist(List<EntitiesResult> entitiesResultList) {
         EntitiesResult entitiesResult = entitiesResultList.get(0);
         Integer i = 0;
-        System.out.println((i + 1) + ". \"" + entitiesResult.getName() + " "
+        String entityName = (entitiesResult.getName() != null)?String.valueOf(entitiesResult.getName()):"primary";
+        System.out.println((i + 1) + ". " + "number of " + entityName + " entity instances in the end of the simulation: " + " "
                 + entitiesResult.getNumOfInstancesInEndOfSimulation()
                 + "/"
-                + entitiesResult.getNumOfInstancesInitialized());
+                + entitiesResult.getNumOfInstancesInitialized() + "\n");
     }
 
     private void printPropertiesListAfterSimulation(List<String> propertiesNamee) {
         for (int i = 0; i < propertiesNamee.size(); i++) {
-            System.out.println((i + 1) + ". \"" + propertiesNamee.get(i));
+            System.out.println((i + 1) + ". " + propertiesNamee.get(i));
         }
+
+        System.out.print("Choose property instance to be filter: ");
     }
 
     private ePresentShowOptions howToPresentResultMenuChoiceHandler() {
@@ -354,8 +364,9 @@ public class ConsoleUI implements UserInterface {
 
     private void showHowToPresentResultMenu() {
         System.out.println("How would you like to see the results?");
-        System.out.println("1. By mount of entities");
+        System.out.println("1. By amount of entities");
         System.out.println("2. By chosen property");
+        System.out.print("Choose an option by typing the option number: ");
     }
 
     private List<Integer> handleUserPropertyChoice(List<BasePropertyDto> propertyDtoList) {
@@ -368,24 +379,12 @@ public class ConsoleUI implements UserInterface {
             String continueChoice = null;
             printPropertiesList(propertyDtoList);
             System.out.print("Do you want to set value for one of the environment properties? (y/n): ");
-//            continueChoice = scanner.nextLine();
-//
-//            while (!continueChoice.equalsIgnoreCase("n") &&
-//                    !continueChoice.equalsIgnoreCase("y")) {
-//
-//                System.out.print("\nInvalid input! type 'y' for yes and 'n' for no only: ");
-//                continueChoice = scanner.nextLine();
-//            }
-
-//            if (!continueChoice.equalsIgnoreCase("y")) {
-//                break;
-//            }
 
             // If true return - that meands the user want to insertValues to props.
             if (!yesNoSession()) {
                 break;
             }
-            System.out.println("Enter the index of the property you would like to update: ");
+            System.out.print("Enter the index of the property you would like to update: ");
 
             if (scanner.hasNextInt()) {
                 int selectedIndex = scanner.nextInt();
