@@ -28,31 +28,25 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
     }
 
     @Override
-    public SimulationResult run() {
+    public void run(SimulationResult simulationResult) {
 
         int currTick = 0;
         long currTimeInMilliSec = 0;
         long startTimeInMilliSec;
 
-        String simulationGuid = SimulatorUtils.getGUID();
-        SimulationResult simulationResult = new SimulationResultImpl(simulationGuid, worldInstance);
-
         startTimeInMilliSec = System.currentTimeMillis();
+        simulationResult.setStartingTime(startTimeInMilliSec);
 
         while (!worldInstance.getTermination().shouldTerminate(currTick, currTimeInMilliSec)) {
 
             for (EntityInstance entityInstance : primaryEntityInstanceManager.getInstances()) {
 
-                ExecutionContext executionContext =
-                        new ExecutionContextImpl(
-                                entityInstance, primaryEntityInstanceManager, environmentInstance);
-
+                ExecutionContext executionContext = buildExecutionContext(entityInstance);
                 for (Rule rule : worldInstance.getRules()) {
                     if (rule.getActivation().isActive(currTick)) {
                         for (AbstractAction action : rule.getActions()) {
                             try {
                                 action.invoke(executionContext);
-
                             } catch (Exception e) {
                                 System.out.println("bla");
                             }
@@ -60,14 +54,19 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
                     }
                 }
             }
+
             currTick += 1;
             currTimeInMilliSec = System.currentTimeMillis() - startTimeInMilliSec;
         }
 
         // Extract the terimnation Reason...
-        return simulationResult;
+
     }
 
-    // private EntityInstanceManager
+    private ExecutionContext buildExecutionContext(EntityInstance entityInstance) {
+
+        return new ExecutionContextImpl(
+                entityInstance, primaryEntityInstanceManager, environmentInstance);
+    }
 
 }

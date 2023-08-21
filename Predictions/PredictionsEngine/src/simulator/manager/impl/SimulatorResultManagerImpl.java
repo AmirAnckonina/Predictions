@@ -5,13 +5,14 @@ import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.manager.api.SimulationResult;
 import simulator.manager.api.SimulatorResultManager;
 import simulator.execution.instance.entity.impl.EntitiesResult;
+import simulator.result.impl.SimulationInitialInfo;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class SimulatorResultManagerImpl implements SimulatorResultManager {
 
-    Map<String,SimulationResult> simulationResults;
+    Map<String, SimulationResult> simulationResults;
 
     public SimulatorResultManagerImpl() {
         simulationResults = new HashMap<>();
@@ -74,13 +75,28 @@ public class SimulatorResultManagerImpl implements SimulatorResultManager {
 
     public boolean addSimulationResult(String simulationID, SimulationResult simulationResult) {
         boolean isSucceeded = false;
+
         try {
             this.simulationResults.put(simulationID, simulationResult);
-        }catch (Exception e){
+
+        }  catch (Exception e){
             isSucceeded = false;
         }
 
         return isSucceeded;
     }
 
+    @Override
+    public boolean addSimulationResult(SimulationInitialInfo simulationInitInfo, SimulationResult simulationResult) {
+        boolean isSucceeded = false;
+
+        try {
+            this.simulationResults.put(simulationInitInfo.getSimulationGuid(), simulationResult);
+
+        }  catch (Exception e){
+            isSucceeded = false;
+        }
+
+        return isSucceeded;
+    }
 }
