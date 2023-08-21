@@ -6,12 +6,13 @@ import simulator.execution.instance.property.api.PropertyInstance;
 import java.util.Map;
 
 public class EntityInstanceImpl implements EntityInstance {
-
+    boolean alive;
     private int id;
     private Map<String, PropertyInstance> properties;
 
     public EntityInstanceImpl(int id, Map<String, PropertyInstance> properties) {
         this.id = id;
+        this.alive = true;
         this.properties = properties;
     }
 
@@ -29,5 +30,15 @@ public class EntityInstanceImpl implements EntityInstance {
     @Override
     public int getId() {
         return id;
+    }
+
+    @Override
+    public void killEntity() {
+        alive = false;
+    }
+
+    @Override
+    public boolean isAlive() {
+        return alive;
     }
 }
