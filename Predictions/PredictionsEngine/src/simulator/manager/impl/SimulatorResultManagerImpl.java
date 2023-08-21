@@ -12,16 +12,30 @@ import java.util.*;
 
 public class SimulatorResultManagerImpl implements SimulatorResultManager {
 
+
     Map<String, SimulationResult> simulationResults;
+    private Integer lastSimulationResultIndex = 0;
+    private Map<Integer,String> mapSimulationIndexToSimulationId;
+    private Map<String,SimulationResult> simulationResults;
+
 
     public SimulatorResultManagerImpl() {
         simulationResults = new HashMap<>();
+        mapSimulationIndexToSimulationId = new HashMap<>();
     }
 
 
-    public String getSimulatorStartingTimeInString(String simulationID){
+    public String getSimulatorStartingTimeInStringByID(String simulationID){
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy | HH.mm.ss");
         String formattedTime = formatter.format(new Date(this.simulationResults.get(simulationID).getSimulationStartingTime()));
+
+        return formattedTime;
+    }
+
+    public String getSimulatorStartingTimeInStringByIndex(int simulationIndex){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy | HH.mm.ss");
+        String formattedTime = formatter.format(new Date(this.simulationResults.get(mapSimulationIndexToSimulationId
+                .get(simulationIndex)).getSimulationStartingTime()));
 
         return formattedTime;
     }
@@ -37,7 +51,16 @@ public class SimulatorResultManagerImpl implements SimulatorResultManager {
     }
 
     @Override
-    public List<EntitiesResult> getAllEntitiesExist(String simulationID) {
+    public List<EntitiesResult> getAllEntitiesExistBySimulationIndex(String simulationID) {
+        List<EntitiesResult> entitiesResultList = new ArrayList<>();
+        EntitiesResult entitiesResult = new EntitiesResult(simulationResults.get(simulationID).getNumOfInstancesOfEntityInitialized(),
+                simulationResults.get(simulationID).getNumOfInstancesOfEntityWhenSimulationStopped());
+        entitiesResultList.add(0,entitiesResult);
+
+        return entitiesResultList;
+    }
+
+    public List<EntitiesResult> getAllEntitiesExistBySimulationIndex(Integer simulationID) {
         List<EntitiesResult> entitiesResultList = new ArrayList<>();
         EntitiesResult entitiesResult = new EntitiesResult(simulationResults.get(simulationID).getNumOfInstancesOfEntityInitialized(),
                 simulationResults.get(simulationID).getNumOfInstancesOfEntityWhenSimulationStopped());
@@ -47,7 +70,7 @@ public class SimulatorResultManagerImpl implements SimulatorResultManager {
     }
 
     @Override
-    public Map<Integer,String> getAllEntitiesHasPropertyByPropertyName(String uuid, String propertyName) {
+    public Map<Integer,String> getAllEntitiesHasPropertyByPropertyNameBySimulationID(String uuid, String propertyName) {
         List<EntityInstance> entityInstanceList = this.simulationResults.get(uuid).getEntities();
         Map<String, Integer> valueCountMap = new HashMap<>();
         Map<Integer, String> result = new HashMap<>();
@@ -67,10 +90,39 @@ public class SimulatorResultManagerImpl implements SimulatorResultManager {
         return result;
     }
 
+    public Map<Integer,String> getAllEntitiesHasPropertyByPropertyNameBySimulationIndex(
+            Integer simulationIndex, String propertyName) {
+        List<EntityInstance> entityInstanceList = this.simulationResults
+                .get(mapSimulationIndexToSimulationId.get(simulationIndex))
+                .getEntities();
+        Map<String, Integer> valueCountMap = new HashMap<>();
+        Map<Integer, String> result = new HashMap<>();
+
+        for (EntityInstance instance : entityInstanceList) {
+            PropertyInstance propertyInstance = instance.getPropertyByName(propertyName);
+            if (propertyInstance != null) {
+                Object value = propertyInstance.getValue();
+                valueCountMap.put("" + value, valueCountMap.getOrDefault("" + value, 0) + 1);
+            }
+        }
+
+        for (Map.Entry<String, Integer> entry : valueCountMap.entrySet()) {
+            result.put(entry.getValue(), entry.getKey());
+        }
+
+        return result;
+    }
+
     @Override
-    public List<String> getAllPropertiesOfEntity() {
-        List<SimulationResult> simulationResultList = new ArrayList<>(simulationResults.values());
-        return simulationResultList.get(0).getEntityPropertiesNames();
+    public List<String> getAllPropertiesOfEntityBySimulationID(String simulationID) {
+        return simulationResults.get(simulationID).getEntityPropertiesNames();
+    }
+
+    public List<String> getAllPropertiesOfEntityBySimulationIndex(Integer simulationIndex){
+        return simulationResults
+                .get(mapSimulationIndexToSimulationId.get(simulationIndex))
+                .getEntityPropertiesNames();
+
     }
 
     public boolean addSimulationResult(String simulationID, SimulationResult simulationResult) {
@@ -78,8 +130,14 @@ public class SimulatorResultManagerImpl implements SimulatorResultManager {
 
         try {
             this.simulationResults.put(simulationID, simulationResult);
+<<<<<<< HEAD
 
         }  catch (Exception e){
+=======
+            this.mapSimulationIndexToSimulationId.put(lastSimulationResultIndex, simulationID);
+            this.lastSimulationResultIndex += 1;
+        }catch (Exception e){
+>>>>>>> main
             isSucceeded = false;
         }
 
