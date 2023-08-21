@@ -40,9 +40,9 @@ public class ConsoleUI implements UserInterface {
             if (yesNoSession()) {
                 runSimulatorUI();
             } else {
-                System.out.println("Goodbye!");
             }
         }
+        System.out.println("Goodbye!");
     }
 
     @Override
@@ -328,8 +328,17 @@ public class ConsoleUI implements UserInterface {
         for (Map.Entry<String,Integer> entry : entityInstanceList.entrySet()) {
             String instanceValue = entry.getKey();
             Integer numOfInstances = entry.getValue();
-            System.out.println( index+ ". There are " + numOfInstances + " instances with the value " + instanceValue + "\n");
+            if(numOfInstances == 1){
+                System.out.println( index+ ". There is " + numOfInstances + " instance with the value " + instanceValue + "\n");
+            }else {
+                System.out.println(index + ". There are " + numOfInstances + " instances with the value " + instanceValue + "\n");
+            }
+
             index++;
+        }
+        if(entityInstanceList.size() == 0){
+            System.out.println("There are no instances with this property\n");
+
         }
     }
 
