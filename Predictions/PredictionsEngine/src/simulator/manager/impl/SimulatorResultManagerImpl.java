@@ -72,10 +72,9 @@ public class SimulatorResultManagerImpl implements SimulatorResultManager {
     }
 
     @Override
-    public Map<Integer,String> getAllEntitiesHasPropertyByPropertyNameBySimulationID(String uuid, String propertyName) {
+    public Map<String,Integer> getAllEntitiesHasPropertyByPropertyNameBySimulationID(String uuid, String propertyName) {
         List<EntityInstance> entityInstanceList = this.simulationResults.get(uuid).getEntities();
         Map<String, Integer> valueCountMap = new HashMap<>();
-        Map<Integer, String> result = new HashMap<>();
 
         for (EntityInstance instance : entityInstanceList) {
             PropertyInstance propertyInstance = instance.getPropertyByName(propertyName);
@@ -85,20 +84,15 @@ public class SimulatorResultManagerImpl implements SimulatorResultManager {
             }
         }
 
-        for (Map.Entry<String, Integer> entry : valueCountMap.entrySet()) {
-            result.put(entry.getValue(), entry.getKey());
-        }
-
-        return result;
+        return valueCountMap;
     }
 
-    public Map<Integer,String> getAllEntitiesHasPropertyByPropertyNameBySimulationIndex(
+    public Map<String,Integer> getAllEntitiesHasPropertyByPropertyNameBySimulationIndex(
             Integer simulationIndex, String propertyName) {
         List<EntityInstance> entityInstanceList = this.simulationResults
                 .get(mapSimulationIndexToSimulationId.get(simulationIndex))
                 .getEntities();
         Map<String, Integer> valueCountMap = new HashMap<>();
-        Map<Integer, String> result = new HashMap<>();
 
         for (EntityInstance instance : entityInstanceList) {
             PropertyInstance propertyInstance = instance.getPropertyByName(propertyName);
@@ -108,11 +102,7 @@ public class SimulatorResultManagerImpl implements SimulatorResultManager {
             }
         }
 
-        for (Map.Entry<String, Integer> entry : valueCountMap.entrySet()) {
-            result.put(entry.getValue(), entry.getKey());
-        }
-
-        return result;
+        return valueCountMap;
     }
 
     @Override
