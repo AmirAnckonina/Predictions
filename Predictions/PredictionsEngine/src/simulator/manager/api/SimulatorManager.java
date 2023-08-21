@@ -8,7 +8,7 @@ public interface SimulatorManager {
 
     public SimulatorResponse buildSimulationWorld(String filePath);
     public SimulatorResponse<SimulationDetailsDto> getSimulationWorldDetails();
-    public EnvironmentPropertiesDto getEnvironmentPropertiesDefinition();
+    public  SimulatorResponse<EnvironmentPropertiesDto> getEnvironmentPropertiesDefinition();
     public SimulatorResponse setSelectedEnvironmentVariablesValue(String propName, String type, String value);
     public SimulatorResponse establishSimulation();
     public SimulatorResponse<String> runSimulator();

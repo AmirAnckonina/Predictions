@@ -210,30 +210,36 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
-    public EnvironmentPropertiesDto getEnvironmentPropertiesDefinition() {
+    public SimulatorResponse<EnvironmentPropertiesDto> getEnvironmentPropertiesDefinition() {
+        try {
 
-        List<BasePropertyDto> propertyDtoList = new ArrayList<>();
+            List<BasePropertyDto> propertyDtoList = new ArrayList<>();
 
-        for (String propertyName : this.worldDefinition.getEnvironment().getPropertiesNames()) {
+            for (String propertyName : this.worldDefinition.getEnvironment().getPropertiesNames()) {
 
-            AbstractPropertyDefinition property = this.worldDefinition.getEnvironment().getPropertyByName(propertyName);
-            if (property instanceof AbstractNumericPropertyDefinition) {
-                Range range = (Range) ((AbstractNumericPropertyDefinition) property).getRange().orElse(null);
-                if (range != null) {
-                    BasePropertyDto propertyDto = new BasePropertyDto(propertyName,
-                            property.getType().toString(), range.getFrom().toString(),
-                            range.getTo().toString(), null);
-                    propertyDtoList.add(propertyDto);
-                    continue;
+                AbstractPropertyDefinition property = this.worldDefinition.getEnvironment().getPropertyByName(propertyName);
+                if (property instanceof AbstractNumericPropertyDefinition) {
+                    Range range = (Range) ((AbstractNumericPropertyDefinition) property).getRange().orElse(null);
+                    if (range != null) {
+                        BasePropertyDto propertyDto = new BasePropertyDto(propertyName,
+                                property.getType().toString(), range.getFrom().toString(),
+                                range.getTo().toString(), null);
+                        propertyDtoList.add(propertyDto);
+                        continue;
+                    }
                 }
+                BasePropertyDto propertyDto = new BasePropertyDto(propertyName,
+                        property.getType().toString(), null, null, null);
+                propertyDtoList.add(propertyDto);
             }
-            BasePropertyDto propertyDto = new BasePropertyDto(propertyName,
-                    property.getType().toString(), null, null, null);
-            propertyDtoList.add(propertyDto);
-        }
-        EnvironmentPropertiesDto response = new EnvironmentPropertiesDto(propertyDtoList);
+            EnvironmentPropertiesDto envPropsDto = new EnvironmentPropertiesDto(propertyDtoList);
 
-        return response;
+            return new SimulatorResponse<>(true, envPropsDto);
+
+        } catch (Exception e) {
+            return new SimulatorResponse<>(
+                    false, "an error detcetd while trying to set env properties.");
+        }
     }
 
     @Override
