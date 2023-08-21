@@ -22,7 +22,7 @@ public class ConsoleUI implements UserInterface {
     private SimulatorManager simulatorManager;
     private SimulatorResultManager simulatorResultManager;
     private boolean endSessionFlag = false;
-    private Integer simulationIndex;
+    private Integer simulationIndex = 0;
 
     public ConsoleUI() {
 
@@ -82,7 +82,9 @@ public class ConsoleUI implements UserInterface {
     }
 
     private void announceEndSimulation() {
-        System.out.println("Simulation ended!\n");
+        System.out.println("Simulation ended!");
+        System.out.println("Unique simulation ID: - " + this.simulatorResultManager
+                .getSimulatorIDByIndex(this.simulatorResultManager.getSortedHistoricalSimulationsList().size() - 1) + "\n");
     }
 
     private void establishSimulationSession() {

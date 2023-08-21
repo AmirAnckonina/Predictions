@@ -3,6 +3,7 @@ package simulator.manager.api;
 import simulator.definition.entity.Entity;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
+import simulator.execution.runner.utils.exceptions.eReasonForTerminate;
 
 import java.util.List;
 
@@ -18,4 +19,5 @@ public interface SimulationResult {
     List<EntityInstance> getEntities();
     void setInitializedEntityPopulation();
     void setStartingTime(long startTimeInMilliSec);
+    void setReasonForTerminate(eReasonForTerminate reasonForTerminate);
 }

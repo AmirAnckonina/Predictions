@@ -11,6 +11,7 @@ import simulator.execution.context.impl.ExecutionContextImpl;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.environment.api.EnvironmentInstance;
 import simulator.execution.instance.world.api.WorldInstance;
+import simulator.execution.runner.utils.exceptions.eReasonForTerminate;
 import simulator.manager.api.SimulationResult;
 import simulator.manager.impl.SimulationResultImpl;
 import simulator.manager.utils.SimulatorUtils;
@@ -73,6 +74,7 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
             currTimeInMilliSec = System.currentTimeMillis() - startTimeInMilliSec;
         }
 
+        simulationResult.setReasonForTerminate(worldInstance.getTermination().reasonForTerminate());
         // Extract the terimnation Reason...
 
     }

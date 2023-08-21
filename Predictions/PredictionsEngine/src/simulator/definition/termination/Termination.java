@@ -1,10 +1,13 @@
 package simulator.definition.termination;
 
+import simulator.execution.runner.utils.exceptions.eReasonForTerminate;
+
 import java.util.Optional;
 
 public class Termination {
     private final Integer ticksTermination;
     private final Integer secondsTermination;
+    private eReasonForTerminate reasonForTerminate;
 
     public Termination(Integer ticksTermination, Integer secondsTermination) {
         this.ticksTermination =  ticksTermination;
@@ -35,6 +38,14 @@ public class Termination {
             shouldTerminateByTicks = getTicksTermination().get() <= currTick;
         }
 
+        if(shouldTerminateBySeconds && !shouldTerminateByTicks){
+            reasonForTerminate = eReasonForTerminate.Time;
+        } else if (shouldTerminateByTicks && !shouldTerminateBySeconds) {
+            reasonForTerminate = eReasonForTerminate.Ticks;
+        }else {
+            reasonForTerminate = eReasonForTerminate.TicksAndTime;
+        }
+
         return shouldTerminateBySeconds || shouldTerminateByTicks;
     }
 
@@ -44,5 +55,9 @@ public class Termination {
                 "ticksTermination=" + ticksTermination +
                 ", secondsTermination=" + secondsTermination +
                 '}';
+    }
+
+    public eReasonForTerminate reasonForTerminate(){
+        return reasonForTerminate;
     }
 }

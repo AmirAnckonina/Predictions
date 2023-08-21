@@ -2,6 +2,7 @@ package simulator.manager.api;
 import simulator.execution.instance.entity.impl.EntitiesResult;
 
 import simulator.execution.instance.property.api.PropertyInstance;
+import simulator.execution.runner.utils.exceptions.eReasonForTerminate;
 import simulator.result.impl.SimulationInitialInfo;
 
 
@@ -27,5 +28,8 @@ public interface SimulatorResultManager {
 
     List<String> getAllPropertiesOfEntityBySimulationID(String simulationID);
     List<String> getAllPropertiesOfEntityBySimulationIndex(Integer simulationID);
+
+    String getSimulatorIDByIndex(Integer simulationIndex);
+
 
 }
