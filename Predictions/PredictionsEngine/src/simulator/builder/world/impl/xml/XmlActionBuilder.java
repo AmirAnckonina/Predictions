@@ -205,6 +205,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
 
     @Override
     public KillAction buildKillAction() {
+
         return new KillAction(eActionType.KILL, generatedAction.getEntity());
     }
 }

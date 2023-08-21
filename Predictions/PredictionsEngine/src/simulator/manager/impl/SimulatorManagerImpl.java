@@ -119,8 +119,6 @@ public class SimulatorManagerImpl implements SimulatorManager {
     public SimulatorResponse<String> runSimulator() {
 
         try {
-            this.simulatorRunner = new SimulatorRunnerImpl(this.establishedWorldInstance);
-
             String guid = SimulatorUtils.getGUID();
             SimulationInitialInfo simulationInitialInfo =
                     new SimulationInitialInfo(
@@ -131,6 +129,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
                             establishedWorldInstance
                     );
             SimulationResult simulationResult = new SimulationResultImpl(simulationInitialInfo);
+            this.simulatorRunner = new SimulatorRunnerImpl(this.establishedWorldInstance);
             this.simulatorRunner.run(simulationResult);
             simulatorResultManager.addSimulationResult(
                     simulationResult.getSimulationUuid(), simulationResult

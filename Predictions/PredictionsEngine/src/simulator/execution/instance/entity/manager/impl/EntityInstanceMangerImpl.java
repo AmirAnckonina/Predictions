@@ -10,6 +10,7 @@ public class EntityInstanceMangerImpl implements EntityInstanceManager {
     private List<EntityInstance> entityInstances;
 
     public EntityInstanceMangerImpl(List<EntityInstance> entityInstances) {
+
         this.entityInstances = entityInstances;
     }
 
@@ -20,6 +21,6 @@ public class EntityInstanceMangerImpl implements EntityInstanceManager {
 
     @Override
     public void killEntity(int id) {
-
+        entityInstances.removeIf(entIns -> entIns.getId() == id);
     }
 }
