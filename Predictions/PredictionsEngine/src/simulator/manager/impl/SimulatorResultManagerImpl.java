@@ -13,7 +13,7 @@ import java.util.*;
 public class SimulatorResultManagerImpl implements SimulatorResultManager {
 
 
-    Map<String, SimulationResult> simulationResults;
+
     private Integer lastSimulationResultIndex = 0;
     private Map<Integer,String> mapSimulationIndexToSimulationId;
     private Map<String,SimulationResult> simulationResults;
@@ -129,15 +129,9 @@ public class SimulatorResultManagerImpl implements SimulatorResultManager {
         boolean isSucceeded = false;
 
         try {
-            this.simulationResults.put(simulationID, simulationResult);
-<<<<<<< HEAD
-
-        }  catch (Exception e){
-=======
             this.mapSimulationIndexToSimulationId.put(lastSimulationResultIndex, simulationID);
             this.lastSimulationResultIndex += 1;
-        }catch (Exception e){
->>>>>>> main
+        }  catch (Exception e) {
             isSucceeded = false;
         }
 
