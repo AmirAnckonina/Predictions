@@ -22,8 +22,8 @@ public interface SimulatorResultManager {
     public List<EntitiesResult> getAllEntitiesExistBySimulationIndex(String simulationID);
     public List<EntitiesResult> getAllEntitiesExistBySimulationIndex(Integer simulationIndex);
 
-    Map<Integer,String> getAllEntitiesHasPropertyByPropertyNameBySimulationID(String uuid, String PropertyName);
-    Map<Integer,String> getAllEntitiesHasPropertyByPropertyNameBySimulationIndex(Integer simulationIndex, String PropertyName);
+    Map<String,Integer> getAllEntitiesHasPropertyByPropertyNameBySimulationID(String uuid, String PropertyName);
+    Map<String,Integer> getAllEntitiesHasPropertyByPropertyNameBySimulationIndex(Integer simulationIndex, String PropertyName);
 
     List<String> getAllPropertiesOfEntityBySimulationID(String simulationID);
     List<String> getAllPropertiesOfEntityBySimulationIndex(Integer simulationID);

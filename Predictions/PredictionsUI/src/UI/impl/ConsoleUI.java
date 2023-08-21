@@ -40,9 +40,9 @@ public class ConsoleUI implements UserInterface {
             if (yesNoSession()) {
                 runSimulatorUI();
             } else {
-                System.out.println("Goodbye!");
             }
         }
+        System.out.println("Goodbye!");
     }
 
     @Override
@@ -298,7 +298,7 @@ public class ConsoleUI implements UserInterface {
                 List<String> propertiesNames = this.simulatorResultManager.getAllPropertiesOfEntityBySimulationIndex(this.simulationIndex);
                 printPropertiesListAfterSimulation(propertiesNames);
                 String propertyNameChosen = propertyNameChosenForPresentResultHandler(propertiesNames);
-                Map<Integer,String> entityInstanceList = this.simulatorResultManager
+                Map<String,Integer> entityInstanceList = this.simulatorResultManager
                         .getAllEntitiesHasPropertyByPropertyNameBySimulationIndex(this.simulationIndex, propertyNameChosen);
                 showAllEntitiesHavePropertyByPropertyName(entityInstanceList);
                 break;
@@ -324,12 +324,22 @@ public class ConsoleUI implements UserInterface {
         }
     }
 
-    private void showAllEntitiesHavePropertyByPropertyName(Map<Integer,String> entityInstanceList) {
+    private void showAllEntitiesHavePropertyByPropertyName(Map<String,Integer> entityInstanceList) {
         int index = 1;
-        for (Map.Entry<Integer,String> entry : entityInstanceList.entrySet()) {
-            Integer key = entry.getKey();
-            String value = entry.getValue();
-            System.out.println( index+ ". There are " + key + " instances with the value " + value + "\n");
+        for (Map.Entry<String,Integer> entry : entityInstanceList.entrySet()) {
+            String instanceValue = entry.getKey();
+            Integer numOfInstances = entry.getValue();
+            if(numOfInstances == 1){
+                System.out.println( index+ ". There is " + numOfInstances + " instance with the value " + instanceValue + "\n");
+            }else {
+                System.out.println(index + ". There are " + numOfInstances + " instances with the value " + instanceValue + "\n");
+            }
+
+            index++;
+        }
+        if(entityInstanceList.size() == 0){
+            System.out.println("There are no instances with this property\n");
+
         }
     }
 
