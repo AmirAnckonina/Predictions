@@ -11,6 +11,7 @@ public class KillAction extends AbstractAction {
 
     @Override
     public void invoke(ExecutionContext executionContext) {
-        executionContext.removeEntity(executionContext.getPrimaryEntityInstance());
+        //executionContext.removeEntity(executionContext.getPrimaryEntityInstance());
+        executionContext.getPrimaryEntityInstance().killEntity();
     }
 }

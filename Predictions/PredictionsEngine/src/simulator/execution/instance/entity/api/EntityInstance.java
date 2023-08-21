@@ -6,4 +6,6 @@ public interface EntityInstance {
     PropertyInstance getPropertyByName(String propertyName);
     void addPropertyInstance(String propertyName, PropertyInstance propertyInstance);
     int getId();
+    void killEntity();
+    boolean isAlive();
 }
