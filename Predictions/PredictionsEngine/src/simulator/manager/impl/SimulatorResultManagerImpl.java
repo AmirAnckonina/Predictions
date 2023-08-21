@@ -60,10 +60,12 @@ public class SimulatorResultManagerImpl implements SimulatorResultManager {
         return entitiesResultList;
     }
 
-    public List<EntitiesResult> getAllEntitiesExistBySimulationIndex(Integer simulationID) {
+    public List<EntitiesResult> getAllEntitiesExistBySimulationIndex(Integer simulationIndex) {
         List<EntitiesResult> entitiesResultList = new ArrayList<>();
-        EntitiesResult entitiesResult = new EntitiesResult(simulationResults.get(simulationID).getNumOfInstancesOfEntityInitialized(),
-                simulationResults.get(simulationID).getNumOfInstancesOfEntityWhenSimulationStopped());
+        EntitiesResult entitiesResult = new EntitiesResult(simulationResults.get(mapSimulationIndexToSimulationId.get(simulationIndex))
+                .getNumOfInstancesOfEntityInitialized(),
+                simulationResults.get(mapSimulationIndexToSimulationId.get(simulationIndex))
+                        .getNumOfInstancesOfEntityWhenSimulationStopped());
         entitiesResultList.add(0,entitiesResult);
 
         return entitiesResultList;
@@ -126,9 +128,10 @@ public class SimulatorResultManagerImpl implements SimulatorResultManager {
     }
 
     public boolean addSimulationResult(String simulationID, SimulationResult simulationResult) {
-        boolean isSucceeded = false;
+        boolean isSucceeded = true;
 
         try {
+            this.simulationResults.put(simulationID, simulationResult);
             this.mapSimulationIndexToSimulationId.put(lastSimulationResultIndex, simulationID);
             this.lastSimulationResultIndex += 1;
         }  catch (Exception e) {
