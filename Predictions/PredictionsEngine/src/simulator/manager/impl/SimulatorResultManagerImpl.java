@@ -2,6 +2,7 @@ package simulator.manager.impl;
 
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
+import simulator.execution.runner.utils.exceptions.eReasonForTerminate;
 import simulator.manager.api.SimulationResult;
 import simulator.manager.api.SimulatorResultManager;
 import simulator.execution.instance.entity.impl.EntitiesResult;
@@ -23,7 +24,6 @@ public class SimulatorResultManagerImpl implements SimulatorResultManager {
         simulationResults = new HashMap<>();
         mapSimulationIndexToSimulationId = new HashMap<>();
     }
-
 
     public String getSimulatorStartingTimeInStringByID(String simulationID){
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy | HH.mm.ss");
@@ -115,6 +115,11 @@ public class SimulatorResultManagerImpl implements SimulatorResultManager {
                 .get(mapSimulationIndexToSimulationId.get(simulationIndex))
                 .getEntityPropertiesNames();
 
+    }
+
+    @Override
+    public String getSimulatorIDByIndex(Integer simulationIndex) {
+        return this.mapSimulationIndexToSimulationId.get(simulationIndex);
     }
 
     public boolean addSimulationResult(String simulationID, SimulationResult simulationResult) {

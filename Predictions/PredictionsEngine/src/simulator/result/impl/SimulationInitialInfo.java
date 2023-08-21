@@ -10,7 +10,6 @@ public class SimulationInitialInfo {
     private String primaryEntityName;
     private int primaryEntityPopulation;
     private Set<String> primaryEntityPropertiesName;
-
     private WorldInstance worldInstnce;
 
     public SimulationInitialInfo(String simulationGuid, String primaryEntityName, int primaryEntityPopulation, Set<String> primaryEntityPropertiesName, WorldInstance worldInstnce) {

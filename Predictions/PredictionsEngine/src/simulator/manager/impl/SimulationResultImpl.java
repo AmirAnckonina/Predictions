@@ -5,6 +5,7 @@ import simulator.definition.world.World;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.execution.instance.world.api.WorldInstance;
+import simulator.execution.runner.utils.exceptions.eReasonForTerminate;
 import simulator.manager.api.SimulationResult;
 import simulator.result.impl.SimulationInitialInfo;
 
@@ -17,11 +18,17 @@ public class SimulationResultImpl implements SimulationResult {
     private Map<String, Integer> initEntitiesPopulationStatus;
     private Set<String> primaryEntityPropertiesName;
     private Long simulatorStartingTime;
+    private eReasonForTerminate reasonForTerminate;
 
-    public SimulationResultImpl(String simulationGuid, WorldInstance worldInstance, Long simulatorStartingTime) {
+    public void setReasonForTerminate(eReasonForTerminate reasonForTerminate) {
+        this.reasonForTerminate = reasonForTerminate;
+    }
+
+    public SimulationResultImpl(String simulationGuid, WorldInstance worldInstance, Long simulatorStartingTime, eReasonForTerminate reasonForTerminate) {
         this.simulatorStartingTime = simulatorStartingTime;
         this.simulationUuid = simulationGuid;
         this.worldInstance = worldInstance;
+        this.reasonForTerminate = reasonForTerminate;
         setInitializedEntityPopulation();
     }
 

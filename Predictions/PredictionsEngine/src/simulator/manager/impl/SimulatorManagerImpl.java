@@ -135,6 +135,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
                     simulationResult.getSimulationUuid(), simulationResult
             );
 
+            //need to add DTO to return termination reason.
             return new SimulatorResponse<String>(
                     true,
                     "run succesffuly, ID : " + guid,
