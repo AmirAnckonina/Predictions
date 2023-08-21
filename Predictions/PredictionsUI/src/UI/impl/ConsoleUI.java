@@ -51,6 +51,7 @@ public class ConsoleUI implements UserInterface {
         printLoadingSimulationMenu();
         //String simulationFilePath = handleLoadingSimulationUserChoice();
         String simulationFilePath = "PredictionsEngine/src/resources/ex1-cigarets.xml";
+        //String simulationFilePath = "PredictionsEngine/src/resources/ex1-error-6.xml";
         SimulatorResponse response = simulatorManager.buildSimulationWorld(simulationFilePath);
         System.out.println(response.getMessage());
         endLoadingSimulationSessionSignal();
@@ -73,12 +74,11 @@ public class ConsoleUI implements UserInterface {
         setEnvironmentPropertiesValues();
         SimulatorResponse response = simulatorManager.establishSimulation();
         if (response.isSuccess()) {
-            //yesNoSession();
             runSimulationSessionForEstablishedEnvironment();
         } else {
             System.out.println(response.getMessage());
         }
-        announceEndSimulation();
+
     }
 
     private void announceEndSimulation() {
@@ -182,6 +182,11 @@ public class ConsoleUI implements UserInterface {
     private void runSimulationSessionForEstablishedEnvironment() {
         showEstablishedEnvironmentInfo();
         SimulatorResponse<String> result = simulatorManager.runSimulator();
+        if (result.isSuccess()) {
+            // print the Guid and the termination reason
+        } else {
+            System.out.println(result.getMessage());
+        }
     }
 
     private void showEstablishedEnvironmentInfo() {
@@ -237,10 +242,16 @@ public class ConsoleUI implements UserInterface {
 
     private void setEnvironmentPropertiesValues() {
         startEnvironmentSessionSignal();
-        EnvironmentPropertiesDto propertiesDto = simulatorManager.getEnvironmentPropertiesDefinition();
-        List<BasePropertyDto> properties = propertiesDto.getPropertiesList();
-        List<Integer> propertiesUserUpdatedList = handleUserPropertyChoice(properties);
-        endEnvironmentSessionSignal();
+        SimulatorResponse<EnvironmentPropertiesDto>
+                propertiesDtoResponse = simulatorManager.getEnvironmentPropertiesDefinition();
+        if (propertiesDtoResponse.isSuccess()) {
+            EnvironmentPropertiesDto propetiesDto = propertiesDtoResponse.getData();
+            List<BasePropertyDto> properties = propetiesDto.getPropertiesList();
+            List<Integer> propertiesUserUpdatedList = handleUserPropertyChoice(properties);
+            endEnvironmentSessionSignal();
+        } else {
+            System.out.println(propertiesDtoResponse.getMessage());
+        }
     }
 
     private boolean startEnvironmentSessionSignal(){

@@ -73,7 +73,7 @@ public class WorldBuilderContextValidatorImpl implements WorldBuilderContextVali
 
     @Override
     public boolean validateActionEntityPropertyContext(String entityName, String entityPropertyName) {
-        return true;
+        return primaryEntityPropertiesToTypeMapper.containsKey(entityPropertyName);
     }
 
     @Override

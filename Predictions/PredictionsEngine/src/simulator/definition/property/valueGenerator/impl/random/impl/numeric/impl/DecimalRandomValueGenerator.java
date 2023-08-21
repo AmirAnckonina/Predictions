@@ -3,19 +3,19 @@ package simulator.definition.property.valueGenerator.impl.random.impl.numeric.im
 import simulator.definition.property.impl.Range;
 import simulator.definition.property.valueGenerator.impl.random.impl.numeric.api.AbstractNumericRandomValueGenerator;
 
-public class IntegerRandomValueGenerator extends AbstractNumericRandomValueGenerator<Integer> {
+public class DecimalRandomValueGenerator extends AbstractNumericRandomValueGenerator<Integer> {
 
-    public IntegerRandomValueGenerator(Range<Integer> range) {
+    public DecimalRandomValueGenerator(Range<Integer> range) {
         super(range);
     }
-    public IntegerRandomValueGenerator() {
-        super();
+    public DecimalRandomValueGenerator() {
+        this(null);
     }
 
     @Override
     public Integer generateValue()  {
         if (getRange().isPresent()) {
-            return range.getFrom() + random.nextInt(range.getTo());
+            return range.getFrom() + random.nextInt(range.getTo() - range.getFrom());
         } else {
             return random.nextInt();
         }

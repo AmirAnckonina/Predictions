@@ -10,13 +10,15 @@ public class FloatRandomValueGenerator extends AbstractNumericRandomValueGenerat
     }
 
     public FloatRandomValueGenerator() {
-        super();
+
+        this(null);
     }
 
     @Override
     public Float generateValue()  {
         if (getRange().isPresent()) {
-            return range.getFrom() + (range.getTo() - range.getFrom()) * random.nextFloat();
+           // return range.getFrom() + (range.getTo() - range.getFrom()) * random.nextFloat();
+            return range.getFrom() + random.nextFloat() * (range.getTo() - range.getFrom());
         } else {
             return random.nextInt() + random.nextFloat();
         }
