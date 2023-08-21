@@ -6,6 +6,7 @@ import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.execution.instance.world.api.WorldInstance;
 import simulator.manager.api.SimulationResult;
+import simulator.result.impl.SimulationInitialInfo;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -13,15 +14,28 @@ import java.util.Map.Entry;
 public class SimulationResultImpl implements SimulationResult {
     private String simulationUuid;
     private WorldInstance worldInstance;
-    private World worldDefinition;
-    private Map<String, Integer> initializedStatus = new HashMap<>();
+    private Map<String, Integer> initEntitiesPopulationStatus;
+    private Set<String> primaryEntityPropertiesName;
     private Long simulatorStartingTime;
 
-    public SimulationResultImpl(String simulationGuid, WorldInstance worldInstance) {
+    public SimulationResultImpl(String simulationGuid, WorldInstance worldInstance, Long simulatorStartingTime) {
+        this.simulatorStartingTime = simulatorStartingTime;
         this.simulationUuid = simulationGuid;
         this.worldInstance = worldInstance;
         setInitializedEntityPopulation();
     }
+
+    public SimulationResultImpl(SimulationInitialInfo simulationInitialInfo) {
+        this.simulationUuid = simulationInitialInfo.getSimulationGuid();
+        this.initEntitiesPopulationStatus = new HashMap<>();
+        this.initEntitiesPopulationStatus.put(
+                simulationInitialInfo.getPrimaryEntityName(),
+                simulationInitialInfo.getPrimaryEntityPopulation()
+        );
+        this.primaryEntityPropertiesName = simulationInitialInfo.getPrimaryEntityPropertiesName();
+        this.worldInstance = simulationInitialInfo.getWorldInstnce();
+    }
+
 
     /*public SimulationResultImpl(WorldInstance worldInstance, String simulationID, World worldDefinition) {
         this.simulatorStartingTime = System.currentTimeMillis();
@@ -32,9 +46,14 @@ public class SimulationResultImpl implements SimulationResult {
     }*/
 
     public void setInitializedEntityPopulation() {
-        String entityName  = worldDefinition.getPrimaryEntity().getName();
-        int population =  worldDefinition.getPrimaryEntity().getPopulation();
-        initializedStatus.put(entityName, population);
+        String entityName  = worldInstance.getPrimaryEntityName();
+        int population =  worldInstance.getPrimaryEntityInstances().size();
+        initEntitiesPopulationStatus.put(entityName, population);
+    }
+
+    @Override
+    public void setStartingTime(long startTimeInMilliSec) {
+        this.simulatorStartingTime = startTimeInMilliSec;
     }
 
     @Override
@@ -44,6 +63,7 @@ public class SimulationResultImpl implements SimulationResult {
 
     @Override
     public Long getSimulationStartingTime() {
+
         return this.simulatorStartingTime;
     }
 
@@ -58,7 +78,7 @@ public class SimulationResultImpl implements SimulationResult {
 //        if(initializedStatus.containsKey(entityName)) {
 //            returnValue = initializedStatus.get(entityName);
 //        }
-        Entry<String, Integer> firstEntry = initializedStatus.entrySet().iterator().next();
+        Entry<String, Integer> firstEntry = initEntitiesPopulationStatus.entrySet().iterator().next();
         Integer value = firstEntry.getValue();
         returnValue = value;
 
@@ -70,16 +90,24 @@ public class SimulationResultImpl implements SimulationResult {
         return worldInstance.getPrimaryEntityInstances().size();
     }
 
+//    @Override
+//    public List<String> getEntityPropertiesNames() {
+//        List<String> propertiesNames = new LinkedList<>();
+//
+//        for (Map.Entry<String, AbstractPropertyDefinition> entry :
+//                this.worldDefinition.getPrimaryEntity().getProperties().entrySet()) {
+//            String key = entry.getKey();
+//            propertiesNames.add(key);
+//        }
+//
+//        return propertiesNames;
+//    }
+
     @Override
     public List<String> getEntityPropertiesNames() {
-        List<String> propertiesNames = new LinkedList<>();
-
-        for (Map.Entry<String, AbstractPropertyDefinition> entry : this.worldDefinition.getPrimaryEntity().getProperties().entrySet()) {
-            String key = entry.getKey();
-            propertiesNames.add(key);
-        }
-
-        return propertiesNames;
+        List<String> properties = new ArrayList<>();
+        properties.addAll(this.primaryEntityPropertiesName);
+        return properties;
     }
 
     @Override

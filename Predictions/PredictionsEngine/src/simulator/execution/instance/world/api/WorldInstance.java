@@ -16,6 +16,6 @@ public interface WorldInstance {
     List<EntityInstance> getPrimaryEntityInstances();
     void setPrimaryEntityInstances(List<EntityInstance> primaryEntityInstances);
     void setEnvironmentInstance(EnvironmentInstance environmentInstance);
-
+    String getPrimaryEntityName();
 
 }

@@ -22,11 +22,11 @@ public class Termination {
 
     public boolean shouldTerminate(int currTick, long currTimeInMilliSec) {
 
-
         boolean shouldTerminateBySeconds = false;
         boolean shouldTerminateByTicks = false;
 
         if (getSecondsTermination().isPresent()) {
+
             Float currTimeInSec = (currTimeInMilliSec / 1000f);
             shouldTerminateBySeconds = getSecondsTermination().get() <= currTimeInSec;
         }

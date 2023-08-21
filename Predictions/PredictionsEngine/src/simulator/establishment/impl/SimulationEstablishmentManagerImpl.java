@@ -35,13 +35,13 @@ public class SimulationEstablishmentManagerImpl implements SimulationEstablishme
     public WorldInstance establishSimulation(World worldDefnition) {
 
         this.worldDefinition = worldDefnition;
-
+        String promaryEntityName = worldDefnition.getPrimaryEntity().getName();
         EnvironmentInstance envInstance = activateEnvironment();
         List<EntityInstance> primaryEntityInstances = createPrimaryEntityInstances();
         List<Rule> rules = this.worldDefinition.getRules();
         Termination termination = this.worldDefinition.getTermination();
 
-        return new WorldInstanceImpl(envInstance, primaryEntityInstances, rules, termination);
+        return new WorldInstanceImpl(promaryEntityName, envInstance, primaryEntityInstances, rules, termination);
     }
 
     @Override

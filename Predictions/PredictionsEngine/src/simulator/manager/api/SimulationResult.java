@@ -17,4 +17,5 @@ public interface SimulationResult {
     EntityInstance getEntityByName(Integer entityID);
     List<EntityInstance> getEntities();
     void setInitializedEntityPopulation();
+    void setStartingTime(long startTimeInMilliSec);
 }

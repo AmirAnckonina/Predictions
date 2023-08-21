@@ -24,6 +24,7 @@ import simulator.manager.api.SimulatorManager;
 import simulator.builder.world.utils.file.WorldBuilderFileUtils;
 import simulator.manager.api.SimulatorResultManager;
 import simulator.manager.utils.SimulatorUtils;
+import simulator.result.impl.SimulationInitialInfo;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.*;
@@ -31,7 +32,7 @@ import java.util.*;
 public class SimulatorManagerImpl implements SimulatorManager {
 
     private SimulationEstablishmentManager simulationEstablishmentManager;
-    private World world;
+    private World worldDefinition;
     private WorldInstance establishedWorldInstance;
     private WorldBuilder worldBuilder;
     private List<String> propertiesUpdatedByUser;
@@ -58,7 +59,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
         try {
             eDataFileType dataSrcType = WorldBuilderFileUtils.getDataFileTypeByFileExtension(filePath);
             worldBuilder = WorldBuilderFactory.createSimulationBuilder(dataSrcType, filePath);
-            world = worldBuilder.buildWorld();
+            worldDefinition = worldBuilder.buildWorld();
             return new SimulatorResponse(true, "the following file has loaded successfully: " + filePath);
 
         } catch (Exception ex) {
@@ -72,14 +73,14 @@ public class SimulatorManagerImpl implements SimulatorManager {
     public SimulatorResponse<SimulationDetailsDto> getSimulationWorldDetails() {
 
         try {
-            String entitiesInfo = world.getPrimaryEntity().toString();
+            String entitiesInfo = worldDefinition.getPrimaryEntity().toString();
             StringBuilder rulesSb = new StringBuilder();
-            for (Rule rule : world.getRules()) {
+            for (Rule rule : worldDefinition.getRules()) {
                 rulesSb.append(rule.toString()).append(System.lineSeparator());
             }
 
             String rulesInfo = rulesSb.toString();
-            String terminationInfo = world.getTermination().toString();
+            String terminationInfo = worldDefinition.getTermination().toString();
 
             return new SimulatorResponse<>(
                     true,
@@ -101,7 +102,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
         try {
 
             this.establishedWorldInstance =
-                    simulationEstablishmentManager.establishSimulation(this.world);
+                    simulationEstablishmentManager.establishSimulation(this.worldDefinition);
 
             return  new SimulatorResponse<>(
                     true,
@@ -119,11 +120,20 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
         try {
             this.simulatorRunner = new SimulatorRunnerImpl(this.establishedWorldInstance);
+
             String guid = SimulatorUtils.getGUID();
-            SimulationResult simulationResult = this.simulatorRunner.run();
+            SimulationInitialInfo simulationInitialInfo =
+                    new SimulationInitialInfo(
+                            guid,
+                            worldDefinition.getPrimaryEntity().getName(),
+                            establishedWorldInstance.getPrimaryEntityInstances().size(),
+                            worldDefinition.getPrimaryEntity().getProperties().keySet(),
+                            establishedWorldInstance
+                    );
+            SimulationResult simulationResult = new SimulationResultImpl(simulationInitialInfo);
+            this.simulatorRunner.run(simulationResult);
             simulatorResultManager.addSimulationResult(
-                    simulationResult.getSimulationUuid(),
-                    simulationResult
+                    simulationResult.getSimulationUuid(), simulationResult
             );
 
             return new SimulatorResponse<String>(
@@ -205,9 +215,9 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
         List<BasePropertyDto> propertyDtoList = new ArrayList<>();
 
-        for (String propertyName : this.world.getEnvironment().getPropertiesNames()) {
+        for (String propertyName : this.worldDefinition.getEnvironment().getPropertiesNames()) {
 
-            AbstractPropertyDefinition property = this.world.getEnvironment().getPropertyByName(propertyName);
+            AbstractPropertyDefinition property = this.worldDefinition.getEnvironment().getPropertyByName(propertyName);
             if (property instanceof AbstractNumericPropertyDefinition) {
                 Range range = (Range) ((AbstractNumericPropertyDefinition) property).getRange().orElse(null);
                 if (range != null) {
@@ -255,7 +265,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
             // Should change to SimulatorEnvironmentManager????? data member!!!
             environmentManager = new EnvironmentManagerImpl();
-            environmentManager.setFixedValuePropertyDefinition(propName, eType, value, this.world.getEnvironment());
+            environmentManager.setFixedValuePropertyDefinition(propName, eType, value, this.worldDefinition.getEnvironment());
 
             responseDto = new SetPropertySimulatorResponseDto(
                     eSetPropertyStatus.SUCCEEDED,

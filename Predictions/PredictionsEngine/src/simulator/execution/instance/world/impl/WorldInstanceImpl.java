@@ -10,12 +10,14 @@ import simulator.execution.instance.world.api.WorldInstance;
 import java.util.List;
 
 public class WorldInstanceImpl implements WorldInstance {
+    private String primaryEntityName;
     private EnvironmentInstance environmentInstance;
     private List<EntityInstance> primaryEntityInstances;
     private List<Rule> rules;
     private Termination termination;
 
-    public WorldInstanceImpl(EnvironmentInstance environmentInstance, List<EntityInstance> primaryEntityInstances, List<Rule> rules, Termination termination) {
+    public WorldInstanceImpl(String primaryEntityName, EnvironmentInstance environmentInstance, List<EntityInstance> primaryEntityInstances, List<Rule> rules, Termination termination) {
+        this.primaryEntityName = primaryEntityName;
         this.environmentInstance = environmentInstance;
         this.primaryEntityInstances = primaryEntityInstances;
         this.rules = rules;
@@ -50,6 +52,11 @@ public class WorldInstanceImpl implements WorldInstance {
     @Override
     public void setEnvironmentInstance(EnvironmentInstance environmentInstance) {
         this.environmentInstance = environmentInstance;
+    }
+
+    @Override
+    public String getPrimaryEntityName() {
+        return primaryEntityName;
     }
 
     @Override
