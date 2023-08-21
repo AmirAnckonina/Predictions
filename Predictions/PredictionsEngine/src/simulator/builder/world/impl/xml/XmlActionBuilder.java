@@ -59,7 +59,10 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
             }
 
         } else {
-            throw new WorldBuilderException("Action entity context doesn't matched the existing entity");
+            throw new WorldBuilderException(
+                    "For Action " +
+                    generatedAction.getType() +
+                            ", the entity " + generatedAction.getEntity() + ", context doesn't matched");
         }
     }
 

@@ -71,6 +71,8 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
                     Integer intValue = Integer.parseInt(rawExpression);
                     argumentExpression = new ValueArgumentExpressionImpl(intValue);
                     break;
+                default:
+                    throw new WorldBuilderException("The raw expression" + rawExpression + "can't be recognized");
             }
         }
 
