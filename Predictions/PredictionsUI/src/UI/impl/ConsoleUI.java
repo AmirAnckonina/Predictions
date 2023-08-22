@@ -179,11 +179,13 @@ public class ConsoleUI implements UserInterface {
 
     private void runSimulationSessionForEstablishedEnvironment() {
         showEstablishedEnvironmentInfo();
-        SimulatorResponse<SimulationEndDto> result = simulatorManager.runSimulator();
-        if (result.isSuccess()) {
-            // print the Guid and the termination reason
+        SimulatorResponse<SimulationEndDto> response = simulatorManager.runSimulator();
+        if (response.isSuccess()) {
+            System.out.println("The simulation run successfully!");
+            System.out.println("Simulation id = " + response.getData().getGuid());
+            System.out.println("The simulation termination reason is: " + response.getData().getTerminationReason());
         } else {
-            System.out.println(result.getMessage());
+            System.out.println(response.getMessage());
         }
     }
 
