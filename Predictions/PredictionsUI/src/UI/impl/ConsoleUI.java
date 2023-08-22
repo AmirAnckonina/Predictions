@@ -46,12 +46,19 @@ public class ConsoleUI implements UserInterface {
     @Override
     public void loadSimulationSession() {
         startLoadingSimulationSessionSignal();
-        printLoadingSimulationMenu();
-        //String simulationFilePath = handleLoadingSimulationUserChoice();
-        String simulationFilePath = "PredictionsEngine/src/resources/ex1-cigarets.xml";
-        //String simulationFilePath = "PredictionsEngine/src/resources/ex1-error-6.xml";
-        SimulatorResponse response = simulatorManager.buildSimulationWorld(simulationFilePath);
-        System.out.println(response.getMessage());
+        while (true) {
+            printLoadingSimulationMenu();
+            String simulationFilePath = handleLoadingSimulationUserChoice();
+            //String simulationFilePath = "PredictionsEngine/src/resources/ex1-cigarets.xml";
+            //String simulationFilePath = "PredictionsEngine/src/resources/ex1-error-6.xml";
+            SimulatorResponse response = simulatorManager.buildSimulationWorld(simulationFilePath);
+            if(response.isSuccess()){
+                System.out.println(response.getMessage());
+                break;
+            }
+            System.out.println("The data source file is invalid.");
+        }
+
         endLoadingSimulationSessionSignal();
     }
 
@@ -223,10 +230,10 @@ public class ConsoleUI implements UserInterface {
         Scanner scanner = new Scanner(System.in);
         boolean isValidFile;
         filePath = scanner.nextLine();
-        do {
-            File file = new File(filePath);
-            isValidFile = file.exists() && !file.isDirectory();
-        } while (!isValidFile);
+//        do {
+//            File file = new File(filePath);
+//            isValidFile = file.exists() && !file.isDirectory();
+//        } while (!isValidFile);
 
         return filePath;
     }
