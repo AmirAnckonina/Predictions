@@ -1,16 +1,14 @@
 package UI.impl;
 
 import UI.api.UserInterface;
-import dto.EnvironmentPropertiesDto;
-import dto.EstablishedEnvironmentInfoDto;
-import dto.SetPropertySimulatorResponseDto;
-import dto.SimulationDetailsDto;
-import dto.builder.params.BasePropertyDto;
+import UI.utils.enums.eMainMenuChoices;
+import UI.utils.enums.ePresentShowOptions;
+import dto.*;
 import response.SimulatorResponse;
 import simulator.execution.instance.entity.impl.EntitiesResult;
-import simulator.manager.api.SimulationResult;
+import simulator.result.api.SimulationResult;
 import simulator.manager.api.SimulatorManager;
-import simulator.manager.api.SimulatorResultManager;
+import simulator.result.manager.api.SimulatorResultManager;
 import simulator.manager.impl.SimulatorManagerImpl;
 
 import java.text.SimpleDateFormat;
@@ -181,7 +179,7 @@ public class ConsoleUI implements UserInterface {
 
     private void runSimulationSessionForEstablishedEnvironment() {
         showEstablishedEnvironmentInfo();
-        SimulatorResponse<String> result = simulatorManager.runSimulator();
+        SimulatorResponse<SimulationEndDto> result = simulatorManager.runSimulator();
         if (result.isSuccess()) {
             // print the Guid and the termination reason
         } else {
@@ -463,17 +461,18 @@ public class ConsoleUI implements UserInterface {
         String propertyName = new String(property.getName());
         String propertyType = new String(property.getPropertyType());
         String propertyRangeString = (property.getFrom() != null && property.getTo() != null)
-                ?new String("from: " + property.getFrom() + "to: " + property.getTo()):null;
+                ?new String("from: " + property.getFrom() + " to: " + property.getTo()):null;
         Scanner scanner = new Scanner(System.in);
 
         setPropertyIntroduction();
         setPropertyDisplay(propertyName, propertyType, propertyRangeString);
         String value = scanner.nextLine();
-        SimulatorResponse<SetPropertySimulatorResponseDto> resResponse = this.simulatorManager.setSelectedEnvironmentVariablesValue(
-                propertyName, propertyType, value);
+        SimulatorResponse<SetPropertySimulatorResponseDto> resResponse =
+                this.simulatorManager.setSelectedEnvironmentVariablesValue(
+                        propertyName, propertyType, value);
 
         while (!resResponse.isSuccess()){
-            System.out.println("Invalid value! " + resResponse.getData());
+            System.out.println("Invalid value!");
             setPropertyDisplay(propertyName, propertyType, propertyRangeString);
             value = scanner.nextLine();
             resResponse = this.simulatorManager.setSelectedEnvironmentVariablesValue(propertyName, property.getPropertyType(), value);
@@ -486,7 +485,8 @@ public class ConsoleUI implements UserInterface {
     }
 
     private void setPropertyDisplay(String propertyName, String propertyType, String range){
-        System.out.print("Property name: " + propertyName + "." + ((range != null)?"values must be " + range:""));
+        System.out.println("Property name: " + propertyName);
+        System.out.println ((range != null)?"values must be " + range:"");
         switch (propertyType.toLowerCase())
         {
             case "string":

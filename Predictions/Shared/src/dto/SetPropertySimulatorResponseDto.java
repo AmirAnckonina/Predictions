@@ -1,6 +1,6 @@
 package dto;
 
-import dto.builder.params.enums.eSetPropertyStatus;
+import dto.enums.eSetPropertyStatus;
 
 public class SetPropertySimulatorResponseDto {
     private eSetPropertyStatus processStatus;
