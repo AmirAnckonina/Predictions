@@ -52,11 +52,8 @@ public class ConsoleUI implements UserInterface {
             //String simulationFilePath = "PredictionsEngine/src/resources/ex1-cigarets.xml";
             //String simulationFilePath = "PredictionsEngine/src/resources/ex1-error-6.xml";
             SimulatorResponse response = simulatorManager.buildSimulationWorld(simulationFilePath);
-            if(response.isSuccess()){
-                System.out.println(response.getMessage());
-                break;
-            }
-            System.out.println("The data source file is invalid.");
+            System.out.println(response.getMessage());
+            break;
         }
 
         endLoadingSimulationSessionSignal();
