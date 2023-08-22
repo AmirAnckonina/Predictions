@@ -1,12 +1,12 @@
 package simulator.manager.impl;
 
 import dto.*;
-import dto.builder.params.BasePropertyDto;
-import dto.builder.params.enums.eSetPropertyStatus;
+import dto.BasePropertyDto;
+import dto.enums.eSetPropertyStatus;
 import response.SimulatorResponse;
-import simulator.builder.world.api.interfaces.WorldBuilder;
-import simulator.builder.world.utils.file.enums.eDataFileType;
-import simulator.builder.world.utils.factory.WorldBuilderFactory;
+import simulator.builder.api.interfaces.WorldBuilder;
+import simulator.builder.utils.file.enums.eDataFileType;
+import simulator.builder.utils.factory.WorldBuilderFactory;
 import simulator.definition.property.api.abstracts.AbstractNumericPropertyDefinition;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 import simulator.definition.property.utils.enums.ePropertyType;
@@ -14,17 +14,20 @@ import simulator.definition.property.impl.Range;
 import simulator.definition.rule.Rule;
 import simulator.definition.world.World;
 import simulator.establishment.api.SimulationEstablishmentManager;
+import simulator.establishment.impl.EnvironmentSetupManagerImpl;
 import simulator.establishment.impl.SimulationEstablishmentManagerImpl;
-import simulator.execution.runner.api.SimulatorRunner;
-import simulator.execution.runner.impl.SimulatorRunnerImpl;
+import simulator.runner.api.SimulatorRunner;
+import simulator.runner.impl.SimulatorRunnerImpl;
 import simulator.execution.instance.world.api.WorldInstance;
-import simulator.manager.api.EnvironmentManager;
-import simulator.manager.api.SimulationResult;
+import simulator.establishment.api.EnvironmentSetupManager;
+import simulator.result.api.SimulationResult;
 import simulator.manager.api.SimulatorManager;
-import simulator.builder.world.utils.file.WorldBuilderFileUtils;
-import simulator.manager.api.SimulatorResultManager;
+import simulator.builder.utils.file.WorldBuilderFileUtils;
+import simulator.result.impl.SimulationResultImpl;
+import simulator.result.manager.api.SimulatorResultManager;
 import simulator.manager.utils.SimulatorUtils;
 import simulator.result.impl.SimulationInitialInfo;
+import simulator.result.manager.impl.SimulatorResultManagerImpl;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.*;
@@ -36,7 +39,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
     private WorldInstance establishedWorldInstance;
     private WorldBuilder worldBuilder;
     private List<String> propertiesUpdatedByUser;
-    private EnvironmentManager environmentManager;
+    private EnvironmentSetupManager environmentManager;
     private String simulationID;
     private SimulatorRunner simulatorRunner;
     private SimulatorResultManager simulatorResultManager;
@@ -116,7 +119,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
         }
     }
     @Override
-    public SimulatorResponse<String> runSimulator() {
+    public SimulatorResponse<SimulationEndDto> runSimulator() {
 
         try {
             String guid = SimulatorUtils.getGUID();
@@ -136,11 +139,15 @@ public class SimulatorManagerImpl implements SimulatorManager {
             );
 
             //need to add DTO to return termination reason.
-            return new SimulatorResponse<String>(
+            return new SimulatorResponse<SimulationEndDto>(
                     true,
                     "run succesffuly, ID : " + guid,
-                    guid
+                    new SimulationEndDto(
+                            simulationResult.getSimulationUuid(),
+                            simulationResult.getTerminationReason().toString()
+                    )
             );
+
         } catch (Exception e) {
 
             return new SimulatorResponse(
@@ -270,7 +277,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
             }
 
             // Should change to SimulatorEnvironmentManager????? data member!!!
-            environmentManager = new EnvironmentManagerImpl();
+            environmentManager = new EnvironmentSetupManagerImpl();
             environmentManager.setFixedValuePropertyDefinition(propName, eType, value, this.worldDefinition.getEnvironment());
 
             responseDto = new SetPropertySimulatorResponseDto(

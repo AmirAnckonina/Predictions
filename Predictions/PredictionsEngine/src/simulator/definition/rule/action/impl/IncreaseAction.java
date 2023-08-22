@@ -6,7 +6,7 @@ import simulator.definition.rule.action.api.abstracts.AbstractPropertyAction;
 import simulator.definition.rule.action.argumentExpression.api.interfaces.ArgumentExpression;
 import simulator.definition.rule.action.utils.enums.eActionType;
 import simulator.execution.context.api.ExecutionContext;
-import simulator.execution.runner.utils.exceptions.SimulatorRunnerException;
+import simulator.runner.utils.exceptions.SimulatorRunnerException;
 
 
 public class IncreaseAction extends AbstractPropertyAction {
