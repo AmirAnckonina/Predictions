@@ -236,7 +236,7 @@ public class ConsoleUI implements UserInterface {
     }
 
     private void printLoadingSimulationMenu() {
-        System.out.println("Inset the full path of the XML file and press enter:");
+        System.out.println("Insert the full path of the XML file and press enter:");
     }
 
     private void startLoadingSimulationSessionSignal() {
