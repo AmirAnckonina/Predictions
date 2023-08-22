@@ -156,6 +156,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
     @Override
     public SimulatorResponse exitSimulator() {
+
         throw new NotImplementedException();
     }
 
