@@ -57,8 +57,6 @@ public class SimulatorManagerImpl implements SimulatorManager {
     @Override
     public SimulatorResponse buildSimulationWorld(String filePath) {
 
-        BuildSimulatorDto buildSimulatorResult;
-
         try {
             eDataFileType dataSrcType = WorldBuilderFileUtils.getDataFileTypeByFileExtension(filePath);
             worldBuilder = WorldBuilderFactory.createSimulationBuilder(dataSrcType, filePath);
@@ -66,7 +64,6 @@ public class SimulatorManagerImpl implements SimulatorManager {
             return new SimulatorResponse(true, "the following file has loaded successfully: " + filePath);
 
         } catch (Exception ex) {
-
             return new SimulatorResponse(false, ex.getMessage());
         }
     }
