@@ -1,5 +1,6 @@
 package simulator.manager.impl;
 
+import com.sun.applet2.AppletParameters;
 import dto.*;
 import dto.BasePropertyDto;
 import dto.enums.eSetPropertyStatus;
@@ -7,6 +8,7 @@ import response.SimulatorResponse;
 import simulator.builder.api.interfaces.WorldBuilder;
 import simulator.builder.utils.file.enums.eDataFileType;
 import simulator.builder.utils.factory.WorldBuilderFactory;
+import simulator.definition.entity.Entity;
 import simulator.definition.property.api.abstracts.AbstractNumericPropertyDefinition;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 import simulator.definition.property.utils.enums.ePropertyType;
@@ -73,13 +75,19 @@ public class SimulatorManagerImpl implements SimulatorManager {
     public SimulatorResponse<SimulationDetailsDto> getSimulationWorldDetails() {
 
         try {
-            String entitiesInfo = worldDefinition.getPrimaryEntity().toString();
+
+            StringBuilder entitiesSb = new StringBuilder();
+            for (Map.Entry<String, Entity> entityDef : this.worldDefinition.getEntities().entrySet()) {
+                entitiesSb.append(entityDef.getValue().toString()).append(System.lineSeparator());
+            }
+            String entitiesInfo = entitiesSb.toString();
+
             StringBuilder rulesSb = new StringBuilder();
             for (Rule rule : worldDefinition.getRules()) {
                 rulesSb.append(rule.toString()).append(System.lineSeparator());
             }
-
             String rulesInfo = rulesSb.toString();
+
             String terminationInfo = worldDefinition.getTermination().toString();
 
             return new SimulatorResponse<>(
@@ -120,14 +128,29 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
         try {
             String guid = SimulatorUtils.getGUID();
+            // build dto - temporary:
+            Map<String, Integer> entitiesPopulation = new HashMap<>();
+            this.worldDefinition.getEntities()
+                    .forEach(
+                            (entName, entDef) ->
+                                    entitiesPopulation.put(entName, entDef.getPopulation())
+                    );
+
+            Map<String, Set<String>> entitiesPropertiesNames = new HashMap<>();
+            this.worldDefinition.getEntities()
+                    .forEach(
+                            (entName, entDef) ->
+                                    entitiesPropertiesNames.put(entName, entDef.getProperties().keySet())
+                    );
+
             SimulationInitialInfo simulationInitialInfo =
                     new SimulationInitialInfo(
                             guid,
-                            worldDefinition.getPrimaryEntity().getName(),
-                            establishedWorldInstance.getPrimaryEntityInstances().size(),
-                            worldDefinition.getPrimaryEntity().getProperties().keySet(),
+                            entitiesPopulation,
+                            entitiesPropertiesNames,
                             establishedWorldInstance
                     );
+
             SimulationResult simulationResult = new SimulationResultImpl(simulationInitialInfo);
             this.simulatorRunner = new SimulatorRunnerImpl(this.establishedWorldInstance);
             this.simulatorRunner.run(simulationResult);

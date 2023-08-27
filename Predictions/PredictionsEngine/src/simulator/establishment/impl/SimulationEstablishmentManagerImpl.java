@@ -1,5 +1,6 @@
 package simulator.establishment.impl;
 
+import simulator.definition.entity.Entity;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.rule.Rule;
@@ -32,16 +33,15 @@ public class SimulationEstablishmentManagerImpl implements SimulationEstablishme
     }
 
     @Override
-    public WorldInstance establishSimulation(World worldDefnition) {
+    public WorldInstance establishSimulation(World worldDefinition) {
 
-        this.worldDefinition = worldDefnition;
-        String promaryEntityName = worldDefnition.getPrimaryEntity().getName();
+        this.worldDefinition = worldDefinition;
         EnvironmentInstance envInstance = activateEnvironment();
-        List<EntityInstance> primaryEntityInstances = createPrimaryEntityInstances();
+        Map<String, List<EntityInstance>> entitiesInstances = createEntitiesInstances();
         List<Rule> rules = this.worldDefinition.getRules();
         Termination termination = this.worldDefinition.getTermination();
 
-        return new WorldInstanceImpl(promaryEntityName, envInstance, primaryEntityInstances, rules, termination);
+        return new WorldInstanceImpl(envInstance, entitiesInstances, rules, termination);
     }
 
     @Override
@@ -54,17 +54,33 @@ public class SimulationEstablishmentManagerImpl implements SimulationEstablishme
     }
 
     @Override
-    public List<EntityInstance> createPrimaryEntityInstances() {
+    public Map<String, List<EntityInstance>> createEntitiesInstances() {
+
+        Map<String , List<EntityInstance>> entitiesInstances =   new HashMap<>();
+        Map<String, Entity> entitiesDefinitions = this.worldDefinition.getEntities();
+        entitiesDefinitions
+                .forEach(
+                        (entName, entDef) ->
+                                entitiesInstances.put(
+                                        entName, createSingleEntityInstances(entDef)
+                                )
+                );
+
+        return entitiesInstances;
+    }
+
+    @Override
+    public List<EntityInstance> createSingleEntityInstances(Entity entityDefinition) {
 
         // Result :
         List<EntityInstance> primaryEntityInstances = new ArrayList<>();
 
-        for (int index = 0; index < worldDefinition.getPrimaryEntity().getPopulation(); index++) {
+        for (int index = 0; index < entityDefinition.getPopulation(); index++) {
 
             EntityInstance singlePrimaryInstance;
 
             Map<String, PropertyInstance> entityPropertyInstances =
-                    createPropertyInstances(worldDefinition.getPrimaryEntity().getProperties());
+                    createPropertyInstances(entityDefinition.getProperties());
 
             singlePrimaryInstance = new EntityInstanceImpl(index + 1, entityPropertyInstances);
 

@@ -6,6 +6,7 @@ import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.environment.api.EnvironmentInstance;
 
 import java.util.List;
+import java.util.Map;
 
 public interface WorldInstance {
     void setRules(List<Rule> rule);
@@ -13,9 +14,7 @@ public interface WorldInstance {
     Termination getTermination();
     List<Rule> getRules();
     EnvironmentInstance getEnvironmentInstance();
-    List<EntityInstance> getPrimaryEntityInstances();
-    void setPrimaryEntityInstances(List<EntityInstance> primaryEntityInstances);
-    void setEnvironmentInstance(EnvironmentInstance environmentInstance);
-    String getPrimaryEntityName();
+    Map<String, List<EntityInstance>> getEntitiesInstances();
+    List<EntityInstance> getEntityInstancesByEntityName(String entityName);
 
 }

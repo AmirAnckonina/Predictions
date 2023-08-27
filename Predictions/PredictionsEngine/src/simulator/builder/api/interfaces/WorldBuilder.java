@@ -7,11 +7,12 @@ import simulator.definition.termination.Termination;
 import simulator.definition.world.World;
 
 import java.util.List;
+import java.util.Map;
 
 public interface WorldBuilder {
     World buildWorld();
     Environment buildEnvironment();
-    Entity buildPrimaryEntity();
+    Map<String, Entity> buildEntities();
     List<Rule> buildRules();
     Termination buildTermination();
 

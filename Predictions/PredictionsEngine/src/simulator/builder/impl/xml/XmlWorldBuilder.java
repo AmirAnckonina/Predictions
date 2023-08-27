@@ -16,7 +16,9 @@ import simulator.definition.world.World;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class XmlWorldBuilder extends AbstractFileComponentBuilder implements WorldBuilder {
 
@@ -55,25 +57,31 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
     @Override
     public World buildWorld() {
         Environment environment = buildEnvironment();
-        Entity primaryEntity = buildPrimaryEntity();
-        // Entity secondaryEntity = buildSecondaryEntity();
+        Map<String, Entity> entities = buildEntities();
         List<Rule> rules = buildRules();
         Termination termination = buildTermination();
-        //return new World(environment, new Set<String, new Entity()>(), rules, termination);
-        return new World(environment, primaryEntity, rules, termination);
+
+        return new World(environment, entities, rules, termination);
     }
 
     @Override
     public Environment buildEnvironment() {
+
         PRDEvironment generatedEnv = generatedWorld.getPRDEvironment();
         return new XmlEnvironmentBuilder(generatedEnv, contextValidator).buildEnvironment();
     }
 
     @Override
-    public Entity buildPrimaryEntity() {
+    public Map<String, Entity> buildEntities() {
 
-        PRDEntity generatedPrimaryEntity =  generatedWorld.getPRDEntities().getPRDEntity().get(0);
-        return new XmlEntityBuilder(generatedPrimaryEntity, contextValidator).buildEntity();
+        Map<String, Entity> entities = new HashMap<>();
+
+        List<PRDEntity> generatedEntityList =  generatedWorld.getPRDEntities().getPRDEntity();
+        for (PRDEntity genEntity: generatedEntityList) {
+            Entity newEntity = new XmlEntityBuilder(genEntity, contextValidator).buildEntity();
+            entities.put(newEntity.getName(), newEntity);
+        }
+        return entities;
     }
 
     public Entity buildSecondaryEntity() {
