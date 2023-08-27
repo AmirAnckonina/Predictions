@@ -13,18 +13,15 @@ public class SimulationResultImpl implements SimulationResult {
     private String simulationUuid;
     private WorldInstance worldInstance;
     private Map<String, Integer> initEntitiesPopulationStatus;
-    private Set<String> primaryEntityPropertiesName;
+    private Map<String, Set<String>> entitiesPropertiesNames;
     private Long simulatorStartingTime;
     private eTerminationReason terminationReason;
 
     public SimulationResultImpl(SimulationInitialInfo simulationInitialInfo) {
         this.simulationUuid = simulationInitialInfo.getSimulationGuid();
         this.initEntitiesPopulationStatus = new HashMap<>();
-        this.initEntitiesPopulationStatus.put(
-                simulationInitialInfo.getPrimaryEntityName(),
-                simulationInitialInfo.getPrimaryEntityPopulation()
-        );
-        this.primaryEntityPropertiesName = simulationInitialInfo.getPrimaryEntityPropertiesName();
+        setInitializedEntityPopulation();
+        this.entitiesPropertiesNames = simulationInitialInfo.getEntitiesPropertiesNames();
         this.worldInstance = simulationInitialInfo.getWorldInstnce();
     }
 
@@ -37,9 +34,12 @@ public class SimulationResultImpl implements SimulationResult {
     }
 
     public void setInitializedEntityPopulation() {
-        String entityName  = worldInstance.getPrimaryEntityName();
-        int population =  worldInstance.getPrimaryEntityInstances().size();
-        initEntitiesPopulationStatus.put(entityName, population);
+
+        Map<String, List<EntityInstance>> entitiesInstances = this.worldInstance.getEntitiesInstances();
+        entitiesInstances.forEach(
+                (entName,entInstances) ->
+                        initEntitiesPopulationStatus.put(entName, entInstances.size())
+        );
     }
 
     @Override
@@ -59,12 +59,19 @@ public class SimulationResultImpl implements SimulationResult {
     }
 
     @Override
-    public PropertyInstance getEntityPropertyInstanceByPropertyName(String entityID, String propertyName) {
-        return worldInstance.getPrimaryEntityInstances().get(Integer.valueOf(entityID)).getPropertyByName(propertyName);
+    public PropertyInstance getEntityPropertyInstanceByPropertyName(String entityName, String entityID, String propertyName) {
+        return worldInstance.
+                getEntityInstancesByEntityName(entityName).
+                get(Integer.valueOf(entityID)).
+                getPropertyByName(propertyName);
     }
 
     @Override
     public Integer getNumOfInstancesOfEntityInitialized() {
+        /**
+         * Should be replaced with impl - for each entity , show the population.. ? TBD
+         */
+
         Integer returnValue = 0;
 //        if(initializedStatus.containsKey(entityName)) {
 //            returnValue = initializedStatus.get(entityName);
@@ -77,8 +84,8 @@ public class SimulationResultImpl implements SimulationResult {
     }
 
     @Override
-    public Integer getNumOfInstancesOfEntityWhenSimulationStopped() {
-        return worldInstance.getPrimaryEntityInstances().size();
+    public Integer getNumOfInstancesOfEntityWhenSimulationStopped(String entityName) {
+        return worldInstance.getEntityInstancesByEntityName(entityName).size();
     }
 
 //    @Override
@@ -95,19 +102,19 @@ public class SimulationResultImpl implements SimulationResult {
 //    }
 
     @Override
-    public List<String> getEntityPropertiesNames() {
+    public List<String> getEntityPropertiesNames(String entityName) {
         List<String> properties = new ArrayList<>();
-        properties.addAll(this.primaryEntityPropertiesName);
+        properties.addAll(this.entitiesPropertiesNames.get(entityName));
         return properties;
     }
-
+/*
     @Override
     public EntityInstance getEntityByName(Integer entityID) {
-        return worldInstance.getPrimaryEntityInstances().get(entityID);
-    }
+        return worldInstance.getEntityInstances()ByEntityName().get(entityID);
+    }*/
 
     @Override
-    public List<EntityInstance> getEntities() {
-        return worldInstance.getPrimaryEntityInstances();
+    public Map<String, List<EntityInstance>> getEntities() {
+        return worldInstance.getEntitiesInstances();
     }
 }

@@ -8,30 +8,24 @@ import simulator.execution.instance.environment.api.EnvironmentInstance;
 import simulator.execution.instance.world.api.WorldInstance;
 
 import java.util.List;
+import java.util.Map;
 
 public class WorldInstanceImpl implements WorldInstance {
-    private String primaryEntityName;
     private EnvironmentInstance environmentInstance;
-    private List<EntityInstance> primaryEntityInstances;
+    private Map<String, List<EntityInstance>> entitiesInstances;
     private List<Rule> rules;
     private Termination termination;
 
-    public WorldInstanceImpl(String primaryEntityName, EnvironmentInstance environmentInstance, List<EntityInstance> primaryEntityInstances, List<Rule> rules, Termination termination) {
-        this.primaryEntityName = primaryEntityName;
+    public WorldInstanceImpl(
+            EnvironmentInstance environmentInstance,
+            Map<String, List<EntityInstance>> entitiesInstances,
+            List<Rule> rules,
+            Termination termination) {
+
         this.environmentInstance = environmentInstance;
-        this.primaryEntityInstances = primaryEntityInstances;
+        this.entitiesInstances = entitiesInstances;
         this.rules = rules;
         this.termination = termination;
-    }
-
-    public WorldInstanceImpl() {
-        this(null, null, null);
-    }
-
-    public WorldInstanceImpl(EnvironmentInstance environmentInstance, List<EntityInstance> primaryEntities, List<EntityInstance> secondaryEntities) {
-        this.environmentInstance = environmentInstance;
-        this.primaryEntityInstances = primaryEntities;
-        //this.secondaryEntitiesInstances = secondaryEntities;
     }
 
     @Override
@@ -40,23 +34,13 @@ public class WorldInstanceImpl implements WorldInstance {
     }
 
     @Override
-    public List<EntityInstance> getPrimaryEntityInstances() {
-        return primaryEntityInstances;
+    public Map<String, List<EntityInstance>> getEntitiesInstances() {
+        return this.entitiesInstances;
     }
 
     @Override
-    public void setPrimaryEntityInstances(List<EntityInstance> primaryEntityInstances) {
-        this.primaryEntityInstances = primaryEntityInstances;
-    }
-
-    @Override
-    public void setEnvironmentInstance(EnvironmentInstance environmentInstance) {
-        this.environmentInstance = environmentInstance;
-    }
-
-    @Override
-    public String getPrimaryEntityName() {
-        return primaryEntityName;
+    public List<EntityInstance> getEntityInstancesByEntityName(String entityName) {
+        return entitiesInstances.get(entityName);
     }
 
     @Override

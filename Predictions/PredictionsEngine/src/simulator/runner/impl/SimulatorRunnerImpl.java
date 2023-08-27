@@ -24,7 +24,7 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
     public SimulatorRunnerImpl(WorldInstance worldInstance) {
         this.worldInstance = worldInstance;
         this.primaryEntityInstanceManager =
-                new EntityInstanceMangerImpl(worldInstance.getPrimaryEntityInstances());
+                new EntityInstanceMangerImpl(worldInstance.getEntityInstancesByEntityName());
         this.environmentInstance = worldInstance.getEnvironmentInstance();
     }
 
@@ -50,7 +50,6 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
                     if (rule.getActivation().isActive(currTick)) {
                         for (AbstractAction action : rule.getActions()) {
                             try {
-
                                 action.invoke(executionContext);
                             } catch (Exception e) {
                                 System.out.println("bla");

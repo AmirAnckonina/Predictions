@@ -13,7 +13,6 @@ import simulator.manager.impl.SimulatorManagerImpl;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.io.File;
 
 public class ConsoleUI implements UserInterface {
 
@@ -86,7 +85,8 @@ public class ConsoleUI implements UserInterface {
     private void announceEndSimulation() {
         System.out.println("Simulation ended!");
         System.out.println("Unique simulation ID: - " + this.simulatorResultManager
-                .getSimulatorIDByIndex(this.simulatorResultManager.getSortedHistoricalSimulationsList().size() - 1) + "\n");
+                .getSimulatorIDByIndex(
+                        this.simulatorResultManager.getSortedHistoricalSimulationsList().size() - 1) + "\n");
     }
 
     private void establishSimulationSession() {
@@ -304,19 +304,33 @@ public class ConsoleUI implements UserInterface {
         switch (showOption) {
             case ByAmount:
                  List<EntitiesResult> entitiesResultList =
-                         this.simulatorResultManager.getAllEntitiesExistBySimulationIndex(this.simulationIndex);
+                         this.simulatorResultManager.getAllEntitiesExistBySimulationIndex(
+                                 "smoker",
+                                 this.simulationIndex);
 
                  printHowManyEntitiesInstancesExist(entitiesResultList);
                 break;
 
             case ByProperty:
                 String propertiesName = new String();
-                List<String> propertiesNames = this.simulatorResultManager.getAllPropertiesOfEntityBySimulationIndex(this.simulationIndex);
+                List<String> propertiesNames =
+                        this.simulatorResultManager
+                                .getAllPropertiesOfEntityBySimulationIndex(
+                                        "smoker",
+                                        this.simulationIndex);
+
                 printPropertiesListAfterSimulation(propertiesNames);
                 String propertyNameChosen = propertyNameChosenForPresentResultHandler(propertiesNames);
-                Map<String,Integer> entityInstanceList = this.simulatorResultManager
-                        .getAllEntitiesHasPropertyByPropertyNameBySimulationIndex(this.simulationIndex, propertyNameChosen);
+
+                Map<String,Integer> entityInstanceList =
+                        this.simulatorResultManager
+                        .getAllEntityInstancesHasPropertyByPropertyNameBySimulationIndex(
+                                "smoker",
+                                this.simulationIndex,
+                                propertyNameChosen);
+
                 showAllEntitiesHavePropertyByPropertyName(entityInstanceList);
+
                 break;
         }
     }

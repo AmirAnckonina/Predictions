@@ -9,14 +9,13 @@ import java.util.*;
 
 public class World {
     private Environment environment;
-    private Entity primaryEntity;
-    private Entity secondaryEntity;
+    private Map<String, Entity> entities;
     private List<Rule> rules;
     private Termination termination;
 
-    public World(Environment environment, Entity primaryEntity, List<Rule> rules, Termination termination) {
+    public World(Environment environment, Map<String ,Entity> entities, List<Rule> rules, Termination termination) {
         this.environment = environment;
-        this.primaryEntity = primaryEntity;
+        this.entities = entities;
         // this.secondaryEntity = secondaryEntity;
         this.rules = rules;
         this.termination = termination;
@@ -26,12 +25,12 @@ public class World {
         return environment;
     }
 
-    public Entity getPrimaryEntity() {
-        return primaryEntity;
+    public Entity getEntityDefinitionByName(String name) {
+        return entities.get(name);
     }
 
-    public Entity getSecondaryEntity() {
-        return secondaryEntity;
+    public Map<String, Entity> getEntities() {
+        return entities;
     }
 
     public List<Rule> getRules() {
