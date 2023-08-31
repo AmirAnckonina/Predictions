@@ -6,7 +6,7 @@ import simulator.builder.api.interfaces.EntityBuilder;
 import simulator.builder.utils.exception.WorldBuilderException;
 import simulator.builder.api.abstracts.AbstractComponentBuilder;
 import simulator.builder.validator.api.WorldBuilderContextValidator;
-import simulator.definition.entity.Entity;
+import simulator.definition.entity.EntityDefinition;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 
 import java.util.HashMap;
@@ -14,21 +14,19 @@ import java.util.Map;
 
 public class XmlEntityBuilder extends AbstractComponentBuilder implements EntityBuilder {
 
-    private PRDEntity generatedEntity;
+    private PRDEntity generatedEntityDefinition;
 
     public XmlEntityBuilder(PRDEntity generatedEntity, WorldBuilderContextValidator contextValidator) {
         super(contextValidator);
-        this.generatedEntity = generatedEntity;
+        this.generatedEntityDefinition = generatedEntity;
     }
 
-
     @Override
-    public Entity buildEntity() {
-        String entityName = generatedEntity.getName();
-        int population = generatedEntity.getPRDPopulation();
+    public EntityDefinition buildEntity() {
+        String entityName = generatedEntityDefinition.getName();
         contextValidator.addPrimaryEntity(entityName);
         Map<String, AbstractPropertyDefinition> entityProperties = buildEntityProperties();
-        return new Entity(entityName,population, entityProperties);
+        return new EntityDefinition(entityName,entityProperties);
     }
 
     @Override
@@ -36,7 +34,7 @@ public class XmlEntityBuilder extends AbstractComponentBuilder implements Entity
 
         Map<String, AbstractPropertyDefinition> envProperties = new HashMap<>();
 
-        for (PRDProperty genEntityProp : generatedEntity.getPRDProperties().getPRDProperty()) {
+        for (PRDProperty genEntityProp : generatedEntityDefinition.getPRDProperties().getPRDProperty()) {
 
             AbstractPropertyDefinition newProp =
                     new XmlEntityPropertyBuilder(genEntityProp).buildEntityProperty();
@@ -47,7 +45,7 @@ public class XmlEntityBuilder extends AbstractComponentBuilder implements Entity
             if (propVerified && !envProperties.containsKey(newProp.getName())) {
                 envProperties.put(newProp.getName(), newProp);
                 contextValidator.addEntityProperty(
-                        generatedEntity.getName(), newProp.getName(), newProp.getType());
+                        generatedEntityDefinition.getName(), newProp.getName(), newProp.getType());
             } else {
                 throw new WorldBuilderException(
                         "Entity property build failed. The following entity property name already exists: " + newProp.getName());

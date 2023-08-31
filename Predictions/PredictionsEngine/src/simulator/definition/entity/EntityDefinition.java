@@ -5,14 +5,12 @@ import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 
 import java.util.Map;
 
-public class Entity {
+public class EntityDefinition {
     private final String name;
-    private final int population;
     private final Map<String, AbstractPropertyDefinition> properties;
 
-    public Entity(String name, int population, Map<String, AbstractPropertyDefinition> properties) {
+    public EntityDefinition(String name, Map<String, AbstractPropertyDefinition> properties) {
         this.name = name;
-        this.population = population;
         this.properties = properties;
     }
 
@@ -51,9 +49,6 @@ public class Entity {
 
         return this.properties.get(propertyName);
     }
-    public int getPopulation() {
-        return population;
-    }
 
     @Override
     public String toString() {
@@ -61,7 +56,6 @@ public class Entity {
         StringBuilder sb = new StringBuilder();
 
         sb.append("entity name: ").append(name).append(System.lineSeparator());
-        sb.append("population: ").append(population).append(System.lineSeparator());
         for (AbstractPropertyDefinition property : properties.values()) {
             sb.append(property.toString()).append(System.lineSeparator());
         }

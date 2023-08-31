@@ -6,7 +6,6 @@ import java.util.List;
 
 public abstract class AbstractMultipleConditionExpression implements ConditionExpression {
     protected List<ConditionExpression> conditions;
-
     public AbstractMultipleConditionExpression(List<ConditionExpression> conditions) {
         this.conditions = conditions;
     }

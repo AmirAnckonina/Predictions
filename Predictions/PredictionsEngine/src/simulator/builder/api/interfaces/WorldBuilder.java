@@ -1,18 +1,22 @@
 package simulator.builder.api.interfaces;
 
-import simulator.definition.entity.Entity;
+import simulator.definition.entity.EntityDefinition;
 import simulator.definition.environment.Environment;
 import simulator.definition.rule.Rule;
+import simulator.definition.spaceGrid.SpaceGrid;
 import simulator.definition.termination.Termination;
-import simulator.definition.world.World;
+import simulator.definition.threadCount.ThreadCount;
+import simulator.definition.world.WorldDefinition;
 
 import java.util.List;
 import java.util.Map;
 
 public interface WorldBuilder {
-    World buildWorld();
+    WorldDefinition buildWorld();
+    ThreadCount buildThreadCount();
+    SpaceGrid buildSpaceGrid();
     Environment buildEnvironment();
-    Map<String, Entity> buildEntities();
+    Map<String, EntityDefinition> buildEntities();
     List<Rule> buildRules();
     Termination buildTermination();
 

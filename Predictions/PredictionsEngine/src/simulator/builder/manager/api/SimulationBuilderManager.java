@@ -1,5 +1,13 @@
 package simulator.builder.manager.api;
 
-public interface SimulationBuilderManager {
+import dto.EnvironmentPropertiesDto;
+import dto.SimulationDetailsDto;
+import response.SimulatorResponse;
+import simulator.definition.world.WorldDefinition;
 
+public interface SimulationBuilderManager {
+    SimulatorResponse buildSimulationWorld(String filePath);
+    SimulatorResponse<SimulationDetailsDto> getSimulationWorldDetails();
+    SimulatorResponse<EnvironmentPropertiesDto> getEnvironmentPropertiesDefinition();
+    WorldDefinition getWorldDefinition();
 }

@@ -1,20 +1,20 @@
-package simulator.establishment.impl;
+package simulator.execution.establishment.impl;
 
 import simulator.definition.environment.Environment;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.property.impl.*;
 import simulator.definition.property.valueGenerator.impl.fixed.FixedValueGenerator;
-import simulator.definition.world.World;
-import simulator.establishment.api.EnvironmentSetupManager;
+import simulator.definition.world.WorldDefinition;
+import simulator.execution.establishment.api.EnvironmentSetupManager;
 
 import java.util.Optional;
 
 public class EnvironmentSetupManagerImpl implements EnvironmentSetupManager {
 
-    public void setFixedValuePropertyDefinition(String propName, ePropertyType type, String value, World world)
+    public void setFixedValuePropertyDefinition(String propName, ePropertyType type, String value, WorldDefinition worldDefinition)
     {
-        setFixedValuePropertyDefinition(propName, type, value, world.getEnvironment());
+        setFixedValuePropertyDefinition(propName, type, value, worldDefinition.getEnvironment());
     }
 
     @Override

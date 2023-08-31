@@ -44,7 +44,6 @@ public class ConsoleUI implements UserInterface {
 
     @Override
     public void loadSimulationSession() {
-        startLoadingSimulationSessionSignal();
         while (true) {
             printLoadingSimulationMenu();
             String simulationFilePath = handleLoadingSimulationUserChoice();
@@ -55,7 +54,6 @@ public class ConsoleUI implements UserInterface {
             break;
         }
 
-        endLoadingSimulationSessionSignal();
     }
 
     @Override
@@ -218,9 +216,6 @@ public class ConsoleUI implements UserInterface {
         }
     }
 
-    private void endLoadingSimulationSessionSignal() {
-        simulatorManager.endLoadingSimulationSessionSignal();
-    }
 
     private String handleLoadingSimulationUserChoice() {
         String filePath;
@@ -239,31 +234,19 @@ public class ConsoleUI implements UserInterface {
         System.out.println("Insert the full path of the XML file and press enter:");
     }
 
-    private void startLoadingSimulationSessionSignal() {
-
-        simulatorManager.startLoadingSimulationSessionSignal();
-    }
 
     private void setEnvironmentPropertiesValues() {
-        startEnvironmentSessionSignal();
+
         SimulatorResponse<EnvironmentPropertiesDto>
                 propertiesDtoResponse = simulatorManager.getEnvironmentPropertiesDefinition();
         if (propertiesDtoResponse.isSuccess()) {
             EnvironmentPropertiesDto propetiesDto = propertiesDtoResponse.getData();
             List<BasePropertyDto> properties = propetiesDto.getPropertiesList();
             List<Integer> propertiesUserUpdatedList = handleUserPropertyChoice(properties);
-            endEnvironmentSessionSignal();
+
         } else {
             System.out.println(propertiesDtoResponse.getMessage());
         }
-    }
-
-    private boolean startEnvironmentSessionSignal(){
-        return this.simulatorManager.startEnvironmentSession().isSuccess();
-    }
-
-    private boolean endEnvironmentSessionSignal(){
-        return this.simulatorManager.endEnvironmentSession().isSuccess();
     }
 
     private void printPropertiesList(List<BasePropertyDto> propertyDtoList){

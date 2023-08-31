@@ -12,6 +12,6 @@ import java.util.List;
 public interface ExecutionContext {
 
     EntityInstance getPrimaryEntityInstance();
-    void removeEntity(EntityInstance entityInstance);
+    void removeEntity(String entityName, EntityInstance entityInstance);
     PropertyInstance getEnvironmentVariable(String name);
 }

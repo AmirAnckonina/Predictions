@@ -8,11 +8,13 @@ import simulator.builder.utils.file.XmlBuilderUtils;
 import simulator.builder.validator.api.WorldBuilderContextValidator;
 import simulator.builder.utils.file.WorldBuilderFileUtils;
 import simulator.builder.utils.file.enums.eDataFileType;
-import simulator.definition.entity.Entity;
+import simulator.definition.entity.EntityDefinition;
 import simulator.definition.environment.Environment;
 import simulator.definition.rule.Rule;
+import simulator.definition.spaceGrid.SpaceGrid;
 import simulator.definition.termination.Termination;
-import simulator.definition.world.World;
+import simulator.definition.threadCount.ThreadCount;
+import simulator.definition.world.WorldDefinition;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ import java.util.Map;
 
 public class XmlWorldBuilder extends AbstractFileComponentBuilder implements WorldBuilder {
 
-    private PRDWorld generatedWorld;
+    private PRDWorldDefinition generatedWorldDefinition;
     private final static String JAXB_PACKAGE_NAME = "resources.jaxb.schema.generated";
 
     public XmlWorldBuilder(String filePath, WorldBuilderContextValidator contextValidator) {
@@ -38,7 +40,7 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
             if (isExist && isXmlFile) {
                 try {
                     File dataFile = WorldBuilderFileUtils.getFileByPath(filePath);
-                    generatedWorld = XmlBuilderUtils.getGeneratedClassFromFile(dataFile, JAXB_PACKAGE_NAME);
+                    generatedWorldDefinition = XmlBuilderUtils.getGeneratedClassFromFile(dataFile, JAXB_PACKAGE_NAME);
                 }
                 catch (Exception ex) {
                     throw new WorldBuilderException("An issue detected while accessing the generated world class.");
@@ -55,38 +57,51 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
      * @return
      */
     @Override
-    public World buildWorld() {
+    public WorldDefinition buildWorld() {
+        ThreadCount threadCount = buildThreadCount();
+        SpaceGrid spaceGrid = buildSpaceGrid();
         Environment environment = buildEnvironment();
-        Map<String, Entity> entities = buildEntities();
+        Map<String, EntityDefinition> entities = buildEntities();
         List<Rule> rules = buildRules();
         Termination termination = buildTermination();
 
-        return new World(environment, entities, rules, termination);
+        return new WorldDefinition(threadCount, spaceGrid, environment, entities, rules, termination);
+    }
+
+    @Override
+    public ThreadCount buildThreadCount() {
+        return new ThreadCount(generatedWorldDefinition.getPRDThreadCount());
+    }
+
+    @Override
+    public SpaceGrid buildSpaceGrid() {
+        PRDWorldDefinition.PRDGrid generatedGrid = generatedWorldDefinition.getPRDGrid();
+        return new SpaceGrid(generatedGrid.getRows(), generatedGrid.getColumns());
     }
 
     @Override
     public Environment buildEnvironment() {
 
-        PRDEvironment generatedEnv = generatedWorld.getPRDEvironment();
+        PRDEnvironment generatedEnv = generatedWorldDefinition.getPRDEnvironment();
         return new XmlEnvironmentBuilder(generatedEnv, contextValidator).buildEnvironment();
     }
 
     @Override
-    public Map<String, Entity> buildEntities() {
+    public Map<String, EntityDefinition> buildEntities() {
 
-        Map<String, Entity> entities = new HashMap<>();
+        Map<String, EntityDefinition> entities = new HashMap<>();
 
-        List<PRDEntity> generatedEntityList =  generatedWorld.getPRDEntities().getPRDEntity();
+        List<PRDEntity> generatedEntityList =  generatedWorldDefinition.getPRDEntities().getPRDEntity();
         for (PRDEntity genEntity: generatedEntityList) {
-            Entity newEntity = new XmlEntityBuilder(genEntity, contextValidator).buildEntity();
-            entities.put(newEntity.getName(), newEntity);
+            EntityDefinition newEntityDefinition = new XmlEntityBuilder(genEntity, contextValidator).buildEntity();
+            entities.put(newEntityDefinition.getName(), newEntityDefinition);
         }
         return entities;
     }
 
-    public Entity buildSecondaryEntity() {
+    public EntityDefinition buildSecondaryEntity() {
 
-        PRDEntity generatedSecondaryEntity =  generatedWorld.getPRDEntities().getPRDEntity().get(1);
+        PRDEntity generatedSecondaryEntity =  generatedWorldDefinition.getPRDEntities().getPRDEntity().get(1);
         return new XmlEntityBuilder(generatedSecondaryEntity, contextValidator).buildEntity();
     }
 
@@ -94,7 +109,7 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
     public List<Rule> buildRules() {
         List<Rule> rules = new ArrayList<>();
 
-        for (PRDRule generatedRule : generatedWorld.getPRDRules().getPRDRule()) {
+        for (PRDRule generatedRule : generatedWorldDefinition.getPRDRules().getPRDRule()) {
             Rule newRule = new XmlRuleBuilder(generatedRule, contextValidator).buildRule();
             rules.add(newRule);
         }
@@ -104,7 +119,7 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
 
     @Override
     public Termination buildTermination() {
-        PRDTermination generatedTermination = generatedWorld.getPRDTermination();
+        PRDTermination generatedTermination = generatedWorldDefinition.getPRDTermination();
         return new XmlTerminationBuilder(generatedTermination).buildTermination();
     }
 

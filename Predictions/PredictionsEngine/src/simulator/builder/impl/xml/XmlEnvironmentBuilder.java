@@ -1,7 +1,8 @@
 package simulator.builder.impl.xml;
 
 import resources.jaxb.schema.generated.PRDEnvProperty;
-import resources.jaxb.schema.generated.PRDEvironment;
+import resources.jaxb.schema.generated.PRDEnvironment;
+import resources.jaxb.schema.generated.PRDEnvironment;
 import simulator.builder.api.interfaces.EnvironmentBuilder;
 import simulator.builder.utils.exception.WorldBuilderException;
 import simulator.builder.api.abstracts.AbstractComponentBuilder;
@@ -13,9 +14,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class XmlEnvironmentBuilder extends AbstractComponentBuilder implements EnvironmentBuilder {
-    private PRDEvironment generatedEnvironment;
+    private PRDEnvironment generatedEnvironment;
 
-    public XmlEnvironmentBuilder(PRDEvironment generatedEnvironment, WorldBuilderContextValidator contextValidator) {
+    public XmlEnvironmentBuilder(PRDEnvironment generatedEnvironment, WorldBuilderContextValidator contextValidator) {
         super(contextValidator);
         this.generatedEnvironment = generatedEnvironment;
     }
