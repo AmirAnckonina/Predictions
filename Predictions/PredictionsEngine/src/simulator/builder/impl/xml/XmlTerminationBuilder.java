@@ -19,11 +19,27 @@ public class XmlTerminationBuilder implements TerminationBuilder {
 
     @Override
     public Termination buildTermination() {
-
+        Termination termination;
         Integer ticksTermination = null;
         Integer secondsTermination = null;
+        Boolean byUser = null;
 
-        List<Object> generatedTerminationConditions = generatedTermination.getPRDByTicksOrPRDBySecond();
+        Object generatedByUser = generatedTermination.getPRDByUser();
+        if (generatedByUser != null) {
+            termination = new Termination(ticksTermination, secondsTermination, byUser);
+        }
+        else {
+            termination = buildTeminationInCaseOFTicksOrSeconds(ticksTermination, secondsTermination);
+        }
+
+        return termination;
+    }
+
+    private Termination buildTeminationInCaseOFTicksOrSeconds(
+            Integer ticksTermination, Integer secondsTermination) {
+
+        List<Object> generatedTerminationConditions = generatedTermination.getPRDBySecondOrPRDByTicks();
+
         int numOfTerminationConditions = generatedTerminationConditions.size();
         if (numOfTerminationConditions == 0) {
             throw new WorldBuilderException("Termination prvoided doesn't contain any condition.");
@@ -43,7 +59,8 @@ public class XmlTerminationBuilder implements TerminationBuilder {
             }
         }
 
-        return new Termination(ticksTermination, secondsTermination);
+        return new Termination(ticksTermination, secondsTermination, null);
     }
+
 }
 

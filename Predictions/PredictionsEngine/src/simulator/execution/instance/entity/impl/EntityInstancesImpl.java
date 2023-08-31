@@ -1,22 +1,22 @@
 package simulator.execution.instance.entity.impl;
 
-import simulator.definition.entity.Entity;
+import simulator.definition.entity.EntityDefinition;
 
 import java.util.Set;
 
 public class EntityInstancesImpl {
 
-    Set<Entity> entities;
+    Set<EntityDefinition> entities;
 
-    public EntityInstancesImpl(Set<Entity> entities) {
+    public EntityInstancesImpl(Set<EntityDefinition> entities) {
         this.entities = entities;
     }
 
-    public Set<Entity> getEntities() {
+    public Set<EntityDefinition> getEntities() {
         return entities;
     }
 
-    public void setEntities(Set<Entity> entities) {
+    public void setEntities(Set<EntityDefinition> entities) {
         this.entities = entities;
     }
 }

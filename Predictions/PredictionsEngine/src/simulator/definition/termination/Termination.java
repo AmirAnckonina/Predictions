@@ -7,11 +7,13 @@ import java.util.Optional;
 public class Termination {
     private final Integer ticksTermination;
     private final Integer secondsTermination;
+    private Boolean byUser;
     private eTerminationReason reasonForTerminate;
 
-    public Termination(Integer ticksTermination, Integer secondsTermination) {
+    public Termination(Integer ticksTermination, Integer secondsTermination, Boolean byUser) {
         this.ticksTermination =  ticksTermination;
         this.secondsTermination = secondsTermination;
+        this.byUser = byUser;
     }
 
     public Optional<Integer> getTicksTermination() {
@@ -20,7 +22,12 @@ public class Termination {
     }
 
     public Optional<Integer> getSecondsTermination() {
-           return Optional.ofNullable(secondsTermination);
+
+        return Optional.ofNullable(secondsTermination);
+    }
+
+    public Optional<Boolean> byUser() {
+        return  Optional.ofNullable(byUser);
     }
 
     public boolean shouldTerminate(int currTick, long currTimeInMilliSec) {

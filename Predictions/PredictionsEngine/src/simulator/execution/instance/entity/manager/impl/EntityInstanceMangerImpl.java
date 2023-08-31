@@ -1,8 +1,9 @@
 package simulator.execution.instance.entity.manager.impl;
 
+import simulator.definition.entity.EntityDefinition;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.entity.manager.api.EntityInstanceManager;
-import simulator.execution.instance.property.api.PropertyInstance;
+import simulator.runner.utils.exceptions.SimulatorRunnerException;
 
 import java.util.List;
 
@@ -15,12 +16,18 @@ public class EntityInstanceMangerImpl implements EntityInstanceManager {
     }
 
     @Override
+    public EntityInstance create(EntityDefinition entityDefinition) {
+        throw new SimulatorRunnerException("Not implempnted create under EntityMAnagerImpl");
+    }
+
+    @Override
     public List<EntityInstance> getInstances() {
         return entityInstances;
     }
 
     @Override
     public void killEntity(int id) {
+
         entityInstances.removeIf(entIns -> entIns.getId() == id);
     }
 }

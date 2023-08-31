@@ -1,12 +1,12 @@
-package simulator.establishment.impl;
+package simulator.execution.establishment.impl;
 
-import simulator.definition.entity.Entity;
+import simulator.definition.entity.EntityDefinition;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.rule.Rule;
 import simulator.definition.termination.Termination;
-import simulator.definition.world.World;
-import simulator.establishment.api.SimulationEstablishmentManager;
+import simulator.definition.world.WorldDefinition;
+import simulator.execution.establishment.api.SimulationEstablishmentManager;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.entity.impl.EntityInstanceImpl;
 import simulator.execution.instance.environment.api.EnvironmentInstance;
@@ -22,18 +22,18 @@ import java.util.List;
 import java.util.Map;
 
 public class SimulationEstablishmentManagerImpl implements SimulationEstablishmentManager {
-    private World worldDefinition;
+    private WorldDefinition worldDefinition;
 
-    public void setWorldDefinition(World worldDefinition) {
+    public void setWorldDefinition(WorldDefinition worldDefinition) {
         this.worldDefinition = worldDefinition;
     }
 
-    public World getWorldDefinition() {
+    public WorldDefinition getWorldDefinition() {
         return worldDefinition;
     }
 
     @Override
-    public WorldInstance establishSimulation(World worldDefinition) {
+    public WorldInstance establishSimulation(WorldDefinition worldDefinition) {
 
         this.worldDefinition = worldDefinition;
         EnvironmentInstance envInstance = activateEnvironment();
@@ -57,7 +57,7 @@ public class SimulationEstablishmentManagerImpl implements SimulationEstablishme
     public Map<String, List<EntityInstance>> createEntitiesInstances() {
 
         Map<String , List<EntityInstance>> entitiesInstances =   new HashMap<>();
-        Map<String, Entity> entitiesDefinitions = this.worldDefinition.getEntities();
+        Map<String, EntityDefinition> entitiesDefinitions = this.worldDefinition.getEntities();
         entitiesDefinitions
                 .forEach(
                         (entName, entDef) ->
@@ -70,7 +70,7 @@ public class SimulationEstablishmentManagerImpl implements SimulationEstablishme
     }
 
     @Override
-    public List<EntityInstance> createSingleEntityInstances(Entity entityDefinition) {
+    public List<EntityInstance> createSingleEntityInstances(EntityDefinition entityDefinition) {
 
         // Result :
         List<EntityInstance> primaryEntityInstances = new ArrayList<>();

@@ -1,12 +1,12 @@
 package simulator.builder.api.interfaces;
 
-import simulator.definition.entity.Entity;
+import simulator.definition.entity.EntityDefinition;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 
 import java.util.Map;
 
 public interface EntityBuilder {
 
-    Entity buildEntity();
+    EntityDefinition buildEntity();
     Map<String,AbstractPropertyDefinition> buildEntityProperties();
 }
