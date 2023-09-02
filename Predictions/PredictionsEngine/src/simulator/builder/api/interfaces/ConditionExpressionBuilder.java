@@ -1,8 +1,8 @@
 package simulator.builder.api.interfaces;
 
-import simulator.definition.rule.action.conditionExpression.api.abstracts.AbstractMultipleConditionExpression;
-import simulator.definition.rule.action.conditionExpression.api.abstracts.AbstractSingleConditionExpression;
-import simulator.definition.rule.action.conditionExpression.api.interfaces.ConditionExpression;
+import simulator.definition.rule.action.expression.conditionExpression.api.abstracts.AbstractMultipleConditionExpression;
+import simulator.definition.rule.action.expression.conditionExpression.api.abstracts.AbstractSingleConditionExpression;
+import simulator.definition.rule.action.expression.conditionExpression.api.interfaces.ConditionExpression;
 
 public interface ConditionExpressionBuilder {
     ConditionExpression buildConditionExpression();

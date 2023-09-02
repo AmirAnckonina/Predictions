@@ -1,113 +1,308 @@
 package simulator.builder.impl.baseImpl;
 
 import simulator.builder.api.interfaces.ArgumentExpressionBuilder;
+import simulator.builder.utils.ArgExpressionTypeDemands;
+import simulator.builder.utils.eNumericDemanding;
+import simulator.builder.utils.eParenthesesPart;
 import simulator.builder.utils.exception.WorldBuilderException;
 import simulator.builder.api.abstracts.AbstractComponentBuilder;
-import simulator.definition.rule.action.argumentExpression.utils.enums.eExpressionMethod;
-import simulator.builder.validator.api.WorldBuilderContextValidator;
 import simulator.definition.property.utils.enums.ePropertyType;
-import simulator.definition.rule.action.argumentExpression.api.interfaces.ArgumentExpression;
-import simulator.definition.rule.action.argumentExpression.impl.EnvironmentMethodArgumentExpressionImpl;
-import simulator.definition.rule.action.argumentExpression.impl.PropertyArgumentExpressionImpl;
-import simulator.definition.rule.action.argumentExpression.impl.RandomMethodArgumentExpressionImpl;
-import simulator.definition.rule.action.argumentExpression.impl.ValueArgumentExpressionImpl;
+import simulator.definition.rule.action.expression.argumentExpression.api.abstracts.AbstractMethodArgumentExpression;
+import simulator.definition.rule.action.expression.argumentExpression.impl.*;
+import simulator.definition.rule.action.expression.argumentExpression.utils.enums.eExpressionMethod;
+import simulator.builder.validator.api.WorldBuilderContextValidator;
+import simulator.definition.rule.action.expression.argumentExpression.api.interfaces.ArgumentExpression;
+
+import java.util.Optional;
 import java.util.Random;
 
 public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder implements ArgumentExpressionBuilder {
+
+    private static final char PERIOD = '.';
+    private static final char COMMA = ',';
+
 
     public BaseArgumentExpressionBuilder(WorldBuilderContextValidator contextValidator) {
         super(contextValidator);
     }
 
     @Override
-    public ArgumentExpression buildExpression(String rawExpression, ePropertyType type) {
-        ArgumentExpression argumentExpression = null;
-        if (isIdentifiesEnvironmentMethod(rawExpression)){
-            String method = getEnvironmentMethodName(rawExpression);
-            switch (eExpressionMethod.valueOf(method.toUpperCase())){
-                case ENVIRONMENT:
-                    if(contextValidator.isEnvironmentProperty(getEnvironmentDataMemberName(rawExpression)) &&
-                            (this.contextValidator
-                                    .validateEnvironemntPropertyTypeAsExpected(
-                                            getEnvironmentDataMemberName(rawExpression) ,type) ) ) {
+    public ArgumentExpression buildExpression(String rawExpression, ArgExpressionTypeDemands typeDemands) {
 
-                        argumentExpression = new EnvironmentMethodArgumentExpressionImpl(
-                                eExpressionMethod.ENVIRONMENT,
-                                getEnvironmentDataMemberName(rawExpression));
-                        break;
-                    }
-                    else {
-                        throw new WorldBuilderException("Cannot build Environemnt method Expression");
-                    }
+        ArgumentExpression argExpression;
 
-                case RANDOM:
-                    argumentExpression = new RandomMethodArgumentExpressionImpl(eExpressionMethod.RANDOM, (new Random()).nextInt());
-                    break;
-            }
+        Optional<eExpressionMethod> maybeExpressionMethodType = tryGetMethodType(rawExpression, typeDemands);
+        if (maybeExpressionMethodType.isPresent()) {
 
-        } else if (contextValidator.isEnvironmentProperty(rawExpression)) {
-            
-            if (this.contextValidator.validateEnvironemntPropertyTypeAsExpected(
-                    rawExpression, type)) {
-                argumentExpression = new PropertyArgumentExpressionImpl(rawExpression);
-            }
+            argExpression = buildMethodArgumentExpression(
+                    maybeExpressionMethodType.get(), rawExpression, typeDemands);
+
         } else {
-            switch (type) {
-                case BOOLEAN:
-                    Boolean booleanValue = Boolean.parseBoolean(rawExpression);
-                    argumentExpression = new ValueArgumentExpressionImpl(booleanValue);
-                    break;
-                case STRING:
-                    String stringValue = rawExpression;
-                    argumentExpression = new ValueArgumentExpressionImpl(stringValue);
 
-                    break;
-                case FLOAT:
-                    Float floatValue = Float.parseFloat(rawExpression);
-                    argumentExpression = new ValueArgumentExpressionImpl(floatValue);
-
-                    break;
-                case DECIMAL:
-                    Integer intValue = Integer.parseInt(rawExpression);
-                    argumentExpression = new ValueArgumentExpressionImpl(intValue);
-                    break;
-                default:
-                    throw new WorldBuilderException("The raw expression" + rawExpression + "can't be recognized");
+            Optional<String> maybeEntityPropertyName = tryGetEntityPropertyName(rawExpression, typeDemands);
+            if (maybeEntityPropertyName.isPresent()) {
+                argExpression = buildPropertyNameArgumentExpression(maybeEntityPropertyName.get(), typeDemands);
+            }
+            else {
+                // Here we're trying to build ValueArgExpression
+                argExpression = buildValueArgumentExpression(rawExpression, typeDemands);
             }
         }
 
-        return argumentExpression;
+        return argExpression;
     }
 
-    private String getEnvironmentDataMemberName(String rawExpression) {
-        return rawExpression.substring(eExpressionMethod.ENVIRONMENT.toString().length() + 1, rawExpression.length() - 1);
-    }
+    @Override
+    public AbstractMethodArgumentExpression buildMethodArgumentExpression(
+            eExpressionMethod expMethodType, String rawExpression, ArgExpressionTypeDemands typeDemands) {
 
-    private boolean isEnvironmentProperty(String rawExpression) {
-        return this.contextValidator.isEnvironmentProperty(rawExpression);
-    }
+        AbstractMethodArgumentExpression methodArgExpression;
+        String parenthesesStringValue = extractParenthesesString(rawExpression);
+        ePropertyType expectedParenthesesArgType = typeDemands.getPropertyType();
 
-    private boolean isIdentifiesEnvironmentMethod(String rawExpression) {
-        return rawExpression.startsWith("environment") ||
-                rawExpression.startsWith("random");
-    }
-    
-    private String getEnvironmentMethodName(String rawExpression){
-        String res = null;
-        
-        if(rawExpression.startsWith("environment")){
-            res = "environment";
-        } else if (rawExpression.startsWith("random")) {
-            res = "random";
-        } else if (rawExpression.startsWith("evaluate")) {
-            res = "evaluate";
-        } else if (rawExpression.startsWith("percent")) {
-            res = "percent";
-        } else if (rawExpression.startsWith("ticks")) {
-            res = "ticks";
+        switch (expMethodType) {
+            case ENVIRONMENT: //environment(e1)
+                methodArgExpression = buildEnvironmentMethodExpression(parenthesesStringValue , expectedParenthesesArgType);
+                break;
+
+            case RANDOM: // random(5)
+                methodArgExpression = buildRandomMethodArgumentExpression(parenthesesStringValue, expectedParenthesesArgType);
+                break;
+
+            case EVALUATE: //evaluate(ent-1.p1)
+                methodArgExpression = buildEvaluateMethodArgumentExpression(parenthesesStringValue, expectedParenthesesArgType);
+                break;
+
+             case TICKS: // ticks(Sick.vacinated)
+                methodArgExpression = buildTicksMethodArgumentExpression(parenthesesStringValue, expectedParenthesesArgType);
+                break;
+
+            case PERCENT: // percent(evalutate(ent-2.p1),environment(e1))
+                methodArgExpression = buildPercentMethodArgumentExpression(parenthesesStringValue, expectedParenthesesArgType);
+                break;
+
+            default:
+                throw new WorldBuilderException("Unrecognized method expression, can't build");
         }
 
-        return res;
+        return methodArgExpression;
+    }
+
+
+    @Override
+    public EnvironmentMethodArgumentExpression buildEnvironmentMethodExpression(String parenthesesStringValue, ePropertyType expectedArgType) {
+
+        EnvironmentMethodArgumentExpression environmentMethodArgumentExpression;
+
+        boolean typeValid =
+                contextValidator.validateEnvironemntPropertyTypeAsExpected(
+                        parenthesesStringValue, expectedArgType);
+
+        boolean envPropertyValid = contextValidator.isEnvironmentProperty(parenthesesStringValue);
+
+        if (!envPropertyValid || !typeValid) {
+            throw new WorldBuilderException("Cannot build Environemnt method Expression");
+        }
+
+       environmentMethodArgumentExpression = new EnvironmentMethodArgumentExpression(
+                eExpressionMethod.ENVIRONMENT,
+                parenthesesStringValue);
+
+
+        return environmentMethodArgumentExpression;
+    }
+
+    @Override
+    public RandomMethodArgumentExpression buildRandomMethodArgumentExpression(String parenthesesStringValue, ePropertyType expectedArgType) {
+        RandomMethodArgumentExpression randomMethodArgumentExpression;
+        
+        Integer maxRandVal = Integer.parseInt(parenthesesStringValue);
+        return new RandomMethodArgumentExpression(
+                eExpressionMethod.RANDOM, (new Random()).nextInt(maxRandVal)
+        );
+    }
+
+    @Override
+    public EvaluateMethodArgumentExpression buildEvaluateMethodArgumentExpression(
+            String parenthesesStringValue, ePropertyType expectedArgType) {
+
+        String entityName =
+                extractSubStringInParenthesesString(parenthesesStringValue, PERIOD, eParenthesesPart.LEFT);
+        String propertyName =
+                extractSubStringInParenthesesString(parenthesesStringValue, PERIOD, eParenthesesPart.RIGHT);
+
+        boolean entityAndPropertyContextValid =
+                contextValidator.validateActionContextProcedure(entityName, propertyName);
+
+        boolean propTypeAsExpected =
+                contextValidator.validateEntityPropertyAsExpected(
+                        entityName, propertyName, expectedArgType
+                );
+
+
+        if (!entityAndPropertyContextValid || !propTypeAsExpected) {
+            throw new WorldBuilderException(
+                    "evaluate Method couldn't be build because entity or property context is incorrect.");
+        }
+
+
+        return new EvaluateMethodArgumentExpression(eExpressionMethod.EVALUATE, entityName, propertyName);
+    }
+
+    @Override
+    public TicksMethodArgumentExpression buildTicksMethodArgumentExpression(String parenthesesStringValue, ePropertyType expectedArgType) {
+        String entityName =
+                extractSubStringInParenthesesString(parenthesesStringValue, PERIOD, eParenthesesPart.LEFT);
+        String propertyName =
+                extractSubStringInParenthesesString(parenthesesStringValue, PERIOD, eParenthesesPart.RIGHT);
+
+        boolean entityAndPropertyValid =
+                contextValidator.validateActionContextProcedure(entityName, propertyName);
+
+        boolean propertyTypeAsExpected =
+                contextValidator.validateEntityPropertyAsExpected(
+                        entityName, propertyName, expectedArgType
+                );
+
+        if (!entityAndPropertyValid || !propertyTypeAsExpected) {
+            throw new WorldBuilderException(
+                    "ticks Method couldn't be build because entity or property context is incorrect.");
+        }
+
+        return new TicksMethodArgumentExpression(eExpressionMethod.TICKS, entityName, propertyName);
+    }
+
+    @Override
+    public PercentMethodArgumentExpression buildPercentMethodArgumentExpression(String parenthesesStringValue, ePropertyType expectedArgType) {
+
+        String rawOriginalValueString =
+                extractSubStringInParenthesesString(parenthesesStringValue, COMMA, eParenthesesPart.LEFT);
+        String rawPercentageString =
+                extractSubStringInParenthesesString(parenthesesStringValue, COMMA, eParenthesesPart.RIGHT);
+
+
+        ArgumentExpression originalValueExpression =
+                new BaseArgumentExpressionBuilder(contextValidator)
+                        .buildExpression(
+                                rawOriginalValueString,
+                                new ArgExpressionTypeDemands(eNumericDemanding.MANDATORY)
+                        );
+        ArgumentExpression percentageExpression =
+                new BaseArgumentExpressionBuilder(contextValidator)
+                        .buildExpression(
+                                rawPercentageString,
+                                new ArgExpressionTypeDemands(eNumericDemanding.MANDATORY)
+                        );
+
+        return new PercentMethodArgumentExpression(
+                eExpressionMethod.PERCENT, originalValueExpression, percentageExpression);
+    }
+
+    private String extractSubStringInParenthesesString(
+            String parenthesesStringValue, char delimiter, eParenthesesPart parenthesesPart) {
+
+        String extractedPart;
+
+        if(parenthesesPart == eParenthesesPart.LEFT) {
+
+            extractedPart = parenthesesStringValue.substring(
+                    0, parenthesesStringValue.lastIndexOf(delimiter));
+
+        } else if (parenthesesPart == eParenthesesPart.RIGHT) {
+
+            extractedPart = parenthesesStringValue.substring(
+                    parenthesesStringValue.indexOf(delimiter) + 1 ,
+                    parenthesesStringValue.length() + 1);
+
+        } else {
+            throw new WorldBuilderException(
+                    "failed to extract parenthesesPart under buildArgExpression");
+        }
+
+        return extractedPart.trim();
+    }
+
+
+    @Override
+    public PropertyNameArgumentExpression buildPropertyNameArgumentExpression(
+            String entityPropertyName, ArgExpressionTypeDemands typeDemands) {
+
+        return new PropertyNameArgumentExpression(entityPropertyName);
+    }
+
+    @Override
+    public SimpleValueArgumentExpression buildValueArgumentExpression(
+            String rawExpression, ArgExpressionTypeDemands typeDemands) {
+
+        SimpleValueArgumentExpression simpleValueExpression;
+        ePropertyType propType = typeDemands.getPropertyType();
+
+        switch (propType) {
+            case BOOLEAN:
+                Boolean booleanValue = Boolean.parseBoolean(rawExpression);
+                simpleValueExpression = new SimpleValueArgumentExpression(booleanValue);
+                break;
+            case STRING:
+                String stringValue = rawExpression;
+                simpleValueExpression = new SimpleValueArgumentExpression(stringValue);
+
+                break;
+            case FLOAT:
+                Float floatValue = Float.parseFloat(rawExpression);
+                simpleValueExpression = new SimpleValueArgumentExpression(floatValue);
+
+                break;
+            case DECIMAL:
+                Integer intValue = Integer.parseInt(rawExpression);
+                simpleValueExpression = new SimpleValueArgumentExpression(intValue);
+                break;
+            default:
+                throw new WorldBuilderException("The raw expression" + rawExpression + "can't be recognized");
+        }
+
+        return simpleValueExpression;
+    }
+
+    @Override
+    public String extractParenthesesString(String rawExpression) {
+        return rawExpression.substring(rawExpression.indexOf('(') + 1, rawExpression.lastIndexOf(')'));
+    }
+
+
+
+    @Override
+    public Optional<eExpressionMethod> tryGetMethodType(
+            String rawExpression, ArgExpressionTypeDemands typeDemands) {
+
+        eExpressionMethod method = null;
+
+        if (rawExpression.startsWith("environment")){
+            method = eExpressionMethod.ENVIRONMENT;
+        } else if (rawExpression.startsWith("random")) {
+            method = eExpressionMethod.RANDOM;
+        } else if (rawExpression.startsWith("evaluate")) {
+            method = eExpressionMethod.EVALUATE;
+        } else if (rawExpression.startsWith("percent")) {
+            method = eExpressionMethod.PERCENT;
+        } else if (rawExpression.startsWith("ticks")) {
+            method = eExpressionMethod.TICKS;
+        }
+
+        return Optional.ofNullable(method);
+    }
+
+    @Override
+    public Optional<String> tryGetEntityPropertyName(
+            String rawExpression, ArgExpressionTypeDemands typeDemands) {
+
+        String entityPropertyName = null;
+        boolean entityPropertyNameExist = contextValidator.isEntityPropertyNameExists(rawExpression);
+
+        if (entityPropertyNameExist) {
+            entityPropertyName = rawExpression;
+        }
+
+        return Optional.ofNullable(entityPropertyName);
     }
 
 }

@@ -3,7 +3,7 @@ package simulator.builder.validator.impl;
 import simulator.builder.utils.exception.WorldBuilderException;
 import simulator.builder.validator.api.WorldBuilderContextValidator;
 import simulator.builder.utils.file.enums.eDataFileType;
-import simulator.definition.rule.action.argumentExpression.utils.enums.eExpressionMethod;
+import simulator.definition.rule.action.expression.argumentExpression.utils.enums.eExpressionMethod;
 import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.rule.action.utils.enums.eActionType;
 
@@ -14,18 +14,15 @@ import java.util.*;
 
 public class WorldBuilderContextValidatorImpl implements WorldBuilderContextValidator {
     private Map<String, ePropertyType> environmentPropertiesToTypeMapper;
-    private String primaryEntity;
-    private String secondaryEntity;
     private Set<String> allEntities;
-    private Map<String, ePropertyType> primaryEntityPropertiesToTypeMapper;
-    private Map<String, ePropertyType> secondaryEntityPropertiesToTypeMapper;
+    private Map<String, Map<String, ePropertyType>> entitiesPropertiesToTypeMapper;
     private Set<eExpressionMethod> simulatorSystemMethods;
 
     public WorldBuilderContextValidatorImpl() {
         this.environmentPropertiesToTypeMapper = new HashMap<>();
         this.allEntities = new HashSet<>();
         // Please note, while adding new entity to "entityPropertiesMapper", a new set should be initialize!!!!
-        this.primaryEntityPropertiesToTypeMapper = new HashMap<>();
+        this.entitiesPropertiesToTypeMapper = new HashMap<>();
         this.simulatorSystemMethods = new HashSet<>(
                 Arrays.asList(eExpressionMethod.ENVIRONMENT, eExpressionMethod.RANDOM));
     }
@@ -62,24 +59,18 @@ public class WorldBuilderContextValidatorImpl implements WorldBuilderContextVali
      * @return
      */
     @Override
-    public boolean validatePrimaryEntityPropertyUniqueness(String entityPropertyName) {
-        return !primaryEntityPropertiesToTypeMapper.containsKey(entityPropertyName);
+    public boolean validatePrimaryEntityPropertyUniqueness(String entityName, String entityPropertyName) {
+        return !entitiesPropertiesToTypeMapper.get(entityName).containsKey(entityPropertyName);
     }
 
     @Override
     public boolean validateActionEntityContext(String entityName) {
-        return entityName.equals(primaryEntity) || entityName.equals(secondaryEntity);
+        return allEntities.contains(entityName);
     }
 
     @Override
     public boolean validateActionEntityPropertyContext(String entityName, String entityPropertyName) {
-        return primaryEntityPropertiesToTypeMapper.containsKey(entityPropertyName);
-    }
-
-    @Override
-    public boolean validateActionArguments(eActionType actionType, String... actionArgs) {
-
-        return true;
+        return entitiesPropertiesToTypeMapper.containsKey(entityPropertyName);
     }
 
     @Override
@@ -89,43 +80,79 @@ public class WorldBuilderContextValidatorImpl implements WorldBuilderContextVali
 
     @Override
     public void addEntityProperty(String entityName, String entityProperty, ePropertyType type) {
-
-        if (entityName.equals(primaryEntity)) {
-            primaryEntityPropertiesToTypeMapper.put(entityProperty, type);
-
-        } else if (entityName.equals(secondaryEntity)) {
-            secondaryEntityPropertiesToTypeMapper.put(entityProperty, type);
-
+        if (entitiesPropertiesToTypeMapper.containsKey(entityName)) {
+            entitiesPropertiesToTypeMapper.get(entityName).put(entityProperty, type);
         } else {
-            throw new WorldBuilderException("entity name couln't be found for adding new property to contextValidator.");
+            throw new WorldBuilderException(
+                    "entity name couln't be found for adding new property to contextValidator."
+            );
         }
+
+
     }
 
     @Override
-    public void addPrimaryEntity(String entity) {
-        this.primaryEntity = entity;
-        this.allEntities.add(entity);
+    public void addEntity(String entityName) {
+        this.allEntities.add(entityName);
+        this.entitiesPropertiesToTypeMapper.put(entityName, new HashMap<>());
     }
 
-    @Override
-    public void addSecondaryEntity(String entity) {
-        this.secondaryEntity = entity;
-        this.allEntities.add(entity);
-    }
 
     @Override
     public boolean isEnvironmentProperty(String propertySuspect) {
         return this.environmentPropertiesToTypeMapper.containsKey(propertySuspect);
     }
 
+    @Override
+    public boolean validateSpaceGridDimensions(int rows, int cols) {
+        return rows >= 10 && rows <= 100 && cols >= 10 && cols <= 100;
+    }
+
+    @Override
+    public boolean validateActionContextProcedure(String entityName, String entityPropertyName) {
+
+        boolean entityContextValid = validateActionEntityContext(entityName);
+
+        boolean entityPropertyValid;
+        if (entityPropertyName != null) {
+            entityPropertyValid =
+                    validateActionEntityPropertyContext(
+                            entityName, entityPropertyName);
+        }
+        else { entityPropertyValid = true; }
+
+        return entityContextValid && entityPropertyValid;
+    }
+
+    @Override
+    public boolean isEntityPropertyNameExists(String rawExpression) {
+
+        boolean isEntityProp = false;
+
+        for (Map.Entry<String, Map<String, ePropertyType>> entityPropertiesNameTypeMapper
+                : entitiesPropertiesToTypeMapper.entrySet()) {
+            if (entityPropertiesNameTypeMapper.getValue().containsKey(rawExpression)) {
+                isEntityProp = true;
+                break;
+            }
+        }
+
+        return isEntityProp;
+    }
+
+    @Override
+    public boolean validateEntityPropertyAsExpected(String entityName, String propertyName, ePropertyType expectedType) {
+        return this.entitiesPropertiesToTypeMapper.get(entityName).get(propertyName) == expectedType;
+    }
+
     /**
      *
      * @param propertyName
-     * @param type
+     * @param expectedType
      * @return
      */
-    public boolean validateEnvironemntPropertyTypeAsExpected(String propertyName, ePropertyType type){
-        return this.environmentPropertiesToTypeMapper.get(propertyName) == type;
+    public boolean validateEnvironemntPropertyTypeAsExpected(String propertyName, ePropertyType expectedType){
+        return this.environmentPropertiesToTypeMapper.get(propertyName) == expectedType;
     }
 
     /**
@@ -135,8 +162,8 @@ public class WorldBuilderContextValidatorImpl implements WorldBuilderContextVali
      * @return
      */
     @Override
-    public ePropertyType getPropertyType(String propertyName) {
-        return primaryEntityPropertiesToTypeMapper.get(propertyName);
+    public ePropertyType getPropertyType(String entityName, String propertyName) {
+        return entitiesPropertiesToTypeMapper.get(entityName).get(propertyName);
     }
 
 }

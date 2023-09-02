@@ -9,8 +9,8 @@ import simulator.execution.establishment.impl.SimulationEstablishmentManagerImpl
 import simulator.execution.manager.api.SimulationExecutionManager;
 import simulator.execution.manager.impl.SimulationExecutionManagerImpl;
 import simulator.result.api.SimulationResult;
-import simulator.result.newManager.SimulationInformationManager;
-import simulator.result.newManager.SimulationInformationManagerImpl;
+import simulator.result.newManager.api.SimulationInformationManager;
+import simulator.result.newManager.impl.SimulationInformationManagerImpl;
 import simulator.manager.api.SimulatorManager;
 import simulator.result.manager.api.SimulatorResultManager;
 import simulator.result.manager.impl.SimulatorResultManagerImpl;
