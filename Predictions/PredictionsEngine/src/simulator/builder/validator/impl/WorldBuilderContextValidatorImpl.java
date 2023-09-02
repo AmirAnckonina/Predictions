@@ -5,7 +5,6 @@ import simulator.builder.validator.api.WorldBuilderContextValidator;
 import simulator.builder.utils.file.enums.eDataFileType;
 import simulator.definition.rule.action.expression.argumentExpression.utils.enums.eExpressionMethod;
 import simulator.definition.property.utils.enums.ePropertyType;
-import simulator.definition.rule.action.utils.enums.eActionType;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -162,8 +161,33 @@ public class WorldBuilderContextValidatorImpl implements WorldBuilderContextVali
      * @return
      */
     @Override
-    public ePropertyType getPropertyType(String entityName, String propertyName) {
+    public ePropertyType getEntityPropertyType(String entityName, String propertyName) {
         return entitiesPropertiesToTypeMapper.get(entityName).get(propertyName);
+    }
+
+    @Override
+    public ePropertyType getEntityPropertyTypeWithoutEntityNameMentioned(String propertyName) {
+
+        ePropertyType propType = null;
+
+        for (Map.Entry<String, Map<String, ePropertyType>> entityPropertiesMap
+                : entitiesPropertiesToTypeMapper.entrySet()) {
+            if (entityPropertiesMap.getValue().containsKey(propertyName)) {
+                propType = getEntityPropertyType(entityPropertiesMap.getKey(), propertyName);
+                break;
+            }
+        }
+
+        if (propType == null) {
+            throw new WorldBuilderException("couldn't find the type of the property, under getEntityPropertyTypeWithoutEntityNameMentioned.");
+        }
+
+        return propType;
+    }
+
+    @Override
+    public ePropertyType getEnvironmentPropertyType(String propertyName) {
+        return environmentPropertiesToTypeMapper.get(propertyName);
     }
 
 }

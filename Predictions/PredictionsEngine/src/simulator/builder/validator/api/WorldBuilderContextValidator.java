@@ -14,7 +14,9 @@ public interface WorldBuilderContextValidator {
     void addEntityProperty(String entityName, String entityProperty, ePropertyType type);
     void addEntity(String entityName);
     boolean validateEnvironemntPropertyTypeAsExpected(String propertyName, ePropertyType expectedType);
-    ePropertyType getPropertyType(String entityName, String propertyName);
+    ePropertyType getEntityPropertyType(String entityName, String propertyName);
+    ePropertyType getEntityPropertyTypeWithoutEntityNameMentioned(String propertyName);
+    ePropertyType getEnvironmentPropertyType(String properyName);
     boolean isEnvironmentProperty(String propertySuspect);
     boolean validateSpaceGridDimensions(int rows, int cols);
     boolean validateActionContextProcedure(String entityName, String entityPropertyName);

@@ -4,6 +4,7 @@ import simulator.definition.rule.action.expression.conditionExpression.api.inter
 import simulator.definition.rule.action.expression.argumentExpression.api.interfaces.ArgumentExpression;
 
 public abstract class AbstractSingleConditionExpression implements ConditionExpression {
+
     protected final String entityName;
     protected final ArgumentExpression comparedValue;
     protected final ArgumentExpression conditionProperty;
