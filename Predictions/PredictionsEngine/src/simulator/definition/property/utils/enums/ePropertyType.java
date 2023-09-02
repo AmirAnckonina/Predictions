@@ -29,6 +29,7 @@ public enum ePropertyType {
             }
             return (Float) value;
         }
+
     };
 
     public abstract <T> T convert(T value);

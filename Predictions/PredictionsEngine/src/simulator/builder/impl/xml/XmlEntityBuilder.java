@@ -24,7 +24,7 @@ public class XmlEntityBuilder extends AbstractComponentBuilder implements Entity
     @Override
     public EntityDefinition buildEntity() {
         String entityName = generatedEntityDefinition.getName();
-        contextValidator.addPrimaryEntity(entityName);
+        contextValidator.addEntity(entityName);
         Map<String, AbstractPropertyDefinition> entityProperties = buildEntityProperties();
         return new EntityDefinition(entityName,entityProperties);
     }
@@ -32,7 +32,7 @@ public class XmlEntityBuilder extends AbstractComponentBuilder implements Entity
     @Override
     public Map<String, AbstractPropertyDefinition> buildEntityProperties() {
 
-        Map<String, AbstractPropertyDefinition> envProperties = new HashMap<>();
+        Map<String, AbstractPropertyDefinition> entProperties = new HashMap<>();
 
         for (PRDProperty genEntityProp : generatedEntityDefinition.getPRDProperties().getPRDProperty()) {
 
@@ -40,10 +40,12 @@ public class XmlEntityBuilder extends AbstractComponentBuilder implements Entity
                     new XmlEntityPropertyBuilder(genEntityProp).buildEntityProperty();
 
             boolean propVerified =
-                    contextValidator.validatePrimaryEntityPropertyUniqueness(newProp.getName());
+                    contextValidator.validatePrimaryEntityPropertyUniqueness(
+                            generatedEntityDefinition.getName(),newProp.getName()
+                    );
 
-            if (propVerified && !envProperties.containsKey(newProp.getName())) {
-                envProperties.put(newProp.getName(), newProp);
+            if (propVerified && !entProperties.containsKey(newProp.getName())) {
+                entProperties.put(newProp.getName(), newProp);
                 contextValidator.addEntityProperty(
                         generatedEntityDefinition.getName(), newProp.getName(), newProp.getType());
             } else {
@@ -51,7 +53,7 @@ public class XmlEntityBuilder extends AbstractComponentBuilder implements Entity
                         "Entity property build failed. The following entity property name already exists: " + newProp.getName());
             }
         }
-        return envProperties;
+        return entProperties;
     }
 
 

@@ -75,8 +75,14 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
 
     @Override
     public SpaceGrid buildSpaceGrid() {
+
         PRDWorldDefinition.PRDGrid generatedGrid = generatedWorldDefinition.getPRDGrid();
-        return new SpaceGrid(generatedGrid.getRows(), generatedGrid.getColumns());
+        boolean dimenstionsValid = contextValidator.validateSpaceGridDimensions(generatedGrid.getRows(), generatedGrid.getColumns());
+        if (dimenstionsValid) {
+            return new SpaceGrid(generatedGrid.getRows(), generatedGrid.getColumns());
+        } else {
+            throw new WorldBuilderException("Space grid dimensions are invalid. value of rows and cols must be from 10 to 100");
+        }
     }
 
     @Override
@@ -97,12 +103,6 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
             entities.put(newEntityDefinition.getName(), newEntityDefinition);
         }
         return entities;
-    }
-
-    public EntityDefinition buildSecondaryEntity() {
-
-        PRDEntity generatedSecondaryEntity =  generatedWorldDefinition.getPRDEntities().getPRDEntity().get(1);
-        return new XmlEntityBuilder(generatedSecondaryEntity, contextValidator).buildEntity();
     }
 
     @Override

@@ -3,16 +3,20 @@ package simulator.builder.impl.xml;
 import resources.jaxb.schema.generated.PRDAction;
 import simulator.builder.api.interfaces.ActionBuilder;
 import simulator.builder.impl.baseImpl.BaseArgumentExpressionBuilder;
+import simulator.builder.utils.ArgExpressionTypeDemands;
+import simulator.builder.utils.eNumericDemanding;
 import simulator.builder.utils.exception.WorldBuilderException;
 import simulator.builder.api.abstracts.AbstractComponentBuilder;
 import simulator.builder.validator.api.WorldBuilderContextValidator;
 import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.rule.action.api.abstracts.AbstractAction;
 import simulator.definition.rule.action.api.abstracts.AbstractCalculationAction;
-import simulator.definition.rule.action.conditionExpression.api.interfaces.ConditionExpression;
-import simulator.definition.rule.action.argumentExpression.api.interfaces.ArgumentExpression;
+import simulator.definition.rule.action.expression.conditionExpression.api.interfaces.ConditionExpression;
+import simulator.definition.rule.action.expression.argumentExpression.api.interfaces.ArgumentExpression;
 import simulator.definition.rule.action.impl.*;
+import simulator.definition.rule.action.secondaryEntity.api.ActionSecondaryEntityDefinition;
 import simulator.definition.rule.action.utils.enums.eActionType;
+import simulator.definition.rule.action.utils.enums.eReplaceActionCreationMode;
 
 import java.util.List;
 
@@ -28,11 +32,24 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
 
     @Override
     public AbstractAction BuildAction() {
-        boolean actionContextIsValid = validateActionContextProcedure();
+
+        boolean actionContextIsValid =
+                contextValidator.validateActionContextProcedure(
+                        generatedAction.getEntity(), generatedAction.getProperty()
+                );
+
         if (actionContextIsValid) {
+
+            ActionSecondaryEntityDefinition actionSecondaryEntityDefinition =
+                    new XmlActionSecondaryEntityBuilder(
+                            generatedAction.getPRDSecondaryEntity(),
+                            contextValidator
+                            ).buildActionSecondaryEntity();
+
             eActionType actionType = eActionType.valueOf(generatedAction.getType().toUpperCase());
 
             switch(actionType) {
+
                 case INCREASE:
                     return buildIncreaseAction();
 
@@ -52,8 +69,12 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
                     return buildKillAction();
 
                 case REPLACE:
+                    return buildReplaceAction();
+
                 case PROXIMITY:
-                default:
+                    return  buildProximityAction();
+
+                    default:
                     throw new WorldBuilderException("Unsupported action type.");
 
             }
@@ -66,28 +87,20 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
         }
     }
 
-    private boolean validateActionContextProcedure() {
-        boolean entityContextValid = contextValidator.validateActionEntityContext(generatedAction.getEntity());
-
-        boolean entityPropertyValid;
-        if (generatedAction.getProperty() != null) {
-            entityPropertyValid =
-                    contextValidator.validateActionEntityPropertyContext(
-                            generatedAction.getEntity(), generatedAction.getProperty());
-        }
-        else { entityPropertyValid = true; }
-
-        return entityContextValid && entityPropertyValid;
-    }
     @Override
     public IncreaseAction buildIncreaseAction() {
         eActionType actionType = eActionType.INCREASE;
         String entityName =   generatedAction.getEntity();
         String entityPropertyName = generatedAction.getProperty();
-        ePropertyType entityPropertyType = contextValidator.getPropertyType(entityPropertyName);
+        ePropertyType entityPropertyType = contextValidator.getPropertyType(
+                entityName, entityPropertyName
+        );
         ArgumentExpression by =
                 new BaseArgumentExpressionBuilder(contextValidator)
-                        .buildExpression(generatedAction.getBy(), entityPropertyType);
+                        .buildExpression(
+                                generatedAction.getBy(),
+                                new ArgExpressionTypeDemands(entityPropertyType)
+                        );
 
         return new IncreaseAction(actionType, entityName, entityPropertyName, by);
     }
@@ -97,10 +110,16 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
         eActionType actionType = eActionType.DECREASE;
         String entityName =   generatedAction.getEntity();
         String entityPropertyName = generatedAction.getProperty();
-        ePropertyType entityPropertyType = contextValidator.getPropertyType(entityPropertyName);
+        ePropertyType entityPropertyType =
+                contextValidator.getPropertyType(
+                        entityName, entityPropertyName
+        );
         ArgumentExpression by =
                 new BaseArgumentExpressionBuilder(contextValidator)
-                        .buildExpression(generatedAction.getBy() , entityPropertyType);
+                        .buildExpression(
+                                generatedAction.getBy() ,
+                                new ArgExpressionTypeDemands(entityPropertyType)
+                        );
 
         return new DecreaseAction(actionType, entityName, entityPropertyName, by);
     }
@@ -121,16 +140,24 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
     @Override
     public MultiplyAction buildMultiplyAction() {
 
-        ePropertyType propType = contextValidator.getPropertyType(generatedAction.getProperty());
+        ePropertyType propType = contextValidator.getPropertyType(
+                generatedAction.getEntity(),
+                generatedAction.getProperty()
+        );
+
         ArgumentExpression arg1ArgumentExpression =
                 new BaseArgumentExpressionBuilder(contextValidator)
                         .buildExpression(
-                                generatedAction.getPRDMultiply().getArg1(), propType);
+                                generatedAction.getPRDMultiply().getArg1(),
+                                new ArgExpressionTypeDemands(propType)
+                        );
 
         ArgumentExpression arg2ArgumentExpression =
                 new BaseArgumentExpressionBuilder(contextValidator)
                         .buildExpression(
-                                generatedAction.getPRDMultiply().getArg2(), propType);
+                                generatedAction.getPRDMultiply().getArg2(),
+                                new ArgExpressionTypeDemands(propType)
+                        );
 
         return new MultiplyAction(
                 eActionType.MULTIPLY,
@@ -143,15 +170,23 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
     @Override
     public DivideAction buildDivideAction() {
 
-        ePropertyType propType = contextValidator.getPropertyType(generatedAction.getProperty());
+        ePropertyType propType = contextValidator.getPropertyType(
+                generatedAction.getEntity(),
+                generatedAction.getProperty()
+        );
         ArgumentExpression arg1ArgumentExpression =
                 new BaseArgumentExpressionBuilder(contextValidator)
                         .buildExpression(
-                                generatedAction.getPRDDivide().getArg1() ,propType);
+                                generatedAction.getPRDDivide().getArg1(),
+                                new ArgExpressionTypeDemands(propType)
+                        );
 
         ArgumentExpression arg2ArgumentExpression =
                 new BaseArgumentExpressionBuilder(contextValidator)
-                        .buildExpression(generatedAction.getPRDDivide().getArg2(), propType);
+                        .buildExpression(
+                                generatedAction.getPRDDivide().getArg2(),
+                                new ArgExpressionTypeDemands(propType)
+                        );
 
         return new DivideAction(
                 eActionType.DIVIDE,
@@ -195,10 +230,15 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
 
     @Override
     public SetAction buildSetAction() {
-        ePropertyType propType = contextValidator.getPropertyType(generatedAction.getProperty());
+        ePropertyType propType = contextValidator.getPropertyType(
+                generatedAction.getEntity(),
+                generatedAction.getProperty()
+        );
         ArgumentExpression argValueArgumentExpression =
                 new BaseArgumentExpressionBuilder(contextValidator)
-                        .buildExpression(generatedAction.getValue(), propType);
+                        .buildExpression(generatedAction.getValue(),
+                                new ArgExpressionTypeDemands(propType)
+                        );
         return new SetAction(
                 eActionType.SET,
                 generatedAction.getEntity(),
@@ -210,5 +250,40 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
     public KillAction buildKillAction() {
 
         return new KillAction(eActionType.KILL, generatedAction.getEntity());
+    }
+
+    @Override
+    public ProximityAction buildProximityAction() {
+
+        String sourceEntity = generatedAction.getPRDBetween().getSourceEntity();
+        String targetEntity = generatedAction.getPRDBetween().getTargetEntity();
+
+        boolean srcValid = contextValidator.validateActionEntityContext(sourceEntity);
+        boolean targetValid = contextValidator.validateActionEntityContext(targetEntity);
+
+        if (!srcValid || !targetValid) {
+            throw new WorldBuilderException("the given source or target entity under proximity action is invalid.");
+        }
+
+        String rawEnvDepth = generatedAction.getPRDEnvDepth().getOf();
+        ArgumentExpression envDepth =
+                new BaseArgumentExpressionBuilder(contextValidator)
+                        .buildExpression(
+                                rawEnvDepth,
+                                new ArgExpressionTypeDemands(eNumericDemanding.MANDATORY)
+                        );
+
+        return new ProximityAction(eActionType.PROXIMITY, sourceEntity, targetEntity, envDepth);
+    }
+
+    @Override
+    public ReplaceAction buildReplaceAction() {
+
+        String killEntity = generatedAction.getKill();
+        String createEntity = generatedAction.getCreate();
+        eReplaceActionCreationMode creationMode
+                = eReplaceActionCreationMode.valueOf(generatedAction.getMode().toUpperCase());
+
+        return new ReplaceAction(eActionType.REPLACE, killEntity, createEntity, creationMode);
     }
 }

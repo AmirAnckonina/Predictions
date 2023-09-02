@@ -1,13 +1,10 @@
 package simulator.runner.impl;
 
 import simulator.definition.rule.Rule;
-import simulator.definition.rule.action.api.abstracts.AbstractAction;
 import simulator.definition.rule.action.api.interfaces.Action;
 import simulator.definition.termination.Termination;
 import simulator.execution.instance.entity.manager.api.EntitiesInstancesManager;
-import simulator.execution.instance.entity.manager.api.EntityInstanceManager;
 import simulator.execution.instance.entity.manager.impl.EntitiesInstancesManagerImpl;
-import simulator.execution.instance.entity.manager.impl.EntityInstanceMangerImpl;
 import simulator.runner.api.SimulatorRunner;
 import simulator.execution.context.api.ExecutionContext;
 import simulator.execution.context.impl.ExecutionContextImpl;
@@ -17,7 +14,6 @@ import simulator.execution.instance.world.api.WorldInstance;
 import simulator.result.api.SimulationResult;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -110,7 +106,7 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
                         actionsToinvoke.forEach( (action) -> {
 
                                     // check if the action entity context is matching the current entity type (by name)
-                                    if (action.getEntityName().equals(entityName)) {
+                                    if (action.getPrimaryEntityName().equals(entityName)) {
 
                                          // // // if yes -> retrieve all the current entity instances
                                         // // // // for each entityInstance (of the current type)

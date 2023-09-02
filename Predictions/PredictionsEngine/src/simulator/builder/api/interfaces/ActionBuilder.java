@@ -24,4 +24,6 @@ public interface ActionBuilder {
     ConditionAction buildConditionAction();
     SetAction buildSetAction();
     KillAction buildKillAction();
+    ProximityAction buildProximityAction();
+    ReplaceAction buildReplaceAction();
 }
