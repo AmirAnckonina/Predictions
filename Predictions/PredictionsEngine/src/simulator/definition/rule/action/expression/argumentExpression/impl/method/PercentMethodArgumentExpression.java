@@ -1,5 +1,6 @@
-package simulator.definition.rule.action.expression.argumentExpression.impl;
+package simulator.definition.rule.action.expression.argumentExpression.impl.method;
 
+import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.rule.action.expression.argumentExpression.api.interfaces.ArgumentExpression;
 import simulator.definition.rule.action.expression.argumentExpression.utils.enums.eExpressionMethod;
 import simulator.definition.rule.action.expression.argumentExpression.api.abstracts.AbstractMethodArgumentExpression;
@@ -10,8 +11,13 @@ public class PercentMethodArgumentExpression extends AbstractMethodArgumentExpre
 
     private ArgumentExpression originalValue;
     private ArgumentExpression percentage;
-    public PercentMethodArgumentExpression(eExpressionMethod method, ArgumentExpression originalValue, ArgumentExpression percentage) {
-        super(method);
+    public PercentMethodArgumentExpression(
+            eExpressionMethod method,
+            ePropertyType expressionReturnedValueType,
+            ArgumentExpression originalValue,
+            ArgumentExpression percentage) {
+
+        super(method, expressionReturnedValueType);
         this.originalValue = originalValue;
         this.percentage = percentage;
     }

@@ -2,13 +2,15 @@ package simulator.builder.impl.baseImpl;
 
 import simulator.builder.api.interfaces.ArgumentExpressionBuilder;
 import simulator.builder.utils.ArgExpressionTypeDemands;
-import simulator.builder.utils.eNumericDemanding;
+import simulator.builder.utils.eMandatoryTypeDemanding;
 import simulator.builder.utils.eParenthesesPart;
 import simulator.builder.utils.exception.WorldBuilderException;
 import simulator.builder.api.abstracts.AbstractComponentBuilder;
 import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.rule.action.expression.argumentExpression.api.abstracts.AbstractMethodArgumentExpression;
-import simulator.definition.rule.action.expression.argumentExpression.impl.*;
+import simulator.definition.rule.action.expression.argumentExpression.impl.method.*;
+import simulator.definition.rule.action.expression.argumentExpression.impl.property.PropertyNameArgumentExpression;
+import simulator.definition.rule.action.expression.argumentExpression.impl.value.SimpleValueArgumentExpression;
 import simulator.definition.rule.action.expression.argumentExpression.utils.enums.eExpressionMethod;
 import simulator.builder.validator.api.WorldBuilderContextValidator;
 import simulator.definition.rule.action.expression.argumentExpression.api.interfaces.ArgumentExpression;
@@ -90,15 +92,15 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
 
 
     @Override
-    public EnvironmentMethodArgumentExpression buildEnvironmentMethodExpression(String parenthesesStringValue, ePropertyType expectedArgType) {
+    public EnvironmentMethodArgumentExpression buildEnvironmentMethodExpression(String rawEnvPropString, ePropertyType expectedArgType) {
 
         EnvironmentMethodArgumentExpression environmentMethodArgumentExpression;
 
         boolean typeValid =
                 contextValidator.validateEnvironemntPropertyTypeAsExpected(
-                        parenthesesStringValue, expectedArgType);
+                        rawEnvPropString, expectedArgType);
 
-        boolean envPropertyValid = contextValidator.isEnvironmentProperty(parenthesesStringValue);
+        boolean envPropertyValid = contextValidator.isEnvironmentProperty(rawEnvPropString);
 
         if (!envPropertyValid || !typeValid) {
             throw new WorldBuilderException("Cannot build Environemnt method Expression");
@@ -106,7 +108,10 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
 
        environmentMethodArgumentExpression = new EnvironmentMethodArgumentExpression(
                 eExpressionMethod.ENVIRONMENT,
-                parenthesesStringValue);
+                contextValidator.getEnvironmentPropertyType(rawEnvPropString), //Should return as String
+                rawEnvPropString
+
+       );
 
 
         return environmentMethodArgumentExpression;
@@ -118,7 +123,9 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
         
         Integer maxRandVal = Integer.parseInt(parenthesesStringValue);
         return new RandomMethodArgumentExpression(
-                eExpressionMethod.RANDOM, (new Random()).nextInt(maxRandVal)
+                eExpressionMethod.RANDOM,
+                ePropertyType.DECIMAL, // Maybe as a float?
+                (new Random()).nextInt(maxRandVal)
         );
     }
 
@@ -146,7 +153,12 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
         }
 
 
-        return new EvaluateMethodArgumentExpression(eExpressionMethod.EVALUATE, entityName, propertyName);
+        return new EvaluateMethodArgumentExpression(
+                eExpressionMethod.EVALUATE,
+                contextValidator.getEntityPropertyType(entityName, propertyName),
+                entityName,
+                propertyName
+        );
     }
 
     @Override
@@ -169,7 +181,11 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
                     "ticks Method couldn't be build because entity or property context is incorrect.");
         }
 
-        return new TicksMethodArgumentExpression(eExpressionMethod.TICKS, entityName, propertyName);
+        return new TicksMethodArgumentExpression(
+                eExpressionMethod.TICKS,
+                contextValidator.getEntityPropertyType(entityName, propertyName),
+                entityName,
+                propertyName);
     }
 
     @Override
@@ -185,17 +201,20 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
                 new BaseArgumentExpressionBuilder(contextValidator)
                         .buildExpression(
                                 rawOriginalValueString,
-                                new ArgExpressionTypeDemands(eNumericDemanding.MANDATORY)
+                                new ArgExpressionTypeDemands(eMandatoryTypeDemanding.NUMERIC)
                         );
         ArgumentExpression percentageExpression =
                 new BaseArgumentExpressionBuilder(contextValidator)
                         .buildExpression(
                                 rawPercentageString,
-                                new ArgExpressionTypeDemands(eNumericDemanding.MANDATORY)
+                                new ArgExpressionTypeDemands(eMandatoryTypeDemanding.NUMERIC)
                         );
 
         return new PercentMethodArgumentExpression(
-                eExpressionMethod.PERCENT, originalValueExpression, percentageExpression);
+                eExpressionMethod.PERCENT,
+                ePropertyType.FLOAT,
+                originalValueExpression,
+                percentageExpression);
     }
 
     private String extractSubStringInParenthesesString(
@@ -226,8 +245,15 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
     @Override
     public PropertyNameArgumentExpression buildPropertyNameArgumentExpression(
             String entityPropertyName, ArgExpressionTypeDemands typeDemands) {
+        // Why Why Why ????????
+        // Is that because we need to build EntityPropertyExpression in case of
+        // ticks(ent1.p1) ? so ent1.p1 is an expression?
+        // Or maybe for the property under condition? so when we build argExpression we use this case
 
-        return new PropertyNameArgumentExpression(entityPropertyName);
+        return new PropertyNameArgumentExpression(
+                entityPropertyName,
+                contextValidator.getEntityPropertyTypeWithoutEntityNameMentioned(entityPropertyName)
+        );
     }
 
     @Override
@@ -240,21 +266,21 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
         switch (propType) {
             case BOOLEAN:
                 Boolean booleanValue = Boolean.parseBoolean(rawExpression);
-                simpleValueExpression = new SimpleValueArgumentExpression(booleanValue);
+                simpleValueExpression = new SimpleValueArgumentExpression(booleanValue ,ePropertyType.BOOLEAN);
                 break;
             case STRING:
                 String stringValue = rawExpression;
-                simpleValueExpression = new SimpleValueArgumentExpression(stringValue);
+                simpleValueExpression = new SimpleValueArgumentExpression(stringValue, ePropertyType.STRING);
 
                 break;
             case FLOAT:
                 Float floatValue = Float.parseFloat(rawExpression);
-                simpleValueExpression = new SimpleValueArgumentExpression(floatValue);
+                simpleValueExpression = new SimpleValueArgumentExpression(floatValue, ePropertyType.FLOAT);
 
                 break;
             case DECIMAL:
                 Integer intValue = Integer.parseInt(rawExpression);
-                simpleValueExpression = new SimpleValueArgumentExpression(intValue);
+                simpleValueExpression = new SimpleValueArgumentExpression(intValue, ePropertyType.DECIMAL);
                 break;
             default:
                 throw new WorldBuilderException("The raw expression" + rawExpression + "can't be recognized");

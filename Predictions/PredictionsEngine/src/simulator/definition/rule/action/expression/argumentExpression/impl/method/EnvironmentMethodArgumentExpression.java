@@ -1,4 +1,4 @@
-package simulator.definition.rule.action.expression.argumentExpression.impl;
+package simulator.definition.rule.action.expression.argumentExpression.impl.method;
 
 import simulator.definition.rule.action.expression.argumentExpression.utils.enums.eExpressionMethod;
 import simulator.definition.rule.action.expression.argumentExpression.api.abstracts.AbstractMethodArgumentExpression;
@@ -9,8 +9,12 @@ public class EnvironmentMethodArgumentExpression extends AbstractMethodArgumentE
 
     private String environmentPropertyName;
 
-    public EnvironmentMethodArgumentExpression(eExpressionMethod method, String envPropertyName) {
-        super(method);
+    public EnvironmentMethodArgumentExpression(
+            eExpressionMethod method,
+            ePropertyType expressionReturnedValueType,
+            String envPropertyName) {
+
+        super(method, expressionReturnedValueType);
         this.environmentPropertyName = envPropertyName;
     }
 

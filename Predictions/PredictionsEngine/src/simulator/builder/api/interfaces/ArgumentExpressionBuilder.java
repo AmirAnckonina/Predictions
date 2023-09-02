@@ -4,7 +4,9 @@ import simulator.builder.utils.ArgExpressionTypeDemands;
 import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.rule.action.expression.argumentExpression.api.abstracts.AbstractMethodArgumentExpression;
 import simulator.definition.rule.action.expression.argumentExpression.api.interfaces.ArgumentExpression;
-import simulator.definition.rule.action.expression.argumentExpression.impl.*;
+import simulator.definition.rule.action.expression.argumentExpression.impl.method.*;
+import simulator.definition.rule.action.expression.argumentExpression.impl.property.PropertyNameArgumentExpression;
+import simulator.definition.rule.action.expression.argumentExpression.impl.value.SimpleValueArgumentExpression;
 import simulator.definition.rule.action.expression.argumentExpression.utils.enums.eExpressionMethod;
 
 import java.util.Optional;
@@ -29,7 +31,7 @@ public interface ArgumentExpressionBuilder {
     Optional<String> tryGetEntityPropertyName(
             String rawExpression, ArgExpressionTypeDemands typeDemands);
 
-    EnvironmentMethodArgumentExpression buildEnvironmentMethodExpression(String parenthesesStringValue, ePropertyType expectedparenthesesArgType);
+    EnvironmentMethodArgumentExpression buildEnvironmentMethodExpression(String rawEnvPropString, ePropertyType expectedparenthesesArgType);
     RandomMethodArgumentExpression buildRandomMethodArgumentExpression(String parenthesesStringValue, ePropertyType expectedparenthesesArgType);
     EvaluateMethodArgumentExpression buildEvaluateMethodArgumentExpression(String parenthesesStringValue, ePropertyType expectedparenthesesArgType);
     TicksMethodArgumentExpression buildTicksMethodArgumentExpression(String parenthesesStringValue, ePropertyType expectedparenthesesArgType);

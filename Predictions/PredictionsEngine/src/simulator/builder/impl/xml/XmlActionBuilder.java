@@ -4,7 +4,7 @@ import resources.jaxb.schema.generated.PRDAction;
 import simulator.builder.api.interfaces.ActionBuilder;
 import simulator.builder.impl.baseImpl.BaseArgumentExpressionBuilder;
 import simulator.builder.utils.ArgExpressionTypeDemands;
-import simulator.builder.utils.eNumericDemanding;
+import simulator.builder.utils.eMandatoryTypeDemanding;
 import simulator.builder.utils.exception.WorldBuilderException;
 import simulator.builder.api.abstracts.AbstractComponentBuilder;
 import simulator.builder.validator.api.WorldBuilderContextValidator;
@@ -92,7 +92,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
         eActionType actionType = eActionType.INCREASE;
         String entityName =   generatedAction.getEntity();
         String entityPropertyName = generatedAction.getProperty();
-        ePropertyType entityPropertyType = contextValidator.getPropertyType(
+        ePropertyType entityPropertyType = contextValidator.getEntityPropertyType(
                 entityName, entityPropertyName
         );
         ArgumentExpression by =
@@ -111,7 +111,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
         String entityName =   generatedAction.getEntity();
         String entityPropertyName = generatedAction.getProperty();
         ePropertyType entityPropertyType =
-                contextValidator.getPropertyType(
+                contextValidator.getEntityPropertyType(
                         entityName, entityPropertyName
         );
         ArgumentExpression by =
@@ -140,7 +140,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
     @Override
     public MultiplyAction buildMultiplyAction() {
 
-        ePropertyType propType = contextValidator.getPropertyType(
+        ePropertyType propType = contextValidator.getEntityPropertyType(
                 generatedAction.getEntity(),
                 generatedAction.getProperty()
         );
@@ -170,7 +170,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
     @Override
     public DivideAction buildDivideAction() {
 
-        ePropertyType propType = contextValidator.getPropertyType(
+        ePropertyType propType = contextValidator.getEntityPropertyType(
                 generatedAction.getEntity(),
                 generatedAction.getProperty()
         );
@@ -230,7 +230,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
 
     @Override
     public SetAction buildSetAction() {
-        ePropertyType propType = contextValidator.getPropertyType(
+        ePropertyType propType = contextValidator.getEntityPropertyType(
                 generatedAction.getEntity(),
                 generatedAction.getProperty()
         );
@@ -270,7 +270,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
                 new BaseArgumentExpressionBuilder(contextValidator)
                         .buildExpression(
                                 rawEnvDepth,
-                                new ArgExpressionTypeDemands(eNumericDemanding.MANDATORY)
+                                new ArgExpressionTypeDemands(eMandatoryTypeDemanding.NUMERIC)
                         );
 
         return new ProximityAction(eActionType.PROXIMITY, sourceEntity, targetEntity, envDepth);

@@ -5,7 +5,7 @@ import simulator.builder.api.abstracts.AbstractComponentBuilder;
 import simulator.builder.api.interfaces.ConditionExpressionBuilder;
 import simulator.builder.impl.baseImpl.BaseArgumentExpressionBuilder;
 import simulator.builder.utils.ArgExpressionTypeDemands;
-import simulator.builder.utils.eNumericDemanding;
+import simulator.builder.utils.eMandatoryTypeDemanding;
 import simulator.builder.utils.exception.WorldBuilderException;
 import simulator.builder.validator.api.WorldBuilderContextValidator;
 import simulator.builder.utils.file.WorldBuilderUtils;
@@ -79,19 +79,24 @@ public class XmlConditionExpressionBuilder extends AbstractComponentBuilder impl
         String rawConditionProperty = generatedCondition.getProperty();
         String rawValue = generatedCondition.getValue();
 
-        ArgumentExpression conditionProperty =
+        ArgumentExpression conditionPropertyArgExpression =
                 new BaseArgumentExpressionBuilder(contextValidator)
                         .buildExpression(
                                 rawConditionProperty,
-                                new ArgExpressionTypeDemands(eNumericDemanding.MANDATORY)
+                                new ArgExpressionTypeDemands(
+                                    eMandatoryTypeDemanding.NotMentioned
+                                )
 
-                                );
+                        );
 
         ArgumentExpression conditionComparedValue =
                 new BaseArgumentExpressionBuilder(contextValidator)
                         .buildExpression(
                                 rawValue,
-                                new ArgExpressionTypeDemands(eNumericDemanding.MANDATORY)
+                                new ArgExpressionTypeDemands(
+                                        conditionPropertyArgExpression.getExpressionReturnedValueType()
+                                )
+
                         );
 
         eConditionCompartorType comparatorType =
@@ -100,13 +105,13 @@ public class XmlConditionExpressionBuilder extends AbstractComponentBuilder impl
 
         switch (comparatorType) {
             case EQAULITY:
-                return new EqualityConditionExpression(entityName, conditionProperty, conditionComparedValue);
+                return new EqualityConditionExpression(entityName, conditionPropertyArgExpression, conditionComparedValue);
             case INEQUALITY:
-                return new InequalityConditionExpression(entityName, conditionProperty, conditionComparedValue);
+                return new InequalityConditionExpression(entityName, conditionPropertyArgExpression, conditionComparedValue);
             case BIGGERTHAN:
-                return new BiggerThanConditionExpression(entityName,conditionProperty, conditionComparedValue);
+                return new BiggerThanConditionExpression(entityName,conditionPropertyArgExpression, conditionComparedValue);
             case LOWERTHAN:
-                return new LowerThanConditionExpression(entityName, conditionProperty, conditionComparedValue);
+                return new LowerThanConditionExpression(entityName, conditionPropertyArgExpression, conditionComparedValue);
             default:
                 throw new WorldBuilderException("Couldn't determine which SingleConditionExpression to build");
         }

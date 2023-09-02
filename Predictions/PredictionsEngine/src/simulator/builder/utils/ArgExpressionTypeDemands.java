@@ -4,20 +4,22 @@ import simulator.definition.property.utils.enums.ePropertyType;
 
 public class ArgExpressionTypeDemands {
     private ePropertyType propertyType;
-    private eNumericDemanding numericDemanding;
+    private eMandatoryTypeDemanding mandatoryDemand;
 
     public ArgExpressionTypeDemands(ePropertyType propertyType) {
-        this(propertyType, eNumericDemanding.NotMentioned);
+        this(propertyType, eMandatoryTypeDemanding.NotMentioned);
     }
 
-    public ArgExpressionTypeDemands(eNumericDemanding numericDemanding) {
-        this(null, numericDemanding);
+    public ArgExpressionTypeDemands(eMandatoryTypeDemanding mandatoryDemand) {
+        this(null, mandatoryDemand);
     }
 
-    public ArgExpressionTypeDemands(ePropertyType propertyType, eNumericDemanding numericDemanding) {
+    public ArgExpressionTypeDemands(ePropertyType propertyType, eMandatoryTypeDemanding mandatoryDemand) {
         this.propertyType = propertyType;
-        this.numericDemanding = numericDemanding;
-        if (numericDemanding == eNumericDemanding.MANDATORY) { this.propertyType = ePropertyType.FLOAT; }
+        this.mandatoryDemand = mandatoryDemand;
+        if (mandatoryDemand == eMandatoryTypeDemanding.NUMERIC) {
+            this.propertyType = ePropertyType.FLOAT;
+        }
     }
 
     public ePropertyType getPropertyType() {
