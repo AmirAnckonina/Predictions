@@ -96,14 +96,14 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
             // aggregate the activated rules only.
             // aggregate the actions to invoke under the activated rule
             List<Rule> activatedRules = getActiveRulesForCurrTick(currTick, worldInstance.getRules());
-            List<Action> actionsToinvoke = getActionToInvokeFromRules(activatedRules);
+            List<Action> actionsToInvoke = getActionToInvokeFromRules(activatedRules);
 
 
 
             // 3. Foreach entity type
             entitiesInstances.forEach( (entityName , entityInstances) -> {
 
-                        actionsToinvoke.forEach( (action) -> {
+                        actionsToInvoke.forEach( (action) -> {
 
                                     // check if the action entity context is matching the current entity type (by name)
                                     if (action.getPrimaryEntityName().equals(entityName)) {
@@ -151,10 +151,10 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
         return activeRules;
     }
 
-    private List<Action> getActionToInvokeFromRules(List<Rule> rules) {
+    private List<Action> getActionToInvokeFromRules(List<Rule> activatedRules) {
 
         List<Action> actionsToInvoke = new ArrayList<>();
-        rules.forEach( (rule) -> {
+        activatedRules.forEach( (rule) -> {
             actionsToInvoke.addAll(rule.getActions());
         });
 

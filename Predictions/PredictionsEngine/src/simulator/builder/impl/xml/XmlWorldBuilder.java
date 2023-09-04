@@ -11,7 +11,7 @@ import simulator.builder.utils.file.enums.eDataFileType;
 import simulator.definition.entity.EntityDefinition;
 import simulator.definition.environment.Environment;
 import simulator.definition.rule.Rule;
-import simulator.definition.spaceGrid.SpaceGrid;
+import simulator.definition.spaceGrid.SpaceGridDefinition;
 import simulator.definition.termination.Termination;
 import simulator.definition.threadCount.ThreadCount;
 import simulator.definition.world.WorldDefinition;
@@ -59,7 +59,7 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
     @Override
     public WorldDefinition buildWorld() {
         ThreadCount threadCount = buildThreadCount();
-        SpaceGrid spaceGrid = buildSpaceGrid();
+        SpaceGridDefinition spaceGrid = buildSpaceGrid();
         Environment environment = buildEnvironment();
         Map<String, EntityDefinition> entities = buildEntities();
         List<Rule> rules = buildRules();
@@ -74,12 +74,12 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
     }
 
     @Override
-    public SpaceGrid buildSpaceGrid() {
+    public SpaceGridDefinition buildSpaceGrid() {
 
         PRDWorldDefinition.PRDGrid generatedGrid = generatedWorldDefinition.getPRDGrid();
         boolean dimenstionsValid = contextValidator.validateSpaceGridDimensions(generatedGrid.getRows(), generatedGrid.getColumns());
         if (dimenstionsValid) {
-            return new SpaceGrid(generatedGrid.getRows(), generatedGrid.getColumns());
+            return new SpaceGridDefinition(generatedGrid.getRows(), generatedGrid.getColumns());
         } else {
             throw new WorldBuilderException("Space grid dimensions are invalid. value of rows and cols must be from 10 to 100");
         }
