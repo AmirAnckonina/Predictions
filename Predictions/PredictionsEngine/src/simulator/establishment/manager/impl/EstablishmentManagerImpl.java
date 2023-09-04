@@ -1,12 +1,14 @@
-package simulator.execution.establishment.impl;
+package simulator.establishment.manager.impl;
 
+import dto.EstablishedEnvironmentInfoDto;
+import response.SimulatorResponse;
 import simulator.definition.entity.EntityDefinition;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.rule.Rule;
 import simulator.definition.termination.Termination;
 import simulator.definition.world.WorldDefinition;
-import simulator.execution.establishment.api.SimulationEstablishmentManager;
+import simulator.establishment.manager.api.EstablishmentManager;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.entity.impl.EntityInstanceImpl;
 import simulator.execution.instance.environment.api.EnvironmentInstance;
@@ -21,8 +23,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SimulationEstablishmentManagerImpl implements SimulationEstablishmentManager {
+public class EstablishmentManagerImpl implements EstablishmentManager {
     private WorldDefinition worldDefinition;
+    private WorldInstance worldInstance;
 
     public void setWorldDefinition(WorldDefinition worldDefinition) {
         this.worldDefinition = worldDefinition;
@@ -31,21 +34,36 @@ public class SimulationEstablishmentManagerImpl implements SimulationEstablishme
     public WorldDefinition getWorldDefinition() {
         return worldDefinition;
     }
-
     @Override
-    public WorldInstance establishSimulation(WorldDefinition worldDefinition) {
+    public SimulatorResponse establishSimulation(WorldDefinition worldDefinition) {
 
-        this.worldDefinition = worldDefinition;
-        EnvironmentInstance envInstance = activateEnvironment();
-        Map<String, List<EntityInstance>> entitiesInstances = createEntitiesInstances();
-        List<Rule> rules = this.worldDefinition.getRules();
-        Termination termination = this.worldDefinition.getTermination();
+        try {
 
-        return new WorldInstanceImpl(envInstance, entitiesInstances, rules, termination);
+            this.worldDefinition = worldDefinition;
+            EnvironmentInstance envInstance = establishEnvironment();
+            Map<String, List<EntityInstance>> entitiesInstances = createEntitiesInstances();
+            List<Rule> rules = this.worldDefinition.getRules();
+            Termination termination = this.worldDefinition.getTermination();
+
+            this.worldInstance = new WorldInstanceImpl(envInstance, entitiesInstances, rules, termination);
+
+            return  new SimulatorResponse<>(
+                    true,
+                    "Establishment done successfully"
+            );
+
+        } catch (Exception e) {
+
+            return  new SimulatorResponse<>(
+                    false,
+                    "An issue detected while trying to establish simulation.");
+        }
     }
 
+
+
     @Override
-    public EnvironmentInstance activateEnvironment() {
+    public EnvironmentInstance establishEnvironment() {
 
         Map<String, PropertyInstance> environmentVariables =
                 createPropertyInstances(worldDefinition.getEnvironment().getEnvironmentProperties());
@@ -56,7 +74,7 @@ public class SimulationEstablishmentManagerImpl implements SimulationEstablishme
     @Override
     public Map<String, List<EntityInstance>> createEntitiesInstances() {
 
-        Map<String , List<EntityInstance>> entitiesInstances =   new HashMap<>();
+        Map<String , List<EntityInstance>> entitiesInstances = new HashMap<>();
         Map<String, EntityDefinition> entitiesDefinitions = this.worldDefinition.getEntities();
         entitiesDefinitions
                 .forEach(
@@ -114,19 +132,33 @@ public class SimulationEstablishmentManagerImpl implements SimulationEstablishme
         return  propertyInstanceMap;
     }
 
+
     @Override
-    public Map<String, String> getEstablishedEnvironmentInfo(WorldInstance establishedWorldInstance) {
-        Map<String, String> envInfo = new HashMap<>();
+    public SimulatorResponse<EstablishedEnvironmentInfoDto> getEstablishedEnvironmentInfo() {
 
-        Map<String, PropertyInstance> envPropInstances =
-                establishedWorldInstance.getEnvironmentInstance().getAllEnvironmentPropertiesInstances();
+        try {
+            Map<String, String> envInfo = new HashMap<>();
 
-        for (Map.Entry<String, PropertyInstance> envPropInstance : envPropInstances.entrySet()) {
-            envInfo.put(
-                    envPropInstance.getKey(),
-                    ePropertyType.STRING.convert(envPropInstance.getValue().getValue().toString()));
+            Map<String, PropertyInstance> envPropInstances =
+                    this.worldInstance.getEnvironmentInstance().getAllEnvironmentPropertiesInstances();
+
+            for (Map.Entry<String, PropertyInstance> envPropInstance : envPropInstances.entrySet()) {
+                envInfo.put(envPropInstance.getKey(),
+                        ePropertyType.STRING.convert(envPropInstance.getValue().getValue().toString()));
+            }
+
+
+            return new SimulatorResponse<>(
+                    true,
+                    new EstablishedEnvironmentInfoDto(envInfo)
+            );
+
+        } catch (Exception e) {
+
+            return new SimulatorResponse<>(
+                    false,
+                    "An issue detected while trying to get environment properties instances info."
+            );
         }
-
-        return envInfo;
     }
 }

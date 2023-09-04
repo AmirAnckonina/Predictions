@@ -7,11 +7,13 @@ import java.util.Map;
 
 public class EntityDefinition {
     private final String name;
+    private Integer population;
     private final Map<String, AbstractPropertyDefinition> properties;
 
     public EntityDefinition(String name, Map<String, AbstractPropertyDefinition> properties) {
         this.name = name;
         this.properties = properties;
+        this.population = 0;
     }
 
     public String getName() {
@@ -61,5 +63,13 @@ public class EntityDefinition {
         }
 
         return sb.toString();
+    }
+
+    public Integer getPopulation() {
+        return population;
+    }
+
+    public void setPopulation(Integer population) {
+        this.population = population;
     }
 }

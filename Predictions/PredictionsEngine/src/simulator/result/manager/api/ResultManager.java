@@ -2,13 +2,12 @@ package simulator.result.manager.api;
 import simulator.execution.instance.entity.impl.EntitiesResult;
 
 import simulator.result.api.SimulationResult;
-import simulator.result.impl.SimulationInitialInfo;
 
 
 import java.util.List;
 import java.util.Map;
 
-public interface SimulatorResultManager {
+public interface ResultManager {
 
     boolean addSimulationResult(String simulationID, SimulationResult simulationResult);
     List<EntitiesResult> getAllEntitiesExistBySimulationIndex(String entityName, String simulationID);

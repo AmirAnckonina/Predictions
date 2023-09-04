@@ -9,7 +9,7 @@ import simulator.builder.validator.api.WorldBuilderContextValidator;
 import simulator.builder.utils.file.WorldBuilderFileUtils;
 import simulator.builder.utils.file.enums.eDataFileType;
 import simulator.definition.entity.EntityDefinition;
-import simulator.definition.environment.Environment;
+import simulator.definition.environment.EnvironmentDefinition;
 import simulator.definition.rule.Rule;
 import simulator.definition.spaceGrid.SpaceGridDefinition;
 import simulator.definition.termination.Termination;
@@ -24,7 +24,7 @@ import java.util.Map;
 
 public class XmlWorldBuilder extends AbstractFileComponentBuilder implements WorldBuilder {
 
-    private PRDWorldDefinition generatedWorldDefinition;
+    private PRDWorld generatedWorldDefinition;
     private final static String JAXB_PACKAGE_NAME = "resources.jaxb.schema.generated";
 
     public XmlWorldBuilder(String filePath, WorldBuilderContextValidator contextValidator) {
@@ -60,12 +60,12 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
     public WorldDefinition buildWorld() {
         ThreadCount threadCount = buildThreadCount();
         SpaceGridDefinition spaceGrid = buildSpaceGrid();
-        Environment environment = buildEnvironment();
+        EnvironmentDefinition environmentDefinition = buildEnvironment();
         Map<String, EntityDefinition> entities = buildEntities();
         List<Rule> rules = buildRules();
         Termination termination = buildTermination();
 
-        return new WorldDefinition(threadCount, spaceGrid, environment, entities, rules, termination);
+        return new WorldDefinition(threadCount, spaceGrid, environmentDefinition, entities, rules, termination);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
     @Override
     public SpaceGridDefinition buildSpaceGrid() {
 
-        PRDWorldDefinition.PRDGrid generatedGrid = generatedWorldDefinition.getPRDGrid();
+        PRDWorld.PRDGrid generatedGrid = generatedWorldDefinition.getPRDGrid();
         boolean dimenstionsValid = contextValidator.validateSpaceGridDimensions(generatedGrid.getRows(), generatedGrid.getColumns());
         if (dimenstionsValid) {
             return new SpaceGridDefinition(generatedGrid.getRows(), generatedGrid.getColumns());
@@ -86,10 +86,11 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
     }
 
     @Override
-    public Environment buildEnvironment() {
+    public EnvironmentDefinition buildEnvironment() {
 
         PRDEnvironment generatedEnv = generatedWorldDefinition.getPRDEnvironment();
-        return new XmlEnvironmentBuilder(generatedEnv, contextValidator).buildEnvironment();
+        return new XmlEnvironmentBuilder(generatedEnv, contextValidator)
+                .buildEnvironment();
     }
 
     @Override

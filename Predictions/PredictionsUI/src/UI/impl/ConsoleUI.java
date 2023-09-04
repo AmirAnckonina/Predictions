@@ -1,5 +1,6 @@
 package UI.impl;
 
+
 import UI.api.UserInterface;
 import UI.utils.enums.eMainMenuChoices;
 import UI.utils.enums.ePresentShowOptions;
@@ -7,9 +8,9 @@ import dto.*;
 import response.SimulatorResponse;
 import simulator.execution.instance.entity.impl.EntitiesResult;
 import simulator.result.api.SimulationResult;
-import simulator.manager.api.SimulatorManager;
-import simulator.result.manager.api.SimulatorResultManager;
-import simulator.manager.impl.SimulatorManagerImpl;
+import simulator.mainManager.api.SimulatorManager;
+import simulator.result.manager.api.ResultManager;
+import simulator.mainManager.impl.SimulatorManagerImpl;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -17,7 +18,7 @@ import java.util.*;
 public class ConsoleUI implements UserInterface {
 
     private SimulatorManager simulatorManager;
-    private SimulatorResultManager simulatorResultManager;
+    private ResultManager simulatorResultManager;
     private boolean endSessionFlag = false;
     private Integer simulationIndex = 0;
 
@@ -46,8 +47,8 @@ public class ConsoleUI implements UserInterface {
     public void loadSimulationSession() {
         while (true) {
             printLoadingSimulationMenu();
-            String simulationFilePath = handleLoadingSimulationUserChoice();
-            //String simulationFilePath = "PredictionsEngine/src/resources/ex1-cigarets.xml";
+            //String simulationFilePath = handleLoadingSimulationUserChoice();
+            String simulationFilePath = "PredictionsEngine/src/resources/master-ex2.xml";
             //String simulationFilePath = "PredictionsEngine/src/resources/ex1-error-6.xml";
             SimulatorResponse response = simulatorManager.buildSimulationWorld(simulationFilePath);
             System.out.println(response.getMessage());
@@ -433,8 +434,6 @@ public class ConsoleUI implements UserInterface {
                 System.out.println("Invalid input. Please enter a valid index.");
                 scanner.nextLine(); // Consume the invalid input
             }
-
-
         }
 
         return propertiesUserUpdatedList;
@@ -471,14 +470,14 @@ public class ConsoleUI implements UserInterface {
         setPropertyDisplay(propertyName, propertyType, propertyRangeString);
         String value = scanner.nextLine();
         SimulatorResponse<SetPropertySimulatorResponseDto> resResponse =
-                this.simulatorManager.setSelectedEnvironmentVariablesValue(
+                this.simulatorManager.setSelectedEnvironmentPropertiesValue(
                         propertyName, propertyType, value);
 
         while (!resResponse.isSuccess()){
             System.out.println("Invalid value!");
             setPropertyDisplay(propertyName, propertyType, propertyRangeString);
             value = scanner.nextLine();
-            resResponse = this.simulatorManager.setSelectedEnvironmentVariablesValue(propertyName, property.getPropertyType(), value);
+            resResponse = this.simulatorManager.setSelectedEnvironmentPropertiesValue(propertyName, property.getPropertyType(), value);
         }
 
     }

@@ -47,7 +47,7 @@
 			<PRD-actions>
 				<PRD-action entity="Smoker" type="condition">
 					<PRD-condition singularity="multiple" logical="and">
-						<PRD-condition singularity="single" entity="Smoker"  property="cigarets-per-month" operator="bt" value="environment(cigarets-critical)"/>
+						<PRD-condition singularity="single" entity="Smoker"  property="cigarets-per-month" operator="bt" value="environmentDefinition(cigarets-critical)"/>
 						<PRD-condition singularity="single" entity="Smoker" property="age" operator="bt" value="40"/>
 					</PRD-condition>
 					<PRD-then>
@@ -61,10 +61,10 @@
 				<PRD-action entity="Smoker" type="condition">
 					<PRD-condition singularity="single" entity="Smoker" property="cigarets-per-month" operator="=" value="0"/>
 					<PRD-then>
-						<PRD-action entity="Smoker" type="increase" property="cigarets-per-month" by="environment(cigarets-increase-non-smoker)"></PRD-action>
+						<PRD-action entity="Smoker" type="increase" property="cigarets-per-month" by="environmentDefinition(cigarets-increase-non-smoker)"></PRD-action>
 					</PRD-then>
 					<PRD-else>
-						<PRD-action entity="Smoker" type="increase" property="cigarets-per-month" by="environment(cigarets-increase-already-smoker)"></PRD-action>
+						<PRD-action entity="Smoker" type="increase" property="cigarets-per-month" by="environmentDefinition(cigarets-increase-already-smoker)"></PRD-action>
 					</PRD-else>
 				</PRD-action>
 			</PRD-actions>
