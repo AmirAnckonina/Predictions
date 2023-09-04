@@ -2,12 +2,11 @@ package simulator.builder.impl.xml;
 
 import resources.jaxb.schema.generated.PRDEnvProperty;
 import resources.jaxb.schema.generated.PRDEnvironment;
-import resources.jaxb.schema.generated.PRDEnvironment;
 import simulator.builder.api.interfaces.EnvironmentBuilder;
 import simulator.builder.utils.exception.WorldBuilderException;
 import simulator.builder.api.abstracts.AbstractComponentBuilder;
 import simulator.builder.validator.api.WorldBuilderContextValidator;
-import simulator.definition.environment.Environment;
+import simulator.definition.environment.EnvironmentDefinition;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 
 import java.util.HashMap;
@@ -22,10 +21,10 @@ public class XmlEnvironmentBuilder extends AbstractComponentBuilder implements E
     }
 
     @Override
-    public Environment buildEnvironment() {
+    public EnvironmentDefinition buildEnvironment() {
         // Need to ensure each property added is a new one and doesn't exist.
         Map<String, AbstractPropertyDefinition> envProperties = buildEnvironmentProperties();
-        return new Environment(envProperties);
+        return new EnvironmentDefinition(envProperties);
     }
 
     @Override

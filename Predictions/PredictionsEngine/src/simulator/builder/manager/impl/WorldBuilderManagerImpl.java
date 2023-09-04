@@ -5,7 +5,7 @@ import dto.EnvironmentPropertiesDto;
 import dto.SimulationDetailsDto;
 import response.SimulatorResponse;
 import simulator.builder.api.interfaces.WorldBuilder;
-import simulator.builder.manager.api.SimulationBuilderManager;
+import simulator.builder.manager.api.WorldBuilderManager;
 import simulator.builder.utils.factory.WorldBuilderFactory;
 import simulator.builder.utils.file.WorldBuilderFileUtils;
 import simulator.builder.utils.file.enums.eDataFileType;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class SimulationBuilderManagerImpl implements SimulationBuilderManager {
+public class WorldBuilderManagerImpl implements WorldBuilderManager {
     private WorldDefinition worldDefinition;
     private WorldBuilder worldBuilder;
 

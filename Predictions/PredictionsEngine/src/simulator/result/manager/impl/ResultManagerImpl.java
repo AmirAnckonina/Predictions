@@ -3,15 +3,13 @@ package simulator.result.manager.impl;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.result.api.SimulationResult;
-import simulator.result.manager.api.SimulatorResultManager;
+import simulator.result.manager.api.ResultManager;
 import simulator.execution.instance.entity.impl.EntitiesResult;
-import simulator.result.impl.SimulationInitialInfo;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class SimulatorResultManagerImpl implements SimulatorResultManager {
+public class ResultManagerImpl implements ResultManager {
 
 
 
@@ -20,7 +18,7 @@ public class SimulatorResultManagerImpl implements SimulatorResultManager {
     private Map<String,SimulationResult> simulationResults;
 
 
-    public SimulatorResultManagerImpl() {
+    public ResultManagerImpl() {
         simulationResults = new HashMap<>();
         mapSimulationIndexToSimulationId = new HashMap<>();
     }

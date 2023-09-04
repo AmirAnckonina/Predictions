@@ -41,11 +41,13 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
 
         if (actionContextIsValid) {
 
-            ActionSecondaryEntityDefinition actionSecondaryEntityDefinition =
-                    new XmlActionSecondaryEntityBuilder(
-                            generatedAction.getPRDSecondaryEntity(),
-                            contextValidator
-                            ).buildActionSecondaryEntity();
+            if (generatedAction.getPRDSecondaryEntity() != null) {
+                ActionSecondaryEntityDefinition actionSecondaryEntityDefinition =
+                        new XmlActionSecondaryEntityBuilder(
+                                generatedAction.getPRDSecondaryEntity(),
+                                contextValidator
+                                ).buildActionSecondaryEntity();
+            }
 
             eActionType actionType = eActionType.valueOf(generatedAction.getType().toUpperCase());
 
@@ -73,7 +75,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
                     return buildReplaceAction();
 
                 case PROXIMITY:
-                    return  buildProximityAction();
+                    return buildProximityAction();
 
                     default:
                     throw new WorldBuilderException("Unsupported action type.");

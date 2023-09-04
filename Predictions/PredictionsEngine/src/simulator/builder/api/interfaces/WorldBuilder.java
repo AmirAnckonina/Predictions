@@ -1,7 +1,7 @@
 package simulator.builder.api.interfaces;
 
 import simulator.definition.entity.EntityDefinition;
-import simulator.definition.environment.Environment;
+import simulator.definition.environment.EnvironmentDefinition;
 import simulator.definition.rule.Rule;
 import simulator.definition.spaceGrid.SpaceGridDefinition;
 import simulator.definition.termination.Termination;
@@ -15,7 +15,7 @@ public interface WorldBuilder {
     WorldDefinition buildWorld();
     ThreadCount buildThreadCount();
     SpaceGridDefinition buildSpaceGrid();
-    Environment buildEnvironment();
+    EnvironmentDefinition buildEnvironment();
     Map<String, EntityDefinition> buildEntities();
     List<Rule> buildRules();
     Termination buildTermination();

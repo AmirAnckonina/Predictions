@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PRD-worldDefinition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="predictions-v2.xsd">
+<PRD-world xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="predictions-v2.xsd">
 	<PRD-thread-count>1</PRD-thread-count>
 	<PRD-environment>
 		<PRD-env-property type="float">
-			<PRD-name>infection-proximity</PRD-name>			
+			<PRD-name>infection-proximity</PRD-name>
+			<PRD-range from="1" to="5"/>			
 		</PRD-env-property>
 	</PRD-environment>
 	<PRD-grid rows="50" columns="30"/>
@@ -67,4 +68,4 @@
 	<PRD-termination>
 		<PRD-by-user/>
 	</PRD-termination>
-</PRD-worldDefinition>
+</PRD-world>

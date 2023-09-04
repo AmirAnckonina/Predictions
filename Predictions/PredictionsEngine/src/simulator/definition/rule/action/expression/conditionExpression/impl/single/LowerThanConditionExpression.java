@@ -21,24 +21,29 @@ public class LowerThanConditionExpression extends AbstractSingleConditionExpress
 
     @Override
     public boolean test(ExecutionContext context) {
-        ePropertyType type = context.getPrimaryEntityInstance()
-                .getPropertyByName(this.propertyName).getPropertyDefinition().getType();
+        ePropertyType propType = this.conditionProperty.getExpressionReturnedValueType();
+        ePropertyType compType = this.comparedValue.getExpressionReturnedValueType();
+
+        if (compType != propType) {
+            throw new SimulatorRunnerException("property type is different from compared value type," +
+                    "can't complete lower than test");
+        }
 
         Boolean returnValue = false;
-        switch (type) {
+
+        switch (propType) {
             case DECIMAL:
-                returnValue = (Integer)context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).getValue()
+                returnValue = (Integer) this.conditionProperty.getValue(context)
                         < (Integer) this.comparedValue.getValue(context);
                 break;
             case BOOLEAN:
             case STRING:
                 throw new SimulatorRunnerException("Different arguments types - Condition test is not available");
             case FLOAT:
-                returnValue = (Float)context.getPrimaryEntityInstance().getPropertyByName(this.propertyName).getValue()
+                returnValue = (Float) this.conditionProperty.getValue(context)
                         < (Float) this.comparedValue.getValue(context);
                 break;
         }
-
         return returnValue;
     }
 }

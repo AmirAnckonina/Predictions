@@ -16,4 +16,8 @@ public class SpaceGridDefinition {
     public Integer getColumns() {
         return columns;
     }
+
+    public Integer getTotalSpace() {
+        return (rows * columns);
+    }
 }

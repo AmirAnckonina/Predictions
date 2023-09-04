@@ -2,23 +2,23 @@ package simulator.result.newManager.impl;
 
 import simulator.definition.world.WorldDefinition;
 import simulator.execution.instance.world.api.WorldInstance;
-import simulator.manager.utils.SimulatorUtils;
+import simulator.mainManager.utils.SimulatorUtils;
 import simulator.result.api.SimulationResult;
 import simulator.result.impl.SimulationInitialInfo;
 import simulator.result.impl.SimulationResultImpl;
-import simulator.result.manager.api.SimulatorResultManager;
-import simulator.result.manager.impl.SimulatorResultManagerImpl;
-import simulator.result.newManager.api.SimulationInformationManager;
+import simulator.result.manager.api.ResultManager;
+import simulator.result.manager.impl.ResultManagerImpl;
+import simulator.result.newManager.api.InformationManager;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class SimulationInformationManagerImpl implements SimulationInformationManager {
-    private SimulatorResultManager simulatorResultManager;
+public class InformationManagerImpl implements InformationManager {
+    private ResultManager simulatorResultManager;
 
-    public SimulationInformationManagerImpl() {
-        this.simulatorResultManager = new SimulatorResultManagerImpl();
+    public InformationManagerImpl() {
+        this.simulatorResultManager = new ResultManagerImpl();
     }
 
     @Override

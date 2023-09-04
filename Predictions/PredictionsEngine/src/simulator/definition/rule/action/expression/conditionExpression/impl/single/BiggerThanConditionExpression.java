@@ -21,11 +21,18 @@ public class BiggerThanConditionExpression extends AbstractSingleConditionExpres
 
     @Override
     public boolean test(ExecutionContext context) {
-        ePropertyType type = context.getPrimaryEntityInstance()
-                .getPropertyByName(this.propertyName).getPropertyDefinition().getType();
+
+        ePropertyType propType = this.conditionProperty.getExpressionReturnedValueType();
+        ePropertyType compType = this.comparedValue.getExpressionReturnedValueType();
+
+        if (compType != propType) {
+            throw new SimulatorRunnerException("property type is different from compared value type," +
+                    "can't complete bigger than test");
+        }
 
         Boolean returnValue = false;
-        switch (type) {
+
+        switch (propType) {
             case DECIMAL:
                 returnValue = (Integer) this.conditionProperty.getValue(context)
                         > (Integer) this.comparedValue.getValue(context);

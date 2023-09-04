@@ -1,4 +1,4 @@
-package simulator.manager.utils;
+package simulator.mainManager.utils;
 
 import simulator.builder.utils.file.enums.eDataFileType;
 

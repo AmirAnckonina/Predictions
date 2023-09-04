@@ -9,10 +9,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class Environment {
+public class EnvironmentDefinition {
     private final Map<String, AbstractPropertyDefinition> environmentProperties;
 
-    public Environment(Map<String, AbstractPropertyDefinition> environmentProperties) {
+    public EnvironmentDefinition(Map<String, AbstractPropertyDefinition> environmentProperties) {
         this.environmentProperties = environmentProperties;
     }
 

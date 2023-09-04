@@ -1,7 +1,7 @@
 package simulator.definition.world;
 
 import simulator.definition.entity.EntityDefinition;
-import simulator.definition.environment.Environment;
+import simulator.definition.environment.EnvironmentDefinition;
 import simulator.definition.rule.Rule;
 import simulator.definition.spaceGrid.SpaceGridDefinition;
 import simulator.definition.termination.Termination;
@@ -11,31 +11,31 @@ import java.util.*;
 
 public class WorldDefinition {
     private ThreadCount threadCount;
-    private SpaceGridDefinition spaceGrid;
-    private Environment environment;
+    private SpaceGridDefinition spaceGridDefinition;
+    private EnvironmentDefinition environmentDefinition;
     private Map<String, EntityDefinition> entities;
     private List<Rule> rules;
     private Termination termination;
 
     public WorldDefinition(
             ThreadCount threadCount,
-            SpaceGridDefinition spaceGrid,
-            Environment environment,
+            SpaceGridDefinition spaceGridDefinition,
+            EnvironmentDefinition environmentDefinition,
             Map<String, EntityDefinition> entities,
             List<Rule> rules,
             Termination termination) {
 
         this.threadCount = threadCount;
-        this.spaceGrid = spaceGrid;
-        this.environment = environment;
+        this.spaceGridDefinition = spaceGridDefinition;
+        this.environmentDefinition = environmentDefinition;
         this.entities = entities;
         this.rules = rules;
         this.termination = termination;
     }
 
-    public Environment getEnvironment() {
+    public EnvironmentDefinition getEnvironment() {
 
-        return environment;
+        return environmentDefinition;
     }
 
     public EntityDefinition getEntityDefinitionByName(String name) {
@@ -55,4 +55,11 @@ public class WorldDefinition {
         return termination;
     }
 
+    public ThreadCount getThreadCount() {
+        return threadCount;
+    }
+
+    public SpaceGridDefinition getSpaceGridDefinition() {
+        return spaceGridDefinition;
+    }
 }
