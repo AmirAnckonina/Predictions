@@ -84,7 +84,7 @@ public class XmlConditionExpressionBuilder extends AbstractComponentBuilder impl
                         .buildExpression(
                                 rawConditionProperty,
                                 new ArgExpressionTypeDemands(
-                                    eMandatoryTypeDemanding.NotMentioned
+                                    eMandatoryTypeDemanding.NotMentioned // Consider to set String as the demanding.
                                 )
 
                         );

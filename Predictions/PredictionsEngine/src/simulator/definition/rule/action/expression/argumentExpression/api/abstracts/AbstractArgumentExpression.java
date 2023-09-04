@@ -11,6 +11,7 @@ public abstract class AbstractArgumentExpression implements ArgumentExpression {
 
     @Override
     public ePropertyType getExpressionReturnedValueType() {
+
         return this.expressionReturnedValueType;
     }
 }

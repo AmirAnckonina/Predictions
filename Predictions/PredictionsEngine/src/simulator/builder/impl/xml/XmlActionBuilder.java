@@ -11,6 +11,7 @@ import simulator.builder.validator.api.WorldBuilderContextValidator;
 import simulator.definition.property.utils.enums.ePropertyType;
 import simulator.definition.rule.action.api.abstracts.AbstractAction;
 import simulator.definition.rule.action.api.abstracts.AbstractCalculationAction;
+import simulator.definition.rule.action.api.interfaces.Action;
 import simulator.definition.rule.action.expression.conditionExpression.api.interfaces.ConditionExpression;
 import simulator.definition.rule.action.expression.argumentExpression.api.interfaces.ArgumentExpression;
 import simulator.definition.rule.action.impl.*;
@@ -273,7 +274,12 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
                                 new ArgExpressionTypeDemands(eMandatoryTypeDemanding.NUMERIC)
                         );
 
-        return new ProximityAction(eActionType.PROXIMITY, sourceEntity, targetEntity, envDepth);
+        List<AbstractAction> actionsUnderProximity =
+                new XmlActionListBuilder(
+                        generatedAction.getPRDActions().getPRDAction(), contextValidator)
+                        .buildActions();
+
+        return new ProximityAction(eActionType.PROXIMITY, sourceEntity, targetEntity, envDepth, actionsUnderProximity);
     }
 
     @Override

@@ -3,7 +3,7 @@ package simulator.definition.world;
 import simulator.definition.entity.EntityDefinition;
 import simulator.definition.environment.Environment;
 import simulator.definition.rule.Rule;
-import simulator.definition.spaceGrid.SpaceGrid;
+import simulator.definition.spaceGrid.SpaceGridDefinition;
 import simulator.definition.termination.Termination;
 import simulator.definition.threadCount.ThreadCount;
 
@@ -11,7 +11,7 @@ import java.util.*;
 
 public class WorldDefinition {
     private ThreadCount threadCount;
-    private SpaceGrid spaceGrid;
+    private SpaceGridDefinition spaceGrid;
     private Environment environment;
     private Map<String, EntityDefinition> entities;
     private List<Rule> rules;
@@ -19,7 +19,7 @@ public class WorldDefinition {
 
     public WorldDefinition(
             ThreadCount threadCount,
-            SpaceGrid spaceGrid,
+            SpaceGridDefinition spaceGrid,
             Environment environment,
             Map<String, EntityDefinition> entities,
             List<Rule> rules,

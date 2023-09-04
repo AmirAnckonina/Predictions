@@ -11,7 +11,6 @@ public interface ActionSecondaryEntityDefinition {
     String getSecondaryEntityName();
     Optional<Integer> getSelectionCount();
     eSecondaryEntitySelectionType getSecondaryEntitySelectionType();
-
     ConditionExpression getConditionExpression();
 
 }

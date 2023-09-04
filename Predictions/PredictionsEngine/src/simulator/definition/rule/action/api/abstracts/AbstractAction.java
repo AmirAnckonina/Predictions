@@ -15,7 +15,11 @@ public abstract class AbstractAction implements Action {
         this(type, primaryEntityName, null);
     }
 
-    public AbstractAction(eActionType type, String primaryEntityName, ActionSecondaryEntityDefinition actionSecondaryEntityDefinition) {
+    public AbstractAction(
+            eActionType type,
+            String primaryEntityName,
+            ActionSecondaryEntityDefinition actionSecondaryEntityDefinition) {
+
         this.type = type;
         this.primaryEntityName = primaryEntityName;
         this.actionSecondaryEntityDefinition = actionSecondaryEntityDefinition;

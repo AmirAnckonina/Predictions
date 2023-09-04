@@ -7,17 +7,20 @@ import simulator.definition.rule.action.utils.enums.eActionType;
 import simulator.execution.context.api.ExecutionContext;
 import simulator.runner.utils.exceptions.SimulatorRunnerException;
 
+import java.util.List;
+
 public class ProximityAction extends AbstractAction {
 
     private String sourceEntityName;
     private String targetEntityName;
     private ArgumentExpression envDepth;
-
+    List<AbstractAction> actionsUnderProximity;
     public ProximityAction(
             eActionType type,
             String sourceEntityName,
             String targetEntityName,
-            ArgumentExpression envDepth
+            ArgumentExpression envDepth,
+            List<AbstractAction> actionsUnderProximity
             ) {
         /**
          * Pay attention.
@@ -27,6 +30,7 @@ public class ProximityAction extends AbstractAction {
         this.sourceEntityName = sourceEntityName;
         this.targetEntityName = targetEntityName;
         this.envDepth = envDepth;
+        this.actionsUnderProximity = actionsUnderProximity;
     }
 
     @Override

@@ -3,7 +3,7 @@ package simulator.builder.api.interfaces;
 import simulator.definition.entity.EntityDefinition;
 import simulator.definition.environment.Environment;
 import simulator.definition.rule.Rule;
-import simulator.definition.spaceGrid.SpaceGrid;
+import simulator.definition.spaceGrid.SpaceGridDefinition;
 import simulator.definition.termination.Termination;
 import simulator.definition.threadCount.ThreadCount;
 import simulator.definition.world.WorldDefinition;
@@ -14,7 +14,7 @@ import java.util.Map;
 public interface WorldBuilder {
     WorldDefinition buildWorld();
     ThreadCount buildThreadCount();
-    SpaceGrid buildSpaceGrid();
+    SpaceGridDefinition buildSpaceGrid();
     Environment buildEnvironment();
     Map<String, EntityDefinition> buildEntities();
     List<Rule> buildRules();
