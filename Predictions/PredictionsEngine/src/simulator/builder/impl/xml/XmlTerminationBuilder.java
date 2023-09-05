@@ -22,10 +22,11 @@ public class XmlTerminationBuilder implements TerminationBuilder {
         Termination termination;
         Integer ticksTermination = null;
         Integer secondsTermination = null;
-        Boolean byUser = null;
+        Boolean byUser;
 
         Object generatedByUser = generatedTermination.getPRDByUser();
         if (generatedByUser != null) {
+            byUser = true;
             termination = new Termination(ticksTermination, secondsTermination, byUser);
         }
         else {
@@ -59,7 +60,7 @@ public class XmlTerminationBuilder implements TerminationBuilder {
             }
         }
 
-        return new Termination(ticksTermination, secondsTermination, null);
+        return new Termination(ticksTermination, secondsTermination, false);
     }
 
 }

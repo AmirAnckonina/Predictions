@@ -1,17 +1,16 @@
 package simulator.definition.rule.action.expression.argumentExpression.impl.method;
 
-import simulator.definition.property.utils.enums.ePropertyType;
+import simulator.definition.property.utils.enums.PropertyType;
 import simulator.definition.rule.action.expression.argumentExpression.api.abstracts.AbstractEntityPropertyMethodArgumentExpression;
-import simulator.definition.rule.action.expression.argumentExpression.api.abstracts.AbstractMethodArgumentExpression;
-import simulator.definition.rule.action.expression.argumentExpression.utils.enums.eExpressionMethod;
+import simulator.definition.rule.action.expression.argumentExpression.utils.enums.ExpressionMethodType;
 import simulator.execution.context.api.ExecutionContext;
 import simulator.runner.utils.exceptions.SimulatorRunnerException;
 
 public class TicksMethodArgumentExpression extends AbstractEntityPropertyMethodArgumentExpression {
 
     public TicksMethodArgumentExpression(
-            eExpressionMethod method,
-            ePropertyType expressionReturnedValueType,
+            ExpressionMethodType method,
+            PropertyType expressionReturnedValueType,
             String entityName,
             String propertyName) {
 

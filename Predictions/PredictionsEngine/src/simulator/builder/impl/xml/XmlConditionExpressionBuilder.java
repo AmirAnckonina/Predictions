@@ -5,7 +5,6 @@ import simulator.builder.api.abstracts.AbstractComponentBuilder;
 import simulator.builder.api.interfaces.ConditionExpressionBuilder;
 import simulator.builder.impl.baseImpl.BaseArgumentExpressionBuilder;
 import simulator.builder.utils.ArgExpressionTypeDemands;
-import simulator.builder.utils.eMandatoryTypeDemanding;
 import simulator.builder.utils.exception.WorldBuilderException;
 import simulator.builder.validator.api.WorldBuilderContextValidator;
 import simulator.builder.utils.file.WorldBuilderUtils;
@@ -19,9 +18,9 @@ import simulator.definition.rule.action.expression.conditionExpression.impl.sing
 import simulator.definition.rule.action.expression.conditionExpression.impl.single.InequalityConditionExpression;
 import simulator.definition.rule.action.expression.conditionExpression.impl.single.LowerThanConditionExpression;
 import simulator.definition.rule.action.expression.argumentExpression.api.interfaces.ArgumentExpression;
-import simulator.definition.rule.action.utils.enums.eConditionCompartorType;
-import simulator.definition.rule.action.utils.enums.eConditionSingularity;
-import simulator.definition.rule.action.utils.enums.eMultipleConditionLogicalOperator;
+import simulator.definition.rule.action.utils.enums.ConditionCompartorType;
+import simulator.definition.rule.action.utils.enums.ConditionSingularity;
+import simulator.definition.rule.action.utils.enums.MultipleConditionLogicalOperator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,20 +38,15 @@ public class XmlConditionExpressionBuilder extends AbstractComponentBuilder impl
     public ConditionExpression buildConditionExpression() {
 
         ConditionExpression condExpression;
-        boolean conditionContextValid = conditionContextValidationProcedure();
 
-        if (!conditionContextValid) {
-            throw new WorldBuilderException("Condition context is invalid.");
-        }
+        ConditionSingularity conditionSingularity =
+                ConditionSingularity.valueOf(generatedCondition.getSingularity().toUpperCase());
 
-        eConditionSingularity conditionSingularity =
-                eConditionSingularity.valueOf(generatedCondition.getSingularity().toUpperCase());
-
-        if (conditionSingularity == eConditionSingularity.SINGLE) {
+        if (conditionSingularity == ConditionSingularity.SINGLE) {
 
             condExpression = buildSingleCondition();
 
-        } else if (conditionSingularity == eConditionSingularity.MULTIPLE) {
+        } else if (conditionSingularity == ConditionSingularity.MULTIPLE) {
 
             condExpression = buildMultipleCondition();
 
@@ -63,10 +57,10 @@ public class XmlConditionExpressionBuilder extends AbstractComponentBuilder impl
         return condExpression;
     }
 
-    private boolean conditionContextValidationProcedure() {
+    private boolean conditionEntityContextValidationProcedure() {
         boolean conditionContextValid =
-                contextValidator.validateActionContextProcedure(
-                        generatedCondition.getEntity(), generatedCondition.getProperty()
+                contextValidator.validateActionEntityContext(
+                        generatedCondition.getEntity()
                 );
 
         return conditionContextValid;
@@ -74,6 +68,12 @@ public class XmlConditionExpressionBuilder extends AbstractComponentBuilder impl
 
     @Override
     public AbstractSingleConditionExpression buildSingleCondition() {
+
+        boolean conditionContextValid = conditionEntityContextValidationProcedure();
+
+        if (!conditionContextValid) {
+            throw new WorldBuilderException("Condition context is invalid.");
+        }
 
         String entityName = generatedCondition.getEntity();
         String rawConditionProperty = generatedCondition.getProperty();
@@ -83,9 +83,7 @@ public class XmlConditionExpressionBuilder extends AbstractComponentBuilder impl
                 new BaseArgumentExpressionBuilder(contextValidator)
                         .buildExpression(
                                 rawConditionProperty,
-                                new ArgExpressionTypeDemands(
-                                    eMandatoryTypeDemanding.NotMentioned // Consider to set String as the demanding.
-                                )
+                                new ArgExpressionTypeDemands()
 
                         );
 
@@ -99,7 +97,7 @@ public class XmlConditionExpressionBuilder extends AbstractComponentBuilder impl
 
                         );
 
-        eConditionCompartorType comparatorType =
+        ConditionCompartorType comparatorType =
                 WorldBuilderUtils
                         .convertOperatorSignToComparatorType(generatedCondition.getOperator().toUpperCase());
 
@@ -128,8 +126,8 @@ public class XmlConditionExpressionBuilder extends AbstractComponentBuilder impl
              );
         }
 
-        eMultipleConditionLogicalOperator logicalOperator =
-                eMultipleConditionLogicalOperator.valueOf(generatedCondition.getLogical().toUpperCase());
+        MultipleConditionLogicalOperator logicalOperator =
+                MultipleConditionLogicalOperator.valueOf(generatedCondition.getLogical().toUpperCase());
         switch (logicalOperator) {
             case AND:
                 return new AndMultipleConditionExpression(conditionList);

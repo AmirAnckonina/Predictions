@@ -1,28 +1,29 @@
 package simulator.builder.utils;
 
-import simulator.definition.property.utils.enums.ePropertyType;
+import simulator.definition.property.utils.enums.PropertyType;
 
 public class ArgExpressionTypeDemands {
-    private ePropertyType propertyType;
-    private eMandatoryTypeDemanding mandatoryDemand;
+    private PropertyType propertyType;
+    private MandatoryTypeDemanding mandatoryDemand;
 
-    public ArgExpressionTypeDemands(ePropertyType propertyType) {
-        this(propertyType, eMandatoryTypeDemanding.NotMentioned);
+    public ArgExpressionTypeDemands(PropertyType propertyType) {
+        this(propertyType, MandatoryTypeDemanding.Mentioned);
     }
 
-    public ArgExpressionTypeDemands(eMandatoryTypeDemanding mandatoryDemand) {
-        this(null, mandatoryDemand);
+    public ArgExpressionTypeDemands() {
+        this(null, MandatoryTypeDemanding.NotMentioned);
     }
 
-    public ArgExpressionTypeDemands(ePropertyType propertyType, eMandatoryTypeDemanding mandatoryDemand) {
+    public ArgExpressionTypeDemands(PropertyType propertyType, MandatoryTypeDemanding mandatoryDemand) {
         this.propertyType = propertyType;
         this.mandatoryDemand = mandatoryDemand;
-        if (mandatoryDemand == eMandatoryTypeDemanding.NUMERIC) {
-            this.propertyType = ePropertyType.FLOAT;
-        }
     }
 
-    public ePropertyType getPropertyType() {
+    public PropertyType getPropertyType() {
         return this.propertyType;
+    }
+
+    public MandatoryTypeDemanding getMandatoryDemand() {
+        return mandatoryDemand;
     }
 }

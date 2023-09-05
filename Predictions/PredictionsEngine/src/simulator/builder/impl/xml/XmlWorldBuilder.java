@@ -7,7 +7,7 @@ import simulator.builder.utils.exception.WorldBuilderException;
 import simulator.builder.utils.file.XmlBuilderUtils;
 import simulator.builder.validator.api.WorldBuilderContextValidator;
 import simulator.builder.utils.file.WorldBuilderFileUtils;
-import simulator.builder.utils.file.enums.eDataFileType;
+import simulator.builder.utils.file.enums.DataFileType;
 import simulator.definition.entity.EntityDefinition;
 import simulator.definition.environment.EnvironmentDefinition;
 import simulator.definition.rule.Rule;
@@ -36,7 +36,7 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
         // The file should be already set in this stage.
             boolean isExist = contextValidator.validateFileExist(filePath);
             boolean isXmlFile = contextValidator.validateFileType(
-                     eDataFileType.XML, WorldBuilderFileUtils.getDataFileTypeByFileExtension(filePath));
+                     DataFileType.XML, WorldBuilderFileUtils.getDataFileTypeByFileExtension(filePath));
             if (isExist && isXmlFile) {
                 try {
                     File dataFile = WorldBuilderFileUtils.getFileByPath(filePath);

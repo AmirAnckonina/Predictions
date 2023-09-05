@@ -1,6 +1,6 @@
 package simulator.mainManager.utils;
 
-import simulator.builder.utils.file.enums.eDataFileType;
+import simulator.builder.utils.file.enums.DataFileType;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -12,12 +12,12 @@ public final class SimulatorUtils {
         return new File(filePath);
     }
 
-    public static eDataFileType getDataSrcTypeByFileExtention(String filePath) {
+    public static DataFileType getDataSrcTypeByFileExtention(String filePath) {
 
-        eDataFileType dataSrcType;
+        DataFileType dataSrcType;
             Path path = Paths.get(filePath);
             String fileExtenstion = path.getFileName().toString();
-            return eDataFileType.valueOf(fileExtenstion);
+            return DataFileType.valueOf(fileExtenstion);
     }
 
     public static String getGUID(){

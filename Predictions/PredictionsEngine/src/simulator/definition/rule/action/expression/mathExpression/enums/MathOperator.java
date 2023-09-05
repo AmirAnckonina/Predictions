@@ -1,6 +1,6 @@
 package simulator.definition.rule.action.expression.mathExpression.enums;
 
-public enum eMathOperator {
+public enum MathOperator {
     PLUS,
     MINUS,
     MULTIPLY,

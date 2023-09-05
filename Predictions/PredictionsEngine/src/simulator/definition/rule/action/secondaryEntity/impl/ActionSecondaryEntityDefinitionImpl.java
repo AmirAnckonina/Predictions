@@ -1,9 +1,8 @@
 package simulator.definition.rule.action.secondaryEntity.impl;
 
 import simulator.definition.rule.action.expression.conditionExpression.api.interfaces.ConditionExpression;
-import simulator.definition.rule.action.impl.ConditionAction;
 import simulator.definition.rule.action.secondaryEntity.api.ActionSecondaryEntityDefinition;
-import simulator.definition.rule.action.utils.enums.eSecondaryEntitySelectionType;
+import simulator.definition.rule.action.utils.enums.SecondaryEntitySelectionType;
 
 import java.util.Optional;
 
@@ -11,13 +10,13 @@ public class ActionSecondaryEntityDefinitionImpl implements ActionSecondaryEntit
 
     private String secondaryEntityName;
     private ConditionExpression conditionExpression;
-    private eSecondaryEntitySelectionType secondaryEntitySelectionType;
+    private SecondaryEntitySelectionType secondaryEntitySelectionType;
     private Integer selectionCount;
 
     public ActionSecondaryEntityDefinitionImpl(
             String secondaryEntityName,
             ConditionExpression conditionExpression,
-            eSecondaryEntitySelectionType secondaryEntitySelectionType,
+            SecondaryEntitySelectionType secondaryEntitySelectionType,
             Integer selectionCount) {
 
         this.secondaryEntityName = secondaryEntityName;
@@ -29,7 +28,7 @@ public class ActionSecondaryEntityDefinitionImpl implements ActionSecondaryEntit
     public ActionSecondaryEntityDefinitionImpl(
             String secondaryEntityName,
             ConditionExpression conditionExpression,
-            eSecondaryEntitySelectionType secondaryEntitySelectionType) {
+            SecondaryEntitySelectionType secondaryEntitySelectionType) {
 
         this(secondaryEntityName, conditionExpression, secondaryEntitySelectionType, null);
     }
@@ -45,7 +44,7 @@ public class ActionSecondaryEntityDefinitionImpl implements ActionSecondaryEntit
     }
 
     @Override
-    public eSecondaryEntitySelectionType getSecondaryEntitySelectionType() {
+    public SecondaryEntitySelectionType getSecondaryEntitySelectionType() {
         return this.secondaryEntitySelectionType;
     }
 

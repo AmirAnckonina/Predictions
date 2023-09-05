@@ -11,7 +11,6 @@ public class Main {
         Application UI = new GuiUI();
         UI.launch();
         userInterface.runSimulatorUI();
-
     }
 
 }

@@ -1,16 +1,16 @@
 package simulator.definition.rule.action.expression.argumentExpression.api.abstracts;
 
-import simulator.definition.property.utils.enums.ePropertyType;
+import simulator.definition.property.utils.enums.PropertyType;
 import simulator.definition.rule.action.expression.argumentExpression.api.interfaces.ArgumentExpression;
 
 public abstract class AbstractArgumentExpression implements ArgumentExpression {
-    protected ePropertyType expressionReturnedValueType;
-    public AbstractArgumentExpression(ePropertyType expressionReturnedValueType) {
+    protected PropertyType expressionReturnedValueType;
+    public AbstractArgumentExpression(PropertyType expressionReturnedValueType) {
         this.expressionReturnedValueType = expressionReturnedValueType;
     }
 
     @Override
-    public ePropertyType getExpressionReturnedValueType() {
+    public PropertyType getExpressionReturnedValueType() {
 
         return this.expressionReturnedValueType;
     }

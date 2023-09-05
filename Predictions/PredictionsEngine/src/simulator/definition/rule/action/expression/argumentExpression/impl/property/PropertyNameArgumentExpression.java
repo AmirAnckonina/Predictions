@@ -1,16 +1,15 @@
 package simulator.definition.rule.action.expression.argumentExpression.impl.property;
 
 
-import simulator.definition.property.utils.enums.ePropertyType;
+import simulator.definition.property.utils.enums.PropertyType;
 import simulator.definition.rule.action.expression.argumentExpression.api.abstracts.AbstractArgumentExpression;
-import simulator.definition.rule.action.expression.argumentExpression.api.interfaces.ArgumentExpression;
 import simulator.execution.context.api.ExecutionContext;
 
 public class PropertyNameArgumentExpression extends AbstractArgumentExpression {
 
     private String propertyName;
 
-    public PropertyNameArgumentExpression(String propertyName, ePropertyType expressionReturnedValueType) {
+    public PropertyNameArgumentExpression(String propertyName, PropertyType expressionReturnedValueType) {
         super(expressionReturnedValueType);
         this.propertyName = propertyName;
     }

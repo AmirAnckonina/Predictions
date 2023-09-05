@@ -1,6 +1,6 @@
 package simulator.definition.property.utils.enums;
 
-public enum ePropertyType {
+public enum PropertyType {
     DECIMAL{
         public Integer convert(Object value) {
             if (!(value instanceof Integer)) {

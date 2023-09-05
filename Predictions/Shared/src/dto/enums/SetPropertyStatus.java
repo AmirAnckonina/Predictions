@@ -1,6 +1,6 @@
 package dto.enums;
 
-public enum eSetPropertyStatus {
+public enum SetPropertyStatus {
     SUCCEEDED,
     FAILED, // Do we need this?
     VALUE_TYPE_EXCEPTION,

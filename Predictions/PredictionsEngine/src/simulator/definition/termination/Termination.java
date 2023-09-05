@@ -1,6 +1,6 @@
 package simulator.definition.termination;
 
-import simulator.runner.utils.exceptions.eTerminationReason;
+import simulator.runner.utils.exceptions.TerminationReason;
 
 import java.util.Optional;
 
@@ -8,7 +8,7 @@ public class Termination {
     private final Integer ticksTermination;
     private final Integer secondsTermination;
     private Boolean byUser;
-    private eTerminationReason reasonForTerminate;
+    private TerminationReason reasonForTerminate;
 
     public Termination(Integer ticksTermination, Integer secondsTermination, Boolean byUser) {
         this.ticksTermination =  ticksTermination;
@@ -46,11 +46,11 @@ public class Termination {
         }
 
         if (shouldTerminateBySeconds && !shouldTerminateByTicks){
-            reasonForTerminate = eTerminationReason.Time;
+            reasonForTerminate = TerminationReason.Time;
         } else if (shouldTerminateByTicks && !shouldTerminateBySeconds) {
-            reasonForTerminate = eTerminationReason.Ticks;
+            reasonForTerminate = TerminationReason.Ticks;
         } else {
-            reasonForTerminate = eTerminationReason.TicksAndTime;
+            reasonForTerminate = TerminationReason.TicksAndTime;
         }
 
         return shouldTerminateBySeconds || shouldTerminateByTicks;
@@ -64,7 +64,7 @@ public class Termination {
                 '}';
     }
 
-    public eTerminationReason reasonForTerminate(){
+    public TerminationReason reasonForTerminate(){
         return reasonForTerminate;
     }
 }

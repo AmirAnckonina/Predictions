@@ -2,8 +2,8 @@ package UI.impl;
 
 
 import UI.api.UserInterface;
-import UI.utils.enums.eMainMenuChoices;
-import UI.utils.enums.ePresentShowOptions;
+import UI.utils.enums.MainMenuChoices;
+import UI.utils.enums.PresentShowOptions;
 import dto.*;
 import response.SimulatorResponse;
 import simulator.execution.instance.entity.impl.EntitiesResult;
@@ -48,8 +48,10 @@ public class ConsoleUI implements UserInterface {
         while (true) {
             printLoadingSimulationMenu();
             //String simulationFilePath = handleLoadingSimulationUserChoice();
-            String simulationFilePath = "PredictionsEngine/src/resources/master-ex2.xml";
-            //String simulationFilePath = "PredictionsEngine/src/resources/ex1-error-6.xml";
+            //String simulationFilePath = "PredictionsEngine/src/resources/master-ex2.xml";
+            //String simulationFilePath = "PredictionsEngine/src/resources/ex2-virus.xml";
+            //String simulationFilePath = "PredictionsEngine/src/resources/ex2-error-1.xml";
+            String simulationFilePath = "PredictionsEngine/src/resources/ex2-error-3.xml";
             SimulatorResponse response = simulatorManager.buildSimulationWorld(simulationFilePath);
             System.out.println(response.getMessage());
             break;
@@ -112,11 +114,11 @@ public class ConsoleUI implements UserInterface {
     }
 
     private void printMenuOptions() {
-        System.out.println(((int) eMainMenuChoices.LoadSimulation.ordinal() + 1) + ". Load simulation");
-        System.out.println(((int) eMainMenuChoices.ShowLoadedSimulationWorldDetails.ordinal() + 1) + ". Show loaded simulation world details");
-        System.out.println(((int) eMainMenuChoices.RunSimulation.ordinal() + 1) + ". Run loaded simulation");
-        System.out.println(((int) eMainMenuChoices.GetHistoricalSimulationDetails.ordinal() + 1) + ". Get historical simulation results");
-        System.out.println(((int) eMainMenuChoices.Exit.ordinal() + 1) + ". Exit");
+        System.out.println(((int) MainMenuChoices.LoadSimulation.ordinal() + 1) + ". Load simulation");
+        System.out.println(((int) MainMenuChoices.ShowLoadedSimulationWorldDetails.ordinal() + 1) + ". Show loaded simulation world details");
+        System.out.println(((int) MainMenuChoices.RunSimulation.ordinal() + 1) + ". Run loaded simulation");
+        System.out.println(((int) MainMenuChoices.GetHistoricalSimulationDetails.ordinal() + 1) + ". Get historical simulation results");
+        System.out.println(((int) MainMenuChoices.Exit.ordinal() + 1) + ". Exit");
 
         System.out.print("Choose an option by typing the option number: ");
     }
@@ -130,7 +132,7 @@ public class ConsoleUI implements UserInterface {
                 selectedIndex = scanner.nextInt();
                 scanner.nextLine(); // Consume the newline character
 
-                if (selectedIndex >= 1 && selectedIndex <= eMainMenuChoices.values().length) {
+                if (selectedIndex >= 1 && selectedIndex <= MainMenuChoices.values().length) {
                     break;
                 } else {
                     System.out.println("Invalid index. Please choose a valid index.");
@@ -146,7 +148,7 @@ public class ConsoleUI implements UserInterface {
 
     private void mapUserChoiceToAction(int userChoice) {
 
-        switch (eMainMenuChoices.values()[userChoice]) {
+        switch (MainMenuChoices.values()[userChoice]) {
             case LoadSimulation:
                 loadSimulationSession();
                 break;
@@ -267,7 +269,7 @@ public class ConsoleUI implements UserInterface {
                     if (selectedIndex >= 1 && selectedIndex <= simulationResults.size()) {
                         this.simulationIndex = selectedIndex - 1;
                         showHowToPresentResultMenu();
-                        ePresentShowOptions showOption = howToPresentResultMenuChoiceHandler();
+                        PresentShowOptions showOption = howToPresentResultMenuChoiceHandler();
                         showOptionPresenter(showOption);
                         break;
 
@@ -284,7 +286,7 @@ public class ConsoleUI implements UserInterface {
         }
     }
 
-    private void showOptionPresenter(ePresentShowOptions showOption) {
+    private void showOptionPresenter(PresentShowOptions showOption) {
         switch (showOption) {
             case ByAmount:
                  List<EntitiesResult> entitiesResultList =
@@ -375,15 +377,15 @@ public class ConsoleUI implements UserInterface {
         System.out.print("Choose property instance to be filter: ");
     }
 
-    private ePresentShowOptions howToPresentResultMenuChoiceHandler() {
+    private PresentShowOptions howToPresentResultMenuChoiceHandler() {
         Scanner scanner = new Scanner(System.in);
         while(true) {
             if (scanner.hasNextInt()) {
                 int selectedIndex = scanner.nextInt();
                 scanner.nextLine(); // Consume the newline character
 
-                if (selectedIndex >= 1 && selectedIndex <= ePresentShowOptions.values().length) {
-                    List<ePresentShowOptions> enumValues = Arrays.asList(ePresentShowOptions.values());
+                if (selectedIndex >= 1 && selectedIndex <= PresentShowOptions.values().length) {
+                    List<PresentShowOptions> enumValues = Arrays.asList(PresentShowOptions.values());
                     return enumValues.get(selectedIndex - 1);
                 } else {
                     System.out.println("Invalid index. Please choose a valid index.");

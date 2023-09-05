@@ -1,7 +1,7 @@
 package simulator.builder.utils.file;
 
 import simulator.builder.utils.exception.WorldBuilderException;
-import simulator.builder.utils.file.enums.eDataFileType;
+import simulator.builder.utils.file.enums.DataFileType;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -12,12 +12,12 @@ public final class WorldBuilderFileUtils {
         return new File(filePath);
     }
 
-    public static eDataFileType getDataFileTypeByFileExtension(String filePath) {
+    public static DataFileType getDataFileTypeByFileExtension(String filePath) {
 
-            eDataFileType dataSrcType;
+            DataFileType dataSrcType;
             Path path = Paths.get(filePath);
             String fileExtenstion = extractFileType(path.getFileName().toString());
-            return eDataFileType.valueOf(fileExtenstion.toUpperCase());
+            return DataFileType.valueOf(fileExtenstion.toUpperCase());
     }
 
     public static String extractFileType(String filePath) {

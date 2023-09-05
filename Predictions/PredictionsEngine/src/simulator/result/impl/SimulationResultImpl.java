@@ -3,7 +3,7 @@ package simulator.result.impl;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.execution.instance.world.api.WorldInstance;
-import simulator.runner.utils.exceptions.eTerminationReason;
+import simulator.runner.utils.exceptions.TerminationReason;
 import simulator.result.api.SimulationResult;
 
 import java.util.*;
@@ -15,7 +15,7 @@ public class SimulationResultImpl implements SimulationResult {
     private Map<String, Integer> initEntitiesPopulationStatus;
     private Map<String, Set<String>> entitiesPropertiesNames;
     private Long simulatorStartingTime;
-    private eTerminationReason terminationReason;
+    private TerminationReason terminationReason;
 
     public SimulationResultImpl(SimulationInitialInfo simulationInitialInfo) {
         this.simulationUuid = simulationInitialInfo.getSimulationGuid();
@@ -25,11 +25,11 @@ public class SimulationResultImpl implements SimulationResult {
         this.worldInstance = simulationInitialInfo.getWorldInstnce();
     }
 
-    public eTerminationReason getTerminationReason() {
+    public TerminationReason getTerminationReason() {
         return terminationReason;
     }
 
-    public void setTerminationReason(eTerminationReason terminationReason) {
+    public void setTerminationReason(TerminationReason terminationReason) {
         this.terminationReason = terminationReason;
     }
 

@@ -2,8 +2,7 @@ package simulator.definition.rule.action.impl;
 
 import simulator.definition.rule.action.api.abstracts.AbstractAction;
 import simulator.definition.rule.action.expression.argumentExpression.api.interfaces.ArgumentExpression;
-import simulator.definition.rule.action.secondaryEntity.api.ActionSecondaryEntityDefinition;
-import simulator.definition.rule.action.utils.enums.eActionType;
+import simulator.definition.rule.action.utils.enums.ActionType;
 import simulator.execution.context.api.ExecutionContext;
 import simulator.runner.utils.exceptions.SimulatorRunnerException;
 
@@ -16,7 +15,7 @@ public class ProximityAction extends AbstractAction {
     private ArgumentExpression envDepth;
     List<AbstractAction> actionsUnderProximity;
     public ProximityAction(
-            eActionType type,
+            ActionType type,
             String sourceEntityName,
             String targetEntityName,
             ArgumentExpression envDepth,

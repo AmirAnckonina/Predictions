@@ -8,7 +8,7 @@ import simulator.builder.validator.api.WorldBuilderContextValidator;
 import simulator.definition.rule.action.expression.conditionExpression.api.interfaces.ConditionExpression;
 import simulator.definition.rule.action.secondaryEntity.api.ActionSecondaryEntityDefinition;
 import simulator.definition.rule.action.secondaryEntity.impl.ActionSecondaryEntityDefinitionImpl;
-import simulator.definition.rule.action.utils.enums.eSecondaryEntitySelectionType;
+import simulator.definition.rule.action.utils.enums.SecondaryEntitySelectionType;
 
 public class XmlActionSecondaryEntityBuilder
         extends AbstractComponentBuilder implements ActionSecondaryEntityBuilder {
@@ -35,7 +35,7 @@ public class XmlActionSecondaryEntityBuilder
         }
 
         Integer selectionCount = null;
-        eSecondaryEntitySelectionType secondaryEntitySelectionType;
+        SecondaryEntitySelectionType secondaryEntitySelectionType;
 
         ConditionExpression conditionExpression =
                 new XmlConditionExpressionBuilder(
@@ -44,13 +44,13 @@ public class XmlActionSecondaryEntityBuilder
 
         String rawSelectionCount = generatedSecondaryEntity.getPRDSelection().getCount();
         if (rawSelectionCount.equalsIgnoreCase("ALL")) {
-            secondaryEntitySelectionType = eSecondaryEntitySelectionType.ALL;
+            secondaryEntitySelectionType = SecondaryEntitySelectionType.ALL;
             actionSecondaryEntityDefinition
                     = new ActionSecondaryEntityDefinitionImpl(
                             secondaryEntityName, conditionExpression, secondaryEntitySelectionType
             );
         } else {
-            secondaryEntitySelectionType = eSecondaryEntitySelectionType.SELECTED;
+            secondaryEntitySelectionType = SecondaryEntitySelectionType.SELECTED;
             selectionCount =  Integer.parseInt(rawSelectionCount);
             actionSecondaryEntityDefinition =
                     new ActionSecondaryEntityDefinitionImpl(

@@ -1,8 +1,8 @@
 package simulator.definition.rule.action.expression.argumentExpression.impl.method;
 
-import simulator.definition.rule.action.expression.argumentExpression.utils.enums.eExpressionMethod;
+import simulator.definition.rule.action.expression.argumentExpression.utils.enums.ExpressionMethodType;
 import simulator.definition.rule.action.expression.argumentExpression.api.abstracts.AbstractMethodArgumentExpression;
-import simulator.definition.property.utils.enums.ePropertyType;
+import simulator.definition.property.utils.enums.PropertyType;
 import simulator.execution.context.api.ExecutionContext;
 
 public class EnvironmentMethodArgumentExpression extends AbstractMethodArgumentExpression {
@@ -10,8 +10,8 @@ public class EnvironmentMethodArgumentExpression extends AbstractMethodArgumentE
     private String environmentPropertyName;
 
     public EnvironmentMethodArgumentExpression(
-            eExpressionMethod method,
-            ePropertyType expressionReturnedValueType,
+            ExpressionMethodType method,
+            PropertyType expressionReturnedValueType,
             String envPropertyName) {
 
         super(method, expressionReturnedValueType);
@@ -21,7 +21,7 @@ public class EnvironmentMethodArgumentExpression extends AbstractMethodArgumentE
     @Override
     public Object getValue(ExecutionContext context) {
         Object value = context.getEnvironmentVariable(this.environmentPropertyName).getValue();
-        ePropertyType type = context.getEnvironmentVariable(this.environmentPropertyName).getPropertyDefinition().getType();
+        PropertyType type = context.getEnvironmentVariable(this.environmentPropertyName).getPropertyDefinition().getType();
         Object returnValue = null;
         switch (type){
             case DECIMAL:
