@@ -4,20 +4,19 @@ import resources.jaxb.schema.generated.PRDAction;
 import simulator.builder.api.interfaces.ActionBuilder;
 import simulator.builder.impl.baseImpl.BaseArgumentExpressionBuilder;
 import simulator.builder.utils.ArgExpressionTypeDemands;
-import simulator.builder.utils.eMandatoryTypeDemanding;
+import simulator.builder.utils.MandatoryTypeDemanding;
 import simulator.builder.utils.exception.WorldBuilderException;
 import simulator.builder.api.abstracts.AbstractComponentBuilder;
 import simulator.builder.validator.api.WorldBuilderContextValidator;
-import simulator.definition.property.utils.enums.ePropertyType;
+import simulator.definition.property.utils.enums.PropertyType;
 import simulator.definition.rule.action.api.abstracts.AbstractAction;
 import simulator.definition.rule.action.api.abstracts.AbstractCalculationAction;
-import simulator.definition.rule.action.api.interfaces.Action;
 import simulator.definition.rule.action.expression.conditionExpression.api.interfaces.ConditionExpression;
 import simulator.definition.rule.action.expression.argumentExpression.api.interfaces.ArgumentExpression;
 import simulator.definition.rule.action.impl.*;
 import simulator.definition.rule.action.secondaryEntity.api.ActionSecondaryEntityDefinition;
-import simulator.definition.rule.action.utils.enums.eActionType;
-import simulator.definition.rule.action.utils.enums.eReplaceActionCreationMode;
+import simulator.definition.rule.action.utils.enums.ActionType;
+import simulator.definition.rule.action.utils.enums.ReplaceActionCreationMode;
 
 import java.util.List;
 
@@ -64,7 +63,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
         }
 
         // Action build
-        eActionType actionType = eActionType.valueOf(generatedAction.getType().toUpperCase());
+        ActionType actionType = ActionType.valueOf(generatedAction.getType().toUpperCase());
         switch(actionType) {
 
             case INCREASE:
@@ -115,10 +114,10 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
 
     @Override
     public IncreaseAction buildIncreaseAction() {
-        eActionType actionType = eActionType.INCREASE;
+        ActionType actionType = ActionType.INCREASE;
         String entityName =   generatedAction.getEntity();
         String entityPropertyName = generatedAction.getProperty();
-        ePropertyType entityPropertyType = contextValidator.getEntityPropertyType(
+        PropertyType entityPropertyType = contextValidator.getEntityPropertyType(
                 entityName, entityPropertyName
         );
         ArgumentExpression by =
@@ -133,10 +132,10 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
 
     @Override
     public DecreaseAction buildDecreaseAction() {
-        eActionType actionType = eActionType.DECREASE;
+        ActionType actionType = ActionType.DECREASE;
         String entityName =   generatedAction.getEntity();
         String entityPropertyName = generatedAction.getProperty();
-        ePropertyType entityPropertyType =
+        PropertyType entityPropertyType =
                 contextValidator.getEntityPropertyType(
                         entityName, entityPropertyName
         );
@@ -166,7 +165,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
     @Override
     public MultiplyAction buildMultiplyAction() {
 
-        ePropertyType propType = contextValidator.getEntityPropertyType(
+        PropertyType propType = contextValidator.getEntityPropertyType(
                 generatedAction.getEntity(),
                 generatedAction.getResultProp()
         );
@@ -186,7 +185,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
                         );
 
         return new MultiplyAction(
-                eActionType.MULTIPLY,
+                ActionType.MULTIPLY,
                 generatedAction.getEntity(),
                 generatedAction.getProperty(),
                 arg1ArgumentExpression,
@@ -196,7 +195,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
     @Override
     public DivideAction buildDivideAction() {
 
-        ePropertyType propType = contextValidator.getEntityPropertyType(
+        PropertyType propType = contextValidator.getEntityPropertyType(
                 generatedAction.getEntity(),
                 generatedAction.getResultProp()
         );
@@ -216,7 +215,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
                         );
 
         return new DivideAction(
-                eActionType.DIVIDE,
+                ActionType.DIVIDE,
                 generatedAction.getEntity(),
                 generatedAction.getProperty(),
                 arg1ArgumentExpression,
@@ -248,7 +247,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
         }
 
         return new ConditionAction(
-                eActionType.CONDITION,
+                ActionType.CONDITION,
                 generatedAction.getEntity(),
                 conditionExpression,
                 thenActions,
@@ -257,7 +256,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
 
     @Override
     public SetAction buildSetAction() {
-        ePropertyType propType = contextValidator.getEntityPropertyType(
+        PropertyType propType = contextValidator.getEntityPropertyType(
                 generatedAction.getEntity(),
                 generatedAction.getProperty()
         );
@@ -267,7 +266,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
                                 new ArgExpressionTypeDemands(propType)
                         );
         return new SetAction(
-                eActionType.SET,
+                ActionType.SET,
                 generatedAction.getEntity(),
                 generatedAction.getProperty(),
                 argValueArgumentExpression);
@@ -276,7 +275,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
     @Override
     public KillAction buildKillAction() {
 
-        return new KillAction(eActionType.KILL, generatedAction.getEntity());
+        return new KillAction(ActionType.KILL, generatedAction.getEntity());
     }
 
     @Override
@@ -298,8 +297,8 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
                         .buildExpression(
                                 rawEnvDepth,
                                 new ArgExpressionTypeDemands(
-                                        ePropertyType.FLOAT,
-                                        eMandatoryTypeDemanding.Mentioned
+                                        PropertyType.FLOAT,
+                                        MandatoryTypeDemanding.Mentioned
                                 )
                         );
 
@@ -308,7 +307,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
                         generatedAction.getPRDActions().getPRDAction(), contextValidator)
                         .buildActions();
 
-        return new ProximityAction(eActionType.PROXIMITY, sourceEntity, targetEntity, envDepth, actionsUnderProximity);
+        return new ProximityAction(ActionType.PROXIMITY, sourceEntity, targetEntity, envDepth, actionsUnderProximity);
     }
 
     @Override
@@ -324,9 +323,9 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
             throw new WorldBuilderException("the given kill or create entity under replace action is invalid.");
         }
 
-        eReplaceActionCreationMode creationMode
-                = eReplaceActionCreationMode.valueOf(generatedAction.getMode().toUpperCase());
+        ReplaceActionCreationMode creationMode
+                = ReplaceActionCreationMode.valueOf(generatedAction.getMode().toUpperCase());
 
-        return new ReplaceAction(eActionType.REPLACE, killEntity, createEntity, creationMode);
+        return new ReplaceAction(ActionType.REPLACE, killEntity, createEntity, creationMode);
     }
 }

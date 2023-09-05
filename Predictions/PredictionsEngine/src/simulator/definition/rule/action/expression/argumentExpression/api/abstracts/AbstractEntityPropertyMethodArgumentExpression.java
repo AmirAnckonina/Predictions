@@ -1,7 +1,7 @@
 package simulator.definition.rule.action.expression.argumentExpression.api.abstracts;
 
-import simulator.definition.property.utils.enums.ePropertyType;
-import simulator.definition.rule.action.expression.argumentExpression.utils.enums.eExpressionMethod;
+import simulator.definition.property.utils.enums.PropertyType;
+import simulator.definition.rule.action.expression.argumentExpression.utils.enums.ExpressionMethodType;
 
 public abstract class AbstractEntityPropertyMethodArgumentExpression extends AbstractMethodArgumentExpression {
 
@@ -10,8 +10,8 @@ public abstract class AbstractEntityPropertyMethodArgumentExpression extends Abs
     protected String propertyName;
 
     public AbstractEntityPropertyMethodArgumentExpression(
-            eExpressionMethod method,
-            ePropertyType expressionReturnedValueType,
+            ExpressionMethodType method,
+            PropertyType expressionReturnedValueType,
             String entityName,
             String propertyName) {
 

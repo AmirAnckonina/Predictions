@@ -1,19 +1,19 @@
 package simulator.builder.utils.file;
 
 import simulator.builder.utils.exception.WorldBuilderException;
-import simulator.definition.rule.action.utils.enums.eConditionCompartorType;
+import simulator.definition.rule.action.utils.enums.ConditionCompartorType;
 
 public final class WorldBuilderUtils {
 
-    public static eConditionCompartorType convertOperatorSignToComparatorType(String operatorSign) {
+    public static ConditionCompartorType convertOperatorSignToComparatorType(String operatorSign) {
         if (operatorSign.equals("=")) {
-            return eConditionCompartorType.EQAULITY;
+            return ConditionCompartorType.EQAULITY;
         } else if (operatorSign.equals("!=")) {
-            return eConditionCompartorType.INEQUALITY;
+            return ConditionCompartorType.INEQUALITY;
         } else if (operatorSign.equalsIgnoreCase("bt")) {
-            return eConditionCompartorType.BIGGERTHAN;
+            return ConditionCompartorType.BIGGERTHAN;
         } else if (operatorSign.equalsIgnoreCase("lt")) {
-            return eConditionCompartorType.LOWERTHAN;
+            return ConditionCompartorType.LOWERTHAN;
         } else {
             throw new WorldBuilderException("Unknown condition comparator operator");
         }

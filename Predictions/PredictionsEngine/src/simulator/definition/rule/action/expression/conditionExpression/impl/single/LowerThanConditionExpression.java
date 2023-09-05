@@ -1,6 +1,6 @@
 package simulator.definition.rule.action.expression.conditionExpression.impl.single;
 
-import simulator.definition.property.utils.enums.ePropertyType;
+import simulator.definition.property.utils.enums.PropertyType;
 import simulator.definition.rule.action.expression.conditionExpression.api.abstracts.AbstractSingleConditionExpression;
 import simulator.definition.rule.action.expression.argumentExpression.api.interfaces.ArgumentExpression;
 import simulator.execution.context.api.ExecutionContext;
@@ -21,8 +21,8 @@ public class LowerThanConditionExpression extends AbstractSingleConditionExpress
 
     @Override
     public boolean test(ExecutionContext context) {
-        ePropertyType propType = this.conditionProperty.getExpressionReturnedValueType();
-        ePropertyType compType = this.comparedValue.getExpressionReturnedValueType();
+        PropertyType propType = this.conditionProperty.getExpressionReturnedValueType();
+        PropertyType compType = this.comparedValue.getExpressionReturnedValueType();
 
         if (compType != propType) {
             throw new SimulatorRunnerException("property type is different from compared value type," +

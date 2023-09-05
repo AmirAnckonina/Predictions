@@ -1,11 +1,11 @@
 package simulator.manualSetup.manager.impl;
 
 import dto.SetPropertySimulatorResponseDto;
-import dto.enums.eSetPropertyStatus;
+import dto.enums.SetPropertyStatus;
 import response.SimulatorResponse;
 import simulator.definition.environment.EnvironmentDefinition;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
-import simulator.definition.property.utils.enums.ePropertyType;
+import simulator.definition.property.utils.enums.PropertyType;
 import simulator.definition.property.impl.*;
 import simulator.definition.property.valueGenerator.impl.fixed.FixedValueGenerator;
 import simulator.definition.world.WorldDefinition;
@@ -24,9 +24,9 @@ public class ManualSimulationSetupManagerImpl implements ManualSimulationSetupMa
     }
 
     @Override
-    public void setFixedValueToEnvironmentPropertyDefinition(String propName, ePropertyType type, String value, EnvironmentDefinition environmentDefinition) {
+    public void setFixedValueToEnvironmentPropertyDefinition(String propName, PropertyType type, String value, EnvironmentDefinition environmentDefinition) {
         AbstractPropertyDefinition propertyDefinition = environmentDefinition.getPropertyByName(propName);
-        if(type == ePropertyType.BOOLEAN){
+        if(type == PropertyType.BOOLEAN){
             switch (value){
                 case "True":
                 case "true":
@@ -41,7 +41,7 @@ public class ManualSimulationSetupManagerImpl implements ManualSimulationSetupMa
                     throw new RuntimeException("Invalid input");
             }
             environmentDefinition.setValueGeneratorByPropertyName(propName, new FixedValueGenerator<>(Boolean.parseBoolean(value)));
-        } else if (type == ePropertyType.FLOAT) {
+        } else if (type == PropertyType.FLOAT) {
             FloatPropertyDefinition floatPropertyDefinition = (FloatPropertyDefinition)propertyDefinition;
             Optional<Range<Float>> optionalRange = floatPropertyDefinition.getRange();
             if(optionalRange.isPresent()){
@@ -52,7 +52,7 @@ public class ManualSimulationSetupManagerImpl implements ManualSimulationSetupMa
                 }
             }
             environmentDefinition.setValueGeneratorByPropertyName(propName, new FixedValueGenerator<>(Float.parseFloat(value)));
-        } else if (type == ePropertyType.DECIMAL) {
+        } else if (type == PropertyType.DECIMAL) {
             DecimalPropertyDefinition decimalPropertyDefinition = (DecimalPropertyDefinition)propertyDefinition;
             Optional<Range<Integer>> optionalRange = decimalPropertyDefinition.getRange();
 
@@ -76,31 +76,31 @@ public class ManualSimulationSetupManagerImpl implements ManualSimulationSetupMa
         SetPropertySimulatorResponseDto responseDto;
         SimulatorResponse response;
         try {
-            ePropertyType eType = ePropertyType.STRING;
+            PropertyType eType = PropertyType.STRING;
             switch (type.toLowerCase())
             {
                 case "string":
                 case "str":
-                    eType = ePropertyType.STRING;
+                    eType = PropertyType.STRING;
                     break;
                 case "float":
-                    eType = ePropertyType.FLOAT;
+                    eType = PropertyType.FLOAT;
                     break;
                 case "decimal":
                 case "int":
                 case "integer":
-                    eType = ePropertyType.DECIMAL;
+                    eType = PropertyType.DECIMAL;
                     break;
                 case "boolean":
                 case "bool":
-                    eType = ePropertyType.BOOLEAN;
+                    eType = PropertyType.BOOLEAN;
                     break;
             }
 
             setFixedValueToEnvironmentPropertyDefinition(propName, eType, value, worldDefinition.getEnvironment());
 
             responseDto = new SetPropertySimulatorResponseDto(
-                    eSetPropertyStatus.SUCCEEDED,
+                    SetPropertyStatus.SUCCEEDED,
                     "Environment Variable Value has been set with " + value.toString());
 
             response =  new SimulatorResponse(
@@ -111,7 +111,7 @@ public class ManualSimulationSetupManagerImpl implements ManualSimulationSetupMa
 
         } catch (Exception e) {
 
-            responseDto = new SetPropertySimulatorResponseDto(eSetPropertyStatus.FAILED, e.getMessage());
+            responseDto = new SetPropertySimulatorResponseDto(SetPropertyStatus.FAILED, e.getMessage());
             response =  new SimulatorResponse(false, e.getMessage(), responseDto);
         }
         return response;

@@ -1,6 +1,6 @@
 package simulator.definition.rule.action.utils.enums;
 
-public enum eMultipleConditionLogicalOperator {
+public enum MultipleConditionLogicalOperator {
     AND,
     OR
 }

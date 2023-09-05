@@ -1,17 +1,17 @@
 package dto;
 
-import dto.enums.eSetPropertyStatus;
+import dto.enums.SetPropertyStatus;
 
 public class SetPropertySimulatorResponseDto {
-    private eSetPropertyStatus processStatus;
+    private SetPropertyStatus processStatus;
     private String message;
 
-    public SetPropertySimulatorResponseDto(eSetPropertyStatus processStatus, String message) {
+    public SetPropertySimulatorResponseDto(SetPropertyStatus processStatus, String message) {
         this.processStatus = processStatus;
         this.message = message;
     }
 
-    public eSetPropertyStatus getProcessStatus() {
+    public SetPropertyStatus getProcessStatus() {
         return processStatus;
     }
 

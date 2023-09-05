@@ -1,6 +1,6 @@
 package UI.utils.enums;
 
-public enum ePresentShowOptions {
+public enum PresentShowOptions {
     ByAmount,
     ByProperty
 }

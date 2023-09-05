@@ -1,6 +1,6 @@
 package simulator.definition.rule.action.utils.enums;
 
-public enum eSecondaryEntitySelectionType {
+public enum SecondaryEntitySelectionType {
     ALL,
     SELECTED,
     NONE

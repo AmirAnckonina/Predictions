@@ -2,9 +2,9 @@ package simulator.builder.validator.impl;
 
 import simulator.builder.utils.exception.WorldBuilderException;
 import simulator.builder.validator.api.WorldBuilderContextValidator;
-import simulator.builder.utils.file.enums.eDataFileType;
-import simulator.definition.rule.action.expression.argumentExpression.utils.enums.eExpressionMethod;
-import simulator.definition.property.utils.enums.ePropertyType;
+import simulator.builder.utils.file.enums.DataFileType;
+import simulator.definition.rule.action.expression.argumentExpression.utils.enums.ExpressionMethodType;
+import simulator.definition.property.utils.enums.PropertyType;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,10 +12,10 @@ import java.nio.file.Paths;
 import java.util.*;
 
 public class WorldBuilderContextValidatorImpl implements WorldBuilderContextValidator {
-    private Map<String, ePropertyType> environmentPropertiesToTypeMapper;
+    private Map<String, PropertyType> environmentPropertiesToTypeMapper;
     private Set<String> allEntities;
-    private Map<String, Map<String, ePropertyType>> entitiesPropertiesToTypeMapper;
-    private Set<eExpressionMethod> simulatorSystemMethods;
+    private Map<String, Map<String, PropertyType>> entitiesPropertiesToTypeMapper;
+    private Set<ExpressionMethodType> simulatorSystemMethods;
 
     public WorldBuilderContextValidatorImpl() {
         this.environmentPropertiesToTypeMapper = new HashMap<>();
@@ -23,7 +23,7 @@ public class WorldBuilderContextValidatorImpl implements WorldBuilderContextVali
         // Please note, while adding new entity to "entityPropertiesMapper", a new set should be initialize!!!!
         this.entitiesPropertiesToTypeMapper = new HashMap<>();
         this.simulatorSystemMethods = new HashSet<>(
-                Arrays.asList(eExpressionMethod.ENVIRONMENT, eExpressionMethod.RANDOM));
+                Arrays.asList(ExpressionMethodType.ENVIRONMENT, ExpressionMethodType.RANDOM));
     }
 
 
@@ -34,7 +34,7 @@ public class WorldBuilderContextValidatorImpl implements WorldBuilderContextVali
     }
 
     @Override
-    public boolean validateFileType(eDataFileType actualDataFileType, eDataFileType expectedDataFileType) {
+    public boolean validateFileType(DataFileType actualDataFileType, DataFileType expectedDataFileType) {
         return actualDataFileType == expectedDataFileType;
     }
 
@@ -78,12 +78,12 @@ public class WorldBuilderContextValidatorImpl implements WorldBuilderContextVali
     }
 
     @Override
-    public void addEnvironmentProperty(String newEnvPropName, ePropertyType type) {
+    public void addEnvironmentProperty(String newEnvPropName, PropertyType type) {
         environmentPropertiesToTypeMapper.put(newEnvPropName, type);
     }
 
     @Override
-    public void addEntityProperty(String entityName, String entityProperty, ePropertyType type) {
+    public void addEntityProperty(String entityName, String entityProperty, PropertyType type) {
         if (entitiesPropertiesToTypeMapper.containsKey(entityName)) {
             entitiesPropertiesToTypeMapper.get(entityName).put(entityProperty, type);
         } else {
@@ -133,7 +133,7 @@ public class WorldBuilderContextValidatorImpl implements WorldBuilderContextVali
 
         boolean isEntityProp = false;
 
-        for (Map.Entry<String, Map<String, ePropertyType>> entityPropertiesNameTypeMapper
+        for (Map.Entry<String, Map<String, PropertyType>> entityPropertiesNameTypeMapper
                 : entitiesPropertiesToTypeMapper.entrySet()) {
             if (entityPropertiesNameTypeMapper.getValue().containsKey(rawExpression)) {
                 isEntityProp = true;
@@ -145,7 +145,7 @@ public class WorldBuilderContextValidatorImpl implements WorldBuilderContextVali
     }
 
     @Override
-    public boolean validateEntityPropertyAsExpected(String entityName, String propertyName, ePropertyType expectedType) {
+    public boolean validateEntityPropertyAsExpected(String entityName, String propertyName, PropertyType expectedType) {
         return this.entitiesPropertiesToTypeMapper.get(entityName).get(propertyName) == expectedType;
     }
 
@@ -155,7 +155,7 @@ public class WorldBuilderContextValidatorImpl implements WorldBuilderContextVali
      * @param expectedType
      * @return
      */
-    public boolean validateEnvironemntPropertyTypeAsExpected(String propertyName, ePropertyType expectedType){
+    public boolean validateEnvironemntPropertyTypeAsExpected(String propertyName, PropertyType expectedType){
         return this.environmentPropertiesToTypeMapper.get(propertyName) == expectedType;
     }
 
@@ -166,16 +166,16 @@ public class WorldBuilderContextValidatorImpl implements WorldBuilderContextVali
      * @return
      */
     @Override
-    public ePropertyType getEntityPropertyType(String entityName, String propertyName) {
+    public PropertyType getEntityPropertyType(String entityName, String propertyName) {
         return entitiesPropertiesToTypeMapper.get(entityName).get(propertyName);
     }
 
     @Override
-    public ePropertyType getEntityPropertyTypeWithoutEntityNameMentioned(String propertyName) {
+    public PropertyType getEntityPropertyTypeWithoutEntityNameMentioned(String propertyName) {
 
-        ePropertyType propType = null;
+        PropertyType propType = null;
 
-        for (Map.Entry<String, Map<String, ePropertyType>> entityPropertiesMap
+        for (Map.Entry<String, Map<String, PropertyType>> entityPropertiesMap
                 : entitiesPropertiesToTypeMapper.entrySet()) {
             if (entityPropertiesMap.getValue().containsKey(propertyName)) {
                 propType = getEntityPropertyType(entityPropertiesMap.getKey(), propertyName);
@@ -191,7 +191,7 @@ public class WorldBuilderContextValidatorImpl implements WorldBuilderContextVali
     }
 
     @Override
-    public ePropertyType getEnvironmentPropertyType(String propertyName) {
+    public PropertyType getEnvironmentPropertyType(String propertyName) {
         return environmentPropertiesToTypeMapper.get(propertyName);
     }
 

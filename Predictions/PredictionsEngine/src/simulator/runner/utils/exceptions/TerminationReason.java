@@ -1,6 +1,6 @@
 package simulator.runner.utils.exceptions;
 
-public enum eTerminationReason {
+public enum TerminationReason {
     Ticks,
     Time,
     TicksAndTime

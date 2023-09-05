@@ -1,13 +1,13 @@
 package simulator.definition.rule.action.expression.mathExpression.api;
 
-import simulator.definition.rule.action.expression.mathExpression.enums.eMathOperator;
+import simulator.definition.rule.action.expression.mathExpression.enums.MathOperator;
 
 public abstract class BinaryMathExpression implements MathExpression {
     private MathExpression expression1;
     private MathExpression expression2;
-    private eMathOperator operator;
+    private MathOperator operator;
 
-    public BinaryMathExpression(MathExpression expression1, MathExpression expression2, eMathOperator operator) {
+    public BinaryMathExpression(MathExpression expression1, MathExpression expression2, MathOperator operator) {
         this.expression1 = expression1;
         this.expression2 = expression2;
         this.operator = operator;

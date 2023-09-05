@@ -4,7 +4,7 @@ import resources.jaxb.schema.generated.PRDProperty;
 import simulator.builder.impl.baseImpl.BasePropertyBuilder;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 import simulator.definition.property.impl.Range;
-import simulator.definition.property.utils.enums.ePropertyType;
+import simulator.definition.property.utils.enums.PropertyType;
 
 public class XmlEntityPropertyBuilder extends BasePropertyBuilder {
     private PRDProperty generatedEntityProperty;
@@ -15,7 +15,7 @@ public class XmlEntityPropertyBuilder extends BasePropertyBuilder {
 
     public AbstractPropertyDefinition buildEntityProperty() {
         String propName = generatedEntityProperty.getPRDName();
-        ePropertyType propType = ePropertyType.valueOf(generatedEntityProperty.getType().toUpperCase());
+        PropertyType propType = PropertyType.valueOf(generatedEntityProperty.getType().toUpperCase());
         Range range = null;
         String rawInitValue = null;
         if (generatedEntityProperty.getPRDRange() != null) {

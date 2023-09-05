@@ -1,6 +1,6 @@
 package simulator.builder.utils.file.enums;
 
-public enum eDataFileType {
+public enum DataFileType {
     XML,
     JSON,
     DTO

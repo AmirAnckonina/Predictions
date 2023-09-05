@@ -2,22 +2,22 @@ package simulator.definition.rule.action.api.abstracts;
 
 import simulator.definition.rule.action.api.interfaces.Action;
 import simulator.definition.rule.action.secondaryEntity.api.ActionSecondaryEntityDefinition;
-import simulator.definition.rule.action.utils.enums.eActionType;
+import simulator.definition.rule.action.utils.enums.ActionType;
 
 import java.util.Optional;
 
 public abstract class AbstractAction implements Action {
-    private final eActionType type;
+    private final ActionType type;
     private final String primaryEntityName;
     private ActionSecondaryEntityDefinition actionSecondaryEntityDefinition;
 
-    public AbstractAction(eActionType type, String primaryEntityName) {
+    public AbstractAction(ActionType type, String primaryEntityName) {
 
         this(type, primaryEntityName, null);
     }
 
     public AbstractAction(
-            eActionType type,
+            ActionType type,
             String primaryEntityName,
             ActionSecondaryEntityDefinition actionSecondaryEntityDefinition) {
 
@@ -28,7 +28,7 @@ public abstract class AbstractAction implements Action {
 
 
     @Override
-    public eActionType getType() {
+    public ActionType getType() {
 
         return type;
     }
