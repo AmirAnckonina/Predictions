@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 
 
-<BorderPane id="main_layout_bp_id" fx:id="main_layout_bp_id" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.impl.AppController">
-   <top>
-      <fx:include source="../staticheader/Predictions_static_header.fxml" />
-   </top>
-   <center>
-      <fx:include source="../dynamicbody/Predictions_dynamic_info.fxml" />
-   </center>
-</BorderPane>
+<ScrollPane minViewportHeight="250.0" minViewportWidth="200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.impl.AppController">
+   <content>
+      <BorderPane id="main_layout_bp_id" fx:id="main_layout_bp_id" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+         <top>
+            <fx:include fx:id="headerComponent" minWidth="300.0" source="../staticheader/Predictions_static_header.fxml" />
+         </top>
+         <center>
+            <fx:include fx:id="bodyComponent" source="../dynamicbody/Predictions_dynamic_info.fxml" />
+         </center>
+      </BorderPane>
+   </content>
+</ScrollPane>
