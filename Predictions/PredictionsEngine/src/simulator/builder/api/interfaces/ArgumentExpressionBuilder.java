@@ -31,10 +31,10 @@ public interface ArgumentExpressionBuilder {
     Optional<String> tryGetEntityPropertyName(
             String rawExpression, ArgExpressionTypeDemands typeDemands);
 
-    EnvironmentMethodArgumentExpression buildEnvironmentMethodExpression(String rawEnvPropString, ePropertyType expectedparenthesesArgType);
-    RandomMethodArgumentExpression buildRandomMethodArgumentExpression(String parenthesesStringValue, ePropertyType expectedparenthesesArgType);
-    EvaluateMethodArgumentExpression buildEvaluateMethodArgumentExpression(String parenthesesStringValue, ePropertyType expectedparenthesesArgType);
-    TicksMethodArgumentExpression buildTicksMethodArgumentExpression(String parenthesesStringValue, ePropertyType expectedparenthesesArgType);
-    PercentMethodArgumentExpression buildPercentMethodArgumentExpression(String parenthesesStringValue, ePropertyType expectedparenthesesArgType);
+    EnvironmentMethodArgumentExpression buildEnvironmentMethodExpression(String rawEnvPropString, ArgExpressionTypeDemands typeDemands);
+    RandomMethodArgumentExpression buildRandomMethodArgumentExpression(String parenthesesStringValue, ArgExpressionTypeDemands typeDemands);
+    EvaluateMethodArgumentExpression buildEvaluateMethodArgumentExpression(String parenthesesStringValue, ArgExpressionTypeDemands typeDemands);
+    TicksMethodArgumentExpression buildTicksMethodArgumentExpression(String parenthesesStringValue, ArgExpressionTypeDemands typeDemands);
+    PercentMethodArgumentExpression buildPercentMethodArgumentExpression(String parenthesesStringValue, ArgExpressionTypeDemands typeDemands);
 
 }

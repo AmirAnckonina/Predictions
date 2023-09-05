@@ -60,27 +60,26 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
 
         AbstractMethodArgumentExpression methodArgExpression;
         String parenthesesStringValue = extractParenthesesString(rawExpression);
-        ePropertyType expectedParenthesesArgType = typeDemands.getPropertyType();
 
         switch (expMethodType) {
             case ENVIRONMENT: //environment(e1)
-                methodArgExpression = buildEnvironmentMethodExpression(parenthesesStringValue , expectedParenthesesArgType);
+                methodArgExpression = buildEnvironmentMethodExpression(parenthesesStringValue , typeDemands);
                 break;
 
             case RANDOM: // random(5)
-                methodArgExpression = buildRandomMethodArgumentExpression(parenthesesStringValue, expectedParenthesesArgType);
+                methodArgExpression = buildRandomMethodArgumentExpression(parenthesesStringValue, typeDemands);
                 break;
 
             case EVALUATE: //evaluate(ent-1.p1)
-                methodArgExpression = buildEvaluateMethodArgumentExpression(parenthesesStringValue, expectedParenthesesArgType);
+                methodArgExpression = buildEvaluateMethodArgumentExpression(parenthesesStringValue, typeDemands);
                 break;
 
              case TICKS: // ticks(Sick.vacinated)
-                methodArgExpression = buildTicksMethodArgumentExpression(parenthesesStringValue, expectedParenthesesArgType);
+                methodArgExpression = buildTicksMethodArgumentExpression(parenthesesStringValue, typeDemands);
                 break;
 
             case PERCENT: // percent(evalutate(ent-2.p1),environment(e1))
-                methodArgExpression = buildPercentMethodArgumentExpression(parenthesesStringValue, expectedParenthesesArgType);
+                methodArgExpression = buildPercentMethodArgumentExpression(parenthesesStringValue, typeDemands);
                 break;
 
             default:
@@ -92,13 +91,13 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
 
 
     @Override
-    public EnvironmentMethodArgumentExpression buildEnvironmentMethodExpression(String rawEnvPropString, ePropertyType expectedArgType) {
+    public EnvironmentMethodArgumentExpression buildEnvironmentMethodExpression(String rawEnvPropString, ArgExpressionTypeDemands typeDemands) {
 
         EnvironmentMethodArgumentExpression environmentMethodArgumentExpression;
 
         boolean typeValid =
                 contextValidator.validateEnvironemntPropertyTypeAsExpected(
-                        rawEnvPropString, expectedArgType);
+                        rawEnvPropString, typeDemands.getPropertyType());
 
         boolean envPropertyValid = contextValidator.isEnvironmentProperty(rawEnvPropString);
 
@@ -118,8 +117,7 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
     }
 
     @Override
-    public RandomMethodArgumentExpression buildRandomMethodArgumentExpression(String parenthesesStringValue, ePropertyType expectedArgType) {
-        RandomMethodArgumentExpression randomMethodArgumentExpression;
+    public RandomMethodArgumentExpression buildRandomMethodArgumentExpression(String parenthesesStringValue, ArgExpressionTypeDemands typeDemands) {
         
         Integer maxRandVal = Integer.parseInt(parenthesesStringValue);
         return new RandomMethodArgumentExpression(
@@ -131,7 +129,7 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
 
     @Override
     public EvaluateMethodArgumentExpression buildEvaluateMethodArgumentExpression(
-            String parenthesesStringValue, ePropertyType expectedArgType) {
+            String parenthesesStringValue, ArgExpressionTypeDemands typeDemands) {
 
         String entityName =
                 extractSubStringInParenthesesString(parenthesesStringValue, PERIOD, eParenthesesPart.LEFT);
@@ -141,10 +139,12 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
         boolean entityAndPropertyContextValid =
                 contextValidator.validateActionContextProcedure(entityName, propertyName);
 
-        boolean propTypeAsExpected =
-                contextValidator.validateEntityPropertyAsExpected(
-                        entityName, propertyName, expectedArgType
+        boolean propTypeAsExpected;
+        if (typeDemands.getMandatoryDemand() == eMandatoryTypeDemanding.Mentioned) {
+                propTypeAsExpected = contextValidator.validateEntityPropertyAsExpected(
+                        entityName, propertyName, typeDemands.getPropertyType()
                 );
+        } else { propTypeAsExpected = true; }
 
 
         if (!entityAndPropertyContextValid || !propTypeAsExpected) {
@@ -162,7 +162,7 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
     }
 
     @Override
-    public TicksMethodArgumentExpression buildTicksMethodArgumentExpression(String parenthesesStringValue, ePropertyType expectedArgType) {
+    public TicksMethodArgumentExpression buildTicksMethodArgumentExpression(String parenthesesStringValue, ArgExpressionTypeDemands typeDemands) {
         String entityName =
                 extractSubStringInParenthesesString(parenthesesStringValue, PERIOD, eParenthesesPart.LEFT);
         String propertyName =
@@ -171,12 +171,14 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
         boolean entityAndPropertyValid =
                 contextValidator.validateActionContextProcedure(entityName, propertyName);
 
-        boolean propertyTypeAsExpected =
-                contextValidator.validateEntityPropertyAsExpected(
-                        entityName, propertyName, expectedArgType
-                );
+        boolean propTypeAsExpected;
+        if (typeDemands.getMandatoryDemand() != eMandatoryTypeDemanding.NotMentioned) {
+            propTypeAsExpected = contextValidator.validateEntityPropertyAsExpected(
+                    entityName, propertyName, typeDemands.getPropertyType()
+            );
+        } else { propTypeAsExpected = true; }
 
-        if (!entityAndPropertyValid || !propertyTypeAsExpected) {
+        if (!entityAndPropertyValid || !propTypeAsExpected) {
             throw new WorldBuilderException(
                     "ticks Method couldn't be build because entity or property context is incorrect.");
         }
@@ -189,7 +191,7 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
     }
 
     @Override
-    public PercentMethodArgumentExpression buildPercentMethodArgumentExpression(String parenthesesStringValue, ePropertyType expectedArgType) {
+    public PercentMethodArgumentExpression buildPercentMethodArgumentExpression(String parenthesesStringValue, ArgExpressionTypeDemands typeDemands) {
 
         String rawOriginalValueString =
                 extractSubStringInParenthesesString(parenthesesStringValue, COMMA, eParenthesesPart.LEFT);
@@ -201,13 +203,19 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
                 new BaseArgumentExpressionBuilder(contextValidator)
                         .buildExpression(
                                 rawOriginalValueString,
-                                new ArgExpressionTypeDemands(eMandatoryTypeDemanding.NUMERIC)
+                                new ArgExpressionTypeDemands(
+                                        ePropertyType.FLOAT,
+                                        eMandatoryTypeDemanding.Mentioned
+                                )
                         );
         ArgumentExpression percentageExpression =
                 new BaseArgumentExpressionBuilder(contextValidator)
                         .buildExpression(
                                 rawPercentageString,
-                                new ArgExpressionTypeDemands(eMandatoryTypeDemanding.NUMERIC)
+                                new ArgExpressionTypeDemands(
+                                        ePropertyType.FLOAT,
+                                        eMandatoryTypeDemanding.Mentioned
+                                )
                         );
 
         return new PercentMethodArgumentExpression(
@@ -231,7 +239,7 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
 
             extractedPart = parenthesesStringValue.substring(
                     parenthesesStringValue.indexOf(delimiter) + 1 ,
-                    parenthesesStringValue.length() + 1);
+                    parenthesesStringValue.length());
 
         } else {
             throw new WorldBuilderException(
@@ -250,6 +258,7 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
         // ticks(ent1.p1) ? so ent1.p1 is an expression?
         // Or maybe for the property under condition? so when we build argExpression we use this case
 
+        //boolean
         return new PropertyNameArgumentExpression(
                 entityPropertyName,
                 contextValidator.getEntityPropertyTypeWithoutEntityNameMentioned(entityPropertyName)

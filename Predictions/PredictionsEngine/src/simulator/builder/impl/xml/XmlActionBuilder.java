@@ -34,60 +34,83 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
     @Override
     public AbstractAction BuildAction() {
 
-        boolean actionContextIsValid =
-                contextValidator.validateActionContextProcedure(
-                        generatedAction.getEntity(), generatedAction.getProperty()
-                );
+        AbstractAction newAction;
+        ActionSecondaryEntityDefinition actionSecondaryEntityDefinition = null;
 
-        if (actionContextIsValid) {
+        //Context Validation
+        boolean actionContextIsValid;
+        if (generatedAction.getEntity() != null) {
 
-            if (generatedAction.getPRDSecondaryEntity() != null) {
-                ActionSecondaryEntityDefinition actionSecondaryEntityDefinition =
-                        new XmlActionSecondaryEntityBuilder(
-                                generatedAction.getPRDSecondaryEntity(),
-                                contextValidator
-                                ).buildActionSecondaryEntity();
-            }
+            actionContextIsValid = contextValidator.validateActionContextProcedure(
+                            generatedAction.getEntity(), generatedAction.getProperty());
 
-            eActionType actionType = eActionType.valueOf(generatedAction.getType().toUpperCase());
-
-            switch(actionType) {
-
-                case INCREASE:
-                    return buildIncreaseAction();
-
-                case DECREASE:
-                    return buildDivideAction();
-
-                case CALCULATION:
-                    return buildCalculationAction();
-
-                case CONDITION:
-                    return buildConditionAction();
-
-                case SET:
-                    return buildSetAction();
-
-                case KILL:
-                    return buildKillAction();
-
-                case REPLACE:
-                    return buildReplaceAction();
-
-                case PROXIMITY:
-                    return buildProximityAction();
-
-                    default:
-                    throw new WorldBuilderException("Unsupported action type.");
-
-            }
-
+        } else if (generatedAction.getPRDBetween() != null || generatedAction.getKill() != null) {
+            actionContextIsValid = true;
         } else {
-            throw new WorldBuilderException(
-                    "For Action " +
-                    generatedAction.getType() +
-                            ", the entity " + generatedAction.getEntity() + ", context doesn't matched");
+
+            actionContextIsValid = false;
         }
+
+        if (!actionContextIsValid) {
+            throw new WorldBuilderException("For Action " + generatedAction.getType() +
+                    ", the entity " + generatedAction.getEntity() + ", context doesn't matched");
+        }
+
+        // Secondary Entity Build.
+        if (generatedAction.getPRDSecondaryEntity() != null) {
+            actionSecondaryEntityDefinition = new XmlActionSecondaryEntityBuilder(
+                    generatedAction.getPRDSecondaryEntity(), contextValidator)
+                    .buildActionSecondaryEntity();
+        }
+
+        // Action build
+        eActionType actionType = eActionType.valueOf(generatedAction.getType().toUpperCase());
+        switch(actionType) {
+
+            case INCREASE:
+                newAction = buildIncreaseAction();
+                break;
+
+            case DECREASE:
+                newAction = buildDecreaseAction();
+                break;
+
+            case CALCULATION:
+                newAction = buildCalculationAction();
+                break;
+
+            case CONDITION:
+                newAction = buildConditionAction();
+                break;
+
+            case SET:
+                newAction = buildSetAction();
+                break;
+
+            case KILL:
+                newAction = buildKillAction();
+                break;
+
+            case REPLACE:
+                newAction = buildReplaceAction();
+                break;
+
+            case PROXIMITY:
+                newAction = buildProximityAction();
+                break;
+
+            default:
+                throw new WorldBuilderException("Unsupported action type.");
+
+        }
+
+        // SecondaryEntity Setup
+        if (actionSecondaryEntityDefinition != null) {
+            newAction.setActionSecondaryEntityDefinition(actionSecondaryEntityDefinition);
+        }
+
+        return newAction;
+
     }
 
     @Override
@@ -145,7 +168,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
 
         ePropertyType propType = contextValidator.getEntityPropertyType(
                 generatedAction.getEntity(),
-                generatedAction.getProperty()
+                generatedAction.getResultProp()
         );
 
         ArgumentExpression arg1ArgumentExpression =
@@ -175,8 +198,9 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
 
         ePropertyType propType = contextValidator.getEntityPropertyType(
                 generatedAction.getEntity(),
-                generatedAction.getProperty()
+                generatedAction.getResultProp()
         );
+
         ArgumentExpression arg1ArgumentExpression =
                 new BaseArgumentExpressionBuilder(contextValidator)
                         .buildExpression(
@@ -273,7 +297,10 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
                 new BaseArgumentExpressionBuilder(contextValidator)
                         .buildExpression(
                                 rawEnvDepth,
-                                new ArgExpressionTypeDemands(eMandatoryTypeDemanding.NUMERIC)
+                                new ArgExpressionTypeDemands(
+                                        ePropertyType.FLOAT,
+                                        eMandatoryTypeDemanding.Mentioned
+                                )
                         );
 
         List<AbstractAction> actionsUnderProximity =
@@ -289,6 +316,14 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
 
         String killEntity = generatedAction.getKill();
         String createEntity = generatedAction.getCreate();
+
+        boolean killEntityValid = contextValidator.validateActionEntityContext(killEntity);
+        boolean createEntityValid = contextValidator.validateActionEntityContext(createEntity);
+
+        if (!killEntityValid || !createEntityValid) {
+            throw new WorldBuilderException("the given kill or create entity under replace action is invalid.");
+        }
+
         eReplaceActionCreationMode creationMode
                 = eReplaceActionCreationMode.valueOf(generatedAction.getMode().toUpperCase());
 
