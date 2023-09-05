@@ -8,7 +8,7 @@ import simulator.builder.api.interfaces.WorldBuilder;
 import simulator.builder.manager.api.WorldBuilderManager;
 import simulator.builder.utils.factory.WorldBuilderFactory;
 import simulator.builder.utils.file.WorldBuilderFileUtils;
-import simulator.builder.utils.file.enums.eDataFileType;
+import simulator.builder.utils.file.enums.DataFileType;
 import simulator.definition.entity.EntityDefinition;
 import simulator.definition.property.api.abstracts.AbstractNumericPropertyDefinition;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
@@ -32,7 +32,7 @@ public class WorldBuilderManagerImpl implements WorldBuilderManager {
     @Override
     public SimulatorResponse buildSimulationWorld(String filePath) {
         try {
-            eDataFileType dataSrcType = WorldBuilderFileUtils.getDataFileTypeByFileExtension(filePath);
+            DataFileType dataSrcType = WorldBuilderFileUtils.getDataFileTypeByFileExtension(filePath);
             worldBuilder = WorldBuilderFactory.createSimulationBuilder(dataSrcType, filePath);
             worldDefinition = worldBuilder.buildWorld();
             return new SimulatorResponse(true, "the following file has loaded successfully: " + filePath);

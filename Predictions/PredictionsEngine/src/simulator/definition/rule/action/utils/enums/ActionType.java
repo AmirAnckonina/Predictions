@@ -1,6 +1,6 @@
 package simulator.definition.rule.action.utils.enums;
 
-public enum eActionType {
+public enum ActionType {
     INCREASE,
     DECREASE,
     CALCULATION,

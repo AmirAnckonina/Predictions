@@ -2,11 +2,11 @@ package simulator.definition.rule.action.expression.mathExpression.impl;
 
 import simulator.definition.rule.action.expression.mathExpression.api.BinaryMathExpression;
 import simulator.definition.rule.action.expression.mathExpression.api.MathExpression;
-import simulator.definition.rule.action.expression.mathExpression.enums.eMathOperator;
+import simulator.definition.rule.action.expression.mathExpression.enums.MathOperator;
 
 public class Multiply extends BinaryMathExpression {
 
-    public Multiply(MathExpression arg1, MathExpression arg2, eMathOperator operator) {
+    public Multiply(MathExpression arg1, MathExpression arg2, MathOperator operator) {
         super(arg1, arg2, operator);
     }
 

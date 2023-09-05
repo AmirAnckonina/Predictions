@@ -2,16 +2,16 @@ package simulator.builder.impl.baseImpl;
 
 import simulator.builder.api.interfaces.ArgumentExpressionBuilder;
 import simulator.builder.utils.ArgExpressionTypeDemands;
-import simulator.builder.utils.eMandatoryTypeDemanding;
-import simulator.builder.utils.eParenthesesPart;
+import simulator.builder.utils.MandatoryTypeDemanding;
+import simulator.builder.utils.ExtractedParenthesesPart;
 import simulator.builder.utils.exception.WorldBuilderException;
 import simulator.builder.api.abstracts.AbstractComponentBuilder;
-import simulator.definition.property.utils.enums.ePropertyType;
+import simulator.definition.property.utils.enums.PropertyType;
 import simulator.definition.rule.action.expression.argumentExpression.api.abstracts.AbstractMethodArgumentExpression;
 import simulator.definition.rule.action.expression.argumentExpression.impl.method.*;
 import simulator.definition.rule.action.expression.argumentExpression.impl.property.PropertyNameArgumentExpression;
 import simulator.definition.rule.action.expression.argumentExpression.impl.value.SimpleValueArgumentExpression;
-import simulator.definition.rule.action.expression.argumentExpression.utils.enums.eExpressionMethod;
+import simulator.definition.rule.action.expression.argumentExpression.utils.enums.ExpressionMethodType;
 import simulator.builder.validator.api.WorldBuilderContextValidator;
 import simulator.definition.rule.action.expression.argumentExpression.api.interfaces.ArgumentExpression;
 
@@ -33,7 +33,7 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
 
         ArgumentExpression argExpression;
 
-        Optional<eExpressionMethod> maybeExpressionMethodType = tryGetMethodType(rawExpression, typeDemands);
+        Optional<ExpressionMethodType> maybeExpressionMethodType = tryGetMethodType(rawExpression, typeDemands);
         if (maybeExpressionMethodType.isPresent()) {
 
             argExpression = buildMethodArgumentExpression(
@@ -56,7 +56,7 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
 
     @Override
     public AbstractMethodArgumentExpression buildMethodArgumentExpression(
-            eExpressionMethod expMethodType, String rawExpression, ArgExpressionTypeDemands typeDemands) {
+            ExpressionMethodType expMethodType, String rawExpression, ArgExpressionTypeDemands typeDemands) {
 
         AbstractMethodArgumentExpression methodArgExpression;
         String parenthesesStringValue = extractParenthesesString(rawExpression);
@@ -106,7 +106,7 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
         }
 
        environmentMethodArgumentExpression = new EnvironmentMethodArgumentExpression(
-                eExpressionMethod.ENVIRONMENT,
+                ExpressionMethodType.ENVIRONMENT,
                 contextValidator.getEnvironmentPropertyType(rawEnvPropString), //Should return as String
                 rawEnvPropString
 
@@ -121,8 +121,8 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
         
         Integer maxRandVal = Integer.parseInt(parenthesesStringValue);
         return new RandomMethodArgumentExpression(
-                eExpressionMethod.RANDOM,
-                ePropertyType.DECIMAL, // Maybe as a float?
+                ExpressionMethodType.RANDOM,
+                PropertyType.DECIMAL, // Maybe as a float?
                 (new Random()).nextInt(maxRandVal)
         );
     }
@@ -132,15 +132,15 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
             String parenthesesStringValue, ArgExpressionTypeDemands typeDemands) {
 
         String entityName =
-                extractSubStringInParenthesesString(parenthesesStringValue, PERIOD, eParenthesesPart.LEFT);
+                extractSubStringInParenthesesString(parenthesesStringValue, PERIOD, ExtractedParenthesesPart.LEFT);
         String propertyName =
-                extractSubStringInParenthesesString(parenthesesStringValue, PERIOD, eParenthesesPart.RIGHT);
+                extractSubStringInParenthesesString(parenthesesStringValue, PERIOD, ExtractedParenthesesPart.RIGHT);
 
         boolean entityAndPropertyContextValid =
                 contextValidator.validateActionContextProcedure(entityName, propertyName);
 
         boolean propTypeAsExpected;
-        if (typeDemands.getMandatoryDemand() == eMandatoryTypeDemanding.Mentioned) {
+        if (typeDemands.getMandatoryDemand() == MandatoryTypeDemanding.Mentioned) {
                 propTypeAsExpected = contextValidator.validateEntityPropertyAsExpected(
                         entityName, propertyName, typeDemands.getPropertyType()
                 );
@@ -154,7 +154,7 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
 
 
         return new EvaluateMethodArgumentExpression(
-                eExpressionMethod.EVALUATE,
+                ExpressionMethodType.EVALUATE,
                 contextValidator.getEntityPropertyType(entityName, propertyName),
                 entityName,
                 propertyName
@@ -164,15 +164,15 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
     @Override
     public TicksMethodArgumentExpression buildTicksMethodArgumentExpression(String parenthesesStringValue, ArgExpressionTypeDemands typeDemands) {
         String entityName =
-                extractSubStringInParenthesesString(parenthesesStringValue, PERIOD, eParenthesesPart.LEFT);
+                extractSubStringInParenthesesString(parenthesesStringValue, PERIOD, ExtractedParenthesesPart.LEFT);
         String propertyName =
-                extractSubStringInParenthesesString(parenthesesStringValue, PERIOD, eParenthesesPart.RIGHT);
+                extractSubStringInParenthesesString(parenthesesStringValue, PERIOD, ExtractedParenthesesPart.RIGHT);
 
         boolean entityAndPropertyValid =
                 contextValidator.validateActionContextProcedure(entityName, propertyName);
 
         boolean propTypeAsExpected;
-        if (typeDemands.getMandatoryDemand() != eMandatoryTypeDemanding.NotMentioned) {
+        if (typeDemands.getMandatoryDemand() != MandatoryTypeDemanding.NotMentioned) {
             propTypeAsExpected = contextValidator.validateEntityPropertyAsExpected(
                     entityName, propertyName, typeDemands.getPropertyType()
             );
@@ -184,7 +184,7 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
         }
 
         return new TicksMethodArgumentExpression(
-                eExpressionMethod.TICKS,
+                ExpressionMethodType.TICKS,
                 contextValidator.getEntityPropertyType(entityName, propertyName),
                 entityName,
                 propertyName);
@@ -194,9 +194,9 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
     public PercentMethodArgumentExpression buildPercentMethodArgumentExpression(String parenthesesStringValue, ArgExpressionTypeDemands typeDemands) {
 
         String rawOriginalValueString =
-                extractSubStringInParenthesesString(parenthesesStringValue, COMMA, eParenthesesPart.LEFT);
+                extractSubStringInParenthesesString(parenthesesStringValue, COMMA, ExtractedParenthesesPart.LEFT);
         String rawPercentageString =
-                extractSubStringInParenthesesString(parenthesesStringValue, COMMA, eParenthesesPart.RIGHT);
+                extractSubStringInParenthesesString(parenthesesStringValue, COMMA, ExtractedParenthesesPart.RIGHT);
 
 
         ArgumentExpression originalValueExpression =
@@ -204,8 +204,8 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
                         .buildExpression(
                                 rawOriginalValueString,
                                 new ArgExpressionTypeDemands(
-                                        ePropertyType.FLOAT,
-                                        eMandatoryTypeDemanding.Mentioned
+                                        PropertyType.FLOAT,
+                                        MandatoryTypeDemanding.Mentioned
                                 )
                         );
         ArgumentExpression percentageExpression =
@@ -213,29 +213,29 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
                         .buildExpression(
                                 rawPercentageString,
                                 new ArgExpressionTypeDemands(
-                                        ePropertyType.FLOAT,
-                                        eMandatoryTypeDemanding.Mentioned
+                                        PropertyType.FLOAT,
+                                        MandatoryTypeDemanding.Mentioned
                                 )
                         );
 
         return new PercentMethodArgumentExpression(
-                eExpressionMethod.PERCENT,
-                ePropertyType.FLOAT,
+                ExpressionMethodType.PERCENT,
+                PropertyType.FLOAT,
                 originalValueExpression,
                 percentageExpression);
     }
 
     private String extractSubStringInParenthesesString(
-            String parenthesesStringValue, char delimiter, eParenthesesPart parenthesesPart) {
+            String parenthesesStringValue, char delimiter, ExtractedParenthesesPart parenthesesPart) {
 
         String extractedPart;
 
-        if(parenthesesPart == eParenthesesPart.LEFT) {
+        if(parenthesesPart == ExtractedParenthesesPart.LEFT) {
 
             extractedPart = parenthesesStringValue.substring(
                     0, parenthesesStringValue.lastIndexOf(delimiter));
 
-        } else if (parenthesesPart == eParenthesesPart.RIGHT) {
+        } else if (parenthesesPart == ExtractedParenthesesPart.RIGHT) {
 
             extractedPart = parenthesesStringValue.substring(
                     parenthesesStringValue.indexOf(delimiter) + 1 ,
@@ -270,26 +270,26 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
             String rawExpression, ArgExpressionTypeDemands typeDemands) {
 
         SimpleValueArgumentExpression simpleValueExpression;
-        ePropertyType propType = typeDemands.getPropertyType();
+        PropertyType propType = typeDemands.getPropertyType();
 
         switch (propType) {
             case BOOLEAN:
                 Boolean booleanValue = Boolean.parseBoolean(rawExpression);
-                simpleValueExpression = new SimpleValueArgumentExpression(booleanValue ,ePropertyType.BOOLEAN);
+                simpleValueExpression = new SimpleValueArgumentExpression(booleanValue , PropertyType.BOOLEAN);
                 break;
             case STRING:
                 String stringValue = rawExpression;
-                simpleValueExpression = new SimpleValueArgumentExpression(stringValue, ePropertyType.STRING);
+                simpleValueExpression = new SimpleValueArgumentExpression(stringValue, PropertyType.STRING);
 
                 break;
             case FLOAT:
                 Float floatValue = Float.parseFloat(rawExpression);
-                simpleValueExpression = new SimpleValueArgumentExpression(floatValue, ePropertyType.FLOAT);
+                simpleValueExpression = new SimpleValueArgumentExpression(floatValue, PropertyType.FLOAT);
 
                 break;
             case DECIMAL:
                 Integer intValue = Integer.parseInt(rawExpression);
-                simpleValueExpression = new SimpleValueArgumentExpression(intValue, ePropertyType.DECIMAL);
+                simpleValueExpression = new SimpleValueArgumentExpression(intValue, PropertyType.DECIMAL);
                 break;
             default:
                 throw new WorldBuilderException("The raw expression" + rawExpression + "can't be recognized");
@@ -306,21 +306,21 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
 
 
     @Override
-    public Optional<eExpressionMethod> tryGetMethodType(
+    public Optional<ExpressionMethodType> tryGetMethodType(
             String rawExpression, ArgExpressionTypeDemands typeDemands) {
 
-        eExpressionMethod method = null;
+        ExpressionMethodType method = null;
 
         if (rawExpression.startsWith("environment")){
-            method = eExpressionMethod.ENVIRONMENT;
+            method = ExpressionMethodType.ENVIRONMENT;
         } else if (rawExpression.startsWith("random")) {
-            method = eExpressionMethod.RANDOM;
+            method = ExpressionMethodType.RANDOM;
         } else if (rawExpression.startsWith("evaluate")) {
-            method = eExpressionMethod.EVALUATE;
+            method = ExpressionMethodType.EVALUATE;
         } else if (rawExpression.startsWith("percent")) {
-            method = eExpressionMethod.PERCENT;
+            method = ExpressionMethodType.PERCENT;
         } else if (rawExpression.startsWith("ticks")) {
-            method = eExpressionMethod.TICKS;
+            method = ExpressionMethodType.TICKS;
         }
 
         return Optional.ofNullable(method);

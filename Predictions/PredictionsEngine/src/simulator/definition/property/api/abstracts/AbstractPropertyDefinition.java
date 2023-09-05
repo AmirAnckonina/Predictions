@@ -1,15 +1,15 @@
 package simulator.definition.property.api.abstracts;
 
 import simulator.definition.property.api.interfaces.PropertyDefinition;
-import simulator.definition.property.utils.enums.ePropertyType;
+import simulator.definition.property.utils.enums.PropertyType;
 import simulator.definition.property.valueGenerator.api.ValueGenerator;
 
 public abstract class AbstractPropertyDefinition<T> implements PropertyDefinition<T> {
     private final String name;
-    private final ePropertyType propertyType;
+    private final PropertyType propertyType;
     private ValueGenerator<T> valueGenerator;
 
-    public AbstractPropertyDefinition(String name, ePropertyType propertyType, ValueGenerator<T> valueGenerator) {
+    public AbstractPropertyDefinition(String name, PropertyType propertyType, ValueGenerator<T> valueGenerator) {
         this.name = name;
         this.propertyType = propertyType;
         this.valueGenerator = valueGenerator;
@@ -24,7 +24,7 @@ public abstract class AbstractPropertyDefinition<T> implements PropertyDefinitio
         return name;
     }
     @Override
-    public ePropertyType getType() {
+    public PropertyType getType() {
         return propertyType;
     }
     @Override

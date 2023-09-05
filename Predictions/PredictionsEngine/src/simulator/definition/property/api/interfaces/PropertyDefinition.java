@@ -1,10 +1,10 @@
 package simulator.definition.property.api.interfaces;
 
-import simulator.definition.property.utils.enums.ePropertyType;
+import simulator.definition.property.utils.enums.PropertyType;
 
 public interface PropertyDefinition<T> {
     String getName();
-    ePropertyType getType();
+    PropertyType getType();
     T generateValue();
     String toString();
 }

@@ -4,7 +4,7 @@ import dto.EstablishedEnvironmentInfoDto;
 import response.SimulatorResponse;
 import simulator.definition.entity.EntityDefinition;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
-import simulator.definition.property.utils.enums.ePropertyType;
+import simulator.definition.property.utils.enums.PropertyType;
 import simulator.definition.rule.Rule;
 import simulator.definition.termination.Termination;
 import simulator.definition.world.WorldDefinition;
@@ -144,7 +144,7 @@ public class EstablishmentManagerImpl implements EstablishmentManager {
 
             for (Map.Entry<String, PropertyInstance> envPropInstance : envPropInstances.entrySet()) {
                 envInfo.put(envPropInstance.getKey(),
-                        ePropertyType.STRING.convert(envPropInstance.getValue().getValue().toString()));
+                        PropertyType.STRING.convert(envPropInstance.getValue().getValue().toString()));
             }
 
 

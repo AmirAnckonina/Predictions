@@ -1,6 +1,6 @@
 package simulator.builder.utils;
 
-public enum eMandatoryTypeDemanding {
+public enum MandatoryTypeDemanding {
     Mentioned,
     NotMentioned
 }

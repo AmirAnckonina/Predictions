@@ -1,6 +1,6 @@
 package simulator.definition.property.api.abstracts;
 
-import simulator.definition.property.utils.enums.ePropertyType;
+import simulator.definition.property.utils.enums.PropertyType;
 import simulator.definition.property.impl.Range;
 import simulator.definition.property.valueGenerator.api.ValueGenerator;
 
@@ -9,12 +9,12 @@ import java.util.Optional;
 public class AbstractNumericPropertyDefinition<T extends Number> extends AbstractPropertyDefinition<T> {
     private Range<T> range;
 
-    public AbstractNumericPropertyDefinition(String name, ePropertyType propertyType, ValueGenerator<T> valueGenerator, Range<T> range) {
+    public AbstractNumericPropertyDefinition(String name, PropertyType propertyType, ValueGenerator<T> valueGenerator, Range<T> range) {
         super(name, propertyType, valueGenerator);
         this.range = range;
     }
 
-    public AbstractNumericPropertyDefinition(String name, ePropertyType propertyType, ValueGenerator<T> valueGenerator) {
+    public AbstractNumericPropertyDefinition(String name, PropertyType propertyType, ValueGenerator<T> valueGenerator) {
         this(name, propertyType, valueGenerator, null);
     }
 

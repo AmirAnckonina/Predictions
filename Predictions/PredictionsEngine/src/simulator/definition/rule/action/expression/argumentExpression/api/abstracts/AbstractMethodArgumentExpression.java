@@ -1,14 +1,13 @@
 package simulator.definition.rule.action.expression.argumentExpression.api.abstracts;
 
-import simulator.definition.property.utils.enums.ePropertyType;
-import simulator.definition.rule.action.expression.argumentExpression.utils.enums.eExpressionMethod;
-import simulator.definition.rule.action.expression.argumentExpression.api.interfaces.ArgumentExpression;
+import simulator.definition.property.utils.enums.PropertyType;
+import simulator.definition.rule.action.expression.argumentExpression.utils.enums.ExpressionMethodType;
 
 public abstract class AbstractMethodArgumentExpression extends AbstractArgumentExpression {
 
-    protected eExpressionMethod method;
+    protected ExpressionMethodType method;
 
-    public AbstractMethodArgumentExpression(eExpressionMethod method, ePropertyType expressionReturnedValueType) {
+    public AbstractMethodArgumentExpression(ExpressionMethodType method, PropertyType expressionReturnedValueType) {
         super(expressionReturnedValueType);
         this.method = method;
     }

@@ -2,7 +2,7 @@ package simulator.result.api;
 
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
-import simulator.runner.utils.exceptions.eTerminationReason;
+import simulator.runner.utils.exceptions.TerminationReason;
 
 import java.util.List;
 import java.util.Map;
@@ -19,6 +19,6 @@ public interface SimulationResult {
     public Map<String, List<EntityInstance>> getEntities();
     void setInitializedEntityPopulation();
     void setStartingTime(long startTimeInMilliSec);
-    void setTerminationReason(eTerminationReason terminationReason);
-    public eTerminationReason getTerminationReason();
+    void setTerminationReason(TerminationReason terminationReason);
+    public TerminationReason getTerminationReason();
 }

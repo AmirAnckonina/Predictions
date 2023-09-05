@@ -3,7 +3,7 @@ package simulator.builder.impl.baseImpl;
 import simulator.builder.api.interfaces.PropertyBuilder;
 import simulator.builder.utils.exception.WorldBuilderException;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
-import simulator.definition.property.utils.enums.ePropertyType;
+import simulator.definition.property.utils.enums.PropertyType;
 import simulator.definition.property.impl.*;
 import simulator.definition.property.valueGenerator.api.ValueGenerator;
 import simulator.definition.property.valueGenerator.utils.factory.ValueGeneratorFactory;
@@ -12,7 +12,7 @@ public class BasePropertyBuilder implements PropertyBuilder {
 
     @Override
     public AbstractPropertyDefinition buildProperty(
-            String name, ePropertyType propertyType, Range doubledRange, String rawInitValue) {
+            String name, PropertyType propertyType, Range doubledRange, String rawInitValue) {
 
         try {
             AbstractPropertyDefinition newPropDefinition = null;
@@ -47,42 +47,42 @@ public class BasePropertyBuilder implements PropertyBuilder {
 
     @Override
     public AbstractPropertyDefinition buildBooleanProperty(
-            String name, ePropertyType propertyType, Range doubledRange, String rawInitValue) {
+            String name, PropertyType propertyType, Range doubledRange, String rawInitValue) {
 
         AbstractPropertyDefinition propDefinition;
         if (rawInitValue != null) {
 
             propDefinition = new BooleanPropertyDefinition(
                     name,
-                    ePropertyType.BOOLEAN,
+                    PropertyType.BOOLEAN,
                     ValueGeneratorFactory.createFixed(Boolean.parseBoolean(rawInitValue)));
         } else {
 
             propDefinition = new BooleanPropertyDefinition(
-                    name, ePropertyType.BOOLEAN, ValueGeneratorFactory.createRandomBooleanGenerator());
+                    name, PropertyType.BOOLEAN, ValueGeneratorFactory.createRandomBooleanGenerator());
         }
 
         return propDefinition;
     }
 
     @Override
-    public AbstractPropertyDefinition buildStringProperty(String name, ePropertyType propertyType, Range doubledRange, String rawInitValue) {
+    public AbstractPropertyDefinition buildStringProperty(String name, PropertyType propertyType, Range doubledRange, String rawInitValue) {
 
         AbstractPropertyDefinition propDefinition;
 
         if (rawInitValue != null) {
             propDefinition = new StringPropertyDefinition(
-                    name, ePropertyType.STRING, ValueGeneratorFactory.createFixed(rawInitValue));
+                    name, PropertyType.STRING, ValueGeneratorFactory.createFixed(rawInitValue));
         } else {
             propDefinition = new StringPropertyDefinition(
-                    name, ePropertyType.STRING, ValueGeneratorFactory.createRandomStringGenerator());
+                    name, PropertyType.STRING, ValueGeneratorFactory.createRandomStringGenerator());
         }
 
         return propDefinition;
     }
 
     @Override
-    public AbstractPropertyDefinition buildDecimalProperty(String name, ePropertyType propertyType, Range doubledRange, String rawInitValue) {
+    public AbstractPropertyDefinition buildDecimalProperty(String name, PropertyType propertyType, Range doubledRange, String rawInitValue) {
         AbstractPropertyDefinition propDefinition;
         ValueGenerator decimalValueGenerator;
 
@@ -101,7 +101,7 @@ public class BasePropertyBuilder implements PropertyBuilder {
 
             propDefinition =
                     new DecimalPropertyDefinition(
-                            name, ePropertyType.DECIMAL, decimalValueGenerator, decimalRange);
+                            name, PropertyType.DECIMAL, decimalValueGenerator, decimalRange);
 
         } else {
 
@@ -112,14 +112,14 @@ public class BasePropertyBuilder implements PropertyBuilder {
                 decimalValueGenerator = ValueGeneratorFactory.createRandomUnlimitedDecimalGenerator();
             }
             propDefinition = new DecimalPropertyDefinition(
-                    name, ePropertyType.DECIMAL, decimalValueGenerator);
+                    name, PropertyType.DECIMAL, decimalValueGenerator);
         }
 
         return propDefinition;
     }
 
     @Override
-    public AbstractPropertyDefinition buildFloatProperty(String name, ePropertyType propertyType, Range doubledRange, String rawInitValue) {
+    public AbstractPropertyDefinition buildFloatProperty(String name, PropertyType propertyType, Range doubledRange, String rawInitValue) {
 
         AbstractPropertyDefinition propertyDefinition;
         ValueGenerator floatValGenerator;
@@ -139,7 +139,7 @@ public class BasePropertyBuilder implements PropertyBuilder {
             }
 
             propertyDefinition = new FloatPropertyDefinition(
-                    name, ePropertyType.FLOAT, floatValGenerator, floatRange);
+                    name, PropertyType.FLOAT, floatValGenerator, floatRange);
 
         } else {
             if (rawInitValue != null)
@@ -149,7 +149,7 @@ public class BasePropertyBuilder implements PropertyBuilder {
                 floatValGenerator = ValueGeneratorFactory.createRandomUnlimitedFloatGenerator();
             }
             propertyDefinition = new FloatPropertyDefinition(
-                    name, ePropertyType.FLOAT, floatValGenerator);
+                    name, PropertyType.FLOAT, floatValGenerator);
         }
 
         return propertyDefinition;
