@@ -12,6 +12,7 @@ public abstract class AbstractAction implements Action {
     private ActionSecondaryEntityDefinition actionSecondaryEntityDefinition;
 
     public AbstractAction(eActionType type, String primaryEntityName) {
+
         this(type, primaryEntityName, null);
     }
 
@@ -28,6 +29,7 @@ public abstract class AbstractAction implements Action {
 
     @Override
     public eActionType getType() {
+
         return type;
     }
 
@@ -39,5 +41,9 @@ public abstract class AbstractAction implements Action {
     @Override
     public Optional<ActionSecondaryEntityDefinition> getActionSecondaryEntityDefinition() {
         return Optional.ofNullable(this.actionSecondaryEntityDefinition);
+    }
+
+    public void setActionSecondaryEntityDefinition(ActionSecondaryEntityDefinition actionSecondaryEntityDefinition) {
+        this.actionSecondaryEntityDefinition = actionSecondaryEntityDefinition;
     }
 }

@@ -39,11 +39,6 @@ public class XmlConditionExpressionBuilder extends AbstractComponentBuilder impl
     public ConditionExpression buildConditionExpression() {
 
         ConditionExpression condExpression;
-        boolean conditionContextValid = conditionContextValidationProcedure();
-
-        if (!conditionContextValid) {
-            throw new WorldBuilderException("Condition context is invalid.");
-        }
 
         eConditionSingularity conditionSingularity =
                 eConditionSingularity.valueOf(generatedCondition.getSingularity().toUpperCase());
@@ -63,10 +58,10 @@ public class XmlConditionExpressionBuilder extends AbstractComponentBuilder impl
         return condExpression;
     }
 
-    private boolean conditionContextValidationProcedure() {
+    private boolean conditionEntityContextValidationProcedure() {
         boolean conditionContextValid =
-                contextValidator.validateActionContextProcedure(
-                        generatedCondition.getEntity(), generatedCondition.getProperty()
+                contextValidator.validateActionEntityContext(
+                        generatedCondition.getEntity()
                 );
 
         return conditionContextValid;
@@ -74,6 +69,12 @@ public class XmlConditionExpressionBuilder extends AbstractComponentBuilder impl
 
     @Override
     public AbstractSingleConditionExpression buildSingleCondition() {
+
+        boolean conditionContextValid = conditionEntityContextValidationProcedure();
+
+        if (!conditionContextValid) {
+            throw new WorldBuilderException("Condition context is invalid.");
+        }
 
         String entityName = generatedCondition.getEntity();
         String rawConditionProperty = generatedCondition.getProperty();
@@ -83,9 +84,7 @@ public class XmlConditionExpressionBuilder extends AbstractComponentBuilder impl
                 new BaseArgumentExpressionBuilder(contextValidator)
                         .buildExpression(
                                 rawConditionProperty,
-                                new ArgExpressionTypeDemands(
-                                    eMandatoryTypeDemanding.NotMentioned // Consider to set String as the demanding.
-                                )
+                                new ArgExpressionTypeDemands()
 
                         );
 
