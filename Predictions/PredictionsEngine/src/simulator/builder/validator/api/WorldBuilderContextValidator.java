@@ -22,4 +22,5 @@ public interface WorldBuilderContextValidator {
     boolean validateActionContextProcedure(String entityName, String entityPropertyName);
     boolean isEntityPropertyNameExists(String rawExpression);
     boolean validateEntityPropertyAsExpected(String entityName ,String propertyName, PropertyType expectedType);
+
 }

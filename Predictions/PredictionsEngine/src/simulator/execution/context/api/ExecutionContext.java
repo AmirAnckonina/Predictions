@@ -7,7 +7,8 @@ import simulator.execution.instance.property.api.PropertyInstance;
 
 public interface ExecutionContext {
 
-    EntityInstance getPrimaryEntityInstance();
+    EntityInstance getEntityInstanceByName(String entityName);
     void removeEntity(String entityName, EntityInstance entityInstance);
     PropertyInstance getEnvironmentVariable(String name);
+    void addEntityInstance(EntityInstance additionalEntityInstance);
 }

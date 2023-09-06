@@ -4,7 +4,7 @@ import resources.jaxb.schema.generated.PRDCondition;
 import simulator.builder.api.abstracts.AbstractComponentBuilder;
 import simulator.builder.api.interfaces.ConditionExpressionBuilder;
 import simulator.builder.impl.baseImpl.BaseArgumentExpressionBuilder;
-import simulator.builder.utils.ArgExpressionTypeDemands;
+import simulator.builder.utils.ArgExpressionContextDemands;
 import simulator.builder.utils.exception.WorldBuilderException;
 import simulator.builder.validator.api.WorldBuilderContextValidator;
 import simulator.builder.utils.file.WorldBuilderUtils;
@@ -83,7 +83,7 @@ public class XmlConditionExpressionBuilder extends AbstractComponentBuilder impl
                 new BaseArgumentExpressionBuilder(contextValidator)
                         .buildExpression(
                                 rawConditionProperty,
-                                new ArgExpressionTypeDemands()
+                                new ArgExpressionContextDemands(entityName)
 
                         );
 
@@ -91,7 +91,8 @@ public class XmlConditionExpressionBuilder extends AbstractComponentBuilder impl
                 new BaseArgumentExpressionBuilder(contextValidator)
                         .buildExpression(
                                 rawValue,
-                                new ArgExpressionTypeDemands(
+                                new ArgExpressionContextDemands(
+                                        entityName,
                                         conditionPropertyArgExpression.getExpressionReturnedValueType()
                                 )
 

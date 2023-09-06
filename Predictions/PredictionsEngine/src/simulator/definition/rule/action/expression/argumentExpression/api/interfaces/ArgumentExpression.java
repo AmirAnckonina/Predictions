@@ -4,6 +4,5 @@ import simulator.execution.context.api.ExecutionContext;
 
 public interface ArgumentExpression {
     Object getValue(ExecutionContext context);
-
     PropertyType getExpressionReturnedValueType();
 }

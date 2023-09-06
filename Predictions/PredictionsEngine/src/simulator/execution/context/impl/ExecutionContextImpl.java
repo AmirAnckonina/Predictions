@@ -8,21 +8,25 @@ import simulator.execution.instance.entity.manager.api.EntityInstanceManager;
 import simulator.execution.instance.environment.api.EnvironmentInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ExecutionContextImpl implements ExecutionContext {
-    EntityInstance primaryEntityInstance;
-    EntitiesInstancesManager entitiesInstancesManager;
+    private Map<String, EntityInstance> entityInstanceMap;
+    private EntitiesInstancesManager entitiesInstancesManager;
     private EnvironmentInstance environmentInstance;
 
-    public ExecutionContextImpl(EntityInstance primaryEntityInstance, EntitiesInstancesManager entitiesInstancesManager, EnvironmentInstance environmentInstance) {
-        this.primaryEntityInstance = primaryEntityInstance;
+    public ExecutionContextImpl(EntityInstance entityInstance, EntitiesInstancesManager entitiesInstancesManager, EnvironmentInstance environmentInstance) {
+        entityInstanceMap = new HashMap<>();
+        entityInstanceMap.put(entityInstance.getEntityNameFamily(), entityInstance);
         this.entitiesInstancesManager = entitiesInstancesManager;
         this.environmentInstance = environmentInstance;
     }
 
 
     @Override
-    public EntityInstance getPrimaryEntityInstance() {
-        return primaryEntityInstance;
+    public EntityInstance getEntityInstanceByName(String entityName) {
+        return this.entityInstanceMap.get(entityName);
     }
 
     @Override
@@ -32,7 +36,11 @@ public class ExecutionContextImpl implements ExecutionContext {
 
     @Override
     public PropertyInstance getEnvironmentVariable(String name) {
-
         return environmentInstance.getPropertyByName(name);
+    }
+
+    @Override
+    public void addEntityInstance(EntityInstance additionalEntityInstance) {
+        this.entityInstanceMap.put(additionalEntityInstance.getEntityNameFamily(), additionalEntityInstance);
     }
 }

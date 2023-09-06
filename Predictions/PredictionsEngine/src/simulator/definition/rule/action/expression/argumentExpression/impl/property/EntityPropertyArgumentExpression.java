@@ -5,18 +5,23 @@ import simulator.definition.property.utils.enums.PropertyType;
 import simulator.definition.rule.action.expression.argumentExpression.api.abstracts.AbstractArgumentExpression;
 import simulator.execution.context.api.ExecutionContext;
 
-public class PropertyNameArgumentExpression extends AbstractArgumentExpression {
-
+public class EntityPropertyArgumentExpression extends AbstractArgumentExpression {
+    private String entityName;
     private String propertyName;
 
-    public PropertyNameArgumentExpression(String propertyName, PropertyType expressionReturnedValueType) {
+    public EntityPropertyArgumentExpression(String entityName, String propertyName, PropertyType expressionReturnedValueType) {
         super(expressionReturnedValueType);
+        this.entityName = entityName;
         this.propertyName = propertyName;
     }
 
     @Override
     public Object getValue(ExecutionContext context) {
-        return context.getPrimaryEntityInstance().getPropertyByName(propertyName).getValue();
+        return context
+                .getEntityInstanceByName(this.entityName)
+                .getPropertyInstanceByName(this.propertyName)
+                .getValue();
+
     }
 
 

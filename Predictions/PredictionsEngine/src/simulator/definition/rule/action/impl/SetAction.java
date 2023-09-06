@@ -15,6 +15,9 @@ public class SetAction extends AbstractPropertyAction {
 
     @Override
     public void invoke(ExecutionContext context) {
-        context.getPrimaryEntityInstance().getPropertyByName(propertyName).updateValue(value);
+        context
+                .getEntityInstanceByName(this.primaryEntityName)
+                .getPropertyInstanceByName(this.propertyName)
+                .updateValue(value);
     }
 }
