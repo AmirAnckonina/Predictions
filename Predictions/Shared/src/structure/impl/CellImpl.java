@@ -2,27 +2,26 @@ package structure.impl;
 
 import jdk.nashorn.internal.runtime.regexp.JoniRegExp;
 import structure.api.Cell;
+import structure.api.Coordinate;
 import structure.api.eCellContentStatus;
 
 public class CellImpl<T> implements Cell<T>{
-    private int x;
-    private int y;
+    private Coordinate coordinate;
     private T data;
     private eCellContentStatus contentStatus;
 
-    private CellImpl(int x, int y, T data, eCellContentStatus contentStatus) {
-        this.x = x;
-        this.y = y;
+    private CellImpl(Coordinate coordinate, T data, eCellContentStatus contentStatus) {
+        this.coordinate = coordinate;
         this.data = data;
         this.contentStatus = contentStatus;
     }
 
-    public CellImpl(int x, int y, T data) {
-        this(x, y, data, eCellContentStatus.OCCUPIED);
+    public CellImpl(Coordinate coordinate, T data) {
+        this(coordinate, data, eCellContentStatus.OCCUPIED);
     }
 
-    public CellImpl(int x, int y) {
-        this(x, y, null, eCellContentStatus.EMPTY);
+    public CellImpl(Coordinate coordinate) {
+        this(coordinate, null, eCellContentStatus.EMPTY);
     }
 
     @Override
@@ -62,7 +61,13 @@ public class CellImpl<T> implements Cell<T>{
     public T removeData(){
         T copy = data;
         this.data = null;
+        this.contentStatus = eCellContentStatus.EMPTY;
 
         return copy;
+    }
+
+    @Override
+    public Coordinate getCoordinate() {
+        return this.coordinate;
     }
 }

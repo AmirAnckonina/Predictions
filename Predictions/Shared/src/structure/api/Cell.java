@@ -5,15 +5,16 @@ public interface Cell<T> {
 
 
 
-    public T getData();
+    T getData();
 
-    public void updateData(T data);
+    void updateData(T data);
 
-    public boolean insertObjectToCell(T data);
+    boolean insertObjectToCell(T data);
 
-    public eCellContentStatus occupiedStatus();
+    eCellContentStatus occupiedStatus();
 
-    public boolean isOccupied();
+    boolean isOccupied();
 
-    public T removeData();
+    T removeData();
+    Coordinate getCoordinate();
 }
