@@ -63,7 +63,7 @@ public class SimulationResultImpl implements SimulationResult {
         return worldInstance.
                 getEntityInstancesByEntityName(entityName).
                 get(Integer.valueOf(entityID)).
-                getPropertyByName(propertyName);
+                getPropertyInstanceByName(propertyName);
     }
 
     @Override

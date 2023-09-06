@@ -30,12 +30,8 @@ public class ManualSimulationSetupManagerImpl implements ManualSimulationSetupMa
             switch (value){
                 case "True":
                 case "true":
-                case "yes":
-                case "y":
                 case "false":
                 case "False":
-                case "No":
-                case "no":
                     break;
                 default:
                     throw new RuntimeException("Invalid input");

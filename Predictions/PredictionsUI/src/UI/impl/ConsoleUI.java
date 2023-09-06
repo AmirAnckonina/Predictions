@@ -503,7 +503,7 @@ public class ConsoleUI implements UserInterface {
                 break;
             case "boolean":
             case "bool":
-                System.out.println("(insert y/n and press enter)");
+                System.out.println("(insert true/false and press enter)");
                 break;
             case "float":
             case "decimal":

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public class WorldInstanceImpl implements WorldInstance {
+
     private EnvironmentInstance environmentInstance;
     private Map<String, List<EntityInstance>> entitiesInstances;
     private List<Rule> rules;

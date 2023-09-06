@@ -88,7 +88,7 @@ public class ResultManagerImpl implements ResultManager {
         Map<String, Integer> valueCountMap = new HashMap<>();
 
         for (EntityInstance instance : entityInstancesList) {
-            PropertyInstance propertyInstance = instance.getPropertyByName(propertyName);
+            PropertyInstance propertyInstance = instance.getPropertyInstanceByName(propertyName);
             if (propertyInstance != null) {
                 Object value = propertyInstance.getValue();
                 valueCountMap.put("" + value, valueCountMap.getOrDefault("" + value, 0) + 1);
@@ -108,7 +108,7 @@ public class ResultManagerImpl implements ResultManager {
         Map<String, Integer> valueCountMap = new HashMap<>();
 
         for (EntityInstance instance : entityInstanceList) {
-            PropertyInstance propertyInstance = instance.getPropertyByName(propertyName);
+            PropertyInstance propertyInstance = instance.getPropertyInstanceByName(propertyName);
             if (propertyInstance != null) {
                 Object value = propertyInstance.getValue();
                 valueCountMap.put("" + value, valueCountMap.getOrDefault("" + value, 0) + 1);
