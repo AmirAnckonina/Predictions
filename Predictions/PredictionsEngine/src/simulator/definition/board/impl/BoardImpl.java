@@ -110,8 +110,9 @@ public class BoardImpl implements Board {
 
         for (int dx = -distance; dx <= distance; dx++) {
             for (int dy = -distance; dy <= distance; dy++) {
-                if (dx == 0 && dy == 0) {
-                    // Skip the current cell itself
+                if ((dx <= distance - 1 && dx >= 0 && dy <= distance - 1 && dy >= 0) ||
+                        (dx >= -distance + 1 && dx <= 0 && dy >= -distance + 1 && dy <= 0)) {
+                    // Skip the current cell itself and the all cell closer than the generic circle
                     continue;
                 }
 
