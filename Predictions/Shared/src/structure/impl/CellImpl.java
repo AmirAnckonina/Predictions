@@ -1,5 +1,6 @@
 package structure.impl;
 
+import jdk.nashorn.internal.runtime.regexp.JoniRegExp;
 import structure.api.Cell;
 import structure.api.eCellContentStatus;
 
@@ -30,8 +31,31 @@ public class CellImpl<T> implements Cell<T>{
     }
 
     @Override
-    public void setData(T data) {
+    public void updateData(T data) {
         this.data = data;
+    }
+
+    @Override
+    public boolean insertObjectToCell(T data) {
+        boolean returnVal = false;
+
+        if(this.contentStatus == eCellContentStatus.EMPTY){
+            this.data = data;
+            returnVal = true;
+            this.contentStatus = eCellContentStatus.OCCUPIED;
+        }
+
+        return returnVal;
+    }
+
+    @Override
+    public eCellContentStatus occupiedStatus() {
+        return this.contentStatus;
+    }
+
+    @Override
+    public boolean isOccupied() {
+        return this.contentStatus == eCellContentStatus.OCCUPIED;
     }
 
     @Override
