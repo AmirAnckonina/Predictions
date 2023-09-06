@@ -21,6 +21,12 @@ public class BoardImpl implements Board {
         this.width = width;
         this.totalNumberOfCells = this.totalNumberOfFreeCells = height * width;
         this.matrix = new CellImpl[width][height];
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                matrix[x][y] = new CellImpl<>(x, y);
+            }
+        }
     }
 
     @Override

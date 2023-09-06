@@ -2,6 +2,7 @@ package simulator.execution.instance.entity.impl;
 
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
+import structure.api.Coordinate;
 
 import java.util.Map;
 
@@ -10,6 +11,7 @@ public class EntityInstanceImpl implements EntityInstance {
     private boolean alive;
     private int id;
     private Map<String, PropertyInstance> properties;
+    private Coordinate coordinate;
 
     public EntityInstanceImpl(String entityNameFamily, int id, Map<String, PropertyInstance> properties) {
         this.entityNameFamily = entityNameFamily;
@@ -45,7 +47,18 @@ public class EntityInstanceImpl implements EntityInstance {
     }
 
     @Override
+    public Coordinate getCoordinate() {
+        return coordinate;
+    }
+
+    @Override
+    public void setCoordinate(Coordinate coordinate) {
+        this.coordinate = coordinate;
+    }
+  
+    @Override
     public String getEntityNameFamily() {
         return this.entityNameFamily;
+
     }
 }

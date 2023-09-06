@@ -2,6 +2,8 @@ package simulator.establishment.manager.impl;
 
 import dto.EstablishedEnvironmentInfoDto;
 import response.SimulatorResponse;
+import simulator.definition.board.api.Board;
+import simulator.definition.board.impl.BoardImpl;
 import simulator.definition.entity.EntityDefinition;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 import simulator.definition.property.utils.enums.PropertyType;
@@ -17,11 +19,12 @@ import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.execution.instance.property.impl.PropertyInstanceImpl;
 import simulator.execution.instance.world.api.WorldInstance;
 import simulator.execution.instance.world.impl.WorldInstanceImpl;
+import structure.api.Coordinate;
+import structure.api.eCellContentStatus;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import javafx.util.Pair;
+import structure.impl.CoordinateImpl;
 
 public class EstablishmentManagerImpl implements EstablishmentManager {
     private WorldDefinition worldDefinition;
@@ -42,10 +45,11 @@ public class EstablishmentManagerImpl implements EstablishmentManager {
             this.worldDefinition = worldDefinition;
             EnvironmentInstance envInstance = establishEnvironment();
             Map<String, List<EntityInstance>> entitiesInstances = createEntitiesInstances();
+            Board spaceGrid = new BoardImpl(worldDefinition.getSpaceGridDefinition().getColumns(), worldDefinition.getSpaceGridDefinition().getRows());
             List<Rule> rules = this.worldDefinition.getRules();
             Termination termination = this.worldDefinition.getTermination();
-
-            this.worldInstance = new WorldInstanceImpl(envInstance, entitiesInstances, rules, termination);
+            placeEntitiesRandomizeOnSpaceGrid(entitiesInstances, spaceGrid);
+            this.worldInstance = new WorldInstanceImpl(envInstance, entitiesInstances, rules, termination, spaceGrid);
 
             return  new SimulatorResponse<>(
                     true,
@@ -60,6 +64,46 @@ public class EstablishmentManagerImpl implements EstablishmentManager {
         }
     }
 
+    private void placeEntitiesRandomizeOnSpaceGrid(Map<String, List<EntityInstance>> entitiesInstances, Board spaceGrid) {
+        Random random = new Random();
+        List<Coordinate> emptyCoordinates = generateCellCoordinates(spaceGrid.getHeight(), spaceGrid.getWidth());
+
+        for (Map.Entry<String, List<EntityInstance>> entry : entitiesInstances.entrySet()) {
+            String key = entry.getKey();
+            List<EntityInstance> entityInstanceS = entry.getValue();
+
+            for (EntityInstance entityInstance : entityInstanceS) {
+                // Find a random empty cell in the matrix
+                boolean placed = false;
+
+                while (!placed) {
+                    int randomCoordinateIndex = random.nextInt(emptyCoordinates.size());
+                    int randomCol = emptyCoordinates.get(randomCoordinateIndex).getX();
+                    int randomRow = emptyCoordinates.get(randomCoordinateIndex).getY();
+
+                    if (!spaceGrid.getCell(randomRow, randomCol).isOccupied()) {
+                        spaceGrid.getCell(randomRow, randomCol).insertObjectToCell(entityInstance);
+                        entityInstance.setCoordinate(emptyCoordinates.get(randomCoordinateIndex));
+                        placed = true;
+                    }
+
+                    emptyCoordinates.remove(randomCoordinateIndex);
+                }
+            }
+        }
+    }
+
+    private static List<Coordinate> generateCellCoordinates(int numRows, int numColumns) {
+        List<Coordinate> coordinates = new ArrayList<>();
+
+        for (int row = 0; row < numRows; row++) {
+            for (int col = 0; col < numColumns; col++) {
+                coordinates.add(new CoordinateImpl(row, col));
+            }
+        }
+
+        return coordinates;
+    }
 
 
     @Override

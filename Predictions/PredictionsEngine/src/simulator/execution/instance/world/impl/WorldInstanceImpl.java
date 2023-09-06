@@ -1,5 +1,6 @@
 package simulator.execution.instance.world.impl;
 
+import simulator.definition.board.api.Board;
 import simulator.definition.rule.Rule;
 import simulator.definition.termination.Termination;
 
@@ -16,17 +17,20 @@ public class WorldInstanceImpl implements WorldInstance {
     private Map<String, List<EntityInstance>> entitiesInstances;
     private List<Rule> rules;
     private Termination termination;
+    private Board spaceGrid;
 
     public WorldInstanceImpl(
             EnvironmentInstance environmentInstance,
             Map<String, List<EntityInstance>> entitiesInstances,
             List<Rule> rules,
-            Termination termination) {
+            Termination termination,
+            Board spaceGrid) {
 
         this.environmentInstance = environmentInstance;
         this.entitiesInstances = entitiesInstances;
         this.rules = rules;
         this.termination = termination;
+        this.spaceGrid = spaceGrid;
     }
 
     @Override

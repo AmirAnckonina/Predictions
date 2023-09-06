@@ -7,7 +7,13 @@ public interface Cell<T> {
 
     public T getData();
 
-    public void setData(T data);
+    public void updateData(T data);
+
+    public boolean insertObjectToCell(T data);
+
+    public eCellContentStatus occupiedStatus();
+
+    public boolean isOccupied();
 
     public T removeData();
 }
