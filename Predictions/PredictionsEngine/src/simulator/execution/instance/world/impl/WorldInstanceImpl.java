@@ -49,6 +49,11 @@ public class WorldInstanceImpl implements WorldInstance {
     }
 
     @Override
+    public Board getSpaceGrid() {
+        return this.spaceGrid;
+    }
+
+    @Override
     public Termination getTermination() {
         return termination;
     }

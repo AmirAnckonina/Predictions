@@ -1,9 +1,12 @@
 package simulator.definition.board.impl;
 
 import simulator.definition.board.api.Board;
+import simulator.definition.board.api.eCellOrInstance;
 import simulator.execution.instance.entity.api.EntityInstance;
 import structure.api.Cell;
+import structure.api.Coordinate;
 import structure.impl.CellImpl;
+import structure.impl.CoordinateImpl;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -14,7 +17,9 @@ public class BoardImpl implements Board {
     private Integer totalNumberOfCells = null;
     private Integer totalNumberOfFreeCells = null;
 
-    private CellImpl<EntityInstance>[][] matrix = null;
+    private Cell<EntityInstance>[][] matrix = null;
+    private List<EntityInstance> neighborsInstances = null;
+    private List<Cell> neighborsCells = null;
 
     public BoardImpl(Integer height, Integer width) {
         this.height = height;
@@ -24,7 +29,7 @@ public class BoardImpl implements Board {
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                matrix[x][y] = new CellImpl<>(x, y);
+                matrix[x][y] = new CellImpl<>(new CoordinateImpl(x, y));
             }
         }
     }
@@ -50,25 +55,58 @@ public class BoardImpl implements Board {
     }
 
     @Override
-    public CellImpl getCell(int x, int y) {
-        return this.matrix[x][y];
+    public Cell getCell(Coordinate coordinate) {
+        return this.matrix[coordinate.getX()][coordinate.getY()];
     }
 
     @Override
-    public List<EntityInstance> getListOfInstancesInFirstCircle(int x, int y) {
-
-        return this.getListOfInstancesInGenericCircle(x,y, 1);
+    public List<EntityInstance> getListOfInstancesInFirstCircle(Coordinate coordinate) {
+        getListOfInstancesOrCellsInGenericCircle(coordinate, 1, eCellOrInstance.INSTANCE);
+        return getNeighborsInstancesReference();
     }
 
     @Override
-    public List<EntityInstance> getListOfInstancesInSecondCircle(int x, int y) {
-
-        return this.getListOfInstancesInGenericCircle(x,y, 2);
+    public List<Cell> getListOfCellsInFirstCircle(Coordinate coordinate) {
+        getListOfInstancesOrCellsInGenericCircle(coordinate, 1, eCellOrInstance.CELL);
+        return getNeighborsCellsReference();
     }
 
-    public List<EntityInstance> getListOfInstancesInGenericCircle(int x, int y, int distance) {
+    @Override
+    public List<EntityInstance> getListOfInstancesInSecondCircle(Coordinate coordinate) {
+        getListOfInstancesOrCellsInGenericCircle(coordinate, 2, eCellOrInstance.INSTANCE);
+        return getNeighborsInstancesReference();
+    }
 
-        List<EntityInstance> neighbors = new ArrayList<>();
+    private List<EntityInstance> getNeighborsInstancesReference(){
+        List<EntityInstance> tempList = this.neighborsInstances;
+        this.neighborsInstances = null;
+
+        return tempList;
+    }
+
+    private List<Cell> getNeighborsCellsReference(){
+        List<Cell> tempList = this.neighborsCells;
+        this.neighborsCells = null;
+
+        return tempList;
+    }
+
+    @Override
+    public List<EntityInstance> getListOfAllInstances() {
+        List<EntityInstance> entityInstanceList = new ArrayList<>();
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                entityInstanceList.add(matrix[x][y].getData());
+            }
+        }
+
+        return entityInstanceList;
+    }
+
+    public void getListOfInstancesOrCellsInGenericCircle(Coordinate coordinate, int distance, eCellOrInstance typeOfReturnValue) {
+
+        this.neighborsInstances = new ArrayList<>();
+        this.neighborsCells = new ArrayList<>();
 
         for (int dx = -distance; dx <= distance; dx++) {
             for (int dy = -distance; dy <= distance; dy++) {
@@ -77,21 +115,21 @@ public class BoardImpl implements Board {
                     continue;
                 }
 
-                int neighborX = x + dx;
-                int neighborY = y + dy;
+                int neighborX = coordinate.getX() + dx;
+                int neighborY = coordinate.getY() + dy;
+
+                neighborsCells.add(matrix[neighborX][neighborY]);
 
                 // Check if the neighbor is within the matrix boundaries
                 if (neighborX >= 0 && neighborX < height && neighborY >= 0 && neighborY < width) {
-                    neighbors.add(matrix[neighborX][neighborY].getData());
+                    neighborsInstances.add(matrix[neighborX][neighborY].getData());
                 } else {
                     // Handle boundary conditions
                     int wrappedX = (neighborX + height) % height;
                     int wrappedY = (neighborY + width) % width;
-                    neighbors.add(matrix[wrappedX][wrappedY].getData());
+                    neighborsInstances.add(matrix[wrappedX][wrappedY].getData());
                 }
             }
         }
-
-        return neighbors;
     }
 }

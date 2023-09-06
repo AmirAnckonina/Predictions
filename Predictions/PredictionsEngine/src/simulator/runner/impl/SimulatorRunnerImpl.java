@@ -7,6 +7,8 @@ import simulator.definition.termination.Termination;
 import simulator.execution.instance.entity.manager.api.EntitiesInstancesManager;
 import simulator.execution.instance.entity.manager.impl.EntitiesInstancesManagerImpl;
 import simulator.information.simulationDocument.api.SimulationDocument;
+import simulator.movment.api.MovementManager;
+import simulator.movment.impl.MovementManagerImpl;
 import simulator.runner.api.SimulatorRunner;
 import simulator.execution.context.api.ExecutionContext;
 import simulator.execution.context.impl.ExecutionContextImpl;
@@ -93,7 +95,8 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
         while (!termination.shouldTerminate(currTick, currTimeInMilliSec)) {
 
             // 1. Entities movement
-
+            MovementManager movementManager = new MovementManagerImpl();
+            movementManager.moveAllEntitiesOneStep(this.worldInstance.getSpaceGrid());
 
             // 2. Scan rules,
             // check activation for the current tick,
