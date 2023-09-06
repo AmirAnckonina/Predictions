@@ -2,9 +2,11 @@ package simulator.runner.impl;
 
 import simulator.definition.rule.Rule;
 import simulator.definition.rule.action.api.interfaces.Action;
+import simulator.definition.rule.action.secondaryEntity.api.ActionSecondaryEntityDefinition;
 import simulator.definition.termination.Termination;
 import simulator.execution.instance.entity.manager.api.EntitiesInstancesManager;
 import simulator.execution.instance.entity.manager.impl.EntitiesInstancesManagerImpl;
+import simulator.information.simulationDocument.api.SimulationDocument;
 import simulator.runner.api.SimulatorRunner;
 import simulator.execution.context.api.ExecutionContext;
 import simulator.execution.context.impl.ExecutionContextImpl;
@@ -16,20 +18,22 @@ import simulator.result.api.SimulationResult;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class SimulatorRunnerImpl implements SimulatorRunner {
 
     private final WorldInstance worldInstance;
     private final EntitiesInstancesManager entitiesInstancesManager;
     private final EnvironmentInstance environmentInstance;
+    private SimulationDocument simulationDocument;
 
-    public SimulatorRunnerImpl(WorldInstance worldInstance) {
-        this.worldInstance = worldInstance;
-        this.entitiesInstancesManager =
-                new EntitiesInstancesManagerImpl(
-                        worldInstance.getEntitiesInstances()
-                );
-        this.environmentInstance = worldInstance.getEnvironmentInstance();
+    public SimulatorRunnerImpl(SimulationDocument simulationDocument) {
+        this.simulationDocument = simulationDocument;
+        this.worldInstance = this.simulationDocument.getWorldInstance();
+        this.entitiesInstancesManager = new EntitiesInstancesManagerImpl(
+                worldInstance.getEntitiesInstances()
+        );
+        this.environmentInstance = this.simulationDocument.getWorldInstance().getEnvironmentInstance();
     }
 
 //    @Override
@@ -73,14 +77,14 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
 //    }
 
     @Override
-    public void run(SimulationResult simulationResult) {
+    public void run() {
 
         int currTick = 0;
         long currTimeInMilliSec = 0;
         long startTimeInMilliSec;
 
         startTimeInMilliSec = System.currentTimeMillis();
-        simulationResult.setStartingTime(startTimeInMilliSec);
+        //this.simulationDocument.setStartingTime(startTimeInMilliSec);
 
         Termination termination = worldInstance.getTermination();
         List<Rule> rules = worldInstance.getRules();
@@ -101,17 +105,17 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
 
 
             // 3. Foreach entity type
-            entitiesInstances.forEach( (entityName , entityInstances) -> {
+            entitiesInstances.forEach( (currEntityName , currEntityInstances) -> {
 
-                        actionsToInvoke.forEach( (action) -> {
+                        actionsToInvoke.forEach( (currAction) -> {
 
                                     // check if the action entity context is matching the current entity type (by name)
-                                    if (action.getPrimaryEntityName().equals(entityName)) {
+                                    if (currAction.getPrimaryEntityName().equals(currEntityName)) {
 
-                                         // // // if yes -> retrieve all the current entity instances
-                                        // // // // for each entityInstance (of the current type)
-                                        entityInstances.forEach( (entityInstance) -> {
-                                                    actionInvocationProcedure();
+                                         // // // if yes -> retrieve all the current entity instances and
+                                        // // // // for each entityInstance (of the current type) do:
+                                        currEntityInstances.forEach( (currEntityInstance) -> {
+                                                    actionInvocationProcedure(currAction, currEntityInstance);
                                                 }
                                         );
                                     }
@@ -121,22 +125,35 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
 
 
             // 4. kill procedure
+            // Consider use Stream or Iterator
 
             // 5. ticks + time procedures
-
             currTick += 1;
             currTimeInMilliSec = System.currentTimeMillis() - startTimeInMilliSec;
         }
 
-        simulationResult.setTerminationReason(worldInstance.getTermination().reasonForTerminate());
+        this.simulationDocument.getSimulationResult().setTerminationReason(worldInstance.getTermination().reasonForTerminate());
     }
 
-    private void actionInvocationProcedure() {
-        // // // // check for secondary entity context existence
-        // // // // // if not -> invoke action for the singular entity instance
-        // // // // // if yes -> aggregate secondary entity instances according to the amount requested (selection)
-        // // // // // // inject the ExecutionContext both the primaryEntityInstance and the secondary instance
-        // // // // // // invoke
+    private void actionInvocationProcedure(Action currAction, EntityInstance currPrimaryEntityInstance) {
+
+        //Base execContext building
+        ExecutionContext executionContext
+                = new ExecutionContextImpl(currPrimaryEntityInstance, this.entitiesInstancesManager, this.environmentInstance);
+
+        // check for secondary entity context existence
+        Optional<ActionSecondaryEntityDefinition> maybeSecondaryEntityDefinition = currAction.getActionSecondaryEntityDefinition();
+
+        // if yes -> aggregate secondary entity instances according to the amount requested (selection)
+        // if not -> invoke action for the singular entity instance
+        if (maybeSecondaryEntityDefinition.isPresent()) {
+            // Gather secondaryInstanceProcedure
+            // Foreach -> invoke with currPrimaryEntityIns and SecondaryIns together
+
+        } else {
+
+            currAction.invoke(executionContext);
+        }
     }
 
     private List<Rule> getActiveRulesForCurrTick(int currTick, List<Rule> rules) {
@@ -161,10 +178,5 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
         return actionsToInvoke;
     }
 
-    private ExecutionContext buildExecutionContext(EntityInstance entityInstance) {
-
-        return new ExecutionContextImpl(
-                entityInstance, entitiesInstancesManager, environmentInstance);
-    }
 
 }

@@ -5,6 +5,7 @@ import response.SimulatorResponse;
 import simulator.builder.manager.api.WorldBuilderManager;
 import simulator.builder.manager.impl.WorldBuilderManagerImpl;
 import simulator.definition.world.WorldDefinition;
+import simulator.information.simulationDocument.api.SimulationDocument;
 import simulator.manualSetup.manager.api.ManualSimulationSetupManager;
 import simulator.establishment.manager.api.EstablishmentManager;
 import simulator.manualSetup.manager.impl.ManualSimulationSetupManagerImpl;
@@ -12,8 +13,8 @@ import simulator.establishment.manager.impl.EstablishmentManagerImpl;
 import simulator.execution.manager.api.ExecutionManager;
 import simulator.execution.manager.impl.ExecutionManagerImpl;
 import simulator.result.api.SimulationResult;
-import simulator.result.newManager.api.InformationManager;
-import simulator.result.newManager.impl.InformationManagerImpl;
+import simulator.information.manager.api.InformationManager;
+import simulator.information.manager.impl.InformationManagerImpl;
 import simulator.mainManager.api.SimulatorManager;
 import simulator.result.manager.api.ResultManager;
 import simulator.result.manager.impl.ResultManagerImpl;
@@ -78,11 +79,12 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
     @Override
     public SimulatorResponse<SimulationEndDto> runSimulator() {
-        SimulationResult simulationResult = infoManager.setNewSimulationInfo(
-                worldBuilderManager.getWorldDefinition(),
-                executionManager.getWorldInstance()
-        );
-        return executionManager.runSimulator(simulationResult);
+         SimulationDocument simulationDocument
+                 = infoManager.createNewSimulationDocument(
+                         worldBuilderManager.getWorldDefinition(), executionManager.getWorldInstance()
+         );
+
+        return executionManager.runSimulator(simulationDocument);
     }
 
     @Override

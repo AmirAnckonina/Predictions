@@ -6,6 +6,7 @@ import simulator.execution.instance.property.api.PropertyInstance;
 public class PropertyInstanceImpl implements PropertyInstance {
     private AbstractPropertyDefinition propertyDefinition;
     private Object value;
+    private int lastTickUpdate;
 
     public PropertyInstanceImpl(AbstractPropertyDefinition propertyDefinition, Object value) {
         this.propertyDefinition = propertyDefinition;

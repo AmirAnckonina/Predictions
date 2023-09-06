@@ -100,7 +100,7 @@ public class EstablishmentManagerImpl implements EstablishmentManager {
             Map<String, PropertyInstance> entityPropertyInstances =
                     createPropertyInstances(entityDefinition.getProperties());
 
-            singlePrimaryInstance = new EntityInstanceImpl(index + 1, entityPropertyInstances);
+            singlePrimaryInstance = new EntityInstanceImpl(entityDefinition.getName(), index + 1, entityPropertyInstances);
 
             // Finally after we build singleEntityInstance with it properties, we add it to the list result.
             primaryEntityInstances.add(singlePrimaryInstance);

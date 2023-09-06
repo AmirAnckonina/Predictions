@@ -7,9 +7,9 @@ import simulator.definition.rule.action.utils.enums.ActionType;
 import java.util.Optional;
 
 public abstract class AbstractAction implements Action {
-    private final ActionType type;
-    private final String primaryEntityName;
-    private ActionSecondaryEntityDefinition actionSecondaryEntityDefinition;
+    protected final ActionType type;
+    protected final String primaryEntityName;
+    protected ActionSecondaryEntityDefinition actionSecondaryEntityDefinition;
 
     public AbstractAction(ActionType type, String primaryEntityName) {
 

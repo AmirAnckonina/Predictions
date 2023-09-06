@@ -3,7 +3,7 @@ package simulator.builder.impl.xml;
 import resources.jaxb.schema.generated.PRDAction;
 import simulator.builder.api.interfaces.ActionBuilder;
 import simulator.builder.impl.baseImpl.BaseArgumentExpressionBuilder;
-import simulator.builder.utils.ArgExpressionTypeDemands;
+import simulator.builder.utils.ArgExpressionContextDemands;
 import simulator.builder.utils.MandatoryTypeDemanding;
 import simulator.builder.utils.exception.WorldBuilderException;
 import simulator.builder.api.abstracts.AbstractComponentBuilder;
@@ -124,7 +124,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
                 new BaseArgumentExpressionBuilder(contextValidator)
                         .buildExpression(
                                 generatedAction.getBy(),
-                                new ArgExpressionTypeDemands(entityPropertyType)
+                                new ArgExpressionContextDemands(entityPropertyType)
                         );
 
         return new IncreaseAction(actionType, entityName, entityPropertyName, by);
@@ -143,7 +143,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
                 new BaseArgumentExpressionBuilder(contextValidator)
                         .buildExpression(
                                 generatedAction.getBy() ,
-                                new ArgExpressionTypeDemands(entityPropertyType)
+                                new ArgExpressionContextDemands(entityPropertyType)
                         );
 
         return new DecreaseAction(actionType, entityName, entityPropertyName, by);
@@ -174,20 +174,26 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
                 new BaseArgumentExpressionBuilder(contextValidator)
                         .buildExpression(
                                 generatedAction.getPRDMultiply().getArg1(),
-                                new ArgExpressionTypeDemands(propType)
+                                new ArgExpressionContextDemands(
+                                        generatedAction.getEntity(),
+                                        propType
+                                )
                         );
 
         ArgumentExpression arg2ArgumentExpression =
                 new BaseArgumentExpressionBuilder(contextValidator)
                         .buildExpression(
                                 generatedAction.getPRDMultiply().getArg2(),
-                                new ArgExpressionTypeDemands(propType)
+                                new ArgExpressionContextDemands(
+                                        generatedAction.getEntity(),
+                                        propType
+                                )
                         );
 
         return new MultiplyAction(
                 ActionType.MULTIPLY,
                 generatedAction.getEntity(),
-                generatedAction.getProperty(),
+                generatedAction.getResultProp(),
                 arg1ArgumentExpression,
                 arg2ArgumentExpression);
     }
@@ -204,20 +210,26 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
                 new BaseArgumentExpressionBuilder(contextValidator)
                         .buildExpression(
                                 generatedAction.getPRDDivide().getArg1(),
-                                new ArgExpressionTypeDemands(propType)
+                                new ArgExpressionContextDemands(
+                                        generatedAction.getEntity(),
+                                        propType
+                                )
                         );
 
         ArgumentExpression arg2ArgumentExpression =
                 new BaseArgumentExpressionBuilder(contextValidator)
                         .buildExpression(
                                 generatedAction.getPRDDivide().getArg2(),
-                                new ArgExpressionTypeDemands(propType)
+                                new ArgExpressionContextDemands(
+                                        generatedAction.getEntity(),
+                                        propType
+                                )
                         );
 
         return new DivideAction(
                 ActionType.DIVIDE,
                 generatedAction.getEntity(),
-                generatedAction.getProperty(),
+                generatedAction.getResultProp(),
                 arg1ArgumentExpression,
                 arg2ArgumentExpression);
     }
@@ -260,10 +272,13 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
                 generatedAction.getEntity(),
                 generatedAction.getProperty()
         );
+
         ArgumentExpression argValueArgumentExpression =
                 new BaseArgumentExpressionBuilder(contextValidator)
                         .buildExpression(generatedAction.getValue(),
-                                new ArgExpressionTypeDemands(propType)
+                                new ArgExpressionContextDemands(
+                                        generatedAction.getEntity(), propType
+                                )
                         );
         return new SetAction(
                 ActionType.SET,
@@ -296,9 +311,8 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
                 new BaseArgumentExpressionBuilder(contextValidator)
                         .buildExpression(
                                 rawEnvDepth,
-                                new ArgExpressionTypeDemands(
-                                        PropertyType.FLOAT,
-                                        MandatoryTypeDemanding.Mentioned
+                                new ArgExpressionContextDemands(
+                                        PropertyType.FLOAT
                                 )
                         );
 
