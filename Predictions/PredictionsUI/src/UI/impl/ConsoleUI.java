@@ -48,10 +48,10 @@ public class ConsoleUI implements UserInterface {
         while (true) {
             printLoadingSimulationMenu();
             //String simulationFilePath = handleLoadingSimulationUserChoice();
-            //String simulationFilePath = "PredictionsEngine/src/resources/master-ex2.xml";
+            String simulationFilePath = "PredictionsEngine/src/resources/master-ex2.xml";
             //String simulationFilePath = "PredictionsEngine/src/resources/ex2-virus.xml";
             //String simulationFilePath = "PredictionsEngine/src/resources/ex2-error-1.xml";
-            String simulationFilePath = "PredictionsEngine/src/resources/ex2-error-3.xml";
+            //String simulationFilePath = "PredictionsEngine/src/resources/ex2-error-3.xml";
             SimulatorResponse response = simulatorManager.buildSimulationWorld(simulationFilePath);
             System.out.println(response.getMessage());
             break;
