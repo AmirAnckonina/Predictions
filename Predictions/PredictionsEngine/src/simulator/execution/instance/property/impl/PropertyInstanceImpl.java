@@ -25,7 +25,6 @@ public class PropertyInstanceImpl implements PropertyInstance {
 
     @Override
     public void updateValue(Object val) {
-
         this.value = val;
     }
 }
