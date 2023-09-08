@@ -19,14 +19,10 @@ import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.execution.instance.property.impl.PropertyInstanceImpl;
 import simulator.execution.instance.world.api.WorldInstance;
 import simulator.execution.instance.world.impl.WorldInstanceImpl;
-import simulator.movment.api.MovementManager;
-import simulator.movment.impl.MovementManagerImpl;
-import structure.api.Coordinate;
-import structure.api.eCellContentStatus;
+import simulator.movement.api.MovementManager;
+import simulator.movement.impl.MovementManagerImpl;
 
 import java.util.*;
-import javafx.util.Pair;
-import structure.impl.CoordinateImpl;
 
 public class EstablishmentManagerImpl implements EstablishmentManager {
     private WorldDefinition worldDefinition;

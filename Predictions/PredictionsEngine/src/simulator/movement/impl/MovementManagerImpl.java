@@ -1,8 +1,8 @@
-package simulator.movment.impl;
+package simulator.movement.impl;
 
 import simulator.definition.board.api.Board;
 import simulator.execution.instance.entity.api.EntityInstance;
-import simulator.movment.api.MovementManager;
+import simulator.movement.api.MovementManager;
 import structure.api.Cell;
 import structure.api.Coordinate;
 import structure.impl.CoordinateImpl;
