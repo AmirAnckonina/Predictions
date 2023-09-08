@@ -5,17 +5,18 @@ import simulator.definition.rule.action.api.interfaces.Action;
 import simulator.definition.rule.action.secondaryEntity.api.ActionSecondaryEntityDefinition;
 import simulator.definition.termination.Termination;
 import simulator.execution.instance.entity.manager.api.EntitiesInstancesManager;
+import simulator.execution.instance.entity.manager.api.SecondaryEntityInstancesRetrieve;
 import simulator.execution.instance.entity.manager.impl.EntitiesInstancesManagerImpl;
+import simulator.execution.instance.entity.manager.impl.SecondaryEntityInstancesRetrieveImpl;
 import simulator.information.simulationDocument.api.SimulationDocument;
-import simulator.movment.api.MovementManager;
-import simulator.movment.impl.MovementManagerImpl;
+import simulator.movement.api.MovementManager;
+import simulator.movement.impl.MovementManagerImpl;
 import simulator.runner.api.SimulatorRunner;
 import simulator.execution.context.api.ExecutionContext;
 import simulator.execution.context.impl.ExecutionContextImpl;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.environment.api.EnvironmentInstance;
 import simulator.execution.instance.world.api.WorldInstance;
-import simulator.result.api.SimulationResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,25 +106,19 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
             List<Rule> activatedRules = getActiveRulesForCurrTick(currTick, worldInstance.getRules());
             List<Action> actionsToInvoke = getActionToInvokeFromRules(activatedRules);
 
-
-
             // 3. Foreach entity type
             entitiesInstances.forEach( (currEntityName , currEntityInstances) -> {
-
                         actionsToInvoke.forEach( (currAction) -> {
-
                                     // check if the action entity context is matching the current entity type (by name)
                                     if (currAction.getPrimaryEntityName().equals(currEntityName)) {
-
-                                         // // // if yes -> retrieve all the current entity instances and
-                                        // // // // for each entityInstance (of the current type) do:
-                                        currEntityInstances.forEach( (currEntityInstance) -> {
+                                        // Retrieve all the current entity instances and
+                                        // for each entityInstance (of the current type) do:
+                                        currEntityInstances.forEach((currEntityInstance) -> {
                                                     actionInvocationProcedure(currAction, currEntityInstance);
-                                                }
-                                        );
+                                        });
                                     }
-                                    // // // if not -> continue to the next entity type
-                });
+                                    // // // else -> continue to the next entity type
+                        });
             });
 
 
@@ -133,6 +128,8 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
             // 5. ticks + time procedures
             currTick += 1;
             currTimeInMilliSec = System.currentTimeMillis() - startTimeInMilliSec;
+            // SaveTickDocument
+
         }
 
         this.simulationDocument.getSimulationResult().setTerminationReason(worldInstance.getTermination().reasonForTerminate());
@@ -145,18 +142,39 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
                 = new ExecutionContextImpl(currPrimaryEntityInstance, this.entitiesInstancesManager, this.environmentInstance);
 
         // check for secondary entity context existence
-        Optional<ActionSecondaryEntityDefinition> maybeSecondaryEntityDefinition = currAction.getActionSecondaryEntityDefinition();
+        Optional<ActionSecondaryEntityDefinition> maybeSecondaryEntityDefinition =
+                currAction.getActionSecondaryEntityDefinition();
 
         // if yes -> aggregate secondary entity instances according to the amount requested (selection)
-        // if not -> invoke action for the singular entity instance
+        // else -> invoke action for the singular entity instance
         if (maybeSecondaryEntityDefinition.isPresent()) {
-            // Gather secondaryInstanceProcedure
-            // Foreach -> invoke with currPrimaryEntityIns and SecondaryIns together
+
+            actionWithSecondaryEntityInvocationProcedure(
+                    currAction, executionContext, maybeSecondaryEntityDefinition.get());
 
         } else {
-
-            currAction.invoke(executionContext);
+            actionInvocation(currAction, executionContext);
         }
+    }
+
+    private void actionWithSecondaryEntityInvocationProcedure(
+            Action currAction, ExecutionContext executionContext, ActionSecondaryEntityDefinition secondaryEntityDef) {
+
+        // Gather secondaryInstanceProcedure
+        SecondaryEntityInstancesRetrieve instancesRetriever
+                = new SecondaryEntityInstancesRetrieveImpl(this.entitiesInstancesManager, this.environmentInstance);
+        List<EntityInstance> secondaryEntityInstances = instancesRetriever.getSecondaryEntityInstancesByDefinition(secondaryEntityDef);
+
+        // Foreach -> invoke with currPrimaryEntityIns and SecondaryIns together
+        secondaryEntityInstances
+                .forEach((secondaryEntityInstance) -> {
+                    executionContext.addEntityInstance(secondaryEntityInstance);
+                    actionInvocation(currAction, executionContext);
+                });
+    }
+
+    private void actionInvocation(Action currAction, ExecutionContext executionContext) {
+        currAction.invoke(executionContext);
     }
 
     private List<Rule> getActiveRulesForCurrTick(int currTick, List<Rule> rules) {

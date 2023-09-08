@@ -1,12 +1,16 @@
 package simulator.execution.instance.entity.manager.impl;
 
 import simulator.definition.entity.EntityDefinition;
+import simulator.definition.rule.action.secondaryEntity.api.ActionSecondaryEntityDefinition;
+import simulator.definition.rule.action.utils.enums.SecondaryEntitySelectionType;
+import simulator.execution.context.impl.ExecutionContextImpl;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.entity.manager.api.EntitiesInstancesManager;
 import simulator.runner.utils.exceptions.SimulatorRunnerException;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class EntitiesInstancesManagerImpl implements EntitiesInstancesManager {
 
@@ -36,4 +40,5 @@ public class EntitiesInstancesManagerImpl implements EntitiesInstancesManager {
                         entIns -> entIns.getId() == id
                 );
     }
+
 }

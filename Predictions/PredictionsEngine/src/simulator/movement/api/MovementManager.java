@@ -1,4 +1,4 @@
-package simulator.movment.api;
+package simulator.movement.api;
 
 import simulator.definition.board.api.Board;
 import simulator.execution.instance.entity.api.EntityInstance;

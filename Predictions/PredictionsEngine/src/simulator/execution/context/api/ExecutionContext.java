@@ -3,6 +3,7 @@ package simulator.execution.context.api;
 import simulator.execution.instance.entity.api.EntityInstance;
 
 import simulator.execution.instance.property.api.PropertyInstance;
+import simulator.information.tickDocument.api.TickDocument;
 
 
 public interface ExecutionContext {
@@ -11,4 +12,5 @@ public interface ExecutionContext {
     void removeEntity(String entityName, EntityInstance entityInstance);
     PropertyInstance getEnvironmentVariable(String name);
     void addEntityInstance(EntityInstance additionalEntityInstance);
+    TickDocument getTickDocument();
 }
