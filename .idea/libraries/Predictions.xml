@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Predictions">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Predictions.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

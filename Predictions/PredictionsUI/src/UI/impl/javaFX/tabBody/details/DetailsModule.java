@@ -1,5 +1,7 @@
 package UI.impl.javaFX.tabBody.details;
 
+import UI.impl.javaFX.mainScene.PredictionsMainController;
+import javafx.stage.Stage;
 import simulator.mainManager.api.SimulatorManager;
 import simulator.mainManager.impl.SimulatorManagerImpl;
 import simulator.result.api.SimulationResult;
@@ -14,7 +16,11 @@ public class DetailsModule {
     private SimulatorManager simulatorManager;
     private ResultManager simulatorResultManager;
 
-    DynamicInfoController controller;
+
+    private DetailsController mainController;
+    private Stage primaryStage;
+
+    DetailsController controller;
 
 
     public DetailsModule() {
@@ -22,20 +28,6 @@ public class DetailsModule {
         this.simulatorResultManager = this.simulatorManager.getSimulatorResultManagerImpl();
     }
 
-    public void runSimulatorUI() {
-
-    }
-
-    public void loadSimulationSession() {
-    }
-
-    public void showLoadedSimulationWorldDetails() {
-
-    }
-
-    public void runSimulationSession() {
-
-    }
 
     public void showHistoricalSimulationResult() {
         List<SimulationResult> simulationResults = this.simulatorResultManager.getSortedHistoricalSimulationsList();
@@ -49,7 +41,7 @@ public class DetailsModule {
             controller.insertNewLineToLeftListView(newLine);
         }
 
-        controller.updateListViewLinesOutput();
+        controller.loadFileButtonClicked();
         System.out.print("Choose simulation to present: ");
     }
 
@@ -64,8 +56,11 @@ public class DetailsModule {
 
     }
 
-    public void setController(DynamicInfoController controller) {
+    public void setController(DetailsController mainController) {
+        this.mainController = mainController;
+    }
 
-        this.controller = controller;
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
     }
 }

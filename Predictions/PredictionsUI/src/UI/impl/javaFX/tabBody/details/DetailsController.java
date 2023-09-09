@@ -1,15 +1,20 @@
 package UI.impl.javaFX.tabBody.details;
 
-import UI.impl.javaFX.mainScene.AppController;
+import UI.impl.javaFX.mainScene.PredictionsMainController;
 import UI.impl.javaFX.tabBody.details.subbodyobjects.simulationTitle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 
-public class DynamicInfoController {
+public class DetailsController {
+    private int observableLinesIndex = -1;
+    private PredictionsMainController mainController;
+
+    private Stage primaryStage;
 
     @FXML
     private ListView<?> main_info_hbox_left_list_sp_id;
@@ -25,14 +30,15 @@ public class DynamicInfoController {
             new simulationTitle("test4")
     );
 
-    private int observableLinesIndex = -1;
-    private AppController mainController;
-
-    public void setMainController(AppController mainController) {
+    public void setMainController(PredictionsMainController mainController) {
         this.mainController = mainController;
     }
 
-    public void updateListViewLinesOutput(){
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+
+    public void loadFileButtonClicked(){
         this.main_info_hbox_left_list_lv_id.setItems(this.listViewLines);
     }
 
