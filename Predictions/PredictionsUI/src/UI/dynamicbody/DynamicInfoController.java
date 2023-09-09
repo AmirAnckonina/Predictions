@@ -1,6 +1,6 @@
 package UI.dynamicbody;
 
-import UI.impl.AppController;
+import UI.impl.javaFX.app.AppController;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 

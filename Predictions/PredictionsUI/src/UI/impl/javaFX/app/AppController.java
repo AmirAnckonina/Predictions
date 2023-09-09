@@ -1,4 +1,4 @@
-package UI.impl;
+package UI.impl.javaFX.app;
 import UI.dynamicbody.DynamicInfoController;
 import UI.staticheader.StaticHeaderController;
 import javafx.fxml.FXML;
