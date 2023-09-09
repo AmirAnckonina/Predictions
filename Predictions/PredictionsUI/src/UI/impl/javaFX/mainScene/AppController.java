@@ -1,7 +1,7 @@
 package UI.impl.javaFX.mainScene;
 import UI.impl.javaFX.tabBody.details.DynamicInfoController;
 import UI.impl.javaFX.tabBody.details.DetailsModule;
-import UI.impl.javaFX.top.StaticHeaderController;
+import UI.impl.javaFX.top.oldStaticHeader.StaticHeaderController;
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
