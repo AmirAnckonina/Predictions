@@ -8,7 +8,7 @@
    <content>
       <BorderPane id="main_layout_bp_id" fx:id="main_layout_bp_id" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
          <top>
-            <fx:include fx:id="headerComponent" minWidth="300.0" source="../top/Predictions_static_header.fxml" />
+            <fx:include fx:id="headerComponent" minWidth="300.0" source="../top/oldStaticHeader/Predictions_static_header.fxml" />
          </top>
          <center>
             <fx:include fx:id="bodyComponent" source="../tabBody/details/Predictions_dynamic_info.fxml" />
