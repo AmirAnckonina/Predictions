@@ -1,4 +1,4 @@
-package UI;
+package UI.impl.console;
 
 import UI.api.UserInterface;
 import UI.impl.console.ConsoleUI;

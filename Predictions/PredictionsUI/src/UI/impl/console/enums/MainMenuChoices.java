@@ -1,4 +1,4 @@
-package UI.utils.enums;
+package UI.impl.console.enums;
 
 /**
  * Should change the dependency on the order and set a number to each enum instead

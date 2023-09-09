@@ -2,8 +2,8 @@ package UI.impl.console;
 
 
 import UI.api.UserInterface;
-import UI.utils.enums.MainMenuChoices;
-import UI.utils.enums.PresentShowOptions;
+import UI.impl.console.enums.MainMenuChoices;
+import UI.impl.console.enums.PresentShowOptions;
 import dto.*;
 import response.SimulatorResponse;
 import simulator.execution.instance.entity.impl.EntitiesResult;

@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 
 
-<BorderPane id="static_header_bp_id" maxHeight="400.0" minHeight="75.0" minWidth="500.0" prefHeight="80.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.staticheader.StaticHeaderController">
+<BorderPane id="static_header_bp_id" maxHeight="400.0" minHeight="75.0" minWidth="500.0" prefHeight="80.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.impl.javaFX.top.StaticHeaderController">
    <bottom>
       <HBox id="static_header_bp_buttom_hbox_id" alignment="TOP_CENTER" maxWidth="600.0" minHeight="25.0" minWidth="200.0" prefHeight="40.0" prefWidth="600.0" BorderPane.alignment="TOP_CENTER">
          <children>
