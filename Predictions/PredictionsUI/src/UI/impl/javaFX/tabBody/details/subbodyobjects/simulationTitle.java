@@ -1,4 +1,4 @@
-package UI.dynamicbody.subbodyobjects;
+package UI.impl.javaFX.tabBody.details.subbodyobjects;
 
 import javafx.beans.property.SimpleStringProperty;
 

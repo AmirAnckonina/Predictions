@@ -1,8 +1,7 @@
-package UI.dynamicbody;
+package UI.impl.javaFX.tabBody.details;
 
-import UI.dynamicbody.subbodyobjects.simulationTitle;
-import UI.impl.AppController;
-import javafx.beans.property.SimpleStringProperty;
+import UI.impl.javaFX.mainScene.AppController;
+import UI.impl.javaFX.tabBody.details.subbodyobjects.simulationTitle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

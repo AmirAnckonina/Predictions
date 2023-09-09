@@ -1,14 +1,10 @@
-package UI.impl;
-import UI.dynamicbody.DynamicInfoController;
-import UI.dynamicbody.subbodyobjects.DetailsModule;
-import UI.dynamicbody.subbodyobjects.ResultsModule;
-import UI.staticheader.StaticHeaderController;
+package UI.impl.javaFX.mainScene;
+import UI.impl.javaFX.tabBody.details.DynamicInfoController;
+import UI.impl.javaFX.tabBody.details.DetailsModule;
+import UI.impl.javaFX.top.StaticHeaderController;
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import simulator.mainManager.api.SimulatorManager;
-import simulator.mainManager.impl.SimulatorManagerImpl;
-import simulator.result.manager.api.ResultManager;
 
 
 public class AppController {
@@ -18,7 +14,6 @@ public class AppController {
     @FXML private DynamicInfoController bodyComponentController;
 
     private DetailsModule detailsModule;
-    private ResultsModule resultsModule;
 
 
     @FXML
@@ -27,7 +22,6 @@ public class AppController {
             headerComponentController.setMainController(this);
             bodyComponentController.setMainController(this);
             this.detailsModule.setController(bodyComponentController);
-            this.resultsModule.setController(bodyComponentController);
         }
     }
 

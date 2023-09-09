@@ -1,4 +1,4 @@
-package UI.utils.enums;
+package UI.impl.console.enums;
 
 public enum PresentShowOptions {
     ByAmount,

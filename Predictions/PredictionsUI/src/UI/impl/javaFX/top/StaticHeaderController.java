@@ -1,6 +1,6 @@
-package UI.staticheader;
+package UI.impl.javaFX.top;
 
-import UI.impl.AppController;
+import UI.impl.javaFX.mainScene.AppController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

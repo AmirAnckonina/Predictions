@@ -1,9 +1,7 @@
-package UI;
+package UI.impl.console;
 
 import UI.api.UserInterface;
-import UI.impl.ConsoleUI;
-import UI.impl.GuiUI;
-import javafx.application.Application;
+import UI.impl.console.ConsoleUI;
 
 public class Main {
     public static void main(String[] args) {

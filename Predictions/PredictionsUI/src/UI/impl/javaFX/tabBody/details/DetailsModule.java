@@ -1,13 +1,10 @@
-package UI.dynamicbody.subbodyobjects;
+package UI.impl.javaFX.tabBody.details;
 
-import UI.dynamicbody.DynamicInfoController;
-import javafx.stage.DirectoryChooser;
 import simulator.mainManager.api.SimulatorManager;
 import simulator.mainManager.impl.SimulatorManagerImpl;
 import simulator.result.api.SimulationResult;
 import simulator.result.manager.api.ResultManager;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
