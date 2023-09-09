@@ -14,49 +14,26 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import simulator.mainManager.api.SimulatorManager;
 import simulator.mainManager.impl.SimulatorManagerImpl;
+import simulator.result.api.SimulationResult;
 import simulator.result.manager.api.ResultManager;
 
 import java.io.File;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 import static UI.utils.enums.CommonResourcesPaths.*;
 
 public class GuiUI extends Application{
 
-    private SimulatorManager simulatorManager;
-    private ResultManager simulatorResultManager;
+
     private Stage primaryStage;
 
     public GuiUI() {
-        this.simulatorManager = new SimulatorManagerImpl();
-        this.simulatorResultManager = this.simulatorManager.getSimulatorResultManagerImpl();
-    }
-
-    public void runSimulatorUI() {
 
     }
 
-    public void loadSimulationSession() {
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        File selectedDirectory = directoryChooser.showDialog(this.primaryStage);
-        int i = 1;
-    }
-
-    public void showLoadedSimulationWorldDetails() {
-
-    }
-
-    public void runSimulationSession() {
-
-    }
-
-    public void showHistoricalSimulationResult() {
-
-    }
-
-    public void exitSimulator() {
-
-    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
