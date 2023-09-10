@@ -9,14 +9,14 @@ import simulator.result.manager.api.ResultManager;
 
 public interface SimulatorManager {
 
-    SimulatorResponse buildSimulationWorld(String filePath);
-    SimulatorResponse<SimulationDetailsDto> getSimulationWorldDetails();
-    SimulatorResponse<EnvironmentPropertiesDto> getEnvironmentPropertiesDefinition();
-    SimulatorResponse setSelectedEnvironmentPropertiesValue(String propName, String type, String value);
-    SimulatorResponse setEntityDefinitionPopulation(WorldDefinition worldDefinition, String entityName, Integer entityPopulation);
-    SimulatorResponse establishSimulation();
-    SimulatorResponse<SimulationEndDto> runSimulator();
-    SimulatorResponse exitSimulator();
+    void buildSimulationWorld(String filePath);
+    SimulationDetailsDto getSimulationWorldDetails();
+    EnvironmentPropertiesDto getEnvironmentPropertiesDefinition();
+    void setSelectedEnvironmentPropertiesValue(String propName, String type, String value);
+    void setEntityDefinitionPopulation(String entityName, Integer entityPopulation);
+    void establishSimulation();
+    SimulationEndDto runSimulator();
+    void exitSimulator();
     ResultManager getSimulatorResultManagerImpl();
-    SimulatorResponse<EstablishedEnvironmentInfoDto> getEstablishedEnvironmentInfo();
+    EstablishedEnvironmentInfoDto getEstablishedEnvironmentInfo();
 }

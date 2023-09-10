@@ -39,28 +39,28 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
-    public SimulatorResponse buildSimulationWorld(String filePath) {
-        return worldBuilderManager.buildSimulationWorld(filePath);
+    public void buildSimulationWorld(String filePath) {
+        worldBuilderManager.buildSimulationWorld(filePath);
     }
 
     @Override
-    public SimulatorResponse<SimulationDetailsDto> getSimulationWorldDetails() {
+    public SimulationDetailsDto getSimulationWorldDetails() {
         return worldBuilderManager.getSimulationWorldDetails();
     }
 
     @Override
-    public SimulatorResponse<EnvironmentPropertiesDto> getEnvironmentPropertiesDefinition() {
+    public EnvironmentPropertiesDto getEnvironmentPropertiesDefinition() {
         return worldBuilderManager.getEnvironmentPropertiesDefinition();
     }
 
     @Override
-    public SimulatorResponse establishSimulation() {
-        return establishmentManager.establishSimulation(worldBuilderManager.getWorldDefinition());
+    public void establishSimulation() {
+        establishmentManager.establishSimulation(worldBuilderManager.getWorldDefinition());
     }
 
     @Override
-    public SimulatorResponse setSelectedEnvironmentPropertiesValue(String propName, String type, String value) {
-        return manualSimulationSetupManager
+    public void setSelectedEnvironmentPropertiesValue(String propName, String type, String value) {
+        manualSimulationSetupManager
                 .setSelectedEnvironmentPropertiesValue(
                         worldBuilderManager.getWorldDefinition(),
                         propName,
@@ -70,15 +70,15 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
-    public SimulatorResponse setEntityDefinitionPopulation(WorldDefinition worldDefinition, String entityName, Integer entityPopulation) {
-        return manualSimulationSetupManager
+    public void setEntityDefinitionPopulation(String entityName, Integer entityPopulation) {
+         manualSimulationSetupManager
                 .setEntityDefinitionPopulation(
                         worldBuilderManager.getWorldDefinition(), entityName, entityPopulation);
 
     }
 
     @Override
-    public SimulatorResponse<SimulationEndDto> runSimulator() {
+    public SimulationEndDto runSimulator() {
          SimulationDocument simulationDocument
                  = infoManager.createNewSimulationDocument(
                          worldBuilderManager.getWorldDefinition(), executionManager.getWorldInstance()
@@ -88,8 +88,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
-    public SimulatorResponse exitSimulator() {
-
+    public void exitSimulator() {
         throw new SimulatorRunnerException("Not Impl Exit Simulator method");
     }
 
@@ -101,7 +100,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
 
     @Override
-    public SimulatorResponse<EstablishedEnvironmentInfoDto> getEstablishedEnvironmentInfo() {
+    public EstablishedEnvironmentInfoDto getEstablishedEnvironmentInfo() {
         return establishmentManager.getEstablishedEnvironmentInfo();
     }
 

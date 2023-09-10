@@ -6,8 +6,8 @@ import response.SimulatorResponse;
 import simulator.definition.world.WorldDefinition;
 
 public interface WorldBuilderManager {
-    SimulatorResponse buildSimulationWorld(String filePath);
-    SimulatorResponse<SimulationDetailsDto> getSimulationWorldDetails();
-    SimulatorResponse<EnvironmentPropertiesDto> getEnvironmentPropertiesDefinition();
+    void buildSimulationWorld(String filePath);
+    SimulationDetailsDto getSimulationWorldDetails();
+    EnvironmentPropertiesDto getEnvironmentPropertiesDefinition();
     WorldDefinition getWorldDefinition();
 }
