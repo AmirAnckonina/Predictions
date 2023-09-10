@@ -24,7 +24,7 @@
       </ScrollPane>
       <ScrollPane fitToHeight="true" fitToWidth="true">
          <content>
-            <ListView fx:id="main_info_hbox_left_list_lv_id" onMouseClicked="#listViewLineClicked">
+            <ListView fx:id="detailesLeftListLV" onMouseClicked="#listViewLineClicked">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
