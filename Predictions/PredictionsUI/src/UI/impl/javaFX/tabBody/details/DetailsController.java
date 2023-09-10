@@ -17,10 +17,10 @@ public class DetailsController {
     private Stage primaryStage;
 
     @FXML
-    private ListView<?> main_info_hbox_left_list_sp_id;
+    private ListView<?> detailsRightListLV;
 
     @FXML
-    private ListView<simulationTitle> main_info_hbox_left_list_lv_id;
+    private ListView<simulationTitle> detailesLeftListLV;
 
 
     private ObservableList<simulationTitle> listViewLines = FXCollections.observableArrayList(
@@ -39,7 +39,7 @@ public class DetailsController {
     }
 
     public void loadFileButtonClicked(){
-        this.main_info_hbox_left_list_lv_id.setItems(this.listViewLines);
+        this.detailesLeftListLV.setItems(this.listViewLines);
     }
 
     public boolean insertNewLineToLeftListView(String simulationID){
@@ -49,7 +49,7 @@ public class DetailsController {
 
     @FXML
     void listViewLineClicked(MouseEvent event) {
-        String selectedSimulationID = this.main_info_hbox_left_list_lv_id.
+        String selectedSimulationID = this.detailesLeftListLV.
                 getSelectionModel().getSelectedItem().toString();
 
         System.out.println(selectedSimulationID);

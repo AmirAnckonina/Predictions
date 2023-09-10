@@ -2,10 +2,10 @@ package UI.impl.javaFX.top;
 
 public class PredictionsTopModule {
 
-    PredictionsTopController predictionsTopController;
+    TopController topController;
 
-    public void setController(PredictionsTopController predictionsTopController) {
-        this.predictionsTopController = predictionsTopController;
+    public void setController(TopController topController) {
+        this.topController = topController;
     }
 
     public void onLoadSimulationButtonClicked() {
