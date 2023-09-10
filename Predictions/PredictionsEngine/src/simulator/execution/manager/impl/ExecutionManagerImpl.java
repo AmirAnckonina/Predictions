@@ -19,29 +19,16 @@ public class ExecutionManagerImpl implements ExecutionManager {
     }
 
     @Override
-    public SimulatorResponse<SimulationEndDto> runSimulator(SimulationDocument simulationDocument) {
+    public SimulationEndDto runSimulator(SimulationDocument simulationDocument) {
 
-        try {
-            this.simulatorRunner = new SimulatorRunnerImpl(simulationDocument);
-            this.simulatorRunner.run();
+        this.simulatorRunner = new SimulatorRunnerImpl(simulationDocument);
+        this.simulatorRunner.run();
 
-            //need to add DTO to return termination reason.
-            return new SimulatorResponse<SimulationEndDto>(
-                    true,
-                    "run succesffuly, ID : " + simulationDocument.getSimulationGuid(),
-                    new SimulationEndDto(
-                            simulationDocument.getSimulationGuid(),
-                            simulationDocument.getSimulationResult().getTerminationReason().toString()
-                    )
-            );
-
-        } catch (Exception e) {
-
-            return new SimulatorResponse(
-                    false,
-                    "An error detected while running the simulation, couldn't complete the simulation"
-            );
-        }
+        //need to add DTO to return termination reason.
+        return new SimulationEndDto(
+                        simulationDocument.getSimulationGuid(),
+                        simulationDocument.getSimulationResult().getTerminationReason().toString()
+        );
     }
 
     @Override

@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.Map;
 
 public interface EstablishmentManager {
-    SimulatorResponse establishSimulation(WorldDefinition worldDefinitionDefnition);
+    void establishSimulation(WorldDefinition worldDefinitionDefnition);
     EnvironmentInstance establishEnvironment();
     Map<String, List<EntityInstance>> createEntitiesInstances();
     List<EntityInstance> createSingleEntityInstances(EntityDefinition entityDefinition);
     Map<String, PropertyInstance> createPropertyInstances(Map<String, AbstractPropertyDefinition> propertyDefinitions);
-    SimulatorResponse<EstablishedEnvironmentInfoDto> getEstablishedEnvironmentInfo();
+    EstablishedEnvironmentInfoDto getEstablishedEnvironmentInfo();
 }

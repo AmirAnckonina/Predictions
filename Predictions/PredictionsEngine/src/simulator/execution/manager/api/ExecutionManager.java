@@ -9,5 +9,5 @@ import simulator.result.api.SimulationResult;
 public interface ExecutionManager {
 
     WorldInstance getWorldInstance();
-    SimulatorResponse<SimulationEndDto> runSimulator(SimulationDocument simulationDocument);
+    SimulationEndDto runSimulator(SimulationDocument simulationDocument);
 }

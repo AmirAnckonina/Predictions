@@ -1,6 +1,5 @@
 package simulator.manualSetup.manager.impl;
 
-import dto.SetPropertySimulatorResponseDto;
 import dto.enums.SetPropertyStatus;
 import response.SimulatorResponse;
 import simulator.definition.environment.EnvironmentDefinition;
@@ -68,10 +67,8 @@ public class ManualSimulationSetupManagerImpl implements ManualSimulationSetupMa
 
 
     @Override
-    public SimulatorResponse setSelectedEnvironmentPropertiesValue(WorldDefinition worldDefinition, String propName, String type, String value) {
-        SetPropertySimulatorResponseDto responseDto;
-        SimulatorResponse response;
-        try {
+    public void setSelectedEnvironmentPropertiesValue(WorldDefinition worldDefinition, String propName, String type, String value) {
+
             PropertyType eType = PropertyType.STRING;
             switch (type.toLowerCase())
             {
@@ -94,30 +91,12 @@ public class ManualSimulationSetupManagerImpl implements ManualSimulationSetupMa
             }
 
             setFixedValueToEnvironmentPropertyDefinition(propName, eType, value, worldDefinition.getEnvironment());
-
-            responseDto = new SetPropertySimulatorResponseDto(
-                    SetPropertyStatus.SUCCEEDED,
-                    "Environment Variable Value has been set with " + value.toString());
-
-            response =  new SimulatorResponse(
-                    true,
-                    "Environment Variable Value has been set with " + value.toString(),
-                    responseDto);
             this.propertiesUpdatedByUser.add(propName);
-
-        } catch (Exception e) {
-
-            responseDto = new SetPropertySimulatorResponseDto(SetPropertyStatus.FAILED, e.getMessage());
-            response =  new SimulatorResponse(false, e.getMessage(), responseDto);
-        }
-        return response;
     }
 
     @Override
-    public SimulatorResponse setEntityDefinitionPopulation(WorldDefinition worldDefinition, String entityName, Integer population) {
+    public void setEntityDefinitionPopulation(WorldDefinition worldDefinition, String entityName, Integer population) {
 
-        try
-        {
             final int[] totalEntitiesPopulation = {0};
             worldDefinition.getEntities().forEach(
                     (entName, entDef) ->
@@ -130,14 +109,7 @@ public class ManualSimulationSetupManagerImpl implements ManualSimulationSetupMa
                         "The population size is invalid, " +
                                 "there's no enough space in the world space grid to create this number of instances");
             }
-
             worldDefinition.getEntityDefinitionByName(entityName).setPopulation(population);
 
-            return new SimulatorResponse<>(
-                    true, "population set successfully to entity: " + entityName);
-
-        } catch(Exception e) {
-            return new SimulatorResponse<>(false, e.getMessage());
-        }
     }
 }

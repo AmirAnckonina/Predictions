@@ -30,21 +30,14 @@ public class WorldBuilderManagerImpl implements WorldBuilderManager {
     }
 
     @Override
-    public SimulatorResponse buildSimulationWorld(String filePath) {
-        try {
+    public void buildSimulationWorld(String filePath) {
             DataFileType dataSrcType = WorldBuilderFileUtils.getDataFileTypeByFileExtension(filePath);
             worldBuilder = WorldBuilderFactory.createSimulationBuilder(dataSrcType, filePath);
             worldDefinition = worldBuilder.buildWorld();
-            return new SimulatorResponse(true, "the following file has loaded successfully: " + filePath);
-
-        } catch (Exception ex) {
-            return new SimulatorResponse(false, ex.getMessage());
-        }
     }
 
     @Override
-    public SimulatorResponse<SimulationDetailsDto> getSimulationWorldDetails() {
-        try {
+    public SimulationDetailsDto getSimulationWorldDetails() {
 
             StringBuilder entitiesSb = new StringBuilder();
             for (Map.Entry<String, EntityDefinition> entityDef : this.worldDefinition.getEntities().entrySet()) {
@@ -60,27 +53,13 @@ public class WorldBuilderManagerImpl implements WorldBuilderManager {
 
             String terminationInfo = worldDefinition.getTermination().toString();
 
-            return new SimulatorResponse<>(
-                    true,
-                    new SimulationDetailsDto(entitiesInfo, rulesInfo, terminationInfo)
-            );
-
-        } catch (Exception e) {
-
-            return new SimulatorResponse<>(
-                    false,
-                    "An error occured while trying to fetch the the loaded simulation world details."
-            );
-        }
-
+            return new SimulationDetailsDto(entitiesInfo, rulesInfo, terminationInfo);
     }
 
     @Override
-    public SimulatorResponse<EnvironmentPropertiesDto> getEnvironmentPropertiesDefinition() {
-        try {
+    public EnvironmentPropertiesDto getEnvironmentPropertiesDefinition() {
 
             List<BasePropertyDto> propertyDtoList = new ArrayList<>();
-
             for (String propertyName : this.worldDefinition.getEnvironment().getPropertiesNames()) {
 
                 AbstractPropertyDefinition property = this.worldDefinition.getEnvironment().getPropertyByName(propertyName);
@@ -100,11 +79,7 @@ public class WorldBuilderManagerImpl implements WorldBuilderManager {
             }
             EnvironmentPropertiesDto envPropsDto = new EnvironmentPropertiesDto(propertyDtoList);
 
-            return new SimulatorResponse<>(true, envPropsDto);
+            return envPropsDto;
 
-        } catch (Exception e) {
-            return new SimulatorResponse<>(
-                    false, "an error detcetd while trying to set env properties.");
-        }
     }
 }

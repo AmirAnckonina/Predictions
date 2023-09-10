@@ -36,9 +36,8 @@ public class EstablishmentManagerImpl implements EstablishmentManager {
         return worldDefinition;
     }
     @Override
-    public SimulatorResponse establishSimulation(WorldDefinition worldDefinition) {
+    public void establishSimulation(WorldDefinition worldDefinition) {
 
-        try {
 
             this.worldDefinition = worldDefinition;
             EnvironmentInstance envInstance = establishEnvironment();
@@ -49,18 +48,6 @@ public class EstablishmentManagerImpl implements EstablishmentManager {
             MovementManager movementManager = new MovementManagerImpl();
             movementManager.placeEntitiesRandomizeOnSpaceGrid(entitiesInstances, spaceGrid);
             this.worldInstance = new WorldInstanceImpl(envInstance, entitiesInstances, rules, termination, spaceGrid);
-
-            return  new SimulatorResponse<>(
-                    true,
-                    "Establishment done successfully"
-            );
-
-        } catch (Exception e) {
-
-            return  new SimulatorResponse<>(
-                    false,
-                    "An issue detected while trying to establish simulation.");
-        }
     }
 
     @Override
@@ -135,9 +122,8 @@ public class EstablishmentManagerImpl implements EstablishmentManager {
 
 
     @Override
-    public SimulatorResponse<EstablishedEnvironmentInfoDto> getEstablishedEnvironmentInfo() {
+    public EstablishedEnvironmentInfoDto getEstablishedEnvironmentInfo() {
 
-        try {
             Map<String, String> envInfo = new HashMap<>();
 
             Map<String, PropertyInstance> envPropInstances =
@@ -149,17 +135,9 @@ public class EstablishmentManagerImpl implements EstablishmentManager {
             }
 
 
-            return new SimulatorResponse<>(
-                    true,
-                    new EstablishedEnvironmentInfoDto(envInfo)
-            );
+            return new EstablishedEnvironmentInfoDto(envInfo);
 
-        } catch (Exception e) {
 
-            return new SimulatorResponse<>(
-                    false,
-                    "An issue detected while trying to get environment properties instances info."
-            );
-        }
     }
+
 }
