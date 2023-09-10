@@ -9,22 +9,12 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox id="main_info_hbox_id" alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="200.0" minWidth="200.0" prefHeight="400.0" prefWidth="600.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="newExecutionController">
+<HBox id="main_info_hbox_id" alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="200.0" minWidth="200.0" prefHeight="362.0" prefWidth="861.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.impl.javaFX.tabBody.newExecution.newExecutionMain.NewExecutionController">
    <children>
-      <ScrollPane minViewportHeight="200.0" minViewportWidth="200.0" prefHeight="395.0" prefViewportHeight="400.0" prefViewportWidth="350.0" prefWidth="242.0" HBox.hgrow="NEVER">
+      <ScrollPane minViewportHeight="200.0" minViewportWidth="200.0" prefHeight="357.0" prefViewportHeight="400.0" prefViewportWidth="350.0" prefWidth="314.0" HBox.hgrow="NEVER">
          <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="391.0" prefWidth="231.0">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="353.0" prefWidth="304.0">
                <children>
-                  <ButtonBar layoutX="61.0" layoutY="352.0">
-                     <buttons>
-                        <Button id="btnClearEntityPopulation" fx:id="btnClearEntityPopulation" mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="Clear" />
-                     </buttons>
-                  </ButtonBar>
-                  <ButtonBar layoutX="146.0" layoutY="352.0">
-                     <buttons>
-                        <Button id="btnApplyEntityPopulation" fx:id="btnApplyEntityPopulation" mnemonicParsing="false" text="Apply" />
-                     </buttons>
-                  </ButtonBar>
                   <Label alignment="CENTER" contentDisplay="CENTER" layoutX="31.0" layoutY="7.0" prefHeight="31.0" prefWidth="169.0" text="Entities Population Setup" textAlignment="RIGHT" textFill="#a33333">
                      <font>
                         <Font size="14.0" />
@@ -37,25 +27,21 @@
             <Insets right="10.0" />
          </padding>
       </ScrollPane>
-      <ScrollPane minViewportHeight="250.0" minViewportWidth="200.0" prefHeight="395.0" prefViewportHeight="500.0" prefViewportWidth="400.0" prefWidth="327.0" HBox.hgrow="ALWAYS">
+      <ScrollPane minViewportHeight="250.0" minViewportWidth="200.0" prefHeight="329.0" prefViewportHeight="500.0" prefViewportWidth="400.0" prefWidth="537.0" HBox.hgrow="ALWAYS">
          <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="389.0" prefWidth="334.0">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="352.0" prefWidth="531.0">
                <children>
-                  <ButtonBar layoutX="160.0" layoutY="355.0">
-                     <buttons>
-                        <Button id="btnClearEnvVar" fx:id="btnClearEnvVar" mnemonicParsing="false" prefHeight="25.0" prefWidth="47.0" text="Clear" />
-                     </buttons>
-                  </ButtonBar>
-                  <ButtonBar layoutX="245.0" layoutY="355.0">
-                     <buttons>
-                        <Button id="btnApplyEnvVar" fx:id="btnApplyEnvVar" mnemonicParsing="false" text="Apply" />
-                     </buttons>
-                  </ButtonBar>
                   <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="7.0" prefHeight="31.0" prefWidth="233.0" text="Environment Variables Setup" textAlignment="RIGHT" textFill="#a33333">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
+                  <ButtonBar layoutX="337.0" layoutY="295.0" prefHeight="43.0" prefWidth="159.0">
+                     <buttons>
+                        <Button id="clear-var-button" fx:id="clearVarButton" mnemonicParsing="false" onAction="#onClearVarClicked" prefHeight="25.0" prefWidth="47.0" text="Clear" />
+                        <Button id="start-button" fx:id="startButton" mnemonicParsing="false" onAction="#onStartButtonClicked" text="Start" />
+                     </buttons>
+                  </ButtonBar>
                </children>
             </AnchorPane>
          </content>

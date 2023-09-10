@@ -7,10 +7,9 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="256.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="256.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.impl.javaFX.tabBody.newExecution.components.entityPopulation.EntityPopulationController">
    <children>
-      <GridPane layoutX="3.0" layoutY="10.0" prefHeight="31.0" prefWidth="231.0">
+      <GridPane layoutX="3.0" layoutY="9.0" prefHeight="30.0" prefWidth="245.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="124.33333587646484" minWidth="10.0" prefWidth="110.66667175292969" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="190.33333206176758" minWidth="10.0" prefWidth="108.33332824707031" />
@@ -19,8 +18,8 @@
             <RowConstraints maxHeight="183.0" minHeight="10.0" prefHeight="26.66666603088379" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="116.0" text="labelEntityName" textAlignment="CENTER" />
-            <TextField prefHeight="0.0" prefWidth="114.0" GridPane.columnIndex="1" />
+            <Label id="entity-name-label" fx:id="entityNameLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="116.0" text="Entity Name: " textAlignment="CENTER" />
+            <TextField id="population-textfield" fx:id="populationTextField" onAction="#onPopulationTextFieldUpdate" prefHeight="27.0" prefWidth="129.0" promptText="Population No." GridPane.columnIndex="1" />
          </children>
       </GridPane>
    </children>
