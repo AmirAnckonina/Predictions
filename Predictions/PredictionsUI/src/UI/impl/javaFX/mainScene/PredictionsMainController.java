@@ -2,7 +2,8 @@ package UI.impl.javaFX.mainScene;
 
 import UI.impl.javaFX.tabBody.details.DetailsController;
 import UI.impl.javaFX.tabBody.details.DetailsModule;
-import UI.impl.javaFX.top.PredictionsTopController;
+import UI.impl.javaFX.tabBody.results.ResultsController;
+import UI.impl.javaFX.top.TopController;
 import UI.impl.javaFX.top.PredictionsTopModule;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
@@ -12,12 +13,16 @@ public class PredictionsMainController {
     private Stage primaryStage;
 
     @FXML
+    private TopController topComponentController;
+    private PredictionsTopModule topModule;
+
+    @FXML
     private DetailsController detailsComponentController;
     private DetailsModule detailsModule;
 
+
     @FXML
-    private PredictionsTopController topComponentController;
-    private PredictionsTopModule topModule;
+    private ResultsController resultsComponentController;
 
 
     @FXML
@@ -44,7 +49,6 @@ public class PredictionsMainController {
     }
 
     public void onLoadSimulationButtonClicked(String path) {
-
 
         // bodyComponentController.onLoadSimulationButtonClicked();
     }

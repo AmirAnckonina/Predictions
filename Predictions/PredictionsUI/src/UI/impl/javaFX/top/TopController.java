@@ -5,39 +5,57 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
 
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
 
-public class PredictionsTopController {
+public class TopController {
 
     private PredictionsMainController mainController;
     private PredictionsTopModule predictionsTopModule;
     private Stage primaryStage;
 
     @FXML
-    private GridPane topOfScene;
-
-    @FXML
     private Button loadSimulationButton;
 
     @FXML
-    private Label loadedFileLabel;
+    private Button gueueManagmentButton;
 
     @FXML
-    private Label filePathTextField;
+    private Label loadSimulationPath;
 
     @FXML
-    private Label labelPredictionSimulator;
+    private ComboBox<?> chooseSkinCB;
 
     @FXML
-    private Label labelChooseSkin;
+    private Label predictionTitle;
 
     @FXML
-    private ComboBox<String> skinComboBox;
+    void gueueManagmentClicked(ActionEvent event) {
+
+    }
+
+    @FXML
+    void loadSimulationButtonClicked(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select simulation");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML Simulation", "*.xml"));
+        File selectedFile = fileChooser.showOpenDialog(primaryStage);
+        if(selectedFile == null){
+            return;
+        }
+
+        this.loadSimulationPath.setText(selectedFile.getAbsolutePath());
+        this.predictionsTopModule.onLoadSimulationButtonClicked();
+        this.mainController.onLoadSimulationButtonClicked(selectedFile.getAbsolutePath());
+    }
+
+    @FXML
+    void onSkinSelected(ActionEvent event) {
+        System.out.println("onSkinSelected");
+    }
 
     public void setMainController(PredictionsMainController mainController) {
         this.mainController = mainController;
@@ -50,25 +68,6 @@ public class PredictionsTopController {
         this.primaryStage = primaryStage;
     }
 
-    @FXML
-    void onLoadSimulationButtonClicked(ActionEvent event) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select simulation");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML Simulation", "XML"));
-        File selectedFile = fileChooser.showOpenDialog(primaryStage);
-        if(selectedFile == null){
-            return;
-        }
-
-        this.filePathTextField.setText(selectedFile.getAbsolutePath());
-        this.predictionsTopModule.onLoadSimulationButtonClicked();
-        this.mainController.onLoadSimulationButtonClicked(selectedFile.getAbsolutePath());
-    }
-
-    @FXML
-    void onSkinSelected(ActionEvent event) {
-        System.out.println("onSkinSelected");
-    }
 
 
 }
