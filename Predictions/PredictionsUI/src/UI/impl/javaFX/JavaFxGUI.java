@@ -1,5 +1,6 @@
 package UI.impl.javaFX;
 
+import UI.impl.javaFX.mainScene.PredictionsMainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,6 +30,9 @@ public class JavaFxGUI extends Application{
         URL url = getClass().getResource(APP_FXML_LIGHT_RESOURCE);
         fxmlLoader.setLocation(url);
         Parent root = fxmlLoader.load(url.openStream());
+
+        PredictionsMainController appController = fxmlLoader.getController();
+        appController.setPrimaryStage(primaryStage);
 
         Scene scene = new Scene(root, 500, 550);
         primaryStage.setScene(scene);

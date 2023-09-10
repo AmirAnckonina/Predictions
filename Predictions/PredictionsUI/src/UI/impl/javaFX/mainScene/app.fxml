@@ -11,7 +11,7 @@
             <fx:include fx:id="headerComponent" minWidth="300.0" source="../top/oldStaticHeader/Predictions_static_header.fxml" />
          </top>
          <center>
-            <fx:include fx:id="bodyComponent" source="../tabBody/details/Predictions_dynamic_info.fxml" />
+            <fx:include fx:id="bodyComponent" source="../tabBody/details/PredictionsDetailsIGrid.fxml" />
          </center>
       </BorderPane>
    </content>
