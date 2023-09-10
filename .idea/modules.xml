@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/Predictions.iml" filepath="$PROJECT_DIR$/.idea/Predictions.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Predictions/PredictionsEngine/PredictionsEngine.iml" filepath="$PROJECT_DIR$/Predictions/PredictionsEngine/PredictionsEngine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Predictions/PredictionsUI/PredictionsUI.iml" filepath="$PROJECT_DIR$/Predictions/PredictionsUI/PredictionsUI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Predictions/Shared/Shared.iml" filepath="$PROJECT_DIR$/Predictions/Shared/Shared.iml" />
+    </modules>
+  </component>
+</project>
