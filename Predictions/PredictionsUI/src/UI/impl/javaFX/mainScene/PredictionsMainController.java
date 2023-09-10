@@ -12,26 +12,26 @@ public class PredictionsMainController {
     private Stage primaryStage;
 
     @FXML
-    private DetailsController detailsController;
+    private DetailsController detailsComponentController;
     private DetailsModule detailsModule;
 
     @FXML
-    private PredictionsTopController topController;
+    private PredictionsTopController topComponentController;
     private PredictionsTopModule topModule;
 
 
     @FXML
     public void initialize() {
-        if (topController != null && detailsController != null) {
+        if (topComponentController != null && detailsComponentController != null) {
 
-            topController.setMainController(this);
-            topModule.setController(topController);
-            topController.topModule(topModule);
-            topController.setPrimaryStage(primaryStage);
+            topComponentController.setMainController(this);
+            topModule.setController(topComponentController);
+            topComponentController.topModule(topModule);
+            topComponentController.setPrimaryStage(primaryStage);
 
 
-            detailsController.setMainController(this);
-            this.detailsModule.setController(detailsController);
+            detailsComponentController.setMainController(this);
+            this.detailsModule.setController(detailsComponentController);
         }
     }
 
@@ -40,7 +40,7 @@ public class PredictionsMainController {
     }
 
     public boolean insertNewLineToLeftListView(String line){
-        return detailsController.insertNewLineToLeftListView(line);
+        return detailsComponentController.insertNewLineToLeftListView(line);
     }
 
     public void onLoadSimulationButtonClicked(String path) {

@@ -37,7 +37,7 @@ public class PredictionsTopController {
     private Label labelChooseSkin;
 
     @FXML
-    private ComboBox<?> skinComboBox;
+    private ComboBox<String> skinComboBox;
 
     public void setMainController(PredictionsMainController mainController) {
         this.mainController = mainController;
@@ -67,7 +67,7 @@ public class PredictionsTopController {
 
     @FXML
     void onSkinSelected(ActionEvent event) {
-
+        System.out.println("onSkinSelected");
     }
 
 
