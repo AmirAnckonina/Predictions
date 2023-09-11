@@ -7,12 +7,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import simulator.mainManager.api.SimulatorManager;
 
 public class ResultsController {
 
     private PredictionsMainController mainController;
     private PredictionsTopModel predictionsTopModel;
     private Stage primaryStage;
+    private SimulatorManager simulatorManager;
 
     private ResultsModel resultsModel;
 
@@ -40,6 +42,9 @@ public class ResultsController {
 
     public void setResultsModel(ResultsModel resultsModel) {
         this.resultsModel = resultsModel;
+    }
+    public void setSimulatorManager(SimulatorManager simulatorManager) {
+        this.simulatorManager = simulatorManager;
     }
 
 }

@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import simulator.mainManager.api.SimulatorManager;
 
 import java.io.File;
 
@@ -16,6 +17,7 @@ public class TopController {
     private PredictionsMainController mainController;
     private PredictionsTopModel predictionsTopModel;
     private Stage primaryStage;
+    private SimulatorManager simulatorManager;
 
     @FXML
     private Button loadSimulationButton;
@@ -66,6 +68,10 @@ public class TopController {
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
+    }
+
+    public void setSimulatorManager(SimulatorManager simulatorManager) {
+        this.simulatorManager = simulatorManager;
     }
 
 

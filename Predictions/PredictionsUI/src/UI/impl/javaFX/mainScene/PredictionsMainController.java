@@ -8,6 +8,7 @@ import UI.impl.javaFX.top.TopController;
 import UI.impl.javaFX.top.PredictionsTopModel;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
+import response.SimulatorResponse;
 import simulator.mainManager.api.SimulatorManager;
 import simulator.mainManager.impl.SimulatorManagerImpl;
 
@@ -16,19 +17,16 @@ public class PredictionsMainController {
 
     private SimulatorManager simulatorManager;
     private Stage primaryStage;
+    private PredictionsTopModel topModule;
+    private DetailsModel detailsModel;
+    private ResultsModel resultsModel;
 
     @FXML
     private TopController topComponentController;
-    private PredictionsTopModel topModule;
-
     @FXML
     private DetailsController detailsComponentController;
-    private DetailsModel detailsModel;
-
-
     @FXML
     private ResultsController resultsComponentController;
-    private ResultsModel resultsModel;
 
     public PredictionsMainController() {
         this.simulatorManager = new SimulatorManagerImpl();
@@ -43,14 +41,17 @@ public class PredictionsMainController {
 
             topComponentController.setMainController(this);
             topComponentController.setModel(topModule);
+            topComponentController.setSimulatorManager(simulatorManager);
             topModule.setController(topComponentController);
 
             detailsComponentController.setMainController(this);
             detailsComponentController.setDetailsModel(detailsModel);
+            detailsComponentController.setSimulatorManager(simulatorManager);
             detailsModel.setController(detailsComponentController);
 
             resultsComponentController.setMainController(this);
             resultsComponentController.setResultsModel(resultsModel);
+            resultsComponentController.setSimulatorManager(simulatorManager);
             resultsModel.setResultsController(resultsComponentController);
         }
     }
@@ -63,8 +64,7 @@ public class PredictionsMainController {
         return detailsComponentController.insertNewLineToLeftListView(line);
     }
 
-    public void onLoadSimulationButtonClicked(String path) {
-
-        // bodyComponentController.onLoadSimulationButtonClicked();
+    public void onLoadSimulationButtonClicked(String simulationFilePath) {
+        simulatorManager.buildSimulationWorld(simulationFilePath);
     }
 }
