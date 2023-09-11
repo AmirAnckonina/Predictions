@@ -47,7 +47,11 @@ public class PredictionsMainController {
 
             detailsComponentController.setMainController(this);
             detailsComponentController.setDetailsModel(detailsModel);
-            detailsModel.setPrimaryStage(primaryStage);
+            detailsModel.setController(detailsComponentController);
+
+            resultsComponentController.setMainController(this);
+            resultsComponentController.setResultsModel(resultsModel);
+            resultsModel.setResultsController(resultsComponentController);
         }
     }
 
