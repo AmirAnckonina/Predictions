@@ -7,6 +7,8 @@ import response.SimulatorResponse;
 import simulator.definition.world.WorldDefinition;
 import simulator.result.manager.api.ResultManager;
 
+import java.util.List;
+
 public interface SimulatorManager {
 
     void buildSimulationWorld(String filePath);
@@ -19,4 +21,5 @@ public interface SimulatorManager {
     void exitSimulator();
     ResultManager getSimulatorResultManagerImpl();
     EstablishedEnvironmentInfoDto getEstablishedEnvironmentInfo();
+    List<String> getAllEntities();
 }

@@ -1,6 +1,5 @@
 package UI.impl.javaFX.mainScene;
 
-import UI.impl.javaFX.model.PredictionsMainModel;
 import UI.impl.javaFX.tabBody.details.DetailsController;
 import UI.impl.javaFX.tabBody.details.DetailsModule;
 import UI.impl.javaFX.tabBody.results.ResultsController;

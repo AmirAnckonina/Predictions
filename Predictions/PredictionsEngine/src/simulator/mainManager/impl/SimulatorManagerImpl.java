@@ -20,6 +20,10 @@ import simulator.result.manager.api.ResultManager;
 import simulator.result.manager.impl.ResultManagerImpl;
 import simulator.runner.utils.exceptions.SimulatorRunnerException;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class SimulatorManagerImpl implements SimulatorManager {
 
     private EstablishmentManager establishmentManager;
@@ -102,6 +106,14 @@ public class SimulatorManagerImpl implements SimulatorManager {
     @Override
     public EstablishedEnvironmentInfoDto getEstablishedEnvironmentInfo() {
         return establishmentManager.getEstablishedEnvironmentInfo();
+    }
+
+    @Override
+    public List<String> getAllEntities() {
+        return new ArrayList<>(this.worldBuilderManager
+                .getWorldDefinition()
+                .getEntities()
+                .keySet());
     }
 
 }

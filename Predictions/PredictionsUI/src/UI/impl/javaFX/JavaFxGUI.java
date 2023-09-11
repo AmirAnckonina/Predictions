@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 
-import static UI.impl.console.enums.CommonResourcesPaths.*;
+import static UI.impl.javaFX.common.CommonResourcesPaths.*;
 
 public class JavaFxGUI extends Application{
 
