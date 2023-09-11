@@ -41,6 +41,6 @@
       <AnchorPane maxHeight="30.0" minHeight="30.0" prefHeight="30.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </bottom>
    <top>
-      <fx:include source="../top/PredictionsTop.fxml" />
+      <fx:include fx:id="topComponent" source="../top/PredictionsTop.fxml" />
    </top>
 </BorderPane>
