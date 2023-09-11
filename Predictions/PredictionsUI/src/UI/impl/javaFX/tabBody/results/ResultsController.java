@@ -1,7 +1,7 @@
 package UI.impl.javaFX.tabBody.results;
 
 import UI.impl.javaFX.mainScene.PredictionsMainController;
-import UI.impl.javaFX.top.PredictionsTopModule;
+import UI.impl.javaFX.top.PredictionsTopModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,8 +11,10 @@ import javafx.stage.Stage;
 public class ResultsController {
 
     private PredictionsMainController mainController;
-    private PredictionsTopModule predictionsTopModule;
+    private PredictionsTopModel predictionsTopModel;
     private Stage primaryStage;
+
+    private ResultsModel resultsModel;
 
     @FXML
     private ListView<?> executionListView;
@@ -34,6 +36,10 @@ public class ResultsController {
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
+    }
+
+    public void setResultsModel(ResultsModel resultsModel) {
+        this.resultsModel = resultsModel;
     }
 
 }

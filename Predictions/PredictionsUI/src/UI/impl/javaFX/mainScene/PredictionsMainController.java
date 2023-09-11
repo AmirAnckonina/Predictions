@@ -1,11 +1,11 @@
 package UI.impl.javaFX.mainScene;
 
-import UI.impl.javaFX.model.PredictionsMainModel;
 import UI.impl.javaFX.tabBody.details.DetailsController;
-import UI.impl.javaFX.tabBody.details.DetailsModule;
+import UI.impl.javaFX.tabBody.details.DetailsModel;
 import UI.impl.javaFX.tabBody.results.ResultsController;
+import UI.impl.javaFX.tabBody.results.ResultsModel;
 import UI.impl.javaFX.top.TopController;
-import UI.impl.javaFX.top.PredictionsTopModule;
+import UI.impl.javaFX.top.PredictionsTopModel;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
 import simulator.mainManager.api.SimulatorManager;
@@ -19,15 +19,16 @@ public class PredictionsMainController {
 
     @FXML
     private TopController topComponentController;
-    private PredictionsTopModule topModule;
+    private PredictionsTopModel topModule;
 
     @FXML
     private DetailsController detailsComponentController;
-    private DetailsModule detailsModule;
+    private DetailsModel detailsModel;
 
 
     @FXML
     private ResultsController resultsComponentController;
+    private ResultsModel resultsModel;
 
     public PredictionsMainController() {
         this.simulatorManager = new SimulatorManagerImpl();
@@ -36,13 +37,17 @@ public class PredictionsMainController {
     @FXML
     public void initialize() {
         if (topComponentController != null && detailsComponentController != null) {
+            topModule = new PredictionsTopModel();
+            resultsModel = new ResultsModel();
+            detailsModel = new DetailsModel();
 
             topComponentController.setMainController(this);
-            topComponentController.topModule(topModule);
-            topComponentController.setPrimaryStage(primaryStage);
-
+            topComponentController.setModel(topModule);
+            topModule.setController(topComponentController);
 
             detailsComponentController.setMainController(this);
+            detailsComponentController.setDetailsModel(detailsModel);
+            detailsModel.setPrimaryStage(primaryStage);
         }
     }
 

@@ -1,6 +1,5 @@
 package UI.impl.javaFX.tabBody.details;
 
-import UI.impl.javaFX.mainScene.PredictionsMainController;
 import javafx.stage.Stage;
 import simulator.mainManager.api.SimulatorManager;
 import simulator.mainManager.impl.SimulatorManagerImpl;
@@ -11,7 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class DetailsModule {
+public class DetailsModel {
 
     private SimulatorManager simulatorManager;
     private ResultManager simulatorResultManager;
@@ -23,7 +22,7 @@ public class DetailsModule {
     DetailsController controller;
 
 
-    public DetailsModule() {
+    public DetailsModel() {
         this.simulatorManager = new SimulatorManagerImpl();
         this.simulatorResultManager = this.simulatorManager.getSimulatorResultManagerImpl();
     }

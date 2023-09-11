@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 public class DetailsController {
     private int observableLinesIndex = -1;
     private PredictionsMainController mainController;
-
+    private DetailsModel detailsModel;
     private Stage primaryStage;
 
     @FXML
@@ -55,5 +55,8 @@ public class DetailsController {
         System.out.println(selectedSimulationID);
     }
 
+    public void setDetailsModel(DetailsModel detailsModel) {
+        this.detailsModel = detailsModel;
+    }
 
 }
