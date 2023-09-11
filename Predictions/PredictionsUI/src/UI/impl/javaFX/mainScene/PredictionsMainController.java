@@ -9,10 +9,12 @@ import UI.impl.javaFX.top.PredictionsTopModule;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
 import simulator.mainManager.api.SimulatorManager;
+import simulator.mainManager.impl.SimulatorManagerImpl;
 
 public class PredictionsMainController {
 
-    private PredictionsMainModel predictionsMainModel;
+
+    private SimulatorManager simulatorManager;
     private Stage primaryStage;
 
     @FXML
@@ -27,6 +29,9 @@ public class PredictionsMainController {
     @FXML
     private ResultsController resultsComponentController;
 
+    public PredictionsMainController() {
+        this.simulatorManager = new SimulatorManagerImpl();
+    }
 
     @FXML
     public void initialize() {
