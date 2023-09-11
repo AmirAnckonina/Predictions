@@ -1,6 +1,6 @@
 package UI.impl.javaFX.top;
 
-public class PredictionsTopModule {
+public class PredictionsTopModel {
 
     TopController topController;
 

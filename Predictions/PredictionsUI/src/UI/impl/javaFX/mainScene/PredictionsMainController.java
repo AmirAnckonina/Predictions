@@ -1,13 +1,14 @@
 package UI.impl.javaFX.mainScene;
 
-import UI.impl.javaFX.model.PredictionsMainModel;
 import UI.impl.javaFX.tabBody.details.DetailsController;
-import UI.impl.javaFX.tabBody.details.DetailsModule;
+import UI.impl.javaFX.tabBody.details.DetailsModel;
 import UI.impl.javaFX.tabBody.results.ResultsController;
+import UI.impl.javaFX.tabBody.results.ResultsModel;
 import UI.impl.javaFX.top.TopController;
-import UI.impl.javaFX.top.PredictionsTopModule;
+import UI.impl.javaFX.top.PredictionsTopModel;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
+import response.SimulatorResponse;
 import simulator.mainManager.api.SimulatorManager;
 import simulator.mainManager.impl.SimulatorManagerImpl;
 
@@ -16,16 +17,14 @@ public class PredictionsMainController {
 
     private SimulatorManager simulatorManager;
     private Stage primaryStage;
+    private PredictionsTopModel topModule;
+    private DetailsModel detailsModel;
+    private ResultsModel resultsModel;
 
     @FXML
     private TopController topComponentController;
-    private PredictionsTopModule topModule;
-
     @FXML
     private DetailsController detailsComponentController;
-    private DetailsModule detailsModule;
-
-
     @FXML
     private ResultsController resultsComponentController;
 
@@ -36,13 +35,24 @@ public class PredictionsMainController {
     @FXML
     public void initialize() {
         if (topComponentController != null && detailsComponentController != null) {
+            topModule = new PredictionsTopModel();
+            resultsModel = new ResultsModel();
+            detailsModel = new DetailsModel();
 
             topComponentController.setMainController(this);
-            topComponentController.topModule(topModule);
-            topComponentController.setPrimaryStage(primaryStage);
-
+            topComponentController.setModel(topModule);
+            topComponentController.setSimulatorManager(simulatorManager);
+            topModule.setController(topComponentController);
 
             detailsComponentController.setMainController(this);
+            detailsComponentController.setDetailsModel(detailsModel);
+            detailsComponentController.setSimulatorManager(simulatorManager);
+            detailsModel.setController(detailsComponentController);
+
+            resultsComponentController.setMainController(this);
+            resultsComponentController.setResultsModel(resultsModel);
+            resultsComponentController.setSimulatorManager(simulatorManager);
+            resultsModel.setResultsController(resultsComponentController);
         }
     }
 
@@ -54,8 +64,7 @@ public class PredictionsMainController {
         return detailsComponentController.insertNewLineToLeftListView(line);
     }
 
-    public void onLoadSimulationButtonClicked(String path) {
-
-        // bodyComponentController.onLoadSimulationButtonClicked();
+    public void onLoadSimulationButtonClicked(String simulationFilePath) {
+        simulatorManager.buildSimulationWorld(simulationFilePath);
     }
 }

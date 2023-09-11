@@ -8,13 +8,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import simulator.mainManager.api.SimulatorManager;
 
 
 public class DetailsController {
     private int observableLinesIndex = -1;
     private PredictionsMainController mainController;
-
+    private DetailsModel detailsModel;
     private Stage primaryStage;
+    private SimulatorManager simulatorManager;
 
     @FXML
     private ListView<?> detailsRightListLV;
@@ -55,5 +57,12 @@ public class DetailsController {
         System.out.println(selectedSimulationID);
     }
 
+    public void setDetailsModel(DetailsModel detailsModel) {
+        this.detailsModel = detailsModel;
+    }
+
+    public void setSimulatorManager(SimulatorManager simulatorManager) {
+        this.simulatorManager = simulatorManager;
+    }
 
 }

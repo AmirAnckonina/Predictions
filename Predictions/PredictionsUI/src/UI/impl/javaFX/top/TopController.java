@@ -8,14 +8,16 @@ import javafx.scene.control.Label;
 
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import simulator.mainManager.api.SimulatorManager;
 
 import java.io.File;
 
 public class TopController {
 
     private PredictionsMainController mainController;
-    private PredictionsTopModule predictionsTopModule;
+    private PredictionsTopModel predictionsTopModel;
     private Stage primaryStage;
+    private SimulatorManager simulatorManager;
 
     @FXML
     private Button loadSimulationButton;
@@ -48,7 +50,7 @@ public class TopController {
         }
 
         this.loadSimulationPath.setText(selectedFile.getAbsolutePath());
-        this.predictionsTopModule.onLoadSimulationButtonClicked();
+        this.predictionsTopModel.onLoadSimulationButtonClicked();
         this.mainController.onLoadSimulationButtonClicked(selectedFile.getAbsolutePath());
     }
 
@@ -60,12 +62,16 @@ public class TopController {
     public void setMainController(PredictionsMainController mainController) {
         this.mainController = mainController;
     }
-    public void topModule(PredictionsTopModule predictionsTopModule) {
-        this.predictionsTopModule = predictionsTopModule;
+    public void setModel(PredictionsTopModel predictionsTopModel) {
+        this.predictionsTopModel = predictionsTopModel;
     }
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
+    }
+
+    public void setSimulatorManager(SimulatorManager simulatorManager) {
+        this.simulatorManager = simulatorManager;
     }
 
 
