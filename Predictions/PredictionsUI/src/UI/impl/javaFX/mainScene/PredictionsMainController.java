@@ -30,13 +30,11 @@ public class PredictionsMainController {
         if (topComponentController != null && detailsComponentController != null) {
 
             topComponentController.setMainController(this);
-            topModule.setController(topComponentController);
             topComponentController.topModule(topModule);
             topComponentController.setPrimaryStage(primaryStage);
 
 
             detailsComponentController.setMainController(this);
-            this.detailsModule.setController(detailsComponentController);
         }
     }
 
