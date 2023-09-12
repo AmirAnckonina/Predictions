@@ -66,5 +66,18 @@ public class PredictionsMainController {
 
     public void onLoadSimulationButtonClicked(String simulationFilePath) {
         simulatorManager.buildSimulationWorld(simulationFilePath);
+        simulatorManager.getEnvironmentPropertiesDefinition();
+    }
+
+    public void detailsTabClicked(){
+        System.out.println("detailsTabClicked");
+    }
+
+    public void executionTabClicked(){
+        System.out.println("executionTabClicked");
+    }
+
+    public void resultsTabClicked(){
+        System.out.println("resultsTabClicked");
     }
 }
