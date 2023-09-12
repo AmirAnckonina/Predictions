@@ -10,7 +10,7 @@
    <center>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
-          <Tab text="Detailes">
+          <Tab fx:id="detailesTabID" onSelectionChanged="#detailsTabClicked" text="Details">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="1200.0">
                      <children>
@@ -24,12 +24,12 @@
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab text="Execution">
+          <Tab onSelectionChanged="#executionTabClicked" text="Execution">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
             </content>
           </Tab>
-            <Tab text="Results">
+            <Tab onSelectionChanged="#resultsTabClicked" text="Results">
                <content>
                   <fx:include fx:id="resultsComponent" source="../tabBody/results/ResultsGrid.fxml" />
                </content>
