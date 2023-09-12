@@ -88,4 +88,8 @@ public class NewExecutionController {
             // Impl here somthing like red color around the textfield in the sub comp
         }
     }
+
+    public void setSimulatorManager(SimulatorManager simulatorManager) {
+        this.simulatorManager = simulatorManager;
+    }
 }

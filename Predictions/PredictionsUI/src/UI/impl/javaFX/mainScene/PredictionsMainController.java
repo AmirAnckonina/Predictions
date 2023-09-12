@@ -2,6 +2,7 @@ package UI.impl.javaFX.mainScene;
 
 import UI.impl.javaFX.tabBody.details.DetailsController;
 import UI.impl.javaFX.tabBody.details.DetailsModel;
+import UI.impl.javaFX.tabBody.newExecution.newExecutionMain.NewExecutionController;
 import UI.impl.javaFX.tabBody.results.ResultsController;
 import UI.impl.javaFX.tabBody.results.ResultsModel;
 import UI.impl.javaFX.top.TopController;
@@ -27,6 +28,8 @@ public class PredictionsMainController {
     private DetailsController detailsComponentController;
     @FXML
     private ResultsController resultsComponentController;
+    @FXML
+    private NewExecutionController newExecutionComponentController;
 
     public PredictionsMainController() {
         this.simulatorManager = new SimulatorManagerImpl();
@@ -39,16 +42,23 @@ public class PredictionsMainController {
             resultsModel = new ResultsModel();
             detailsModel = new DetailsModel();
 
+            // Set top component
             topComponentController.setMainController(this);
             topComponentController.setModel(topModule);
             topComponentController.setSimulatorManager(simulatorManager);
             topModule.setController(topComponentController);
 
+            //Set details tab component
             detailsComponentController.setMainController(this);
             detailsComponentController.setDetailsModel(detailsModel);
             detailsComponentController.setSimulatorManager(simulatorManager);
             detailsModel.setController(detailsComponentController);
 
+            //Set execution tab component
+            newExecutionComponentController.setPredictionsMainController(this);
+            newExecutionComponentController.setSimulatorManager(simulatorManager);
+
+            //Set results tab component
             resultsComponentController.setMainController(this);
             resultsComponentController.setResultsModel(resultsModel);
             resultsComponentController.setSimulatorManager(simulatorManager);
