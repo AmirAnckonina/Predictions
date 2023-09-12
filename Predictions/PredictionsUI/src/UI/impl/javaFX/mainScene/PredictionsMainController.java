@@ -7,12 +7,14 @@ import UI.impl.javaFX.tabBody.results.ResultsController;
 import UI.impl.javaFX.tabBody.results.ResultsModel;
 import UI.impl.javaFX.top.TopController;
 import UI.impl.javaFX.top.PredictionsTopModel;
+import dto.BasePropertyDto;
+import dto.EnvironmentPropertiesDto;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
-import response.SimulatorResponse;
 import simulator.mainManager.api.SimulatorManager;
 import simulator.mainManager.impl.SimulatorManagerImpl;
-import simulator.runner.utils.exceptions.TerminationReason;
+
+import java.util.Map;
 
 public class PredictionsMainController {
 
@@ -71,6 +73,10 @@ public class PredictionsMainController {
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
+        topComponentController.setPrimaryStage(primaryStage);
+        detailsComponentController.setPrimaryStage(primaryStage);
+        newExecutionComponentController.setPrimaryStage(primaryStage);
+        resultsComponentController.setPrimaryStage(primaryStage);
     }
 
     public boolean insertNewLineToLeftListView(String line){
@@ -100,7 +106,11 @@ public class PredictionsMainController {
         newSimulationLoadedFlag = false;
 
 
-        simulatorManager.getEnvironmentPropertiesDefinition();
+        EnvironmentPropertiesDto response = simulatorManager.getEnvironmentPropertiesDefinition();
+        Map<String ,BasePropertyDto> basePropertyDtoMap = response.getPropertiesMap();
+        detailsComponentController.setPropertyDtoMap(basePropertyDtoMap);
+        detailsComponentController.showCurrPropertyDtoList();
+
         System.out.println("detailsTabClicked");
     }
 
@@ -108,6 +118,8 @@ public class PredictionsMainController {
         if(currentScreen == eCurrentScreen.EXECUTION&& !newSimulationLoadedFlag){return;}
 
         currentScreen = eCurrentScreen.EXECUTION;
+        newSimulationLoadedFlag = false;
+
 
 
         System.out.println("executionTabClicked");
@@ -117,6 +129,8 @@ public class PredictionsMainController {
         if(currentScreen == eCurrentScreen.RESULTS&& !newSimulationLoadedFlag){return;}
 
         currentScreen = eCurrentScreen.RESULTS;
+        newSimulationLoadedFlag = false;
+
 
 
         System.out.println("resultsTabClicked");

@@ -1,18 +1,26 @@
 package dto;
 
 import java.util.List;
+import java.util.Map;
 
 public class EnvironmentPropertiesDto {
-    List<BasePropertyDto> properties;
+    List<BasePropertyDto> propertiesList;
+    Map<String ,BasePropertyDto> propertiesMap;
 
-    public EnvironmentPropertiesDto(List<BasePropertyDto> properties){ this.properties = properties;}
+    public EnvironmentPropertiesDto(List<BasePropertyDto> propertiesList, Map<String ,BasePropertyDto> propertiesMap){
+        this.propertiesList = propertiesList;
+        this.propertiesMap = propertiesMap;
+    }
 
     public int getNumOfProperties(){
-        return this.properties.size();
+        return this.propertiesList.size();
     }
 
     public List<BasePropertyDto> getPropertiesList(){
-        return this.properties;
+        return this.propertiesList;
+    }
+    public Map<String, BasePropertyDto> getPropertiesMap() {
+        return propertiesMap;
     }
 
 }

@@ -1,7 +1,9 @@
 package UI.impl.javaFX.tabBody.details;
 
 import UI.impl.javaFX.mainScene.PredictionsMainController;
+import UI.impl.javaFX.tabBody.details.subbodyobjects.SimulationDetail;
 import UI.impl.javaFX.tabBody.details.subbodyobjects.simulationTitle;
+import dto.BasePropertyDto;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,6 +12,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import simulator.mainManager.api.SimulatorManager;
 
+import java.util.Map;
+
 
 public class DetailsController {
     private int observableLinesIndex = -1;
@@ -17,20 +21,17 @@ public class DetailsController {
     private DetailsModel detailsModel;
     private Stage primaryStage;
     private SimulatorManager simulatorManager;
+    private Map<String, BasePropertyDto> propertyDtoMap;
 
     @FXML
-    private ListView<?> detailsRightListLV;
+    private ListView<SimulationDetail> detailsRightListLV;
 
     @FXML
-    private ListView<simulationTitle> detailesLeftListLV;
+    private ListView<simulationTitle> detailsLeftListLV;
 
 
-    private ObservableList<simulationTitle> listViewLines = FXCollections.observableArrayList(
-            new simulationTitle("test1"),
-            new simulationTitle("test2"),
-            new simulationTitle("test3"),
-            new simulationTitle("test4")
-    );
+    private ObservableList<simulationTitle> listViewLeftLines = FXCollections.observableArrayList();
+    private ObservableList<SimulationDetail> listViewRightLines = FXCollections.observableArrayList();
 
     public void setMainController(PredictionsMainController mainController) {
         this.mainController = mainController;
@@ -41,20 +42,51 @@ public class DetailsController {
     }
 
     public void loadFileButtonClicked(){
-        this.detailesLeftListLV.setItems(this.listViewLines);
+        this.detailsLeftListLV.setItems(this.listViewLeftLines);
     }
 
     public boolean insertNewLineToLeftListView(String simulationID){
-        this.listViewLines.add(new simulationTitle(simulationID));
+        this.listViewLeftLines.add(new simulationTitle(simulationID));
+        detailsLeftListLV.setItems(listViewLeftLines);
         return true;
+    }
+    public boolean insertNewLineToRightListView(String simulationDetail){
+        this.listViewRightLines.add(new SimulationDetail(simulationDetail));
+        detailsRightListLV.setItems(listViewRightLines);
+        return true;
+    }
+
+    public void setPropertyDtoMap(Map<String, BasePropertyDto> propertyDtoList) {
+        this.propertyDtoMap = propertyDtoList;
+    }
+
+    public void showCurrPropertyDtoList(){
+
+        for (Map.Entry<String, BasePropertyDto> propertyDto : propertyDtoMap.entrySet()) {
+            insertNewLineToLeftListView(propertyDto.getKey());
+        }
     }
 
     @FXML
     void listViewLineClicked(MouseEvent event) {
-        String selectedSimulationID = this.detailesLeftListLV.
-                getSelectionModel().getSelectedItem().toString();
+        BasePropertyDto selectedSimulation = propertyDtoMap.get(this.detailsLeftListLV.
+                getSelectionModel().getSelectedItem().toString());
+        cleanRightListView();
 
-        System.out.println(selectedSimulationID);
+        insertNewLineToRightListView("Name: " + selectedSimulation.getName());
+        insertNewLineToRightListView("Type: " + selectedSimulation.getPropertyType());
+        insertNewLineToRightListView("Value: " + selectedSimulation.getValue());
+        insertNewLineToRightListView("Range: from " + selectedSimulation.getFrom() + "to " + selectedSimulation.getTo());
+    }
+
+    private void cleanRightListView() {
+        listViewRightLines.clear();
+        detailsRightListLV.setItems(listViewRightLines);
+    }
+
+    private void cleanLeftListView() {
+        listViewLeftLines.clear();
+        detailsLeftListLV.setItems(listViewLeftLines);
     }
 
     public void setDetailsModel(DetailsModel detailsModel) {
