@@ -7,11 +7,14 @@ import UI.impl.javaFX.tabBody.results.ResultsController;
 import UI.impl.javaFX.tabBody.results.ResultsModel;
 import UI.impl.javaFX.top.TopController;
 import UI.impl.javaFX.top.PredictionsTopModel;
+import dto.BasePropertyDto;
+import dto.EnvironmentPropertiesDto;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
-import response.SimulatorResponse;
 import simulator.mainManager.api.SimulatorManager;
 import simulator.mainManager.impl.SimulatorManagerImpl;
+
+import java.util.Map;
 
 public class PredictionsMainController {
 
@@ -21,15 +24,17 @@ public class PredictionsMainController {
     private PredictionsTopModel topModule;
     private DetailsModel detailsModel;
     private ResultsModel resultsModel;
+    private eCurrentScreen currentScreen = eCurrentScreen.DETAILS;
+    private boolean newSimulationLoadedFlag = false;
 
     @FXML
     private TopController topComponentController;
     @FXML
     private DetailsController detailsComponentController;
     @FXML
-    private ResultsController resultsComponentController;
-    @FXML
     private NewExecutionController newExecutionComponentController;
+    @FXML
+    private ResultsController resultsComponentController;
 
     public PredictionsMainController() {
         this.simulatorManager = new SimulatorManagerImpl();
@@ -68,6 +73,10 @@ public class PredictionsMainController {
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
+        topComponentController.setPrimaryStage(primaryStage);
+        detailsComponentController.setPrimaryStage(primaryStage);
+        newExecutionComponentController.setPrimaryStage(primaryStage);
+        resultsComponentController.setPrimaryStage(primaryStage);
     }
 
     public boolean insertNewLineToLeftListView(String line){
@@ -76,18 +85,56 @@ public class PredictionsMainController {
 
     public void onLoadSimulationButtonClicked(String simulationFilePath) {
         simulatorManager.buildSimulationWorld(simulationFilePath);
-        simulatorManager.getEnvironmentPropertiesDefinition();
+        this.newSimulationLoadedFlag = true;
+        switch (currentScreen) {
+            case DETAILS:
+                detailsTabClicked();
+                break;
+            case EXECUTION:
+                executionTabClicked();
+                break;
+            case RESULTS:
+                resultsTabClicked();
+                break;
+        }
     }
 
     public void detailsTabClicked(){
+        if(currentScreen == eCurrentScreen.DETAILS && !newSimulationLoadedFlag){return;}
+
+        currentScreen = eCurrentScreen.DETAILS;
+        newSimulationLoadedFlag = false;
+
+
+        EnvironmentPropertiesDto response = simulatorManager.getEnvironmentPropertiesDefinition();
+        Map<String ,BasePropertyDto> basePropertyDtoMap = response.getPropertiesMap();
+        detailsComponentController.setPropertyDtoMap(basePropertyDtoMap);
+        detailsComponentController.showCurrPropertyDtoList();
+
         System.out.println("detailsTabClicked");
     }
 
     public void executionTabClicked(){
+        if(currentScreen == eCurrentScreen.EXECUTION&& !newSimulationLoadedFlag){return;}
+
+        currentScreen = eCurrentScreen.EXECUTION;
+        newSimulationLoadedFlag = false;
+
+
+
         System.out.println("executionTabClicked");
     }
 
     public void resultsTabClicked(){
+        if(currentScreen == eCurrentScreen.RESULTS&& !newSimulationLoadedFlag){return;}
+
+        currentScreen = eCurrentScreen.RESULTS;
+        newSimulationLoadedFlag = false;
+
+
+
         System.out.println("resultsTabClicked");
+
+
     }
 }

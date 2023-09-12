@@ -12,7 +12,7 @@
             <Insets right="10.0" />
          </padding>
          <content>
-            <ListView fx:id="detailesLeftListLV" onMouseClicked="#listViewLineClicked">
+            <ListView fx:id="detailsLeftListLV" onMouseClicked="#listViewLineClicked">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -24,7 +24,7 @@
       </ScrollPane>
       <ScrollPane fitToHeight="true" fitToWidth="true">
          <content>
-            <ListView fx:id="detailesLeftListLV" onMouseClicked="#listViewLineClicked">
+            <ListView fx:id="detailsRightListLV" onMouseClicked="#listViewLineClicked">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>

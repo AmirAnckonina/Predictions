@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 import simulator.mainManager.api.SimulatorManager;
 
 import java.io.IOException;
@@ -25,6 +26,7 @@ public class NewExecutionController {
     private SimulatorManager simulatorManager;
     private Map<String, EntityPopulationController> entityPopulationControllerMap;
     private PredictionsMainController predictionsMainController;
+    private Stage primaryStage;
 
     public NewExecutionController() {
         this.entityPopulationControllerMap = new HashMap<>();
@@ -91,5 +93,9 @@ public class NewExecutionController {
 
     public void setSimulatorManager(SimulatorManager simulatorManager) {
         this.simulatorManager = simulatorManager;
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
     }
 }

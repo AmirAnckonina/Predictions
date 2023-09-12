@@ -17,6 +17,7 @@ import simulator.definition.rule.Rule;
 import simulator.definition.world.WorldDefinition;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -59,6 +60,7 @@ public class WorldBuilderManagerImpl implements WorldBuilderManager {
     @Override
     public EnvironmentPropertiesDto getEnvironmentPropertiesDefinition() {
 
+            Map<String  ,BasePropertyDto> propertyDtoMap = new HashMap();
             List<BasePropertyDto> propertyDtoList = new ArrayList<>();
             for (String propertyName : this.worldDefinition.getEnvironment().getPropertiesNames()) {
 
@@ -69,15 +71,17 @@ public class WorldBuilderManagerImpl implements WorldBuilderManager {
                         BasePropertyDto propertyDto = new BasePropertyDto(propertyName,
                                 property.getType().toString(), range.getFrom().toString(),
                                 range.getTo().toString(), null);
+                        propertyDtoMap.put(propertyName ,propertyDto);
                         propertyDtoList.add(propertyDto);
                         continue;
                     }
                 }
                 BasePropertyDto propertyDto = new BasePropertyDto(propertyName,
                         property.getType().toString(), null, null, null);
+                propertyDtoMap.put(propertyName, propertyDto);
                 propertyDtoList.add(propertyDto);
             }
-            EnvironmentPropertiesDto envPropsDto = new EnvironmentPropertiesDto(propertyDtoList);
+            EnvironmentPropertiesDto envPropsDto = new EnvironmentPropertiesDto(propertyDtoList, propertyDtoMap);
 
             return envPropsDto;
 
