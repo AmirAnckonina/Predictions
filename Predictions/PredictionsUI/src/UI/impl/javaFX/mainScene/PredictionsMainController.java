@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import response.SimulatorResponse;
 import simulator.mainManager.api.SimulatorManager;
 import simulator.mainManager.impl.SimulatorManagerImpl;
+import simulator.runner.utils.exceptions.TerminationReason;
 
 public class PredictionsMainController {
 
@@ -21,15 +22,17 @@ public class PredictionsMainController {
     private PredictionsTopModel topModule;
     private DetailsModel detailsModel;
     private ResultsModel resultsModel;
+    private eCurrentScreen currentScreen = eCurrentScreen.DETAILS;
+    private boolean newSimulationLoadedFlag = false;
 
     @FXML
     private TopController topComponentController;
     @FXML
     private DetailsController detailsComponentController;
     @FXML
-    private ResultsController resultsComponentController;
-    @FXML
     private NewExecutionController newExecutionComponentController;
+    @FXML
+    private ResultsController resultsComponentController;
 
     public PredictionsMainController() {
         this.simulatorManager = new SimulatorManagerImpl();
@@ -76,18 +79,48 @@ public class PredictionsMainController {
 
     public void onLoadSimulationButtonClicked(String simulationFilePath) {
         simulatorManager.buildSimulationWorld(simulationFilePath);
-        simulatorManager.getEnvironmentPropertiesDefinition();
+        this.newSimulationLoadedFlag = true;
+        switch (currentScreen) {
+            case DETAILS:
+                detailsTabClicked();
+                break;
+            case EXECUTION:
+                executionTabClicked();
+                break;
+            case RESULTS:
+                resultsTabClicked();
+                break;
+        }
     }
 
     public void detailsTabClicked(){
+        if(currentScreen == eCurrentScreen.DETAILS && !newSimulationLoadedFlag){return;}
+
+        currentScreen = eCurrentScreen.DETAILS;
+        newSimulationLoadedFlag = false;
+
+
+        simulatorManager.getEnvironmentPropertiesDefinition();
         System.out.println("detailsTabClicked");
     }
 
     public void executionTabClicked(){
+        if(currentScreen == eCurrentScreen.EXECUTION&& !newSimulationLoadedFlag){return;}
+
+        currentScreen = eCurrentScreen.EXECUTION;
+
+
         System.out.println("executionTabClicked");
     }
 
     public void resultsTabClicked(){
+        if(currentScreen == eCurrentScreen.RESULTS&& !newSimulationLoadedFlag){return;}
+
+        currentScreen = eCurrentScreen.RESULTS;
+
+
         System.out.println("resultsTabClicked");
+
+
     }
 }

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -10,26 +9,24 @@
    <center>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
-          <Tab text="Detailes">
+          <Tab onCloseRequest="#executionTabClicked" onClosed="#resultsTabClicked" onSelectionChanged="#detailsTabClicked" text="Details">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="1200.0">
                      <children>
-                        <ScrollPane prefHeight="200.0" prefWidth="200.0">
-                          <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-                          </content>
-                        </ScrollPane>
                         <fx:include fx:id="detailsComponent" source="../tabBody/details/PredictionsDetailsIGrid.fxml" />
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab text="Execution">
+          <Tab onSelectionChanged="#executionTabClicked" text="Execution">
             <content>
-              <AnchorPane fx:id="newExecutionComponent" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <fx:include fx:id="newExecutionComponent" source="../tabBody/newExecution/newExecutionMain/newExecution.fxml" />
+                     </children></AnchorPane>
             </content>
           </Tab>
-            <Tab text="Results">
+            <Tab onSelectionChanged="#resultsTabClicked" text="Results">
                <content>
                   <fx:include fx:id="resultsComponent" source="../tabBody/results/ResultsGrid.fxml" />
                </content>
