@@ -4,7 +4,7 @@ import resources.jaxb.schema.generated.PRDProperty;
 import simulator.builder.impl.baseImpl.BasePropertyBuilder;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 import simulator.definition.property.impl.Range;
-import simulator.definition.property.utils.enums.PropertyType;
+import enums.PropertyType;
 
 public class XmlEntityPropertyBuilder extends BasePropertyBuilder {
     private PRDProperty generatedEntityProperty;

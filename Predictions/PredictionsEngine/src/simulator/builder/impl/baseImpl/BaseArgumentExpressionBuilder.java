@@ -6,7 +6,7 @@ import simulator.builder.utils.MandatoryTypeDemanding;
 import simulator.builder.utils.ExtractedParenthesesPart;
 import simulator.builder.utils.exception.WorldBuilderException;
 import simulator.builder.api.abstracts.AbstractComponentBuilder;
-import simulator.definition.property.utils.enums.PropertyType;
+import enums.PropertyType;
 import simulator.definition.rule.action.expression.argumentExpression.api.abstracts.AbstractMethodArgumentExpression;
 import simulator.definition.rule.action.expression.argumentExpression.impl.method.*;
 import simulator.definition.rule.action.expression.argumentExpression.impl.property.EntityPropertyArgumentExpression;

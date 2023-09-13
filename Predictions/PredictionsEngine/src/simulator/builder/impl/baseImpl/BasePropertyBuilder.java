@@ -3,7 +3,7 @@ package simulator.builder.impl.baseImpl;
 import simulator.builder.api.interfaces.PropertyBuilder;
 import simulator.builder.utils.exception.WorldBuilderException;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
-import simulator.definition.property.utils.enums.PropertyType;
+import enums.PropertyType;
 import simulator.definition.property.impl.*;
 import simulator.definition.property.valueGenerator.api.ValueGenerator;
 import simulator.definition.property.valueGenerator.utils.factory.ValueGeneratorFactory;

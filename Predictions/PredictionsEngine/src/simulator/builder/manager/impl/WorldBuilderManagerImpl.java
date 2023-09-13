@@ -2,6 +2,7 @@ package simulator.builder.manager.impl;
 
 import dto.BasePropertyDto;
 import dto.EnvironmentPropertiesDto;
+import dto.EnvironmentPropertyDto;
 import dto.SimulationDetailsDto;
 import response.SimulatorResponse;
 import simulator.builder.api.interfaces.WorldBuilder;
@@ -28,6 +29,21 @@ public class WorldBuilderManagerImpl implements WorldBuilderManager {
     @Override
     public WorldDefinition getWorldDefinition() {
         return worldDefinition;
+    }
+
+    @Override
+    public List<EnvironmentPropertyDto> getAllEnvironmentProperties() {
+
+        List<EnvironmentPropertyDto> envPropDtoList = new ArrayList<>();
+
+       this.worldDefinition
+               .getEnvironment()
+               .getEnvironmentProperties()
+               .forEach( (envPropName, envPropDef) -> {
+                   envPropDtoList.add(new EnvironmentPropertyDto(envPropName, envPropDef.getType()));
+               });
+
+       return envPropDtoList;
     }
 
     @Override

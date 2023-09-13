@@ -1,6 +1,6 @@
 package simulator.execution.instance.world.impl;
 
-import simulator.definition.board.api.Board;
+import simulator.definition.board.api.SpaceGridInstance;
 import simulator.definition.rule.Rule;
 import simulator.definition.termination.Termination;
 
@@ -17,14 +17,14 @@ public class WorldInstanceImpl implements WorldInstance {
     private Map<String, List<EntityInstance>> entitiesInstances;
     private List<Rule> rules;
     private Termination termination;
-    private Board spaceGrid;
+    private SpaceGridInstance spaceGrid;
 
     public WorldInstanceImpl(
             EnvironmentInstance environmentInstance,
             Map<String, List<EntityInstance>> entitiesInstances,
             List<Rule> rules,
             Termination termination,
-            Board spaceGrid) {
+            SpaceGridInstance spaceGrid) {
 
         this.environmentInstance = environmentInstance;
         this.entitiesInstances = entitiesInstances;
@@ -49,7 +49,7 @@ public class WorldInstanceImpl implements WorldInstance {
     }
 
     @Override
-    public Board getSpaceGrid() {
+    public SpaceGridInstance getSpaceGrid() {
         return this.spaceGrid;
     }
 

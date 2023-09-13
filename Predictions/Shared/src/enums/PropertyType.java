@@ -1,4 +1,4 @@
-package simulator.definition.property.utils.enums;
+package enums;
 
 public enum PropertyType {
     DECIMAL{

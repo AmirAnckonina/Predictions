@@ -86,6 +86,12 @@ public class PredictionsMainController {
     public void onLoadSimulationButtonClicked(String simulationFilePath) {
         simulatorManager.buildSimulationWorld(simulationFilePath);
         this.newSimulationLoadedFlag = true;
+
+        // Here we want to activate the tabs.
+        // Details tab - after the workd is built we can collect all the WorldDefinition/SimulationDetails to the view
+        // New Exec tab -
+        this.newExecutionComponentController.initializeNewExecutionTab();
+
         switch (currentScreen) {
             case DETAILS:
                 detailsTabClicked();
@@ -114,8 +120,8 @@ public class PredictionsMainController {
         System.out.println("detailsTabClicked");
     }
 
-    public void executionTabClicked(){
-        if(currentScreen == eCurrentScreen.EXECUTION&& !newSimulationLoadedFlag){return;}
+    public void executionTabClicked() {
+        if(currentScreen == eCurrentScreen.EXECUTION && !newSimulationLoadedFlag){return;}
 
         currentScreen = eCurrentScreen.EXECUTION;
         newSimulationLoadedFlag = false;

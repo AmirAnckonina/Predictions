@@ -1,10 +1,8 @@
 package simulator.manualSetup.manager.impl;
 
-import dto.enums.SetPropertyStatus;
-import response.SimulatorResponse;
 import simulator.definition.environment.EnvironmentDefinition;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
-import simulator.definition.property.utils.enums.PropertyType;
+import enums.PropertyType;
 import simulator.definition.property.impl.*;
 import simulator.definition.property.valueGenerator.impl.fixed.FixedValueGenerator;
 import simulator.definition.world.WorldDefinition;
@@ -93,6 +91,17 @@ public class ManualSimulationSetupManagerImpl implements ManualSimulationSetupMa
             setFixedValueToEnvironmentPropertyDefinition(propName, eType, value, worldDefinition.getEnvironment());
             this.propertiesUpdatedByUser.add(propName);
     }
+
+    @Override
+    public <T> void setEnvironmentPropertyValue(WorldDefinition worldDefinition, String envPropertyName, T envPropertyValue) {
+        worldDefinition
+                .getEnvironment()
+                .getPropertyByName(envPropertyName)
+                .setValueGenerator(
+                        new FixedValueGenerator(envPropertyValue)
+                );
+    }
+
 
     @Override
     public void setEntityDefinitionPopulation(WorldDefinition worldDefinition, String entityName, Integer population) {

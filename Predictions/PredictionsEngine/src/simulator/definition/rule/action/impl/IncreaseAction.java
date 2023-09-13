@@ -1,7 +1,7 @@
 package simulator.definition.rule.action.impl;
 
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
-import simulator.definition.property.utils.enums.PropertyType;
+import enums.PropertyType;
 import simulator.definition.rule.action.api.abstracts.AbstractPropertyAction;
 import simulator.definition.rule.action.expression.argumentExpression.api.interfaces.ArgumentExpression;
 import simulator.definition.rule.action.utils.enums.ActionType;

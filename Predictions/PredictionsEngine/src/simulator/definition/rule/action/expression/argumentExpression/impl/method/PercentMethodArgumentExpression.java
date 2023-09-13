@@ -1,6 +1,6 @@
 package simulator.definition.rule.action.expression.argumentExpression.impl.method;
 
-import simulator.definition.property.utils.enums.PropertyType;
+import enums.PropertyType;
 import simulator.definition.rule.action.expression.argumentExpression.api.interfaces.ArgumentExpression;
 import simulator.definition.rule.action.expression.argumentExpression.utils.enums.ExpressionMethodType;
 import simulator.definition.rule.action.expression.argumentExpression.api.abstracts.AbstractMethodArgumentExpression;

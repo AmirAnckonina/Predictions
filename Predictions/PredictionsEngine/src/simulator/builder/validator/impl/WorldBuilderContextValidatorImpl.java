@@ -4,7 +4,7 @@ import simulator.builder.utils.exception.WorldBuilderException;
 import simulator.builder.validator.api.WorldBuilderContextValidator;
 import simulator.builder.utils.file.enums.DataFileType;
 import simulator.definition.rule.action.expression.argumentExpression.utils.enums.ExpressionMethodType;
-import simulator.definition.property.utils.enums.PropertyType;
+import enums.PropertyType;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

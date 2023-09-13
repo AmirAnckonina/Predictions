@@ -1,6 +1,6 @@
 package simulator.definition.board.impl;
 
-import simulator.definition.board.api.Board;
+import simulator.definition.board.api.SpaceGridInstance;
 import simulator.definition.board.api.eCellOrInstance;
 import simulator.execution.instance.entity.api.EntityInstance;
 import structure.api.Cell;
@@ -11,17 +11,16 @@ import structure.impl.CoordinateImpl;
 import java.util.List;
 import java.util.ArrayList;
 
-public class BoardImpl implements Board {
+public class SpaceGridInstanceImpl implements SpaceGridInstance {
     private Integer height = null;
     private Integer width = null;
     private Integer totalNumberOfCells = null;
     private Integer totalNumberOfFreeCells = null;
-
     private Cell<EntityInstance>[][] matrix = null;
     private List<EntityInstance> neighborsInstances = null;
     private List<Cell> neighborsCells = null;
 
-    public BoardImpl(Integer height, Integer width) {
+    public SpaceGridInstanceImpl(Integer height, Integer width) {
         this.height = height;
         this.width = width;
         this.totalNumberOfCells = this.totalNumberOfFreeCells = height * width;

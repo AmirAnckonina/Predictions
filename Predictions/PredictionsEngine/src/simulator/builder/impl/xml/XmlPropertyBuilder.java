@@ -4,7 +4,7 @@ import resources.jaxb.schema.generated.PRDRange;
 import resources.jaxb.schema.generated.PRDValue;
 import simulator.builder.impl.baseImpl.BasePropertyBuilder;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
-import simulator.definition.property.utils.enums.PropertyType;
+import enums.PropertyType;
 import simulator.definition.property.impl.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 

@@ -1,8 +1,5 @@
 package simulator.mainManager.api;
-import dto.EnvironmentPropertiesDto;
-import dto.EstablishedEnvironmentInfoDto;
-import dto.SimulationDetailsDto;
-import dto.SimulationEndDto;
+import dto.*;
 import response.SimulatorResponse;
 import simulator.definition.world.WorldDefinition;
 import simulator.result.manager.api.ResultManager;
@@ -22,4 +19,6 @@ public interface SimulatorManager {
     ResultManager getSimulatorResultManagerImpl();
     EstablishedEnvironmentInfoDto getEstablishedEnvironmentInfo();
     List<String> getAllEntities();
+    <T> void setEnvironmentPropertyValue(String envPropertyName, T envPropertyValue);
+    List<EnvironmentPropertyDto> getAllEnvironmentProperties();
 }
