@@ -6,7 +6,6 @@ import simulator.definition.rule.action.expression.argumentExpression.utils.enum
 public abstract class AbstractEntityPropertyMethodArgumentExpression extends AbstractMethodArgumentExpression {
 
     protected String entityName;
-
     protected String propertyName;
 
     public AbstractEntityPropertyMethodArgumentExpression(

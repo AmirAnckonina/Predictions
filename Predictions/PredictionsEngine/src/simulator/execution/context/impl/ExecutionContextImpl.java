@@ -8,12 +8,16 @@ import simulator.execution.instance.entity.manager.api.EntitiesInstancesManager;
 import simulator.execution.instance.environment.api.EnvironmentInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.information.tickDocument.api.TickDocument;
+import simulator.runner.utils.exceptions.SimulatorRunnerException;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ExecutionContextImpl implements ExecutionContext {
-    private Map<String, EntityInstance> entityInstanceMap;
+
+    //private Map<String, EntityInstance> entityInstanceMap;
+    private EntityInstance primaryEntityInstance;
+    private EntityInstance secondaryEntityInstance;
     private EntitiesInstancesManager entitiesInstancesManager;
     private EnvironmentInstance environmentInstance;
     private TickDocument currTickDocument;
@@ -21,8 +25,9 @@ public class ExecutionContextImpl implements ExecutionContext {
 
     public ExecutionContextImpl(SpaceGridInstance spaceGridInstance, EntityInstance entityInstance, EntitiesInstancesManager entitiesInstancesManager, EnvironmentInstance environmentInstance, TickDocument currTickDocument) {
         this.spaceGridInstance = spaceGridInstance;
-        entityInstanceMap = new HashMap<>();
-        entityInstanceMap.put(entityInstance.getEntityNameFamily(), entityInstance);
+        //entityInstanceMap = new HashMap<>();
+        //entityInstanceMap.put(entityInstance.getEntityNameFamily(), entityInstance);
+        this.primaryEntityInstance = entityInstance;
         this.entitiesInstancesManager = entitiesInstancesManager;
         this.environmentInstance = environmentInstance;
         this.currTickDocument = currTickDocument;
@@ -31,7 +36,27 @@ public class ExecutionContextImpl implements ExecutionContext {
 
     @Override
     public EntityInstance getEntityInstanceByName(String entityName) {
-        return this.entityInstanceMap.get(entityName);
+        //return this.entityInstanceMap.get(entityName);
+        EntityInstance entityInstance;
+        if (this.primaryEntityInstance.getEntityNameFamily().equals(entityName)) {
+            entityInstance = this.primaryEntityInstance;
+        } else if (this.secondaryEntityInstance.getEntityNameFamily().equals(entityName)) {
+            entityInstance = this.secondaryEntityInstance;
+        } else {
+            throw new SimulatorRunnerException("Couldn't reach the requested entityInstance by entity name, under exec context impl");
+        }
+
+        return entityInstance;
+    }
+
+    @Override
+    public EntityInstance getPrimaryEntityInstance() {
+        return this.primaryEntityInstance;
+    }
+
+    @Override
+    public EntityInstance getSecondaryEntityInstance() {
+        return secondaryEntityInstance;
     }
 
     @Override
@@ -45,8 +70,9 @@ public class ExecutionContextImpl implements ExecutionContext {
     }
 
     @Override
-    public void addEntityInstance(EntityInstance additionalEntityInstance) {
-        this.entityInstanceMap.put(additionalEntityInstance.getEntityNameFamily(), additionalEntityInstance);
+    public void setSecondaryEntityInstance(EntityInstance secondaryEntityInstance) {
+        //this.entityInstanceMap.put(additionalEntityInstance.getEntityNameFamily(), additionalEntityInstance);
+        this.secondaryEntityInstance = secondaryEntityInstance;
     }
 
     @Override

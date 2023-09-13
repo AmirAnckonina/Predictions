@@ -1,6 +1,6 @@
 package structure.api;
 
-public enum eCellContentStatus {
+public enum CellOccupationStatus {
     OCCUPIED,
     EMPTY
 }

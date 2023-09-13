@@ -195,7 +195,7 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
 
         String rawOriginalValueString =
                 extractSubStringInParenthesesString(parenthesesStringValue, COMMA, ExtractedParenthesesPart.LEFT);
-        String rawPercentageString =
+        String rawPartValueString =
                 extractSubStringInParenthesesString(parenthesesStringValue, COMMA, ExtractedParenthesesPart.RIGHT);
 
 
@@ -208,10 +208,10 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
                                 )
                         );
 
-        ArgumentExpression percentageExpression =
+        ArgumentExpression partValueExpression =
                 new BaseArgumentExpressionBuilder(contextValidator)
                         .buildExpression(
-                                rawPercentageString,
+                                rawPartValueString,
                                 new ArgExpressionContextDemands(
                                         PropertyType.FLOAT
                                 )
@@ -221,7 +221,7 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
                 ExpressionMethodType.PERCENT,
                 PropertyType.FLOAT,
                 originalValueExpression,
-                percentageExpression);
+                partValueExpression);
     }
 
     private String extractSubStringInParenthesesString(

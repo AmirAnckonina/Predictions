@@ -11,7 +11,7 @@ public interface Cell<T> {
 
     boolean insertObjectToCell(T data);
 
-    eCellContentStatus occupiedStatus();
+    CellOccupationStatus occupiedStatus();
 
     boolean isOccupied();
 

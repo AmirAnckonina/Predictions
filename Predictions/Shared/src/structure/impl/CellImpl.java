@@ -1,27 +1,26 @@
 package structure.impl;
 
-import jdk.nashorn.internal.runtime.regexp.JoniRegExp;
 import structure.api.Cell;
 import structure.api.Coordinate;
-import structure.api.eCellContentStatus;
+import structure.api.CellOccupationStatus;
 
 public class CellImpl<T> implements Cell<T>{
     private Coordinate coordinate;
     private T data;
-    private eCellContentStatus contentStatus;
+    private CellOccupationStatus contentStatus;
 
-    private CellImpl(Coordinate coordinate, T data, eCellContentStatus contentStatus) {
+    private CellImpl(Coordinate coordinate, T data, CellOccupationStatus contentStatus) {
         this.coordinate = coordinate;
         this.data = data;
         this.contentStatus = contentStatus;
     }
 
     public CellImpl(Coordinate coordinate, T data) {
-        this(coordinate, data, eCellContentStatus.OCCUPIED);
+        this(coordinate, data, CellOccupationStatus.OCCUPIED);
     }
 
     public CellImpl(Coordinate coordinate) {
-        this(coordinate, null, eCellContentStatus.EMPTY);
+        this(coordinate, null, CellOccupationStatus.EMPTY);
     }
 
     @Override
@@ -38,30 +37,30 @@ public class CellImpl<T> implements Cell<T>{
     public boolean insertObjectToCell(T data) {
         boolean returnVal = false;
 
-        if(this.contentStatus == eCellContentStatus.EMPTY){
+        if(this.contentStatus == CellOccupationStatus.EMPTY){
             this.data = data;
             returnVal = true;
-            this.contentStatus = eCellContentStatus.OCCUPIED;
+            this.contentStatus = CellOccupationStatus.OCCUPIED;
         }
 
         return returnVal;
     }
 
     @Override
-    public eCellContentStatus occupiedStatus() {
+    public CellOccupationStatus occupiedStatus() {
         return this.contentStatus;
     }
 
     @Override
     public boolean isOccupied() {
-        return this.contentStatus == eCellContentStatus.OCCUPIED;
+        return this.contentStatus == CellOccupationStatus.OCCUPIED;
     }
 
     @Override
     public T removeData(){
         T copy = data;
         this.data = null;
-        this.contentStatus = eCellContentStatus.EMPTY;
+        this.contentStatus = CellOccupationStatus.EMPTY;
 
         return copy;
     }

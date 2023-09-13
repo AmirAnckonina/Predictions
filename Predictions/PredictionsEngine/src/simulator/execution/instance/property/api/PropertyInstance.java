@@ -6,4 +6,5 @@ public interface PropertyInstance {
     AbstractPropertyDefinition getPropertyDefinition();
     Object getValue();
     void updateValue(Object val);
+    Integer getLastTickUpdate();
 }

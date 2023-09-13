@@ -16,7 +16,10 @@ public class EvaluateMethodArgumentExpression extends AbstractEntityPropertyMeth
 
     @Override
     public Object getValue(ExecutionContext context) {
-        throw new SimulatorRunnerException("NotImpl evaluate method expression");
+        return context
+                .getEntityInstanceByName(this.entityName)
+                .getPropertyInstanceByName(this.propertyName)
+                .getValue();
     }
 
 }
