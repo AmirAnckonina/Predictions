@@ -6,4 +6,5 @@ import javafx.beans.property.SimpleStringProperty;
 public class KeyToIntegerData {
     protected SimpleStringProperty keyNameProperty;
     protected SimpleIntegerProperty integerValueProperty;
+    public KeyToIntegerData() {}
 }

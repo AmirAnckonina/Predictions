@@ -31,6 +31,5 @@ public enum PropertyType {
         }
 
     };
-
     public abstract <T> T convert(T value);
 }

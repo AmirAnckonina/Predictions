@@ -19,7 +19,9 @@ public class TicksMethodArgumentExpression extends AbstractEntityPropertyMethodA
 
     @Override
     public Object getValue(ExecutionContext context) {
-        //return context.getEntityInstanceByName(this.entityName).getPropertyInstanceByName(this.propertyName).getLastUpdate();
-        throw new SimulatorRunnerException("Not impl getValue under Ticks Method Expression");
+        return context
+                .getEntityInstanceByName(this.entityName)
+                .getPropertyInstanceByName(this.propertyName)
+                .getLastTickUpdate();
     }
 }

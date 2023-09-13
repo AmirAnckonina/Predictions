@@ -114,7 +114,7 @@ public class EstablishmentManagerImpl implements EstablishmentManager {
             AbstractPropertyDefinition propDefinition = entry.getValue();
 
             PropertyInstance propertyInstance =
-                    new PropertyInstanceImpl(propDefinition, propDefinition.generateValue());
+                    new PropertyInstanceImpl(propDefinition, propDefinition.generateValue(), 0);
 
             propertyInstanceMap.put(propName, propertyInstance);
         }

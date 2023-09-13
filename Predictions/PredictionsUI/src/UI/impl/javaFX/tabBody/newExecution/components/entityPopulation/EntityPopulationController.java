@@ -16,6 +16,10 @@ public class EntityPopulationController extends KeyToIntegerData {
     @FXML private Label entityNameLabel;
     @FXML private TextField populationTextField;
 
+    public EntityPopulationController() {
+        super();
+    }
+
     @FXML
     private void initialize() {
         entityNameLabel.textProperty().bind(keyNameProperty);

@@ -192,7 +192,7 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
         // Foreach -> invoke with currPrimaryEntityIns and SecondaryIns together
         secondaryEntityInstances
                 .forEach((secondaryEntityInstance) -> {
-                    executionContext.addEntityInstance(secondaryEntityInstance);
+                    executionContext.setSecondaryEntityInstance(secondaryEntityInstance);
                     actionInvocation(currAction, executionContext);
                 });
     }

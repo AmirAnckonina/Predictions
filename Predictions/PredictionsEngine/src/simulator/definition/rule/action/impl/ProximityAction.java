@@ -4,7 +4,9 @@ import simulator.definition.rule.action.api.abstracts.AbstractAction;
 import simulator.definition.rule.action.expression.argumentExpression.api.interfaces.ArgumentExpression;
 import simulator.definition.rule.action.utils.enums.ActionType;
 import simulator.execution.context.api.ExecutionContext;
+import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.runner.utils.exceptions.SimulatorRunnerException;
+import structure.api.Coordinate;
 
 import java.util.List;
 
@@ -14,17 +16,13 @@ public class ProximityAction extends AbstractAction {
     private String targetEntityName;
     private ArgumentExpression envDepth;
     List<AbstractAction> actionsUnderProximity;
+
+    /**
+     * Pay attention.
+     * Decided to use AbstarctAction C'tor and set the primaryEntityName as the one should be the sourceEntity.
+     */
     public ProximityAction(
-            ActionType type,
-            String sourceEntityName,
-            String targetEntityName,
-            ArgumentExpression envDepth,
-            List<AbstractAction> actionsUnderProximity
-            ) {
-        /**
-         * Pay attention.
-         * Decided to use AbstarctAction C'tor and set the primaryEntityName as the one should be the sourceEntity.
-         */
+            ActionType type, String sourceEntityName, String targetEntityName, ArgumentExpression envDepth, List<AbstractAction> actionsUnderProximity) {
         super(type, sourceEntityName);
         this.sourceEntityName = sourceEntityName;
         this.targetEntityName = targetEntityName;
@@ -34,6 +32,14 @@ public class ProximityAction extends AbstractAction {
 
     @Override
     public void invoke(ExecutionContext executionContext) {
+
+        // Get the coordinate of the srcEntity
+        Coordinate srcEntityCoord = executionContext.getEntityInstanceByName(this.sourceEntityName).getCoordinate();
+
+        // Get targetEntity instance in the envDepth - if there is!!!!
+        // If so -> execute the Action...
+        // Otherwise -> do nothing.
+
         throw new SimulatorRunnerException("Proximity action invoke not implemented");
     }
 }

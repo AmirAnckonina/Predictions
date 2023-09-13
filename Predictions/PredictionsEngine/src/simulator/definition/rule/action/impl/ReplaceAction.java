@@ -4,6 +4,7 @@ import simulator.definition.rule.action.api.abstracts.AbstractAction;
 import simulator.definition.rule.action.utils.enums.ActionType;
 import simulator.definition.rule.action.utils.enums.ReplaceActionCreationMode;
 import simulator.execution.context.api.ExecutionContext;
+import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.runner.utils.exceptions.SimulatorRunnerException;
 
 public class ReplaceAction extends AbstractAction {
@@ -28,6 +29,13 @@ public class ReplaceAction extends AbstractAction {
 
     @Override
     public void invoke(ExecutionContext executionContext) {
-        throw new SimulatorRunnerException("Not implemnrted invoke under replaceAction");
+
+        EntityInstance instanceToKill = executionContext.getEntityInstanceByName(this.entityNameToKill);
+        instanceToKill.killEntity();
+
+        // Impl creation of new Entity according to the mode
+
+        throw new SimulatorRunnerException("Not impl replace action");
+
     }
 }

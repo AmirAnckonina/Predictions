@@ -6,11 +6,12 @@ import simulator.execution.instance.property.api.PropertyInstance;
 public class PropertyInstanceImpl implements PropertyInstance {
     private AbstractPropertyDefinition propertyDefinition;
     private Object value;
-    private int lastTickUpdate;
+    private Integer lastTickUpdate;
 
-    public PropertyInstanceImpl(AbstractPropertyDefinition propertyDefinition, Object value) {
+    public PropertyInstanceImpl(AbstractPropertyDefinition propertyDefinition, Object value, Integer lastTickUpdate) {
         this.propertyDefinition = propertyDefinition;
         this.value = value;
+        this.lastTickUpdate = lastTickUpdate;
     }
 
     @Override
@@ -24,7 +25,13 @@ public class PropertyInstanceImpl implements PropertyInstance {
     }
 
     @Override
-    public void updateValue(Object val) {
+    public void updateValue(Object val){//, Integer currTick) {
         this.value = val;
+        //this.lastTickUpdate = currTick;
+    }
+
+    @Override
+    public Integer getLastTickUpdate() {
+        return this.lastTickUpdate;
     }
 }

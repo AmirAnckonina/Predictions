@@ -105,7 +105,6 @@ public class NewExecutionController {
     private void createEnvironmentBooleanVariableComponent(String propName, PropertyType propType) {
         try
         {
-
             FXMLLoader loader = new FXMLLoader();
             URL fxmlUrl = getClass().getResource(ENV_BOOLEAN_VAR_FXML_RESOURCE);
             loader.setLocation(fxmlUrl);
@@ -167,7 +166,7 @@ public class NewExecutionController {
             FXMLLoader loader = new FXMLLoader();
             URL fxmlUrl = getClass().getResource(ENTITY_POPULATION_FXML_RESOURCE);
             loader.setLocation(fxmlUrl);
-            Parent gpComponent = loader.load();
+            Node gpComponent = loader.load();
 
             EntityPopulationController entityPopulationController = loader.getController();
             entityPopulationController.setNewExecutionController(this);
@@ -175,6 +174,7 @@ public class NewExecutionController {
             entPopulationListView.getItems().add((GridPane) gpComponent);
             entityPopulationControllerMap.put(entityName, entityPopulationController);
         } catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
             //throw new PredictionsUIComponentException("failed to load component under GridPaneFactory.");
         } catch (Exception e) {
 

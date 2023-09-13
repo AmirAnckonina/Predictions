@@ -5,26 +5,25 @@ import simulator.definition.rule.action.expression.argumentExpression.api.interf
 import simulator.definition.rule.action.expression.argumentExpression.utils.enums.ExpressionMethodType;
 import simulator.definition.rule.action.expression.argumentExpression.api.abstracts.AbstractMethodArgumentExpression;
 import simulator.execution.context.api.ExecutionContext;
-import simulator.runner.utils.exceptions.SimulatorRunnerException;
 
 public class PercentMethodArgumentExpression extends AbstractMethodArgumentExpression {
 
-    private ArgumentExpression originalValue;
-    private ArgumentExpression percentage;
+    private ArgumentExpression originValueArg;
+    private ArgumentExpression partValueArg;
     public PercentMethodArgumentExpression(
-            ExpressionMethodType method,
-            PropertyType expressionReturnedValueType,
-            ArgumentExpression originalValue,
-            ArgumentExpression percentage) {
+            ExpressionMethodType method, PropertyType expressionReturnedValueType, ArgumentExpression originalValue, ArgumentExpression percentage) {
 
         super(method, expressionReturnedValueType);
-        this.originalValue = originalValue;
-        this.percentage = percentage;
+        this.originValueArg = originalValue;
+        this.partValueArg = percentage;
     }
 
     @Override
     public Object getValue(ExecutionContext context) {
-        throw new SimulatorRunnerException("Not impl percentArgExp...");
+        Float originVal = (Float) PropertyType.FLOAT.convert(partValueArg.getValue(context));
+        Float partVal = (Float) PropertyType.FLOAT.convert(partValueArg.getValue(context));
+        double percentageRes = ((partVal / originVal) * 100);
+        return percentageRes;
     }
 
 }
