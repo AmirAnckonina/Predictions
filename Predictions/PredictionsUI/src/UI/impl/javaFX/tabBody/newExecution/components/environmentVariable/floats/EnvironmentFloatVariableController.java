@@ -1,12 +1,13 @@
 package UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.floats;
 
+import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.EnvironmentPropertyController;
 import UI.impl.javaFX.tabBody.newExecution.model.KeyToFloatData;
 import UI.impl.javaFX.tabBody.newExecution.newExecutionMain.NewExecutionController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class EnvironmentFloatVariableController extends KeyToFloatData {
+public class EnvironmentFloatVariableController extends KeyToFloatData implements EnvironmentPropertyController {
 
     private NewExecutionController newExecutionController;
 

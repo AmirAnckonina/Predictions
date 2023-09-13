@@ -1,18 +1,16 @@
 package simulator.mainManager.impl;
 
 import dto.*;
-import response.SimulatorResponse;
 import simulator.builder.manager.api.WorldBuilderManager;
 import simulator.builder.manager.impl.WorldBuilderManagerImpl;
-import simulator.definition.world.WorldDefinition;
 import simulator.information.simulationDocument.api.SimulationDocument;
+import simulator.mainManager.utils.exception.SimulatorManagerException;
 import simulator.manualSetup.manager.api.ManualSimulationSetupManager;
 import simulator.establishment.manager.api.EstablishmentManager;
 import simulator.manualSetup.manager.impl.ManualSimulationSetupManagerImpl;
 import simulator.establishment.manager.impl.EstablishmentManagerImpl;
 import simulator.execution.manager.api.ExecutionManager;
 import simulator.execution.manager.impl.ExecutionManagerImpl;
-import simulator.result.api.SimulationResult;
 import simulator.information.manager.api.InformationManager;
 import simulator.information.manager.impl.InformationManagerImpl;
 import simulator.mainManager.api.SimulatorManager;
@@ -22,7 +20,6 @@ import simulator.runner.utils.exceptions.SimulatorRunnerException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SimulatorManagerImpl implements SimulatorManager {
 
@@ -114,6 +111,17 @@ public class SimulatorManagerImpl implements SimulatorManager {
                 .getWorldDefinition()
                 .getEntities()
                 .keySet());
+    }
+
+    @Override
+    public <T> void setEnvironmentPropertyValue(String envPropertyName, T envPropertyValue) {
+        this.manualSimulationSetupManager.setEnvironmentPropertyValue(
+                this.worldBuilderManager.getWorldDefinition(), envPropertyName, envPropertyValue);
+    }
+
+    @Override
+    public List<EnvironmentPropertyDto> getAllEnvironmentProperties() {
+        return this.worldBuilderManager.getAllEnvironmentProperties();
     }
 
 }

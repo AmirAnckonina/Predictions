@@ -1,10 +1,10 @@
 package simulator.execution.context.impl;
 
+import simulator.definition.board.api.SpaceGridInstance;
 import simulator.execution.context.api.ExecutionContext;
 
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.entity.manager.api.EntitiesInstancesManager;
-import simulator.execution.instance.entity.manager.api.EntityInstanceManager;
 import simulator.execution.instance.environment.api.EnvironmentInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.information.tickDocument.api.TickDocument;
@@ -17,12 +17,15 @@ public class ExecutionContextImpl implements ExecutionContext {
     private EntitiesInstancesManager entitiesInstancesManager;
     private EnvironmentInstance environmentInstance;
     private TickDocument currTickDocument;
+    private SpaceGridInstance spaceGridInstance;
 
-    public ExecutionContextImpl(EntityInstance entityInstance, EntitiesInstancesManager entitiesInstancesManager, EnvironmentInstance environmentInstance) {
+    public ExecutionContextImpl(SpaceGridInstance spaceGridInstance, EntityInstance entityInstance, EntitiesInstancesManager entitiesInstancesManager, EnvironmentInstance environmentInstance, TickDocument currTickDocument) {
+        this.spaceGridInstance = spaceGridInstance;
         entityInstanceMap = new HashMap<>();
         entityInstanceMap.put(entityInstance.getEntityNameFamily(), entityInstance);
         this.entitiesInstancesManager = entitiesInstancesManager;
         this.environmentInstance = environmentInstance;
+        this.currTickDocument = currTickDocument;
     }
 
 
@@ -48,6 +51,12 @@ public class ExecutionContextImpl implements ExecutionContext {
 
     @Override
     public TickDocument getTickDocument() {
+
         return this.currTickDocument;
+    }
+
+    @Override
+    public SpaceGridInstance getSpaceGridInstance() {
+        return this.spaceGridInstance;
     }
 }

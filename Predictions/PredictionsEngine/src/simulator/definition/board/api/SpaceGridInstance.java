@@ -3,11 +3,10 @@ package simulator.definition.board.api;
 import simulator.execution.instance.entity.api.EntityInstance;
 import structure.api.Cell;
 import structure.api.Coordinate;
-import structure.impl.CellImpl;
 
 import java.util.List;
 
-public interface Board {
+public interface SpaceGridInstance {
 
     int getTotalNumberOfFreeCells();
     int getTotalNumberOfCells();

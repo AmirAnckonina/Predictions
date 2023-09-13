@@ -1,8 +1,8 @@
 package simulator.establishment.manager.impl;
 
 import dto.EstablishedEnvironmentInfoDto;
-import simulator.definition.board.api.Board;
-import simulator.definition.board.impl.BoardImpl;
+import simulator.definition.board.api.SpaceGridInstance;
+import simulator.definition.board.impl.SpaceGridInstanceImpl;
 import simulator.definition.entity.EntityDefinition;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 import enums.PropertyType;
@@ -41,7 +41,10 @@ public class EstablishmentManagerImpl implements EstablishmentManager {
             this.worldDefinition = worldDefinition;
             EnvironmentInstance envInstance = establishEnvironment();
             Map<String, List<EntityInstance>> entitiesInstances = createEntitiesInstances();
-            Board spaceGrid = new BoardImpl(worldDefinition.getSpaceGridDefinition().getColumns(), worldDefinition.getSpaceGridDefinition().getRows());
+            // please validate the spaceGridInstance
+            SpaceGridInstance spaceGrid =
+                    new SpaceGridInstanceImpl(
+                            worldDefinition.getSpaceGridDefinition().getColumns(), worldDefinition.getSpaceGridDefinition().getRows());
             List<Rule> rules = this.worldDefinition.getRules();
             Termination termination = this.worldDefinition.getTermination();
             MovementManager movementManager = new MovementManagerImpl();

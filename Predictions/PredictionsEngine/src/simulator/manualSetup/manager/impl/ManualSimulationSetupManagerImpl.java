@@ -93,6 +93,17 @@ public class ManualSimulationSetupManagerImpl implements ManualSimulationSetupMa
     }
 
     @Override
+    public <T> void setEnvironmentPropertyValue(WorldDefinition worldDefinition, String envPropertyName, T envPropertyValue) {
+        worldDefinition
+                .getEnvironment()
+                .getPropertyByName(envPropertyName)
+                .setValueGenerator(
+                        new FixedValueGenerator(envPropertyValue)
+                );
+    }
+
+
+    @Override
     public void setEntityDefinitionPopulation(WorldDefinition worldDefinition, String entityName, Integer population) {
 
             final int[] totalEntitiesPopulation = {0};

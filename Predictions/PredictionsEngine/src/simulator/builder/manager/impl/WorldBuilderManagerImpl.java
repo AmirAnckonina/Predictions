@@ -2,6 +2,7 @@ package simulator.builder.manager.impl;
 
 import dto.BasePropertyDto;
 import dto.EnvironmentPropertiesDto;
+import dto.EnvironmentPropertyDto;
 import dto.SimulationDetailsDto;
 import response.SimulatorResponse;
 import simulator.builder.api.interfaces.WorldBuilder;
@@ -17,6 +18,7 @@ import simulator.definition.rule.Rule;
 import simulator.definition.world.WorldDefinition;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +29,21 @@ public class WorldBuilderManagerImpl implements WorldBuilderManager {
     @Override
     public WorldDefinition getWorldDefinition() {
         return worldDefinition;
+    }
+
+    @Override
+    public List<EnvironmentPropertyDto> getAllEnvironmentProperties() {
+
+        List<EnvironmentPropertyDto> envPropDtoList = new ArrayList<>();
+
+       this.worldDefinition
+               .getEnvironment()
+               .getEnvironmentProperties()
+               .forEach( (envPropName, envPropDef) -> {
+                   envPropDtoList.add(new EnvironmentPropertyDto(envPropName, envPropDef.getType()));
+               });
+
+       return envPropDtoList;
     }
 
     @Override
@@ -59,6 +76,7 @@ public class WorldBuilderManagerImpl implements WorldBuilderManager {
     @Override
     public EnvironmentPropertiesDto getEnvironmentPropertiesDefinition() {
 
+            Map<String  ,BasePropertyDto> propertyDtoMap = new HashMap();
             List<BasePropertyDto> propertyDtoList = new ArrayList<>();
             for (String propertyName : this.worldDefinition.getEnvironment().getPropertiesNames()) {
 
@@ -69,15 +87,17 @@ public class WorldBuilderManagerImpl implements WorldBuilderManager {
                         BasePropertyDto propertyDto = new BasePropertyDto(propertyName,
                                 property.getType().toString(), range.getFrom().toString(),
                                 range.getTo().toString(), null);
+                        propertyDtoMap.put(propertyName ,propertyDto);
                         propertyDtoList.add(propertyDto);
                         continue;
                     }
                 }
                 BasePropertyDto propertyDto = new BasePropertyDto(propertyName,
                         property.getType().toString(), null, null, null);
+                propertyDtoMap.put(propertyName, propertyDto);
                 propertyDtoList.add(propertyDto);
             }
-            EnvironmentPropertiesDto envPropsDto = new EnvironmentPropertiesDto(propertyDtoList);
+            EnvironmentPropertiesDto envPropsDto = new EnvironmentPropertiesDto(propertyDtoList, propertyDtoMap);
 
             return envPropsDto;
 

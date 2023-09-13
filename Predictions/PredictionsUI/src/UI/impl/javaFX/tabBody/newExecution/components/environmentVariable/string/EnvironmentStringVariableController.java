@@ -1,12 +1,13 @@
 package UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.string;
 
+import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.EnvironmentPropertyController;
 import UI.impl.javaFX.tabBody.newExecution.model.KeyToStringData;
 import UI.impl.javaFX.tabBody.newExecution.newExecutionMain.NewExecutionController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class EnvironmentStringVariableController extends KeyToStringData {
+public class EnvironmentStringVariableController extends KeyToStringData implements EnvironmentPropertyController {
 
     private NewExecutionController newExecutionController;
 

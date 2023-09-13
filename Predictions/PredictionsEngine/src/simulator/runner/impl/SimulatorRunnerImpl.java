@@ -1,5 +1,6 @@
 package simulator.runner.impl;
 
+import simulator.definition.board.api.SpaceGridInstance;
 import simulator.definition.rule.Rule;
 import simulator.definition.rule.action.api.interfaces.Action;
 import simulator.definition.rule.action.secondaryEntity.api.ActionSecondaryEntityDefinition;
@@ -9,6 +10,8 @@ import simulator.execution.instance.entity.manager.api.SecondaryEntityInstancesR
 import simulator.execution.instance.entity.manager.impl.EntitiesInstancesManagerImpl;
 import simulator.execution.instance.entity.manager.impl.SecondaryEntityInstancesRetrieveImpl;
 import simulator.information.simulationDocument.api.SimulationDocument;
+import simulator.information.tickDocument.api.TickDocument;
+import simulator.information.tickDocument.impl.TickDocumentImpl;
 import simulator.movement.api.MovementManager;
 import simulator.movement.impl.MovementManagerImpl;
 import simulator.runner.api.SimulatorRunner;
@@ -18,10 +21,7 @@ import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.environment.api.EnvironmentInstance;
 import simulator.execution.instance.world.api.WorldInstance;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class SimulatorRunnerImpl implements SimulatorRunner {
 
@@ -92,8 +92,11 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
         Termination termination = worldInstance.getTermination();
         List<Rule> rules = worldInstance.getRules();
         Map<String, List<EntityInstance>> entitiesInstances = worldInstance.getEntitiesInstances();
+        SpaceGridInstance spaceGridInstance = worldInstance.getSpaceGrid();
 
         while (!termination.shouldTerminate(currTick, currTimeInMilliSec)) {
+
+            TickDocument currTickDocument =  new TickDocumentImpl(currTick, currTimeInMilliSec, entitiesInstances);
 
             // 1. Entities movement
             MovementManager movementManager = new MovementManagerImpl();
@@ -114,7 +117,9 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
                                         // Retrieve all the current entity instances and
                                         // for each entityInstance (of the current type) do:
                                         currEntityInstances.forEach((currEntityInstance) -> {
-                                                    actionInvocationProcedure(currAction, currEntityInstance);
+                                                    actionInvocationProcedure(
+                                                            currAction, spaceGridInstance, currEntityInstance, currTickDocument
+                                                    );
                                         });
                                     }
                                     // // // else -> continue to the next entity type
@@ -123,7 +128,7 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
 
 
             // 4. kill procedure
-            // Consider use Stream or Iterator
+            executeKillProcedure(entitiesInstances);
 
             // 5. ticks + time procedures
             currTick += 1;
@@ -135,11 +140,29 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
         this.simulationDocument.getSimulationResult().setTerminationReason(worldInstance.getTermination().reasonForTerminate());
     }
 
-    private void actionInvocationProcedure(Action currAction, EntityInstance currPrimaryEntityInstance) {
+    private void executeKillProcedure(Map<String, List<EntityInstance>> entitiesInstances) {
+
+        entitiesInstances.forEach((entityFamily, entityInstances) -> {
+
+            // Run on all current entity instances with itr
+            Iterator<EntityInstance> entityItr = entityInstances.iterator();
+            while (entityItr.hasNext()) {
+                EntityInstance entityInstance = entityItr.next();
+                if (!entityInstance.isAlive()) {
+                   entityItr.remove();
+                }
+            }
+        });
+    }
+
+    private void actionInvocationProcedure(
+            Action currAction, SpaceGridInstance spaceGridInstance, EntityInstance currPrimaryEntityInstance, TickDocument currTickDocument) {
 
         //Base execContext building
         ExecutionContext executionContext
-                = new ExecutionContextImpl(currPrimaryEntityInstance, this.entitiesInstancesManager, this.environmentInstance);
+                = new ExecutionContextImpl(
+                        spaceGridInstance, currPrimaryEntityInstance, this.entitiesInstancesManager, this.environmentInstance, currTickDocument
+                );
 
         // check for secondary entity context existence
         Optional<ActionSecondaryEntityDefinition> maybeSecondaryEntityDefinition =
@@ -162,8 +185,9 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
 
         // Gather secondaryInstanceProcedure
         SecondaryEntityInstancesRetrieve instancesRetriever
-                = new SecondaryEntityInstancesRetrieveImpl(this.entitiesInstancesManager, this.environmentInstance);
-        List<EntityInstance> secondaryEntityInstances = instancesRetriever.getSecondaryEntityInstancesByDefinition(secondaryEntityDef);
+                = new SecondaryEntityInstancesRetrieveImpl(this.entitiesInstancesManager, this.environmentInstance, executionContext);
+        List<EntityInstance> secondaryEntityInstances =
+                instancesRetriever.getSecondaryEntityInstancesByDefinition(secondaryEntityDef);
 
         // Foreach -> invoke with currPrimaryEntityIns and SecondaryIns together
         secondaryEntityInstances

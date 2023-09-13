@@ -1,6 +1,6 @@
 package simulator.movement.impl;
 
-import simulator.definition.board.api.Board;
+import simulator.definition.board.api.SpaceGridInstance;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.movement.api.MovementManager;
 import structure.api.Cell;
@@ -14,7 +14,7 @@ import java.util.Random;
 
 public class MovementManagerImpl implements MovementManager {
     @Override
-    public void moveAllEntitiesOneStep(Board board) {
+    public void moveAllEntitiesOneStep(SpaceGridInstance board) {
         List<EntityInstance> entityInstanceList = board.getListOfAllInstances();
 
         for (EntityInstance entityInstance:entityInstanceList) {
@@ -22,7 +22,7 @@ public class MovementManagerImpl implements MovementManager {
         }
     }
 
-    private void moveSingleEntityOneStep(EntityInstance entityInstance, Board board) {
+    private void moveSingleEntityOneStep(EntityInstance entityInstance, SpaceGridInstance board) {
         Coordinate entityCoordinate = entityInstance.getCoordinate();
         List<Cell> cellList = board.getListOfCellsInFirstCircle(entityCoordinate);
 
@@ -42,7 +42,7 @@ public class MovementManagerImpl implements MovementManager {
     }
 
     @Override
-    public void placeEntitiesRandomizeOnSpaceGrid(Map<String, List<EntityInstance>> entitiesInstances, Board spaceGrid) {
+    public void placeEntitiesRandomizeOnSpaceGrid(Map<String, List<EntityInstance>> entitiesInstances, SpaceGridInstance spaceGrid) {
         Random random = new Random();
         List<Coordinate> emptyCoordinates = generateCellCoordinates(spaceGrid.getHeight(), spaceGrid.getWidth());
 
@@ -83,7 +83,7 @@ public class MovementManagerImpl implements MovementManager {
     }
 
     @Override
-    public void setEntitiesOnSpaceGrid(Board board, List<EntityInstance> entityInstanceList) {
+    public void setEntitiesOnSpaceGrid(SpaceGridInstance board, List<EntityInstance> entityInstanceList) {
 
     }
 }

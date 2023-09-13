@@ -18,10 +18,13 @@ public class SecondaryEntityInstancesRetrieveImpl implements SecondaryEntityInst
 
     private final EntitiesInstancesManager entitiesInstancesManager;
     private final EnvironmentInstance environmentInstance;
+    private final ExecutionContext originExecutionContext;
 
-    public SecondaryEntityInstancesRetrieveImpl(EntitiesInstancesManager entitiesInstancesManager, EnvironmentInstance environmentInstance) {
+
+    public SecondaryEntityInstancesRetrieveImpl(EntitiesInstancesManager entitiesInstancesManager, EnvironmentInstance environmentInstance, ExecutionContext originExecutionContext) {
         this.entitiesInstancesManager = entitiesInstancesManager;
         this.environmentInstance = environmentInstance;
+        this.originExecutionContext = originExecutionContext;
     }
 
     @Override
@@ -109,7 +112,13 @@ public class SecondaryEntityInstancesRetrieveImpl implements SecondaryEntityInst
 
     @Override
     public boolean testConditionForEntityInstanceProcedure(EntityInstance entityInstance, ConditionExpression condExpression) {
-        ExecutionContext execContext = new ExecutionContextImpl(entityInstance, this.entitiesInstancesManager, this.environmentInstance);
-        return condExpression.test(execContext);
+        ExecutionContext testExecContext = new ExecutionContextImpl(
+                this.originExecutionContext.getSpaceGridInstance(),
+                entityInstance,
+                this.entitiesInstancesManager,
+                this.environmentInstance,
+                this.originExecutionContext.getTickDocument()
+        );
+        return condExpression.test(testExecContext);
     }
 }

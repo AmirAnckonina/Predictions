@@ -1,11 +1,12 @@
 package UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.bool;
 
+import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.EnvironmentPropertyController;
 import UI.impl.javaFX.tabBody.newExecution.model.KeyToBooleanData;
 import UI.impl.javaFX.tabBody.newExecution.newExecutionMain.NewExecutionController;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-public class EnvironmentBooleanVariableController extends KeyToBooleanData {
+public class EnvironmentBooleanVariableController extends KeyToBooleanData implements EnvironmentPropertyController {
 
     private NewExecutionController newExecutionController;
 

@@ -2,8 +2,8 @@ package UI.impl.javaFX.tabBody.newExecution.newExecutionMain;
 
 import UI.impl.javaFX.mainScene.PredictionsMainController;
 import UI.impl.javaFX.tabBody.newExecution.components.entityPopulation.EntityPopulationController;
+import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.EnvironmentPropertyController;
 import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.bool.EnvironmentBooleanVariableController;
-import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.floats.EnvironmentFloatValueController;
 import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.floats.EnvironmentFloatVariableController;
 import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.string.EnvironmentStringVariableController;
 import UI.impl.javaFX.utils.exception.PredictionsUIComponentException;
@@ -11,11 +11,14 @@ import dto.EnvironmentPropertyDto;
 import enums.PropertyType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import simulator.mainManager.api.SimulatorManager;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -34,7 +37,9 @@ public class NewExecutionController {
 
     private SimulatorManager simulatorManager;
     private Map<String, EntityPopulationController> entityPopulationControllerMap;
+    private Map<String, EnvironmentPropertyController> environmentPropertyControllerMap;
     private PredictionsMainController predictionsMainController;
+    private Stage primaryStage;
 
     public NewExecutionController() {
 
@@ -100,6 +105,7 @@ public class NewExecutionController {
     private void createEnvironmentBooleanVariableComponent(String propName, PropertyType propType) {
         try
         {
+
             FXMLLoader loader = new FXMLLoader();
             URL fxmlUrl = getClass().getResource(ENV_BOOLEAN_VAR_FXML_RESOURCE);
             loader.setLocation(fxmlUrl);
@@ -109,6 +115,7 @@ public class NewExecutionController {
             controller.setNewExecutionController(this);
             controller.initSetupForEnvBooleanVariable(propName);
             envPropListView.getItems().add(gpComponent);
+            environmentPropertyControllerMap.put(propName, controller);
         } catch (IOException ioe) {
 
         }
@@ -126,6 +133,7 @@ public class NewExecutionController {
             controller.setNewExecutionController(this);
             controller.initSetupForEnvFloatVariable(propName);
             envPropListView.getItems().add(gpComponent);
+            environmentPropertyControllerMap.put(propName, controller);
 
         } catch (IOException ioe) {
 
@@ -146,6 +154,7 @@ public class NewExecutionController {
             controller.setNewExecutionController(this);
             controller.initSetupForEnvStringVariable(propName);
             envPropListView.getItems().add(gpComponent);
+            environmentPropertyControllerMap.put(propName, controller);
         } catch (IOException ioe) {
 
         }
@@ -158,14 +167,17 @@ public class NewExecutionController {
             FXMLLoader loader = new FXMLLoader();
             URL fxmlUrl = getClass().getResource(ENTITY_POPULATION_FXML_RESOURCE);
             loader.setLocation(fxmlUrl);
-            GridPane gpComponent = loader.load();
+            Parent gpComponent = loader.load();
 
             EntityPopulationController entityPopulationController = loader.getController();
             entityPopulationController.setNewExecutionController(this);
             entityPopulationController.initSetupForEntityPopulation(entityName);
-            entPopulationListView.getItems().add(gpComponent);
-        } catch (IOException e) {
+            entPopulationListView.getItems().add((GridPane) gpComponent);
+            entityPopulationControllerMap.put(entityName, entityPopulationController);
+        } catch (IOException ioe) {
             //throw new PredictionsUIComponentException("failed to load component under GridPaneFactory.");
+        } catch (Exception e) {
+
         }
     }
 
@@ -180,9 +192,17 @@ public class NewExecutionController {
 
     public <T> void setEnvironmentProperty(String envPropertyName, T envPropertyValue) {
         try {
-            this.simulatorManager.setEnvironmentPropertyValue(envPropertyName, envPropertyValue)
+            this.simulatorManager.setEnvironmentPropertyValue(envPropertyName, envPropertyValue);
         } catch (Exception e) {
 
         }
+    }
+
+    public void setSimulatorManager(SimulatorManager simulatorManager) {
+        this.simulatorManager = simulatorManager;
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
     }
 }
