@@ -1,7 +1,7 @@
 package simulator.definition.property.api.abstracts;
 
 import simulator.definition.property.api.interfaces.PropertyDefinition;
-import simulator.definition.property.utils.enums.PropertyType;
+import enums.PropertyType;
 import simulator.definition.property.valueGenerator.api.ValueGenerator;
 
 public abstract class AbstractPropertyDefinition<T> implements PropertyDefinition<T> {

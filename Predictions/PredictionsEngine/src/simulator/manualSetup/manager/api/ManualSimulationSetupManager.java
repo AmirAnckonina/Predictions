@@ -1,8 +1,7 @@
 package simulator.manualSetup.manager.api;
 
-import response.SimulatorResponse;
 import simulator.definition.environment.EnvironmentDefinition;
-import simulator.definition.property.utils.enums.PropertyType;
+import enums.PropertyType;
 import simulator.definition.world.WorldDefinition;
 
 public interface ManualSimulationSetupManager {

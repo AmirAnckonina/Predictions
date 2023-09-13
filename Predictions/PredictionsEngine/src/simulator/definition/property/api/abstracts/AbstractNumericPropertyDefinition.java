@@ -1,6 +1,6 @@
 package simulator.definition.property.api.abstracts;
 
-import simulator.definition.property.utils.enums.PropertyType;
+import enums.PropertyType;
 import simulator.definition.property.impl.Range;
 import simulator.definition.property.valueGenerator.api.ValueGenerator;
 

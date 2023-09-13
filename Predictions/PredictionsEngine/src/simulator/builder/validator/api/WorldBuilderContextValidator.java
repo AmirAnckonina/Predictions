@@ -1,7 +1,7 @@
 package simulator.builder.validator.api;
 
 import simulator.builder.utils.file.enums.DataFileType;
-import simulator.definition.property.utils.enums.PropertyType;
+import enums.PropertyType;
 
 public interface WorldBuilderContextValidator {
     boolean validateFileExist(String filePath);

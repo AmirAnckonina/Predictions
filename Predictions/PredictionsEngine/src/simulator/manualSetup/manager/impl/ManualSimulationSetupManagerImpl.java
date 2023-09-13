@@ -1,10 +1,8 @@
 package simulator.manualSetup.manager.impl;
 
-import dto.enums.SetPropertyStatus;
-import response.SimulatorResponse;
 import simulator.definition.environment.EnvironmentDefinition;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
-import simulator.definition.property.utils.enums.PropertyType;
+import enums.PropertyType;
 import simulator.definition.property.impl.*;
 import simulator.definition.property.valueGenerator.impl.fixed.FixedValueGenerator;
 import simulator.definition.world.WorldDefinition;

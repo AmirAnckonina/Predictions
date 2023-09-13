@@ -1,7 +1,7 @@
 package simulator.builder.api.interfaces;
 
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
-import simulator.definition.property.utils.enums.PropertyType;
+import enums.PropertyType;
 import simulator.definition.property.impl.Range;
 
 public interface PropertyBuilder {

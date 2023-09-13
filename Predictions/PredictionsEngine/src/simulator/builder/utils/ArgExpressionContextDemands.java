@@ -1,6 +1,6 @@
 package simulator.builder.utils;
 
-import simulator.definition.property.utils.enums.PropertyType;
+import enums.PropertyType;
 
 import java.util.Optional;
 

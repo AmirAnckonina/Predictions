@@ -1,6 +1,6 @@
 package simulator.definition.rule.action.expression.conditionExpression.impl.single;
 
-import simulator.definition.property.utils.enums.PropertyType;
+import enums.PropertyType;
 import simulator.definition.rule.action.expression.conditionExpression.api.abstracts.AbstractSingleConditionExpression;
 import simulator.definition.rule.action.expression.argumentExpression.api.interfaces.ArgumentExpression;
 import simulator.execution.context.api.ExecutionContext;

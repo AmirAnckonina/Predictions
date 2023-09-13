@@ -2,7 +2,7 @@ package simulator.definition.rule.action.expression.argumentExpression.impl.meth
 
 import simulator.definition.rule.action.expression.argumentExpression.utils.enums.ExpressionMethodType;
 import simulator.definition.rule.action.expression.argumentExpression.api.abstracts.AbstractMethodArgumentExpression;
-import simulator.definition.property.utils.enums.PropertyType;
+import enums.PropertyType;
 import simulator.execution.context.api.ExecutionContext;
 
 public class EnvironmentMethodArgumentExpression extends AbstractMethodArgumentExpression {

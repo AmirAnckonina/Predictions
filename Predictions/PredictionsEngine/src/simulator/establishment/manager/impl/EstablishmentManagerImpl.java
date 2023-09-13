@@ -1,12 +1,11 @@
 package simulator.establishment.manager.impl;
 
 import dto.EstablishedEnvironmentInfoDto;
-import response.SimulatorResponse;
 import simulator.definition.board.api.Board;
 import simulator.definition.board.impl.BoardImpl;
 import simulator.definition.entity.EntityDefinition;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
-import simulator.definition.property.utils.enums.PropertyType;
+import enums.PropertyType;
 import simulator.definition.rule.Rule;
 import simulator.definition.termination.Termination;
 import simulator.definition.world.WorldDefinition;
