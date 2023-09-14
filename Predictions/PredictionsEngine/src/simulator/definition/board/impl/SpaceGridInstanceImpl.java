@@ -10,6 +10,7 @@ import structure.impl.CoordinateImpl;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class SpaceGridInstanceImpl implements SpaceGridInstance {
     private Integer height = null;
@@ -60,19 +61,31 @@ public class SpaceGridInstanceImpl implements SpaceGridInstance {
 
     @Override
     public List<EntityInstance> getListOfInstancesInFirstCircle(Coordinate coordinate) {
-        getListOfInstancesOrCellsInGenericCircle(coordinate, 1, eCellOrInstance.INSTANCE);
+        getListOfInstancesOrCellsInGenericCircle(coordinate, 1, eCellOrInstance.INSTANCE, null);
+        return getNeighborsInstancesReference();
+    }
+
+    @Override
+    public List<EntityInstance> getListOfInstancesInFirstCircleByFamilyName(Coordinate coordinate, Optional<String> FamilyName) {
+        getListOfInstancesOrCellsInGenericCircle(coordinate, 1, eCellOrInstance.INSTANCE, FamilyName);
         return getNeighborsInstancesReference();
     }
 
     @Override
     public List<Cell> getListOfCellsInFirstCircle(Coordinate coordinate) {
-        getListOfInstancesOrCellsInGenericCircle(coordinate, 1, eCellOrInstance.CELL);
+        getListOfInstancesOrCellsInGenericCircle(coordinate, 1, eCellOrInstance.CELL, null);
         return getNeighborsCellsReference();
     }
 
     @Override
     public List<EntityInstance> getListOfInstancesInSecondCircle(Coordinate coordinate) {
-        getListOfInstancesOrCellsInGenericCircle(coordinate, 2, eCellOrInstance.INSTANCE);
+        getListOfInstancesOrCellsInGenericCircle(coordinate, 2, eCellOrInstance.INSTANCE, null);
+        return getNeighborsInstancesReference();
+    }
+
+    @Override
+    public List<EntityInstance> getListOfInstancesInSecondCircleByFamilyName(Coordinate coordinate, Optional<String> FamilyName) {
+        getListOfInstancesOrCellsInGenericCircle(coordinate, 2, eCellOrInstance.INSTANCE, FamilyName);
         return getNeighborsInstancesReference();
     }
 
@@ -102,7 +115,7 @@ public class SpaceGridInstanceImpl implements SpaceGridInstance {
         return entityInstanceList;
     }
 
-    public void getListOfInstancesOrCellsInGenericCircle(Coordinate coordinate, int distance, eCellOrInstance typeOfReturnValue) {
+    public void getListOfInstancesOrCellsInGenericCircle(Coordinate coordinate, int distance, eCellOrInstance typeOfReturnValue, Optional<String> familyName) {
 
         this.neighborsInstances = new ArrayList<>();
         this.neighborsCells = new ArrayList<>();
@@ -122,12 +135,16 @@ public class SpaceGridInstanceImpl implements SpaceGridInstance {
 
                 // Check if the neighbor is within the matrix boundaries
                 if (neighborX >= 0 && neighborX < height && neighborY >= 0 && neighborY < width) {
-                    neighborsInstances.add(matrix[neighborX][neighborY].getData());
+                    if(familyName.isPresent() && familyName.get().equals(matrix[neighborX][neighborY].getData().getEntityNameFamily())){
+                        neighborsInstances.add(matrix[neighborX][neighborY].getData());
+                    }
                 } else {
                     // Handle boundary conditions
                     int wrappedX = (neighborX + height) % height;
                     int wrappedY = (neighborY + width) % width;
-                    neighborsInstances.add(matrix[wrappedX][wrappedY].getData());
+                    if(familyName.isPresent() && familyName.get().equals(matrix[neighborX][neighborY].getData().getEntityNameFamily())){
+                        neighborsInstances.add(matrix[wrappedX][wrappedY].getData());
+                    }
                 }
             }
         }

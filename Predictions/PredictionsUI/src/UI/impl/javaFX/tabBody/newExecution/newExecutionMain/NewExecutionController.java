@@ -174,14 +174,14 @@ public class NewExecutionController {
             entPopulationListView.getItems().add((GridPane) gpComponent);
             entityPopulationControllerMap.put(entityName, entityPopulationController);
         } catch (IOException ioe) {
-            System.out.println(ioe.getMessage());
-            ioe.printStackTrace(System.out);
-            System.out.println(ioe.getMessage());
+//            System.out.println(ioe.getMessage());
+//            ioe.printStackTrace(System.out);
+//            System.out.println(ioe.getMessage());
             //throw new PredictionsUIComponentException("failed to load component under GridPaneFactory.");
         } catch (Exception e) {
-            e.getMessage();
-            e.printStackTrace(System.out);
-            System.out.println(e.getMessage());
+//            e.getMessage();
+//            e.printStackTrace(System.out);
+//            System.out.println(e.getMessage());
         }
     }
 
