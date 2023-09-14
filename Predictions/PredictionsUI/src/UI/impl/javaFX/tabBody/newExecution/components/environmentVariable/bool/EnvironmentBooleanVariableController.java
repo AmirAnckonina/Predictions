@@ -15,6 +15,7 @@ public class EnvironmentBooleanVariableController extends KeyToBooleanData imple
 
     @FXML
     private CheckBox envBooleanValueCheckbox;
+    public EnvironmentBooleanVariableController() { super(); }
 
     @FXML
     private void initialize() {

@@ -9,6 +9,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.util.StringConverter;
+import javafx.util.converter.NumberStringConverter;
 
 public class EntityPopulationController extends KeyToIntegerData {
     private NewExecutionController newExecutionController;
@@ -23,7 +25,7 @@ public class EntityPopulationController extends KeyToIntegerData {
     @FXML
     private void initialize() {
         entityNameLabel.textProperty().bind(keyNameProperty);
-        populationTextField.textProperty().bind(integerValueProperty.asString());
+        populationTextField.textProperty().bindBidirectional(this.integerValueProperty, new NumberStringConverter());
     }
 
 
@@ -34,7 +36,6 @@ public class EntityPopulationController extends KeyToIntegerData {
 
     public void initSetupForEntityPopulation(String entityName) {
         this.keyNameProperty.set(entityName);
-        this.integerValueProperty.set(0);
     }
 
     public void setNewExecutionController(NewExecutionController newExecutionController) {
