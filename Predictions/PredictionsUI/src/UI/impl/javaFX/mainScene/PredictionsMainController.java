@@ -9,6 +9,7 @@ import UI.impl.javaFX.top.TopController;
 import UI.impl.javaFX.top.PredictionsTopModel;
 import dto.BasePropertyDto;
 import dto.EnvironmentPropertiesDto;
+import dto.SimulationDetailsDto;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
 import simulator.mainManager.api.SimulatorManager;
@@ -111,10 +112,11 @@ public class PredictionsMainController {
         currentScreen = eCurrentScreen.DETAILS;
         newSimulationLoadedFlag = false;
 
-
-        EnvironmentPropertiesDto response = simulatorManager.getEnvironmentPropertiesDefinition();
-        Map<String ,BasePropertyDto> basePropertyDtoMap = response.getPropertiesMap();
+        SimulationDetailsDto simulationDetailsDto = simulatorManager.getSimulationWorldDetails();
+        EnvironmentPropertiesDto environmentPropertiesDto = simulatorManager.getEnvironmentPropertiesDefinition();
+        Map<String ,BasePropertyDto> basePropertyDtoMap = environmentPropertiesDto.getPropertiesMap();
         detailsComponentController.setPropertyDtoMap(basePropertyDtoMap);
+        detailsComponentController.setSimulationDetailsDto(simulationDetailsDto);
         detailsComponentController.showCurrPropertyDtoList();
 
         System.out.println("detailsTabClicked");

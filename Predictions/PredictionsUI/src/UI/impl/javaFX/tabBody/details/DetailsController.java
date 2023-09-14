@@ -4,6 +4,7 @@ import UI.impl.javaFX.mainScene.PredictionsMainController;
 import UI.impl.javaFX.tabBody.details.subbodyobjects.SimulationDetail;
 import UI.impl.javaFX.tabBody.details.subbodyobjects.simulationTitle;
 import dto.BasePropertyDto;
+import dto.SimulationDetailsDto;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,6 +23,8 @@ public class DetailsController {
     private Stage primaryStage;
     private SimulatorManager simulatorManager;
     private Map<String, BasePropertyDto> propertyDtoMap;
+    private SimulationDetailsDto simulationDetailsDto;
+
 
     @FXML
     private ListView<SimulationDetail> detailsRightListLV;
@@ -39,6 +42,10 @@ public class DetailsController {
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
+    }
+
+    public void setSimulationDetailsDto(SimulationDetailsDto simulationDetailsDto) {
+        this.simulationDetailsDto = simulationDetailsDto;
     }
 
     public void loadFileButtonClicked(){
