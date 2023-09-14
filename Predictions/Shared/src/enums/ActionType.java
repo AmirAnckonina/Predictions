@@ -1,4 +1,4 @@
-package simulator.definition.rule.action.utils.enums;
+package enums;
 
 public enum ActionType {
     INCREASE,

@@ -14,7 +14,7 @@ import simulator.definition.rule.action.expression.conditionExpression.api.inter
 import simulator.definition.rule.action.expression.argumentExpression.api.interfaces.ArgumentExpression;
 import simulator.definition.rule.action.impl.*;
 import simulator.definition.rule.action.secondaryEntity.api.ActionSecondaryEntityDefinition;
-import simulator.definition.rule.action.utils.enums.ActionType;
+import enums.ActionType;
 import simulator.definition.rule.action.utils.enums.ReplaceActionCreationMode;
 
 import java.util.List;

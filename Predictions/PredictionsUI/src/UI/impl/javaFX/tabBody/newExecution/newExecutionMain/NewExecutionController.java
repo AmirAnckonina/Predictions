@@ -5,17 +5,15 @@ import UI.impl.javaFX.tabBody.newExecution.components.entityPopulation.EntityPop
 import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.EnvironmentPropertyController;
 import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.bool.EnvironmentBooleanVariableController;
 import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.floats.EnvironmentFloatVariableController;
-import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.string.EnvironmentStringVariableController;
+import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.string.CalculationActionController;
 import UI.impl.javaFX.utils.exception.PredictionsUIComponentException;
 import dto.EnvironmentPropertyDto;
 import enums.PropertyType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import simulator.mainManager.api.SimulatorManager;
@@ -149,7 +147,7 @@ public class NewExecutionController {
             loader.setLocation(fxmlUrl);
             GridPane gpComponent = loader.load();
 
-            EnvironmentStringVariableController controller = loader.getController();
+            CalculationActionController controller = loader.getController();
             controller.setNewExecutionController(this);
             controller.initSetupForEnvStringVariable(propName);
             envPropListView.getItems().add(gpComponent);

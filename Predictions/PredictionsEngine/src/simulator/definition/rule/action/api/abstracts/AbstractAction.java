@@ -2,7 +2,7 @@ package simulator.definition.rule.action.api.abstracts;
 
 import simulator.definition.rule.action.api.interfaces.Action;
 import simulator.definition.rule.action.secondaryEntity.api.ActionSecondaryEntityDefinition;
-import simulator.definition.rule.action.utils.enums.ActionType;
+import enums.ActionType;
 
 import java.util.Optional;
 

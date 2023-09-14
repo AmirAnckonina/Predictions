@@ -7,7 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class EnvironmentStringVariableController extends KeyToStringData implements EnvironmentPropertyController {
+public class CalculationActionController extends KeyToStringData implements EnvironmentPropertyController {
 
     private NewExecutionController newExecutionController;
 
