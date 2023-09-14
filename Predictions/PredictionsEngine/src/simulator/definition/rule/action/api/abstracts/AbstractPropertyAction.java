@@ -1,6 +1,6 @@
 package simulator.definition.rule.action.api.abstracts;
 
-import simulator.definition.rule.action.utils.enums.ActionType;
+import enums.ActionType;
 
 public abstract class AbstractPropertyAction extends AbstractAction {
 

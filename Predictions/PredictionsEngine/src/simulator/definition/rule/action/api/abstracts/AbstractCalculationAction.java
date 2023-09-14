@@ -1,7 +1,7 @@
 package simulator.definition.rule.action.api.abstracts;
 
 import simulator.definition.rule.action.expression.argumentExpression.api.interfaces.ArgumentExpression;
-import simulator.definition.rule.action.utils.enums.ActionType;
+import enums.ActionType;
 
 /**
  * Be aware that result-prop field is depending on AbrtactProprtyAction propName field

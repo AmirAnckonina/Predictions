@@ -8,7 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
 
-public class EnvironmentStringVariableController extends KeyToStringData implements EnvironmentPropertyController {
+public class CalculationActionController extends KeyToStringData implements EnvironmentPropertyController {
 
     private NewExecutionController newExecutionController;
 

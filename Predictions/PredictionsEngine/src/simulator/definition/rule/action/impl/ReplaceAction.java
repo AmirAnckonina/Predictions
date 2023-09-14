@@ -1,7 +1,7 @@
 package simulator.definition.rule.action.impl;
 
 import simulator.definition.rule.action.api.abstracts.AbstractAction;
-import simulator.definition.rule.action.utils.enums.ActionType;
+import enums.ActionType;
 import simulator.definition.rule.action.utils.enums.ReplaceActionCreationMode;
 import simulator.execution.context.api.ExecutionContext;
 import simulator.execution.instance.entity.api.EntityInstance;
