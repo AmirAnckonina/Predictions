@@ -1,5 +1,6 @@
 package dto;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,13 @@ public class EnvironmentPropertiesDto {
     public EnvironmentPropertiesDto(List<BasePropertyDto> propertiesList, Map<String ,BasePropertyDto> propertiesMap){
         this.propertiesList = propertiesList;
         this.propertiesMap = propertiesMap;
+
+        if(propertiesMap == null && propertiesList != null){
+            this.propertiesMap = new HashMap<>();
+            for (BasePropertyDto propertyDto:propertiesList){
+                this.propertiesMap.put(propertyDto.getName(), propertyDto);
+            }
+        }
     }
 
     public int getNumOfProperties(){

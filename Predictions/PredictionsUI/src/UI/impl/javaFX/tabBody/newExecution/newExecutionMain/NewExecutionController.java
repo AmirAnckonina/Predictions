@@ -78,7 +78,7 @@ public class NewExecutionController {
             envPropsDtoList.forEach(this::createEnvironmentPropertyComponent);
 
         } catch (Exception e) {
-
+            System.out.println("t");
         }
     }
 
@@ -175,9 +175,13 @@ public class NewExecutionController {
             entityPopulationControllerMap.put(entityName, entityPopulationController);
         } catch (IOException ioe) {
             System.out.println(ioe.getMessage());
+            ioe.printStackTrace(System.out);
+            System.out.println(ioe.getMessage());
             //throw new PredictionsUIComponentException("failed to load component under GridPaneFactory.");
         } catch (Exception e) {
-
+            e.getMessage();
+            e.printStackTrace(System.out);
+            System.out.println(e.getMessage());
         }
     }
 
