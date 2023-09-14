@@ -8,6 +8,7 @@ import dto.SimulationDetailsDto;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -25,12 +26,16 @@ public class DetailsController {
     private Map<String, BasePropertyDto> propertyDtoMap;
     private SimulationDetailsDto simulationDetailsDto;
 
-
+    @FXML
+    private ListView<SimulationDetail> rulesDetailsLeftListLV;
+    @FXML
+    private ListView<SimulationDetail> entitiesDetailsLeftListLV;
     @FXML
     private ListView<SimulationDetail> detailsRightListLV;
-
     @FXML
-    private ListView<simulationTitle> detailsLeftListLV;
+    private ListView<simulationTitle> environmentDetailsLeftListLV;
+    @FXML
+    private Label terminationDetailsLabel;
 
 
     private ObservableList<simulationTitle> listViewLeftLines = FXCollections.observableArrayList();
@@ -49,12 +54,12 @@ public class DetailsController {
     }
 
     public void loadFileButtonClicked(){
-        this.detailsLeftListLV.setItems(this.listViewLeftLines);
+        this.environmentDetailsLeftListLV.setItems(this.listViewLeftLines);
     }
 
     public boolean insertNewLineToLeftListView(String simulationID){
         this.listViewLeftLines.add(new simulationTitle(simulationID));
-        detailsLeftListLV.setItems(listViewLeftLines);
+        environmentDetailsLeftListLV.setItems(listViewLeftLines);
         return true;
     }
     public boolean insertNewLineToRightListView(String simulationDetail){
@@ -72,11 +77,13 @@ public class DetailsController {
         for (Map.Entry<String, BasePropertyDto> propertyDto : propertyDtoMap.entrySet()) {
             insertNewLineToLeftListView(propertyDto.getKey());
         }
+
+        insertNewLineToRightListView("-----");
     }
 
     @FXML
     void listViewLineClicked(MouseEvent event) {
-        BasePropertyDto selectedSimulation = propertyDtoMap.get(this.detailsLeftListLV.
+        BasePropertyDto selectedSimulation = propertyDtoMap.get(this.environmentDetailsLeftListLV.
                 getSelectionModel().getSelectedItem().toString());
         cleanRightListView();
 
@@ -93,7 +100,7 @@ public class DetailsController {
 
     private void cleanLeftListView() {
         listViewLeftLines.clear();
-        detailsLeftListLV.setItems(listViewLeftLines);
+        environmentDetailsLeftListLV.setItems(listViewLeftLines);
     }
 
     public void setDetailsModel(DetailsModel detailsModel) {
