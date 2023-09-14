@@ -113,9 +113,10 @@ public class PredictionsMainController {
         newSimulationLoadedFlag = false;
 
         SimulationDetailsDto simulationDetailsDto = simulatorManager.getSimulationWorldDetails();
-        EnvironmentPropertiesDto response = simulatorManager.getEnvironmentPropertiesDefinition();
-        Map<String ,BasePropertyDto> basePropertyDtoMap = response.getPropertiesMap();
+        EnvironmentPropertiesDto environmentPropertiesDto = simulatorManager.getEnvironmentPropertiesDefinition();
+        Map<String ,BasePropertyDto> basePropertyDtoMap = environmentPropertiesDto.getPropertiesMap();
         detailsComponentController.setPropertyDtoMap(basePropertyDtoMap);
+        detailsComponentController.setSimulationDetailsDto(simulationDetailsDto);
         detailsComponentController.showCurrPropertyDtoList();
 
         System.out.println("detailsTabClicked");
