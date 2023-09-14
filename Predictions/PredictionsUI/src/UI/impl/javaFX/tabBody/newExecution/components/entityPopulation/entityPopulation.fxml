@@ -16,6 +16,6 @@
    </rowConstraints>
    <children>
       <Label id="entity-name-label" fx:id="entityNameLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="116.0" text="Entity Name: " textAlignment="CENTER" />
-      <TextField id="population-textfield" fx:id="populationTextField" onAction="#onPopulationTextFieldUpdate" prefHeight="27.0" prefWidth="129.0" promptText="Population No." GridPane.columnIndex="1" />
+      <TextField id="value-textfield" fx:id="populationTextField" onAction="#onPopulationTextFieldUpdate" prefHeight="27.0" prefWidth="129.0" promptText="Population No." GridPane.columnIndex="1" />
    </children>
 </GridPane>

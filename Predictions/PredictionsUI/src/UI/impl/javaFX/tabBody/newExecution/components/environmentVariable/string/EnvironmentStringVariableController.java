@@ -6,6 +6,7 @@ import UI.impl.javaFX.tabBody.newExecution.newExecutionMain.NewExecutionControll
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.util.StringConverter;
 
 public class EnvironmentStringVariableController extends KeyToStringData implements EnvironmentPropertyController {
 
@@ -17,10 +18,12 @@ public class EnvironmentStringVariableController extends KeyToStringData impleme
     @FXML
     private TextField envVarTextField;
 
+    public EnvironmentStringVariableController() {super();}
+
     @FXML
     private void initialize() {
         envVarLabel.textProperty().bind(keyNameProperty);
-        envVarTextField.textProperty().bind(stringValueProperty);
+        envVarTextField.textProperty().bindBidirectional(this.stringValueProperty);
     }
     @FXML
     void onEnvVarTextFieldUpdate() {
@@ -28,6 +31,7 @@ public class EnvironmentStringVariableController extends KeyToStringData impleme
     }
 
     public void initSetupForEnvStringVariable(String envPropertyName) {
+
         this.keyNameProperty.set(envPropertyName);
     }
 

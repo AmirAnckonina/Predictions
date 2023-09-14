@@ -42,8 +42,8 @@ public class NewExecutionController {
     private Stage primaryStage;
 
     public NewExecutionController() {
-
         this.entityPopulationControllerMap = new HashMap<>();
+        this.environmentPropertyControllerMap = new HashMap<>();
     }
 
     @FXML
@@ -108,15 +108,16 @@ public class NewExecutionController {
             FXMLLoader loader = new FXMLLoader();
             URL fxmlUrl = getClass().getResource(ENV_BOOLEAN_VAR_FXML_RESOURCE);
             loader.setLocation(fxmlUrl);
-            GridPane gpComponent = loader.load();
+            Node gpComponent = loader.load();
 
             EnvironmentBooleanVariableController controller = loader.getController();
             controller.setNewExecutionController(this);
             controller.initSetupForEnvBooleanVariable(propName);
-            envPropListView.getItems().add(gpComponent);
+            envPropListView.getItems().add((GridPane) gpComponent);
             environmentPropertyControllerMap.put(propName, controller);
         } catch (IOException ioe) {
-
+            System.out.println(ioe.getMessage());
+            ioe.printStackTrace(System.out);
         }
     }
 
@@ -126,16 +127,17 @@ public class NewExecutionController {
             FXMLLoader loader = new FXMLLoader();
             URL fxmlUrl = getClass().getResource(ENV_FLOAT_VAR_FXML_RESOURCE);
             loader.setLocation(fxmlUrl);
-            GridPane gpComponent = loader.load();
+            Node gpComponent = loader.load();
 
             EnvironmentFloatVariableController controller = loader.getController();
             controller.setNewExecutionController(this);
             controller.initSetupForEnvFloatVariable(propName);
-            envPropListView.getItems().add(gpComponent);
+            envPropListView.getItems().add((GridPane) gpComponent);
             environmentPropertyControllerMap.put(propName, controller);
 
         } catch (IOException ioe) {
-
+            System.out.println(ioe.getMessage());
+            ioe.printStackTrace(System.out);
         }
 
     }
@@ -147,15 +149,16 @@ public class NewExecutionController {
             FXMLLoader loader = new FXMLLoader();
             URL fxmlUrl = getClass().getResource(ENV_STRING_VAR_FXML_RESOURCE);
             loader.setLocation(fxmlUrl);
-            GridPane gpComponent = loader.load();
+            Node gpComponent = loader.load();
 
             EnvironmentStringVariableController controller = loader.getController();
             controller.setNewExecutionController(this);
             controller.initSetupForEnvStringVariable(propName);
-            envPropListView.getItems().add(gpComponent);
+            envPropListView.getItems().add((GridPane) gpComponent);
             environmentPropertyControllerMap.put(propName, controller);
         } catch (IOException ioe) {
-
+            System.out.println(ioe.getMessage());
+            ioe.printStackTrace(System.out);
         }
 
     }
