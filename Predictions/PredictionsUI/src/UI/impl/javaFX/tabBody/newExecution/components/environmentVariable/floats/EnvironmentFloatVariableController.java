@@ -6,6 +6,8 @@ import UI.impl.javaFX.tabBody.newExecution.newExecutionMain.NewExecutionControll
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.util.converter.FloatStringConverter;
+import javafx.util.converter.NumberStringConverter;
 
 public class EnvironmentFloatVariableController extends KeyToFloatData implements EnvironmentPropertyController {
 
@@ -17,10 +19,12 @@ public class EnvironmentFloatVariableController extends KeyToFloatData implement
     @FXML
     private TextField envFloatValueTextField;
 
+    public EnvironmentFloatVariableController() {super();}
+
     @FXML
     private void initialize() {
         this.envVarNameLabel.textProperty().bind(this.keyNameProperty);
-        this.envFloatValueTextField.textProperty().bind(this.floatValueProperty.asString());
+        this.envFloatValueTextField.textProperty().bindBidirectional(this.floatValueProperty, new NumberStringConverter());
     }
 
     @FXML
@@ -30,7 +34,6 @@ public class EnvironmentFloatVariableController extends KeyToFloatData implement
 
     public void initSetupForEnvFloatVariable(String envPropertyName) {
         this.keyNameProperty.set(envPropertyName);
-        this.floatValueProperty.set(0);
     }
     public void setNewExecutionController(NewExecutionController newExecutionController) {
         this.newExecutionController = newExecutionController;
