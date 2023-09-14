@@ -1,41 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<HBox id="main_info_hbox_id" alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.impl.javaFX.tabBody.details.DetailsController">
+
+<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.impl.javaFX.tabBody.details.DetailsController">
    <children>
-      <ScrollPane fitToHeight="true" minViewportHeight="200.0" minViewportWidth="200.0" prefHeight="200.0" prefViewportHeight="400.0" prefViewportWidth="350.0" prefWidth="200.0" HBox.hgrow="NEVER">
+      <HBox id="main_info_hbox_id" alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300.0" minWidth="300.0" spacing="10.0" VBox.vgrow="ALWAYS">
+         <children>
+            <ScrollPane hbarPolicy="ALWAYS" vbarPolicy="ALWAYS" HBox.hgrow="ALWAYS">
+               <content>
+                  <VBox minHeight="450.0">
+                     <children>
+                        <ScrollPane fitToHeight="true" minViewportHeight="100.0" minViewportWidth="200.0" prefHeight="200.0" prefViewportHeight="400.0" prefViewportWidth="350.0" prefWidth="200.0">
+                           <padding>
+                              <Insets bottom="2.0" right="10.0" top="2.0" />
+                           </padding>
+                           <content>
+                              <ListView fx:id="environmentDetailsLeftListLV" minHeight="150.0" minWidth="200.0" onMouseClicked="#listViewLineClicked">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <padding>
+                                    <Insets right="10.0" top="5.0" />
+                                 </padding>
+                              </ListView>
+                           </content>
+                        </ScrollPane>
+                        <ScrollPane fitToHeight="true" layoutX="10.0" layoutY="10.0" minViewportHeight="100.0" minViewportWidth="200.0" prefHeight="200.0" prefViewportHeight="400.0" prefViewportWidth="350.0" prefWidth="200.0">
+                           <padding>
+                              <Insets bottom="2.0" right="10.0" top="2.0" />
+                           </padding>
+                           <content>
+                              <ListView fx:id="entitiesDetailsLeftListLV" minHeight="150.0" minWidth="200.0" onMouseClicked="#listViewLineClicked">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <padding>
+                                    <Insets right="10.0" top="5.0" />
+                                 </padding>
+                              </ListView>
+                           </content>
+                        </ScrollPane>
+                        <ScrollPane fitToHeight="true" layoutX="10.0" layoutY="223.0" minViewportHeight="200.0" minViewportWidth="100.0" prefHeight="200.0" prefViewportHeight="400.0" prefViewportWidth="350.0" prefWidth="200.0">
+                           <padding>
+                              <Insets bottom="2.0" right="10.0" top="2.0" />
+                           </padding>
+                           <content>
+                              <ListView fx:id="rulesDetailsLeftListLV" minHeight="150.0" minWidth="200.0" onMouseClicked="#listViewLineClicked">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <padding>
+                                    <Insets right="10.0" top="5.0" />
+                                 </padding>
+                              </ListView>
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
+            <ScrollPane fitToHeight="true" fitToWidth="true">
+               <content>
+                  <ListView fx:id="detailsRightListLV" minHeight="450.0" minWidth="450.0" onMouseClicked="#listViewLineClicked">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets right="10.0" top="5.0" />
+                     </padding>
+                  </ListView>
+               </content>
+            </ScrollPane>
+         </children>
          <padding>
-            <Insets right="10.0" />
+            <Insets top="5.0" />
          </padding>
-         <content>
-            <ListView fx:id="detailsLeftListLV" onMouseClicked="#listViewLineClicked">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <padding>
-                  <Insets right="10.0" top="5.0" />
-               </padding>
-            </ListView>
-         </content>
-      </ScrollPane>
-      <ScrollPane fitToHeight="true" fitToWidth="true">
-         <content>
-            <ListView fx:id="detailsRightListLV" onMouseClicked="#listViewLineClicked">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <padding>
-                  <Insets right="10.0" top="5.0" />
-               </padding>
-            </ListView>
-         </content>
-      </ScrollPane>
+      </HBox>
+      <HBox prefHeight="25.0">
+         <children>
+            <Label text="Termination:">
+               <HBox.margin>
+                  <Insets bottom="5.0" right="20.0" top="5.0" />
+               </HBox.margin>
+            </Label>
+            <Label fx:id="terminationDetailsLabel" text="Label">
+               <HBox.margin>
+                  <Insets bottom="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
    </children>
-   <padding>
-      <Insets top="5.0" />
-   </padding>
-</HBox>
+</VBox>

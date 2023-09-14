@@ -6,4 +6,9 @@ import javafx.beans.property.SimpleStringProperty;
 public class KeyToFloatData {
     protected SimpleStringProperty keyNameProperty;
     protected SimpleFloatProperty floatValueProperty;
+
+    public KeyToFloatData() {
+        this.keyNameProperty = new SimpleStringProperty();
+        this.floatValueProperty = new SimpleFloatProperty();
+    }
 }
