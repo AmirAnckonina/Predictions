@@ -3,12 +3,11 @@ package UI.impl.javaFX.tabBody.newExecution.model;
 import javafx.beans.property.SimpleStringProperty;
 
 
-public class KeyToStringData {
-    protected SimpleStringProperty keyNameProperty;
+public class KeyToStringData extends BaseData {
     protected SimpleStringProperty stringValueProperty;
 
     public KeyToStringData() {
-        this.keyNameProperty = new SimpleStringProperty();
+        super();
         this.stringValueProperty = new SimpleStringProperty();
     }
 }
