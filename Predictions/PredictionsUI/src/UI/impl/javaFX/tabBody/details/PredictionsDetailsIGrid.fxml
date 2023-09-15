@@ -20,7 +20,7 @@
                               <Insets bottom="2.0" right="10.0" top="2.0" />
                            </padding>
                            <content>
-                              <ListView fx:id="environmentDetailsLeftListLV" minHeight="150.0" minWidth="200.0" onMouseClicked="#listViewLineClicked">
+                              <ListView fx:id="environmentDetailsLeftListLV" minHeight="150.0" minWidth="200.0" onMouseClicked="#environmentListViewLineClicked">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
@@ -35,7 +35,7 @@
                               <Insets bottom="2.0" right="10.0" top="2.0" />
                            </padding>
                            <content>
-                              <ListView fx:id="entitiesDetailsLeftListLV" minHeight="150.0" minWidth="200.0" onMouseClicked="#listViewLineClicked">
+                              <ListView fx:id="entitiesDetailsLeftListLV" minHeight="150.0" minWidth="200.0" onMouseClicked="#environmentListViewLineClicked">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
@@ -50,7 +50,7 @@
                               <Insets bottom="2.0" right="10.0" top="2.0" />
                            </padding>
                            <content>
-                              <ListView fx:id="rulesDetailsLeftListLV" minHeight="150.0" minWidth="200.0" onMouseClicked="#listViewLineClicked">
+                              <ListView fx:id="rulesDetailsLeftListLV" minHeight="150.0" minWidth="200.0" onMouseClicked="#environmentListViewLineClicked">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>

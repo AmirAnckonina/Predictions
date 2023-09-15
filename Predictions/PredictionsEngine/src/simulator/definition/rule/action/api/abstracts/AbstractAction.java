@@ -26,6 +26,14 @@ public abstract class AbstractAction implements Action {
         this.actionSecondaryEntityDefinition = actionSecondaryEntityDefinition;
     }
 
+    @Override
+    public String toString() {
+        return "AbstractAction{" +
+                "type=" + type +
+                ", primaryEntityName='" + primaryEntityName + '\'' +
+                ", actionSecondaryEntityDefinition=" + actionSecondaryEntityDefinition +
+                '}' + System.lineSeparator();
+    }
 
     @Override
     public ActionType getType() {

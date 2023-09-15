@@ -13,6 +13,11 @@ public class ActionSecondaryEntityDefinitionImpl implements ActionSecondaryEntit
     private SecondaryEntitySelectionType secondaryEntitySelectionType;
     private Integer selectionCount;
 
+    @Override
+    public String toString() {
+        return "secondaryEntityName='" + secondaryEntityName;
+    }
+
     public ActionSecondaryEntityDefinitionImpl(
             String secondaryEntityName,
             ConditionExpression conditionExpression,

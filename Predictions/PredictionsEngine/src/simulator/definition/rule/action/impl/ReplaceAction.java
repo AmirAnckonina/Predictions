@@ -12,6 +12,18 @@ public class ReplaceAction extends AbstractAction {
     private String entityNameToCreate;
     private ReplaceActionCreationMode replaceActionCreationMode;
 
+    @Override
+    public String toString() {
+        return "Replace{" +
+                "entityNameToKill='" + entityNameToKill + '\'' +
+                ", entityNameToCreate='" + entityNameToCreate + '\'' +
+                ", replaceActionCreationMode=" + replaceActionCreationMode +
+                ", type=" + type +
+                ", primaryEntityName='" + primaryEntityName + '\'' +
+                ", actionSecondaryEntityDefinition=" + actionSecondaryEntityDefinition +
+                '}' + System.lineSeparator();
+    }
+
     public ReplaceAction(
             ActionType type,
             String entityNameToKill,

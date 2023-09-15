@@ -19,6 +19,17 @@ public class InequalityConditionExpression extends AbstractSingleConditionExpres
 
 
     @Override
+    public String toString() {
+        return "Condition{" +
+                "operator=!=" +
+                ", conditionType=single" +
+                ", entityName='" + entityName + '\'' +
+                ", comparedValue=" + comparedValue +
+                ", conditionProperty=" + conditionProperty +
+                '}';
+    }
+
+    @Override
     public boolean test(ExecutionContext context) {
         PropertyType propType = this.conditionProperty.getExpressionReturnedValueType();
         PropertyType compType = this.comparedValue.getExpressionReturnedValueType();

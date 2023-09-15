@@ -14,6 +14,17 @@ public class SetAction extends AbstractPropertyAction {
     }
 
     @Override
+    public String toString() {
+        return "Set{" +
+                "value=" + value +
+                ", propertyName='" + propertyName + '\'' +
+                ", type=" + type +
+                ", primaryEntityName='" + primaryEntityName + '\'' +
+                ", actionSecondaryEntityDefinition=" + actionSecondaryEntityDefinition +
+                '}' + System.lineSeparator();
+    }
+
+    @Override
     public void invoke(ExecutionContext context) {
         context
                 .getEntityInstanceByName(this.primaryEntityName)

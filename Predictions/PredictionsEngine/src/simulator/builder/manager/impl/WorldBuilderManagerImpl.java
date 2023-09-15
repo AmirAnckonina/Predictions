@@ -17,10 +17,7 @@ import simulator.definition.property.impl.Range;
 import simulator.definition.rule.Rule;
 import simulator.definition.world.WorldDefinition;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class WorldBuilderManagerImpl implements WorldBuilderManager {
     private WorldDefinition worldDefinition;
@@ -62,11 +59,10 @@ public class WorldBuilderManagerImpl implements WorldBuilderManager {
             }
             String entitiesInfo = entitiesSb.toString();
 
-            StringBuilder rulesSb = new StringBuilder();
+            List<String> rulesInfo = new LinkedList<>();
             for (Rule rule : worldDefinition.getRules()) {
-                rulesSb.append(rule.toString()).append(System.lineSeparator());
+                rulesInfo.add(rule.toString() + System.lineSeparator());
             }
-            String rulesInfo = rulesSb.toString();
 
             String terminationInfo = worldDefinition.getTermination().toString();
 

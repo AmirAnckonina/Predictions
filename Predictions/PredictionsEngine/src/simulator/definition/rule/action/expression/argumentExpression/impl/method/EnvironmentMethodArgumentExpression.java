@@ -9,6 +9,11 @@ public class EnvironmentMethodArgumentExpression extends AbstractMethodArgumentE
 
     private String environmentPropertyName;
 
+    @Override
+    public String toString() {
+        return "environmentPropertyName='" + environmentPropertyName;
+    }
+
     public EnvironmentMethodArgumentExpression(
             ExpressionMethodType method,
             PropertyType expressionReturnedValueType,

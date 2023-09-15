@@ -18,6 +18,11 @@ public class TicksMethodArgumentExpression extends AbstractEntityPropertyMethodA
     }
 
     @Override
+    public String toString() {
+        return "Ticks";
+    }
+
+    @Override
     public Object getValue(ExecutionContext context) {
         return context
                 .getEntityInstanceByName(this.entityName)

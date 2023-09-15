@@ -19,6 +19,11 @@ public class PercentMethodArgumentExpression extends AbstractMethodArgumentExpre
     }
 
     @Override
+    public String toString() {
+        return "Percent";
+    }
+
+    @Override
     public Object getValue(ExecutionContext context) {
         Float originVal = (Float) PropertyType.FLOAT.convert(partValueArg.getValue(context));
         Float partVal = (Float) PropertyType.FLOAT.convert(partValueArg.getValue(context));

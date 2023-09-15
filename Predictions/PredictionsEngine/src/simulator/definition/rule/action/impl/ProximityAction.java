@@ -16,6 +16,20 @@ public class ProximityAction extends AbstractAction {
     private ArgumentExpression envDepth;
     List<AbstractAction> actionsUnderProximity;
 
+    @Override
+    public String toString() {
+        String actionsSize = (actionsUnderProximity == null)?"0":Integer.toString(actionsUnderProximity.size());
+        return "Proximity{" +
+                "sourceEntityName='" + sourceEntityName + '\'' +
+                ", targetEntityName='" + targetEntityName + '\'' +
+                ", envDepth=" + envDepth +
+                ", actionsUnderProximity=" + actionsSize +
+                ", type=" + type +
+                ", primaryEntityName='" + primaryEntityName + '\'' +
+                ", actionSecondaryEntityDefinition=" + actionSecondaryEntityDefinition +
+                '}' + System.lineSeparator();
+    }
+
     /**
      * Pay attention.
      * Decided to use AbstarctAction C'tor and set the primaryEntityName as the one should be the sourceEntity.

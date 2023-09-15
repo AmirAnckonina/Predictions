@@ -9,6 +9,11 @@ public class EntityPropertyArgumentExpression extends AbstractArgumentExpression
     private String entityName;
     private String propertyName;
 
+    @Override
+    public String toString() {
+        return entityName + " :" + propertyName;
+    }
+
     public EntityPropertyArgumentExpression(String entityName, String propertyName, PropertyType expressionReturnedValueType) {
         super(expressionReturnedValueType);
         this.entityName = entityName;

@@ -10,6 +10,15 @@ public class KillAction extends AbstractAction {
     }
 
     @Override
+    public String toString() {
+        return "Kill{" +
+                "type=" + type +
+                ", primaryEntityName='" + primaryEntityName + '\'' +
+                ", actionSecondaryEntityDefinition=" + actionSecondaryEntityDefinition +
+                '}' + System.lineSeparator();
+    }
+
+    @Override
     public void invoke(ExecutionContext executionContext) {
         executionContext
                 .getEntityInstanceByName(this.primaryEntityName)

@@ -12,6 +12,15 @@ public class AndMultipleConditionExpression extends AbstractMultipleConditionExp
     }
 
     @Override
+    public String toString() {
+        return "Condition{" +
+                "conditionType=multi" +
+                ", operator=And" +
+                ", conditions=" + conditions.size() +
+                '}';
+    }
+
+    @Override
     public boolean test(ExecutionContext context) {
         boolean result = true;
         for(ConditionExpression conditionExpression:this.conditions){

@@ -14,6 +14,32 @@ public class MultiplyAction extends AbstractCalculationAction {
         super(type, entityName, propertyName, argumentExpression1, argumentExpression2);
     }
 
+    @Override
+    public String toString() {
+        String resVal = new String();
+
+        if(actionSecondaryEntityDefinition==null){
+            resVal = "Multiply{" +
+                    "arg1=" + arg1 +
+                    ", arg2=" + arg2 +
+                    ", propertyName='" + propertyName + '\'' +
+                    ", type=" + type +
+                    ", primaryEntityName='" + primaryEntityName + '\'' +
+                    ", actionSecondaryEntityDefinition=" + " - " +
+                    '}' + System.lineSeparator();
+        }else {
+            resVal = "Multiply{" +
+                    "arg1=" + arg1 +
+                    ", arg2=" + arg2 +
+                    ", propertyName='" + propertyName + '\'' +
+                    ", type=" + type +
+                    ", primaryEntityName='" + primaryEntityName + '\'' +
+                    ", actionSecondaryEntityDefinition=" + actionSecondaryEntityDefinition +
+                    '}';
+        }
+
+        return resVal;
+    }
 
     @Override
     public void invoke(ExecutionContext context) {

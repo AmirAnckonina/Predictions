@@ -6,13 +6,12 @@ import UI.impl.javaFX.tabBody.details.subbodyobjects.environment.EnvironmentCont
 import UI.impl.javaFX.tabBody.details.subbodyobjects.simulationTitle;
 import dto.BasePropertyDto;
 import dto.SimulationDetailsDto;
+import dto.StringRule;
 import enums.ActionType;
-import enums.PropertyType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
@@ -21,12 +20,10 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import simulator.mainManager.api.SimulatorManager;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 
 import static UI.impl.javaFX.common.CommonResourcesPaths.ENV_DETAILS_FXML_RESOURCE;
-import static UI.impl.javaFX.common.CommonResourcesPaths.ENV_STRING_VAR_FXML_RESOURCE;
 
 
 public class DetailsController {
@@ -36,12 +33,14 @@ public class DetailsController {
     private Stage primaryStage;
     private SimulatorManager simulatorManager;
     private Map<String, BasePropertyDto> propertyDtoMap;
+    private Map<String, String> entitiesDtoMap;
+    private Map<String, StringRule> ruleMap;
     private SimulationDetailsDto simulationDetailsDto;
 
     @FXML
-    private ListView<SimulationDetail> rulesDetailsLeftListLV;
+    private ListView<simulationTitle> rulesDetailsLeftListLV;
     @FXML
-    private ListView<SimulationDetail> entitiesDetailsLeftListLV;
+    private ListView<simulationTitle> entitiesDetailsLeftListLV;
     @FXML
     private ScrollPane rightDetailsScrollPane;
     @FXML
@@ -50,7 +49,9 @@ public class DetailsController {
     private Label terminationDetailsLabel;
 
 
-    private ObservableList<simulationTitle> listViewLeftLines = FXCollections.observableArrayList();
+    private ObservableList<simulationTitle> environmentListViewLeftLines = FXCollections.observableArrayList();
+    private ObservableList<simulationTitle> entitiesListViewLeftLines = FXCollections.observableArrayList();
+    private ObservableList<simulationTitle> rulesListViewLeftLines = FXCollections.observableArrayList();
     private ObservableList<SimulationDetail> listViewRightLines = FXCollections.observableArrayList();
 
     public void setMainController(PredictionsMainController mainController) {
@@ -66,12 +67,22 @@ public class DetailsController {
     }
 
     public void loadFileButtonClicked(){
-        this.environmentDetailsLeftListLV.setItems(this.listViewLeftLines);
+        this.environmentDetailsLeftListLV.setItems(this.environmentListViewLeftLines);
     }
 
     public boolean insertNewLineToLeftEnvironmentListView(String simulationID){
-        this.listViewLeftLines.add(new simulationTitle(simulationID));
-        environmentDetailsLeftListLV.setItems(listViewLeftLines);
+        this.environmentListViewLeftLines.add(new simulationTitle(simulationID));
+        environmentDetailsLeftListLV.setItems(environmentListViewLeftLines);
+        return true;
+    }
+    public boolean insertNewLineToLeftEntitiesListView(String simulationID){
+        this.entitiesListViewLeftLines.add(new simulationTitle(simulationID));
+        entitiesDetailsLeftListLV.setItems(entitiesListViewLeftLines);
+        return true;
+    }
+    public boolean insertNewLineToLeftRulesListView(String simulationID){
+        this.rulesListViewLeftLines.add(new simulationTitle(simulationID));
+        rulesDetailsLeftListLV.setItems(rulesListViewLeftLines);
         return true;
     }
     public void updateNewComponentToRightListView(String name, String type, String value, String from, String to){
@@ -95,15 +106,23 @@ public class DetailsController {
     }
 
     public void showCurrPropertyDtoList(){
+        cleanLeftListsView();
         environmentDetailsLeftListLV.getItems().clear();
         for (Map.Entry<String, BasePropertyDto> propertyDto : propertyDtoMap.entrySet()) {
             insertNewLineToLeftEnvironmentListView(propertyDto.getKey());
         }
+        for(Map.Entry<String,String> entityName: entitiesDtoMap.entrySet()){
+            insertNewLineToLeftEntitiesListView(entityName.getKey());
+        }
+        for(Map.Entry<String,StringRule> rule: ruleMap.entrySet()){
+            insertNewLineToLeftRulesListView(rule.getKey());
+        }
+        simulationDetailsDto.getRulesActions();
 
     }
 
     @FXML
-    void listViewLineClicked(MouseEvent event) {
+    void environmentListViewLineClicked(MouseEvent event) {
         BasePropertyDto selectedSimulation = propertyDtoMap.get(this.environmentDetailsLeftListLV.
                 getSelectionModel().getSelectedItem().toString());
         cleanRightListView();
@@ -121,9 +140,10 @@ public class DetailsController {
         listViewRightLines.clear();
     }
 
-    private void cleanLeftListView() {
-        listViewLeftLines.clear();
-        environmentDetailsLeftListLV.setItems(listViewLeftLines);
+    private void cleanLeftListsView() {
+        environmentListViewLeftLines.clear();
+        entitiesListViewLeftLines.clear();
+        rulesListViewLeftLines.clear();
     }
 
     public void setDetailsModel(DetailsModel detailsModel) {
@@ -159,19 +179,16 @@ public class DetailsController {
             case INCREASE:
             case DECREASE:
             case SET:
-
-                break;
-            case CALCULATION:
-                break;
-            case MULTIPLY:
-                break;
-            case DIVIDE:
-                break;
-            case CONDITION:
-                break;
+            case REPLACE:
             case KILL:
                 break;
-            case REPLACE:
+            case CALCULATION:
+            case DIVIDE:
+            case MULTIPLY:
+                break;
+            case CONDITION:
+                //simple type
+                //multiple type
                 break;
             case PROXIMITY:
                 break;

@@ -15,6 +15,34 @@ public class DivideAction extends AbstractCalculationAction {
     }
 
     @Override
+    public String toString() {
+
+        String resVal = new String();
+
+        if(actionSecondaryEntityDefinition==null){
+            resVal = "Divide{" +
+                    "arg1=" + arg1 +
+                    ", arg2=" + arg2 +
+                    ", propertyName='" + propertyName + '\'' +
+                    ", type=" + type +
+                    ", primaryEntityName='" + primaryEntityName + '\'' +
+                    ", actionSecondaryEntityDefinition=" + " - " +
+                    '}' + System.lineSeparator();
+        }else {
+            resVal = "Divide{" +
+                    "arg1=" + arg1 +
+                    ", arg2=" + arg2 +
+                    ", propertyName='" + propertyName + '\'' +
+                    ", type=" + type +
+                    ", primaryEntityName='" + primaryEntityName + '\'' +
+                    ", actionSecondaryEntityDefinition=" + actionSecondaryEntityDefinition +
+                    '}' + System.lineSeparator();
+        }
+
+        return resVal;
+    }
+
+    @Override
     public void invoke(ExecutionContext context) {
 
         EntityInstance primaryEntityInstance = context.getEntityInstanceByName(this.primaryEntityName);
