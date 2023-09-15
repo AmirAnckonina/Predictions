@@ -81,7 +81,7 @@ public class PredictionsMainController {
     }
 
     public boolean insertNewLineToLeftListView(String line){
-        return detailsComponentController.insertNewLineToLeftListView(line);
+        return detailsComponentController.insertNewLineToLeftEnvironmentListView(line);
     }
 
     public void onLoadSimulationButtonClicked(String simulationFilePath) {

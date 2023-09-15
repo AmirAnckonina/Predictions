@@ -3,7 +3,7 @@ package simulator.definition.rule.action.impl;
 import enums.PropertyType;
 import simulator.definition.rule.action.api.abstracts.AbstractCalculationAction;
 import simulator.definition.rule.action.expression.argumentExpression.api.interfaces.ArgumentExpression;
-import simulator.definition.rule.action.utils.enums.ActionType;
+import enums.ActionType;
 import simulator.execution.context.api.ExecutionContext;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.property.api.PropertyInstance;

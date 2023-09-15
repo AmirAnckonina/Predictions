@@ -2,7 +2,7 @@ package simulator.definition.rule.action.impl;
 
 import simulator.definition.rule.action.api.abstracts.AbstractAction;
 import simulator.definition.rule.action.expression.conditionExpression.api.interfaces.ConditionExpression;
-import simulator.definition.rule.action.utils.enums.ActionType;
+import enums.ActionType;
 import simulator.execution.context.api.ExecutionContext;
 
 import java.util.List;

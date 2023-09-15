@@ -37,7 +37,7 @@ public class DetailsModel {
             newLine = (i + 1) + ". SimulationUuid:\"" + simulationResults.get(i).getSimulationUuid() + "\"" + ": "
                     + getSimulatorStartingTimeInString(simulationResults.get(i));
 
-            controller.insertNewLineToLeftListView(newLine);
+            controller.insertNewLineToLeftEnvironmentListView(newLine);
         }
 
         controller.loadFileButtonClicked();
