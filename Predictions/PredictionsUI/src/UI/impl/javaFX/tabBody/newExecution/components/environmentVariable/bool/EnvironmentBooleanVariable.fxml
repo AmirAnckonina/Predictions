@@ -21,7 +21,7 @@
    </rowConstraints>
    <children>
       <Label id="env-var-label" fx:id="envVarLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="116.0" text="EnvVarName" textAlignment="CENTER" GridPane.columnIndex="2" />
-      <Label id="type-label" fx:id="typeLabel" alignment="TOP_CENTER" prefHeight="77.0" prefWidth="136.0" text="Type" textAlignment="CENTER" textFill="#25569a" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+      <Label id="type-label" fx:id="typeLabel" alignment="TOP_CENTER" prefHeight="58.0" prefWidth="112.0" text="Type" textAlignment="CENTER" textFill="#25569a" GridPane.columnIndex="2" GridPane.rowIndex="1" />
       <Label id="status-label" fx:id="statusLabel" alignment="TOP_LEFT" prefHeight="78.0" prefWidth="141.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
       <CheckBox id="value-checkbox" fx:id="valueCheckbox" mnemonicParsing="false" onAction="#onValueCheckbox" prefHeight="17.0" prefWidth="76.0" GridPane.columnIndex="3" />
       <CheckBox id="set-checkbox" fx:id="setCheckbox" alignment="CENTER" mnemonicParsing="false" onAction="#onSetCheckbox" prefHeight="39.0" prefWidth="22.0" textAlignment="RIGHT" GridPane.columnIndex="1" />

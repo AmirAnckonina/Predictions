@@ -1,7 +1,9 @@
 package UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.floats;
 
+import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.KeyValueProperty;
 import UI.impl.javaFX.tabBody.newExecution.model.KeyToFloatData;
 import UI.impl.javaFX.tabBody.newExecution.newExecutionMain.NewExecutionController;
+import dto.enums.SetPropertyStatus;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -9,7 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.util.converter.NumberStringConverter;
 
-public class EnvironmentFloatVariableController extends KeyToFloatData {
+public class EnvironmentFloatVariableController extends KeyToFloatData implements KeyValueProperty {
 
     private NewExecutionController newExecutionController;
 
@@ -27,14 +29,19 @@ public class EnvironmentFloatVariableController extends KeyToFloatData {
     private void initialize() {
         setCheckbox.selectedProperty().bindBidirectional(this.checkboxProperty);
         envVarLabel.textProperty().bindBidirectional(this.keyNameProperty);
-        envVarTextField.textProperty().bindBidirectional(this.floatValueProperty, new NumberStringConverter());
+        envVarTextField.textProperty().bindBidirectional(this.floatValuePropertyAsString);
         typeLabel.textProperty().bindBidirectional(this.typeProperty);
         statusLabel.textProperty().bindBidirectional(this.statusProperty);
     }
 
     @FXML
     void OnSetButtonClicked() {
-        this.newExecutionController.setEnvironmentProperty(this.keyNameProperty.get(), this.floatValueProperty.getValue());
+        try {
+            Float fVal = Float.parseFloat(this.floatValuePropertyAsString.get());
+            this.newExecutionController.setEnvironmentProperty(this.keyNameProperty.get(), fVal);
+        } catch (Exception e) {
+            this.setStatus(SetPropertyStatus.FAILED);
+        }
     }
 
     @FXML
@@ -53,10 +60,21 @@ public class EnvironmentFloatVariableController extends KeyToFloatData {
     public void initSetupForEnvFloatVariable(String envPropertyName) {
         this.keyNameProperty.set(envPropertyName);
         this.checkboxProperty.set(false);
+        this.typeProperty.set("Numeric");
         this.envVarTextField.setDisable(true);
         this.setButton.setDisable(true);
     }
     public void setNewExecutionController(NewExecutionController newExecutionController) {
         this.newExecutionController = newExecutionController;
+    }
+
+    @Override
+    public void setStatus(SetPropertyStatus setPropertyStatus) {
+        this.statusProperty.set(setPropertyStatus.toString());
+    }
+    @Override
+    public void clearAndResetProperty() {
+        this.checkboxProperty.set(false);
+        onSetCheckbox();
     }
 }

@@ -13,7 +13,6 @@ public interface SimulatorManager {
     EnvironmentPropertiesDto getEnvironmentPropertiesDefinition();
     void setSelectedEnvironmentPropertiesValue(String propName, String type, String value);
     void setEntityDefinitionPopulation(String entityName, Integer entityPopulation);
-    void establishSimulation();
     SimulationEndDto runSimulator();
     void exitSimulator();
     ResultManager getSimulatorResultManagerImpl();

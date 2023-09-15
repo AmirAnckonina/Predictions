@@ -142,4 +142,9 @@ public class EstablishmentManagerImpl implements EstablishmentManager {
 
     }
 
+    @Override
+    public WorldInstance getEstablishedWorldInstance() {
+        return this.worldInstance;
+    }
+
 }

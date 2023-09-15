@@ -22,10 +22,10 @@
    </rowConstraints>
    <children>
       <Label id="entity-name-label" fx:id="entityNameLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="94.0" text="Entity Name: " textAlignment="CENTER" GridPane.columnIndex="2" />
-      <TextField id="value-textfield" fx:id="populationTextField" prefHeight="27.0" prefWidth="130.0" promptText="Population No." GridPane.columnIndex="3" />
       <Label id="type-label" fx:id="typeLabel" alignment="TOP_CENTER" prefHeight="53.0" prefWidth="92.0" text="Type" textAlignment="CENTER" textFill="#25569a" GridPane.columnIndex="2" GridPane.rowIndex="1" />
       <CheckBox id="set-checkbox" fx:id="setCheckbox" alignment="CENTER" mnemonicParsing="false" onAction="#onSetCheckbox" prefHeight="38.0" prefWidth="36.0" textAlignment="RIGHT" GridPane.columnIndex="1" />
       <Label id="status-label" fx:id="statusLabel" alignment="TOP_LEFT" prefHeight="52.0" prefWidth="175.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
       <Button id="set-button" fx:id="setButton" mnemonicParsing="false" onAction="#OnSetButtonClicked" prefHeight="25.0" prefWidth="52.0" text="Set" GridPane.columnIndex="4" />
+      <TextField id="value-textfield" fx:id="valueTextfield" promptText="population No." GridPane.columnIndex="3" />
    </children>
 </GridPane>

@@ -25,7 +25,7 @@
       <TextField id="value-text-field" fx:id="envVarTextField" prefHeight="27.0" prefWidth="129.0" promptText="value" GridPane.columnIndex="3" />
       <CheckBox id="set-checkbox" fx:id="setCheckbox" alignment="CENTER" mnemonicParsing="false" onAction="#onSetCheckbox" prefHeight="39.0" prefWidth="22.0" textAlignment="RIGHT" GridPane.columnIndex="1" />
       <Button id="set-button" fx:id="setButton" mnemonicParsing="false" onAction="#OnSetButtonClicked" prefHeight="25.0" prefWidth="58.0" text="Set" GridPane.columnIndex="4" />
-      <Label id="type-label" fx:id="typeLabel" alignment="TOP_CENTER" prefHeight="77.0" prefWidth="136.0" text="Type" textAlignment="CENTER" textFill="#25569a" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+      <Label id="type-label" fx:id="typeLabel" alignment="TOP_CENTER" prefHeight="58.0" prefWidth="113.0" text="Type" textAlignment="CENTER" textFill="#25569a" GridPane.columnIndex="2" GridPane.rowIndex="1" />
       <Label id="status-label" fx:id="statusLabel" alignment="TOP_LEFT" prefHeight="78.0" prefWidth="141.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
    </children>
 </GridPane>

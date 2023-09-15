@@ -55,11 +55,6 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
-    public void establishSimulation() {
-        establishmentManager.establishSimulation(worldBuilderManager.getWorldDefinition());
-    }
-
-    @Override
     public void setSelectedEnvironmentPropertiesValue(String propName, String type, String value) {
         manualSimulationSetupManager
                 .setSelectedEnvironmentPropertiesValue(
@@ -72,9 +67,11 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
     @Override
     public SimulationEndDto runSimulator() {
+
+        establishmentManager.establishSimulation(this.worldBuilderManager.getWorldDefinition());
          SimulationDocument simulationDocument
                  = infoManager.createNewSimulationDocument(
-                         worldBuilderManager.getWorldDefinition(), executionManager.getWorldInstance()
+                         worldBuilderManager.getWorldDefinition(), establishmentManager.getEstablishedWorldInstance()
          );
 
         return executionManager.runSimulator(simulationDocument);

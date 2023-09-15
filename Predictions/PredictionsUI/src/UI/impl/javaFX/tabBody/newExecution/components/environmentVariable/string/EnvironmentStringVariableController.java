@@ -1,13 +1,15 @@
 package UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.string;
 
+import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.KeyValueProperty;
 import UI.impl.javaFX.tabBody.newExecution.model.KeyToStringData;
 import UI.impl.javaFX.tabBody.newExecution.newExecutionMain.NewExecutionController;
+import dto.enums.SetPropertyStatus;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-public class EnvironmentStringVariableController extends KeyToStringData {
+public class EnvironmentStringVariableController extends KeyToStringData implements KeyValueProperty {
 
     private NewExecutionController newExecutionController;
 
@@ -50,6 +52,7 @@ public class EnvironmentStringVariableController extends KeyToStringData {
     public void initSetupForEnvStringVariable(String envPropertyName) {
         this.keyNameProperty.set(envPropertyName);
         this.checkboxProperty.set(false);
+        this.typeProperty.set("String");
         this.envVarTextField.setDisable(true);
         this.setButton.setDisable(true);
     }
@@ -58,4 +61,14 @@ public class EnvironmentStringVariableController extends KeyToStringData {
         this.newExecutionController = newExecutionController;
     }
 
+    @Override
+    public void setStatus(SetPropertyStatus setPropertyStatus) {
+        this.statusProperty.set(setPropertyStatus.toString());
+    }
+
+    @Override
+    public void clearAndResetProperty() {
+        this.checkboxProperty.set(false);
+        onSetCheckbox();
+    }
 }

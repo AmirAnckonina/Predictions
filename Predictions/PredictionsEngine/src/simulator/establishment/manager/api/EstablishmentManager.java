@@ -8,6 +8,7 @@ import simulator.definition.world.WorldDefinition;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.environment.api.EnvironmentInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
+import simulator.execution.instance.world.api.WorldInstance;
 
 import java.util.List;
 import java.util.Map;
@@ -19,4 +20,5 @@ public interface EstablishmentManager {
     List<EntityInstance> createSingleEntityInstances(EntityDefinition entityDefinition);
     Map<String, PropertyInstance> createPropertyInstances(Map<String, AbstractPropertyDefinition> propertyDefinitions);
     EstablishedEnvironmentInfoDto getEstablishedEnvironmentInfo();
+    WorldInstance getEstablishedWorldInstance();
 }
