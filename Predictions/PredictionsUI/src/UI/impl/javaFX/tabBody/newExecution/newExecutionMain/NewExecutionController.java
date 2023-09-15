@@ -2,7 +2,7 @@ package UI.impl.javaFX.tabBody.newExecution.newExecutionMain;
 
 import UI.impl.javaFX.mainScene.PredictionsMainController;
 import UI.impl.javaFX.tabBody.newExecution.components.entityPopulation.EntityPopulationController;
-import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.KeyValuePropertyController;
+import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.KeyValueProperty;
 import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.bool.EnvironmentBooleanVariableController;
 import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.floats.EnvironmentFloatVariableController;
 import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.string.EnvironmentStringVariableController;
@@ -36,7 +36,7 @@ public class NewExecutionController {
 
     private SimulatorManager simulatorManager;
     private Map<String, EntityPopulationController> entityPopulationControllerMap;
-    private Map<String, KeyValuePropertyController> environmentPropertyControllerMap;
+    private Map<String, KeyValueProperty> environmentPropertyControllerMap;
     private PredictionsMainController predictionsMainController;
     private Stage primaryStage;
 
@@ -56,12 +56,13 @@ public class NewExecutionController {
 
     @FXML
     void onClearVarClicked() {
-
+        entityPopulationControllerMap.forEach((entityName, controller) -> controller.clearAndResetProperty());
+        environmentPropertyControllerMap.forEach((envPropName, controller) -> controller.clearAndResetProperty());
     }
 
     @FXML
     void onStartButtonClicked() {
-
+        this.simulatorManager.runSimulator();
     }
 
     /**
@@ -177,12 +178,12 @@ public class NewExecutionController {
             entityPopulationControllerMap.put(entityName, entityPopulationController);
         } catch (IOException ioe) {
 //            System.out.println(ioe.getMessage());
-//            ioe.printStackTrace(System.out);
+            ioe.printStackTrace(System.out);
 //            System.out.println(ioe.getMessage());
             //throw new PredictionsUIComponentException("failed to load component under GridPaneFactory.");
         } catch (Exception e) {
 //            e.getMessage();
-//            e.printStackTrace(System.out);
+            e.printStackTrace(System.out);
 //            System.out.println(e.getMessage());
         }
     }
@@ -216,9 +217,11 @@ public class NewExecutionController {
 
     public void rollbackSingleEntityPopulation(String entityName) {
         this.simulatorManager.resetSingleEntityPopulation(entityName);
+        this.entityPopulationControllerMap.get(entityName).setStatus(SetPropertyStatus.RESET);
     }
 
     public void rollbackSingleEnvironmentVariable(String envVarName) {
         this.simulatorManager.resetSingleEnvironmentVariable(envVarName);
+        this.environmentPropertyControllerMap.get(envVarName).setStatus(SetPropertyStatus.RESET);
     }
 }
