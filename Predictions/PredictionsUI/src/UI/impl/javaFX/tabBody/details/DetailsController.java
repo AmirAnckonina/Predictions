@@ -4,7 +4,6 @@ import UI.impl.javaFX.mainScene.PredictionsMainController;
 import UI.impl.javaFX.tabBody.details.subbodyobjects.SimulationDetail;
 import UI.impl.javaFX.tabBody.details.subbodyobjects.environment.EnvironmentController;
 import UI.impl.javaFX.tabBody.details.subbodyobjects.simulationTitle;
-import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.string.CalculationActionController;
 import dto.BasePropertyDto;
 import dto.SimulationDetailsDto;
 import enums.ActionType;

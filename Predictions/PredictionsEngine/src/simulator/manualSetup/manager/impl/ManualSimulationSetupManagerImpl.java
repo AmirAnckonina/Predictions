@@ -97,9 +97,19 @@ public class ManualSimulationSetupManagerImpl implements ManualSimulationSetupMa
         worldDefinition
                 .getEnvironment()
                 .getPropertyByName(envPropertyName)
-                .setValueGenerator(
+                .setActiveValueGenerator(
                         new FixedValueGenerator(envPropertyValue)
                 );
+    }
+
+    @Override
+    public void resetSingleEntityPopulation(WorldDefinition worldDefinition, String entityName) {
+        worldDefinition.getEntityDefinitionByName(entityName).setPopulation(0);
+    }
+
+    @Override
+    public void resetSingleEnvironmentVariable(WorldDefinition worldDefinition, String envVarName) {
+        worldDefinition.getEnvironment().getPropertyByName(envVarName).resetToDefaultValueGenerator();
     }
 
 

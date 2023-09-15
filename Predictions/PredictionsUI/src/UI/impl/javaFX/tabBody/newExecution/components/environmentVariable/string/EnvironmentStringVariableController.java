@@ -1,40 +1,36 @@
-package UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.floats;
+package UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.string;
 
-import UI.impl.javaFX.tabBody.newExecution.model.KeyToFloatData;
+import UI.impl.javaFX.tabBody.newExecution.model.KeyToStringData;
 import UI.impl.javaFX.tabBody.newExecution.newExecutionMain.NewExecutionController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.util.converter.NumberStringConverter;
-
-public class EnvironmentFloatVariableController extends KeyToFloatData {
+public class EnvironmentStringVariableController extends KeyToStringData {
 
     private NewExecutionController newExecutionController;
-
 
     @FXML private Label envVarLabel;
     @FXML private TextField envVarTextField;
     @FXML private CheckBox setCheckbox;
+    @FXML private Button setButton;
     @FXML private Label typeLabel;
     @FXML private Label statusLabel;
-    @FXML private Button setButton;
-
-    public EnvironmentFloatVariableController() {super();}
+    public EnvironmentStringVariableController() { super();}
 
     @FXML
     private void initialize() {
         setCheckbox.selectedProperty().bindBidirectional(this.checkboxProperty);
         envVarLabel.textProperty().bindBidirectional(this.keyNameProperty);
-        envVarTextField.textProperty().bindBidirectional(this.floatValueProperty, new NumberStringConverter());
+        envVarTextField.textProperty().bindBidirectional(this.stringValueProperty);
         typeLabel.textProperty().bindBidirectional(this.typeProperty);
         statusLabel.textProperty().bindBidirectional(this.statusProperty);
     }
 
     @FXML
     void OnSetButtonClicked() {
-        this.newExecutionController.setEnvironmentProperty(this.keyNameProperty.get(), this.floatValueProperty.getValue());
+        this.newExecutionController.setEnvironmentProperty(keyNameProperty.get(), stringValueProperty.getValue());
     }
 
     @FXML
@@ -50,13 +46,16 @@ public class EnvironmentFloatVariableController extends KeyToFloatData {
         }
 
     }
-    public void initSetupForEnvFloatVariable(String envPropertyName) {
+
+    public void initSetupForEnvStringVariable(String envPropertyName) {
         this.keyNameProperty.set(envPropertyName);
         this.checkboxProperty.set(false);
         this.envVarTextField.setDisable(true);
         this.setButton.setDisable(true);
     }
+
     public void setNewExecutionController(NewExecutionController newExecutionController) {
         this.newExecutionController = newExecutionController;
     }
+
 }
