@@ -21,4 +21,6 @@ public interface SimulatorManager {
     List<String> getAllEntities();
     <T> void setEnvironmentPropertyValue(String envPropertyName, T envPropertyValue);
     List<EnvironmentPropertyDto> getAllEnvironmentProperties();
+    void resetSingleEntityPopulation(String entityName);
+    void resetSingleEnvironmentVariable(String envVarName);
 }

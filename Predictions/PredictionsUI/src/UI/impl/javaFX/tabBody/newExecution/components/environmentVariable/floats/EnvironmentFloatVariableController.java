@@ -1,42 +1,62 @@
 package UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.floats;
 
-import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.EnvironmentPropertyController;
 import UI.impl.javaFX.tabBody.newExecution.model.KeyToFloatData;
 import UI.impl.javaFX.tabBody.newExecution.newExecutionMain.NewExecutionController;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.util.converter.FloatStringConverter;
 import javafx.util.converter.NumberStringConverter;
 
-public class EnvironmentFloatVariableController extends KeyToFloatData implements EnvironmentPropertyController {
+public class EnvironmentFloatVariableController extends KeyToFloatData {
 
     private NewExecutionController newExecutionController;
 
-    @FXML
-    private Label envVarNameLabel;
 
-    @FXML
-    private TextField envFloatValueTextField;
+    @FXML private Label envVarLabel;
+    @FXML private TextField envVarTextField;
+    @FXML private CheckBox setCheckbox;
+    @FXML private Label typeLabel;
+    @FXML private Label statusLabel;
+    @FXML private Button setButton;
 
     public EnvironmentFloatVariableController() {super();}
 
     @FXML
     private void initialize() {
-        this.envVarNameLabel.textProperty().bind(this.keyNameProperty);
-        this.envFloatValueTextField.textProperty().bindBidirectional(this.floatValueProperty, new NumberStringConverter());
+        setCheckbox.selectedProperty().bindBidirectional(this.checkboxProperty);
+        envVarLabel.textProperty().bindBidirectional(this.keyNameProperty);
+        envVarTextField.textProperty().bindBidirectional(this.floatValueProperty, new NumberStringConverter());
+        typeLabel.textProperty().bindBidirectional(this.typeProperty);
+        statusLabel.textProperty().bindBidirectional(this.statusProperty);
     }
 
     @FXML
-    void onEnvFloatValueTextFieldUpdate() {
+    void OnSetButtonClicked() {
         this.newExecutionController.setEnvironmentProperty(this.keyNameProperty.get(), this.floatValueProperty.getValue());
     }
 
+    @FXML
+    void onSetCheckbox() {
+        boolean checked = this.checkboxProperty.get();
+        if (!checked) {
+            this.envVarTextField.setDisable(true);
+            this.setButton.setDisable(true);
+            this.newExecutionController.rollbackSingleEnvironmentVariable(this.keyNameProperty.get());
+        } else {
+            this.envVarTextField.setDisable(false);
+            this.setButton.setDisable(false);
+        }
+
+    }
     public void initSetupForEnvFloatVariable(String envPropertyName) {
         this.keyNameProperty.set(envPropertyName);
+        this.checkboxProperty.set(false);
+        this.envVarTextField.setDisable(true);
+        this.setButton.setDisable(true);
     }
     public void setNewExecutionController(NewExecutionController newExecutionController) {
         this.newExecutionController = newExecutionController;
     }
-
 }

@@ -2,20 +2,19 @@ package UI.impl.javaFX.tabBody.newExecution.newExecutionMain;
 
 import UI.impl.javaFX.mainScene.PredictionsMainController;
 import UI.impl.javaFX.tabBody.newExecution.components.entityPopulation.EntityPopulationController;
-import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.EnvironmentPropertyController;
+import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.KeyValuePropertyController;
 import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.bool.EnvironmentBooleanVariableController;
 import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.floats.EnvironmentFloatVariableController;
 import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.string.EnvironmentStringVariableController;
 import UI.impl.javaFX.utils.exception.PredictionsUIComponentException;
 import dto.EnvironmentPropertyDto;
+import dto.enums.SetPropertyStatus;
 import enums.PropertyType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import simulator.mainManager.api.SimulatorManager;
@@ -37,7 +36,7 @@ public class NewExecutionController {
 
     private SimulatorManager simulatorManager;
     private Map<String, EntityPopulationController> entityPopulationControllerMap;
-    private Map<String, EnvironmentPropertyController> environmentPropertyControllerMap;
+    private Map<String, KeyValuePropertyController> environmentPropertyControllerMap;
     private PredictionsMainController predictionsMainController;
     private Stage primaryStage;
 
@@ -188,20 +187,22 @@ public class NewExecutionController {
         }
     }
 
-    public void setSingleEntityPopulation(String entityName, int population) {
+    public void setSingleEntityPopulation(String entityName, Integer population) {
 
         try {
              this.simulatorManager.setEntityDefinitionPopulation(entityName, population);
+             this.entityPopulationControllerMap.get(entityName).setStatus(SetPropertyStatus.SUCCEEDED);
         } catch (Exception e) {
-            // Impl here something like red color around the textfield in the sub comp
+            this.entityPopulationControllerMap.get(entityName).setStatus(SetPropertyStatus.FAILED);
         }
     }
 
     public <T> void setEnvironmentProperty(String envPropertyName, T envPropertyValue) {
         try {
             this.simulatorManager.setEnvironmentPropertyValue(envPropertyName, envPropertyValue);
+            this.environmentPropertyControllerMap.get(envPropertyName).setStatus(SetPropertyStatus.SUCCEEDED);
         } catch (Exception e) {
-
+            this.environmentPropertyControllerMap.get(envPropertyName).setStatus(SetPropertyStatus.FAILED);
         }
     }
 
@@ -211,5 +212,13 @@ public class NewExecutionController {
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
+    }
+
+    public void rollbackSingleEntityPopulation(String entityName) {
+        this.simulatorManager.resetSingleEntityPopulation(entityName);
+    }
+
+    public void rollbackSingleEnvironmentVariable(String envVarName) {
+        this.simulatorManager.resetSingleEnvironmentVariable(envVarName);
     }
 }
