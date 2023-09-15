@@ -4,16 +4,13 @@ import UI.impl.javaFX.mainScene.PredictionsMainController;
 import UI.impl.javaFX.tabBody.details.subbodyobjects.SimulationDetail;
 import UI.impl.javaFX.tabBody.details.subbodyobjects.environment.EnvironmentController;
 import UI.impl.javaFX.tabBody.details.subbodyobjects.simulationTitle;
-import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.string.CalculationActionController;
 import dto.BasePropertyDto;
 import dto.SimulationDetailsDto;
 import enums.ActionType;
-import enums.PropertyType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
@@ -22,12 +19,10 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import simulator.mainManager.api.SimulatorManager;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 
 import static UI.impl.javaFX.common.CommonResourcesPaths.ENV_DETAILS_FXML_RESOURCE;
-import static UI.impl.javaFX.common.CommonResourcesPaths.ENV_STRING_VAR_FXML_RESOURCE;
 
 
 public class DetailsController {
@@ -100,11 +95,12 @@ public class DetailsController {
         for (Map.Entry<String, BasePropertyDto> propertyDto : propertyDtoMap.entrySet()) {
             insertNewLineToLeftEnvironmentListView(propertyDto.getKey());
         }
+        simulationDetailsDto.getRulesInfo();
 
     }
 
     @FXML
-    void listViewLineClicked(MouseEvent event) {
+    void environmentListViewLineClicked(MouseEvent event) {
         BasePropertyDto selectedSimulation = propertyDtoMap.get(this.environmentDetailsLeftListLV.
                 getSelectionModel().getSelectedItem().toString());
         cleanRightListView();
@@ -160,19 +156,16 @@ public class DetailsController {
             case INCREASE:
             case DECREASE:
             case SET:
-
-                break;
-            case CALCULATION:
-                break;
-            case MULTIPLY:
-                break;
-            case DIVIDE:
-                break;
-            case CONDITION:
-                break;
+            case REPLACE:
             case KILL:
                 break;
-            case REPLACE:
+            case CALCULATION:
+            case DIVIDE:
+            case MULTIPLY:
+                break;
+            case CONDITION:
+                //simple type
+                //multiple type
                 break;
             case PROXIMITY:
                 break;
