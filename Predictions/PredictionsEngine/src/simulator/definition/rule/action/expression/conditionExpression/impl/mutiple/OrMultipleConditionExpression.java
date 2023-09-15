@@ -13,6 +13,15 @@ public class OrMultipleConditionExpression extends AbstractMultipleConditionExpr
     }
 
     @Override
+    public String toString() {
+        return "Condition{" +
+                "conditionType=multi" +
+                ", operator=or" +
+                ", conditions=" + conditions.size() +
+                '}';
+    }
+
+    @Override
     public boolean test(ExecutionContext context) {
         boolean result = false;
         for(ConditionExpression conditionExpression:this.conditions){

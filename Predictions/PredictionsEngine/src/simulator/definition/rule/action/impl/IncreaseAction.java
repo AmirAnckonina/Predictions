@@ -19,6 +19,30 @@ public class IncreaseAction extends AbstractPropertyAction {
     }
 
     @Override
+    public String toString() {
+        String resVal = new String();
+
+        if(actionSecondaryEntityDefinition==null){
+            resVal = "Increase{" +
+                    "by=" + by +
+                    ", propertyName='" + propertyName + '\'' +
+                    ", type=" + type +
+                    ", primaryEntityName='" + primaryEntityName + '\'' +
+                    ", actionSecondaryEntityDefinition=" + " - " +
+                    '}' + System.lineSeparator();
+        }else {
+            resVal = "Increase{" +
+                    "by=" + by +
+                    ", propertyName='" + propertyName + '\'' +
+                    ", type=" + type +
+                    ", primaryEntityName='" + primaryEntityName + '\'' +
+                    ", actionSecondaryEntityDefinition=" + actionSecondaryEntityDefinition +
+                    '}' + System.lineSeparator();
+        }
+        return resVal;
+    }
+
+    @Override
     public void invoke(ExecutionContext executionContext) {
 
         EntityInstance primaryEntityInstance = executionContext.getEntityInstanceByName(this.primaryEntityName);

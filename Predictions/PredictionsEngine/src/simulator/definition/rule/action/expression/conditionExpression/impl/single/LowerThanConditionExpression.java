@@ -20,6 +20,17 @@ public class LowerThanConditionExpression extends AbstractSingleConditionExpress
     }
 
     @Override
+    public String toString() {
+        return "Condition{" +
+                "conditionType=single" +
+                ", operator=<" +
+                ", entityName='" + entityName + '\'' +
+                ", comparedValue=" + comparedValue +
+                ", conditionProperty=" + conditionProperty +
+                '}';
+    }
+
+    @Override
     public boolean test(ExecutionContext context) {
         PropertyType propType = this.conditionProperty.getExpressionReturnedValueType();
         PropertyType compType = this.comparedValue.getExpressionReturnedValueType();

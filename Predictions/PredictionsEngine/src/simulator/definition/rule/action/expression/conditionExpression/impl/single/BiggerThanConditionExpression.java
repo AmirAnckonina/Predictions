@@ -8,6 +8,16 @@ import simulator.runner.utils.exceptions.SimulatorRunnerException;
 
 public class BiggerThanConditionExpression extends AbstractSingleConditionExpression {
 
+    @Override
+    public String toString() {
+        return "Condition{" +
+                "conditionType=single" +
+                ", property='" + entityName + '\'' +
+                ", comparedValue=" + comparedValue +
+                ", conditionProperty=" + conditionProperty +
+                '}';
+    }
+
     /**
      * @param entityName
      * @param conditionProperty

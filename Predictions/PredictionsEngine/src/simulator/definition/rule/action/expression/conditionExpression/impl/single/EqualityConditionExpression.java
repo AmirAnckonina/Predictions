@@ -18,7 +18,16 @@ public class EqualityConditionExpression extends AbstractSingleConditionExpressi
         super(entityName, conditionProperty, comparedValue);
     }
 
-
+    @Override
+    public String toString() {
+        return "Condition{" +
+                "operator==" +
+                ", conditionType=single" +
+                ", entityName='" + entityName + '\'' +
+                ", comparedValue=" + comparedValue +
+                ", conditionProperty=" + conditionProperty +
+                '}';
+    }
 
     @Override
     public boolean test(ExecutionContext context) {

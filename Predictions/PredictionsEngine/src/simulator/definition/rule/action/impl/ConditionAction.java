@@ -12,6 +12,36 @@ public class ConditionAction extends AbstractAction {
     private List<AbstractAction> thenActions;
     private List<AbstractAction> elseActions;
 
+    @Override
+    public String toString() {
+
+        String resVal;
+        String fixThenActions = (thenActions != null)?Integer.toString(thenActions.size()):"0";
+        String fixElseActions = (elseActions != null)?Integer.toString(elseActions.size()):"0";
+
+        if (actionSecondaryEntityDefinition == null) {
+
+            resVal = "Condition{" +
+                    "condition=" + condition +
+                    ", thenActions=" + fixThenActions +
+                    ", elseActions=" + fixElseActions +
+                    ", type=" + type +
+                    ", primaryEntityName='" + primaryEntityName + '\'' +
+                    ", actionSecondaryEntityDefinition=" +  " - " +
+                    '}' + System.lineSeparator();
+        } else {
+            resVal = "Condition{" +
+                    "condition=" + condition +
+                    ", thenActions=" + fixThenActions +
+                    ", elseActions=" + fixElseActions +
+                    ", type=" + type +
+                    ", primaryEntityName='" + primaryEntityName + '\'' +
+                    ", actionSecondaryEntityDefinition=" + actionSecondaryEntityDefinition +
+                    '}' + System.lineSeparator();
+        }
+        return resVal;
+    }
+
     public ConditionAction(
             ActionType type,
             String entityName,

@@ -15,6 +15,11 @@ public class EvaluateMethodArgumentExpression extends AbstractEntityPropertyMeth
     }
 
     @Override
+    public String toString() {
+        return "Evaluate";
+    }
+
+    @Override
     public Object getValue(ExecutionContext context) {
         return context
                 .getEntityInstanceByName(this.entityName)

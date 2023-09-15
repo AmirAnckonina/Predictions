@@ -35,6 +35,7 @@ public class Rule {
         sb.append("rule name: ").append(name).append(System.lineSeparator());
         sb.append(activation.toString()).append(System.lineSeparator());
         sb.append("Number of actions under rule: ").append(actions.size()).append(System.lineSeparator());
+        actions.forEach(action ->sb.append(action.toString()));
 
         return sb.toString();
     }

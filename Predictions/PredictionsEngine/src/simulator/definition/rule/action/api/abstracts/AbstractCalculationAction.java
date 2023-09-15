@@ -11,6 +11,14 @@ public abstract class AbstractCalculationAction extends AbstractPropertyAction {
     protected final ArgumentExpression arg1;
     protected final ArgumentExpression arg2;
 
+    @Override
+    public String toString() {
+        return "AbstractCalculation{" +
+                "arg1=" + arg1 +
+                ", arg2=" + arg2 +
+                '}';
+    }
+
     public AbstractCalculationAction(ActionType type, String entityName, String propertyName, ArgumentExpression arg1, ArgumentExpression arg2) {
         super(type, entityName, propertyName);
         this.arg1 = arg1;

@@ -13,6 +13,11 @@ public class SimpleValueArgumentExpression<T> extends AbstractArgumentExpression
     }
 
     @Override
+    public String toString() {
+        return value.toString();
+    }
+
+    @Override
     public T getValue(ExecutionContext context) {
         return this.value;
     }

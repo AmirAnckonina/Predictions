@@ -21,4 +21,8 @@ public class RandomMethodArgumentExpression extends AbstractMethodArgumentExpres
     }
 
 
+    @Override
+    public String toString() {
+        return "Random";
+    }
 }

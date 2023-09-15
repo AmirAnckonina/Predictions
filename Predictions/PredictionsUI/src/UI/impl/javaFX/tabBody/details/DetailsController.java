@@ -6,6 +6,7 @@ import UI.impl.javaFX.tabBody.details.subbodyobjects.environment.EnvironmentCont
 import UI.impl.javaFX.tabBody.details.subbodyobjects.simulationTitle;
 import dto.BasePropertyDto;
 import dto.SimulationDetailsDto;
+import dto.StringRule;
 import enums.ActionType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,12 +33,14 @@ public class DetailsController {
     private Stage primaryStage;
     private SimulatorManager simulatorManager;
     private Map<String, BasePropertyDto> propertyDtoMap;
+    private Map<String, String> entitiesDtoMap;
+    private Map<String, StringRule> ruleMap;
     private SimulationDetailsDto simulationDetailsDto;
 
     @FXML
-    private ListView<SimulationDetail> rulesDetailsLeftListLV;
+    private ListView<simulationTitle> rulesDetailsLeftListLV;
     @FXML
-    private ListView<SimulationDetail> entitiesDetailsLeftListLV;
+    private ListView<simulationTitle> entitiesDetailsLeftListLV;
     @FXML
     private ScrollPane rightDetailsScrollPane;
     @FXML
@@ -46,7 +49,9 @@ public class DetailsController {
     private Label terminationDetailsLabel;
 
 
-    private ObservableList<simulationTitle> listViewLeftLines = FXCollections.observableArrayList();
+    private ObservableList<simulationTitle> environmentListViewLeftLines = FXCollections.observableArrayList();
+    private ObservableList<simulationTitle> entitiesListViewLeftLines = FXCollections.observableArrayList();
+    private ObservableList<simulationTitle> rulesListViewLeftLines = FXCollections.observableArrayList();
     private ObservableList<SimulationDetail> listViewRightLines = FXCollections.observableArrayList();
 
     public void setMainController(PredictionsMainController mainController) {
@@ -62,12 +67,22 @@ public class DetailsController {
     }
 
     public void loadFileButtonClicked(){
-        this.environmentDetailsLeftListLV.setItems(this.listViewLeftLines);
+        this.environmentDetailsLeftListLV.setItems(this.environmentListViewLeftLines);
     }
 
     public boolean insertNewLineToLeftEnvironmentListView(String simulationID){
-        this.listViewLeftLines.add(new simulationTitle(simulationID));
-        environmentDetailsLeftListLV.setItems(listViewLeftLines);
+        this.environmentListViewLeftLines.add(new simulationTitle(simulationID));
+        environmentDetailsLeftListLV.setItems(environmentListViewLeftLines);
+        return true;
+    }
+    public boolean insertNewLineToLeftEntitiesListView(String simulationID){
+        this.entitiesListViewLeftLines.add(new simulationTitle(simulationID));
+        entitiesDetailsLeftListLV.setItems(entitiesListViewLeftLines);
+        return true;
+    }
+    public boolean insertNewLineToLeftRulesListView(String simulationID){
+        this.rulesListViewLeftLines.add(new simulationTitle(simulationID));
+        rulesDetailsLeftListLV.setItems(rulesListViewLeftLines);
         return true;
     }
     public void updateNewComponentToRightListView(String name, String type, String value, String from, String to){
@@ -91,11 +106,18 @@ public class DetailsController {
     }
 
     public void showCurrPropertyDtoList(){
+        cleanLeftListsView();
         environmentDetailsLeftListLV.getItems().clear();
         for (Map.Entry<String, BasePropertyDto> propertyDto : propertyDtoMap.entrySet()) {
             insertNewLineToLeftEnvironmentListView(propertyDto.getKey());
         }
-        simulationDetailsDto.getRulesInfo();
+        for(Map.Entry<String,String> entityName: entitiesDtoMap.entrySet()){
+            insertNewLineToLeftEntitiesListView(entityName.getKey());
+        }
+        for(Map.Entry<String,StringRule> rule: ruleMap.entrySet()){
+            insertNewLineToLeftRulesListView(rule.getKey());
+        }
+        simulationDetailsDto.getRulesActions();
 
     }
 
@@ -118,9 +140,10 @@ public class DetailsController {
         listViewRightLines.clear();
     }
 
-    private void cleanLeftListView() {
-        listViewLeftLines.clear();
-        environmentDetailsLeftListLV.setItems(listViewLeftLines);
+    private void cleanLeftListsView() {
+        environmentListViewLeftLines.clear();
+        entitiesListViewLeftLines.clear();
+        rulesListViewLeftLines.clear();
     }
 
     public void setDetailsModel(DetailsModel detailsModel) {
