@@ -133,4 +133,9 @@ public class SimulatorManagerImpl implements SimulatorManager {
                 .resetSingleEnvironmentVariable(this.worldBuilderManager.getWorldDefinition(), envVarName);
     }
 
+    @Override
+    public Integer getMaxPopulationSize() {
+        return this.worldBuilderManager.getMaxPopulationSize();
+    }
+
 }

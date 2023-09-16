@@ -14,4 +14,5 @@ public interface WorldBuilderManager {
     EnvironmentPropertiesDto getEnvironmentPropertiesDefinition();
     WorldDefinition getWorldDefinition();
     List<EnvironmentPropertyDto> getAllEnvironmentProperties();
+    Integer getMaxPopulationSize();
 }

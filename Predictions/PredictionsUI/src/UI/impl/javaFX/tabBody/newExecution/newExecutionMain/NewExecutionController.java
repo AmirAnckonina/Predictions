@@ -9,11 +9,11 @@ import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.string
 import UI.impl.javaFX.utils.exception.PredictionsUIComponentException;
 import dto.EnvironmentPropertyDto;
 import enums.SetPropertyStatus;
-import enums.PropertyType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -33,6 +33,7 @@ public class NewExecutionController {
     @FXML private ListView<GridPane> envPropListView;
     @FXML private Button clearVarButton;
     @FXML private Button startButton;
+    @FXML private Label maxPopLabel;
 
     private SimulatorManager simulatorManager;
     private Map<String, EntityPopulationController> entityPopulationControllerMap;
@@ -65,12 +66,12 @@ public class NewExecutionController {
         this.simulatorManager.runSimulator();
     }
 
-    /**
-     * Should be called by the AppController
-     */
     public void initializeNewExecutionTab() {
 
         try {
+            resetController();
+            this.maxPopLabel.textProperty().set(this.maxPopLabel.textProperty().get() + " " + this.simulatorManager.getMaxPopulationSize());
+
             List<String> entities = this.simulatorManager.getAllEntities();
             entities.forEach(this::createEntityPopulationComponent);
 
@@ -80,6 +81,13 @@ public class NewExecutionController {
         } catch (Exception e) {
             e.printStackTrace(System.out);
         }
+    }
+
+    private void resetController() {
+        this.entPopulationListView.getItems().clear();
+        this.envPropListView.getItems().clear();
+        this.entityPopulationControllerMap = new HashMap<>();
+        this.environmentPropertyControllerMap = new HashMap<>();
     }
 
     private void createEnvironmentPropertyComponent(EnvironmentPropertyDto envProp) {
@@ -163,7 +171,6 @@ public class NewExecutionController {
 
     private void createEntityPopulationComponent(String entityName) {
         try {
-
             FXMLLoader loader = new FXMLLoader();
             URL fxmlUrl = getClass().getResource(ENTITY_POPULATION_FXML_RESOURCE);
             loader.setLocation(fxmlUrl);
@@ -215,11 +222,11 @@ public class NewExecutionController {
 
     public void rollbackSingleEntityPopulation(String entityName) {
         this.simulatorManager.resetSingleEntityPopulation(entityName);
-        this.entityPopulationControllerMap.get(entityName).setStatus(SetPropertyStatus.RESET);
+        this.entityPopulationControllerMap.get(entityName).setStatus(SetPropertyStatus.NONE);
     }
 
     public void rollbackSingleEnvironmentVariable(String envVarName) {
         this.simulatorManager.resetSingleEnvironmentVariable(envVarName);
-        this.environmentPropertyControllerMap.get(envVarName).setStatus(SetPropertyStatus.RESET);
+        this.environmentPropertyControllerMap.get(envVarName).setStatus(SetPropertyStatus.NONE);
     }
 }

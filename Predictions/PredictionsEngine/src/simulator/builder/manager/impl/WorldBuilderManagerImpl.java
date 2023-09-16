@@ -42,6 +42,11 @@ public class WorldBuilderManagerImpl implements WorldBuilderManager {
 
     }
 
+    @Override
+    public Integer getMaxPopulationSize() {
+        return this.worldDefinition.getSpaceGridDefinition().getTotalSpace();
+    }
+
     private EnvironmentPropertyDto arrangeSingleEnvironmentPropertyDto(String envPropName, AbstractPropertyDefinition envPropDef) {
 
         EnvironmentPropertyDto envPropDto;

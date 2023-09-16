@@ -22,4 +22,5 @@ public interface SimulatorManager {
     List<EnvironmentPropertyDto> getAllEnvironmentProperties();
     void resetSingleEntityPopulation(String entityName);
     void resetSingleEnvironmentVariable(String envVarName);
+    Integer getMaxPopulationSize();
 }

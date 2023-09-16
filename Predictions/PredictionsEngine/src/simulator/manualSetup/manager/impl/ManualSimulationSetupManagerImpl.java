@@ -119,8 +119,11 @@ public class ManualSimulationSetupManagerImpl implements ManualSimulationSetupMa
 
             final int[] totalEntitiesPopulation = {0};
             worldDefinition.getEntities().forEach(
-                    (entName, entDef) ->
-                            totalEntitiesPopulation[0] += entDef.getPopulation()
+                    (entName, entDef) -> {
+                        if (!entName.equals(entityName)) {
+                            totalEntitiesPopulation[0] += entDef.getPopulation();
+                        }
+                    }
             );
 
             int totalWorldSpace = worldDefinition.getSpaceGridDefinition().getTotalSpace();

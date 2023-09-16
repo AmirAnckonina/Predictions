@@ -8,10 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface SpaceGridInstance {
-    int getTotalNumberOfFreeCells();
-    int getTotalNumberOfCells();
-    int getHeight();
-    int getWidth();
+    Cell<EntityInstance>[][] initSpaceGrid();
+    int getTotalUnoccuipiedCells();
+    int getTotalCells();
+    int getRows();
+    int getColumns();
     Cell getCell(Coordinate coordinate);
     List<EntityInstance> getListOfInstancesInFirstCircle(Coordinate coordinate);
     List<EntityInstance> getListOfInstancesInFirstCircleByFamilyName(Coordinate coordinate, Optional<String> FamilyName);
