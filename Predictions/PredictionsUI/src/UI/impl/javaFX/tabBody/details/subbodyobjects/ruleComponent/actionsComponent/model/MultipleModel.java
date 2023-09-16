@@ -5,10 +5,10 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class MultipleModel {
     protected SimpleStringProperty logicType;
-    protected SimpleIntegerProperty numOfCondition;
+    protected SimpleStringProperty numOfCondition;
 
     public MultipleModel() {
         this.logicType = new SimpleStringProperty();
-        this.numOfCondition = new SimpleIntegerProperty();
+        this.numOfCondition = new SimpleStringProperty();
     }
 }

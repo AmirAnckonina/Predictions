@@ -4,23 +4,25 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.impl.javaFX.tabBody.details.DetailsController">
+<VBox prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.impl.javaFX.tabBody.details.DetailsController">
    <children>
       <HBox id="main_info_hbox_id" alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300.0" minWidth="300.0" spacing="10.0" VBox.vgrow="ALWAYS">
          <children>
             <ScrollPane hbarPolicy="ALWAYS" vbarPolicy="ALWAYS" HBox.hgrow="ALWAYS">
                <content>
-                  <VBox minHeight="450.0">
+                  <VBox maxHeight="400.0" minHeight="400.0" prefHeight="400.0">
                      <children>
-                        <ScrollPane fitToHeight="true" minViewportHeight="100.0" minViewportWidth="200.0" prefHeight="200.0" prefViewportHeight="400.0" prefViewportWidth="350.0" prefWidth="200.0">
+                        <Label text="Environment varibels:" />
+                        <ScrollPane fitToHeight="true" maxHeight="-Infinity" minViewportHeight="100.0" minViewportWidth="200.0" prefHeight="150.0" prefViewportHeight="150.0" prefViewportWidth="350.0" prefWidth="200.0">
                            <padding>
                               <Insets bottom="2.0" right="10.0" top="2.0" />
                            </padding>
                            <content>
-                              <ListView fx:id="environmentDetailsLeftListLV" minHeight="150.0" minWidth="200.0" onMouseClicked="#environmentListViewLineClicked">
+                              <ListView fx:id="environmentDetailsLeftListLV" maxHeight="-Infinity" minHeight="100.0" minWidth="200.0" onMouseClicked="#environmentListViewLineClicked" prefHeight="100.0">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
@@ -30,12 +32,17 @@
                               </ListView>
                            </content>
                         </ScrollPane>
-                        <ScrollPane fitToHeight="true" layoutX="10.0" layoutY="10.0" minViewportHeight="100.0" minViewportWidth="200.0" prefHeight="200.0" prefViewportHeight="400.0" prefViewportWidth="350.0" prefWidth="200.0">
+                        <Label maxHeight="20.0" text="Entities:">
+                           <padding>
+                              <Insets bottom="1.0" top="1.0" />
+                           </padding>
+                        </Label>
+                        <ScrollPane fitToHeight="true" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" minViewportHeight="100.0" minViewportWidth="200.0" prefHeight="150.0" prefViewportHeight="150.0" prefViewportWidth="350.0" prefWidth="200.0">
                            <padding>
                               <Insets bottom="2.0" right="10.0" top="2.0" />
                            </padding>
                            <content>
-                              <ListView fx:id="entitiesDetailsLeftListLV" minHeight="150.0" minWidth="200.0" onMouseClicked="#environmentListViewLineClicked">
+                              <ListView fx:id="entitiesDetailsLeftListLV" maxHeight="-Infinity" minHeight="100.0" minWidth="200.0" onMouseClicked="#entitiesListViewLineClicked" prefHeight="100.0">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
@@ -45,12 +52,17 @@
                               </ListView>
                            </content>
                         </ScrollPane>
-                        <ScrollPane fitToHeight="true" layoutX="10.0" layoutY="223.0" minViewportHeight="200.0" minViewportWidth="100.0" prefHeight="200.0" prefViewportHeight="400.0" prefViewportWidth="350.0" prefWidth="200.0">
+                        <Label maxHeight="20.0" text="Rules:">
+                           <VBox.margin>
+                              <Insets bottom="1.0" top="1.0" />
+                           </VBox.margin>
+                        </Label>
+                        <ScrollPane fitToHeight="true" layoutX="10.0" layoutY="223.0" maxHeight="-Infinity" minViewportHeight="200.0" minViewportWidth="100.0" prefHeight="150.0" prefViewportHeight="150.0" prefViewportWidth="350.0" prefWidth="200.0">
                            <padding>
                               <Insets bottom="2.0" right="10.0" top="2.0" />
                            </padding>
                            <content>
-                              <ListView fx:id="rulesDetailsLeftListLV" minHeight="150.0" minWidth="200.0" onMouseClicked="#environmentListViewLineClicked">
+                              <ListView fx:id="rulesDetailsLeftListLV" maxHeight="-Infinity" minHeight="100.0" minWidth="200.0" onMouseClicked="#rulesListViewLineClicked" prefHeight="100.0">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
@@ -64,7 +76,21 @@
                   </VBox>
                </content>
             </ScrollPane>
-            <ScrollPane fx:id="rightDetailsScrollPane" fitToHeight="true" fitToWidth="true" />
+            <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="415.0" prefWidth="700.0">
+               <content>
+                  <FlowPane fx:id="rightDetailsFlowPaneListView">
+                     <opaqueInsets>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </opaqueInsets>
+                  </FlowPane>
+               </content>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+               <opaqueInsets>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </opaqueInsets>
+            </ScrollPane>
          </children>
          <padding>
             <Insets top="5.0" />
@@ -77,7 +103,7 @@
                   <Insets bottom="5.0" right="20.0" top="5.0" />
                </HBox.margin>
             </Label>
-            <Label fx:id="terminationDetailsLabel" text="Label">
+            <Label fx:id="terminationDetailsLabel">
                <HBox.margin>
                   <Insets bottom="5.0" right="5.0" top="5.0" />
                </HBox.margin>

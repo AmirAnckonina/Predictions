@@ -17,12 +17,12 @@ public class MultipleConditionActionController extends MultipleModel {
     @FXML
     private void initialize() {
         conditionType.textProperty().bind(logicType);
-        numOfConditions.textProperty().bind(numOfCondition.asString());
+        numOfConditions.textProperty().bind(numOfCondition);
     }
 
-    public void setValues(SimpleStringProperty logicType, SimpleIntegerProperty numOfConditions){
-        this.logicType = logicType;
-        this.numOfCondition = numOfConditions;
+    public void setValues(String logicType, String numOfConditions){
+        this.logicType.set(logicType);
+        this.numOfCondition.set(numOfConditions);
     }
 
 }

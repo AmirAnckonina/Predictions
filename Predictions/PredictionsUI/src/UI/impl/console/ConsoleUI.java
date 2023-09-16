@@ -1,5 +1,5 @@
-///*
-//UI//package UI.impl.console;
+//
+//package UI.impl.console;
 //
 //
 //import UI.api.UserInterface;

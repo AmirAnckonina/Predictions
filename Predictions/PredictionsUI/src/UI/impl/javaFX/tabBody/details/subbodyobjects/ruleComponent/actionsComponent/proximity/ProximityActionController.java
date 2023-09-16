@@ -24,15 +24,15 @@ public class ProximityActionController extends ProximityModel {
     private void initialize() {
         sourceEntity.textProperty().bind(sourceEntityName);
         destinationEntity.textProperty().bind(destinationEntityName);
-        environmentDepth.textProperty().bind(depth.asString());
-        numOfActions.textProperty().bind(numberOfActions.asString());
+        environmentDepth.textProperty().bind(depth);
+        numOfActions.textProperty().bind(numberOfActions);
     }
 
-    public void setValues(SimpleStringProperty sourceEntityName, SimpleStringProperty destinationEntityName,
-                          SimpleIntegerProperty depth, SimpleIntegerProperty numberOfActions){
-        this.sourceEntityName = sourceEntityName;
-        this.destinationEntityName = destinationEntityName;
-        this.depth = depth;
-        this.numberOfActions = numberOfActions;
+    public void setValues(String sourceEntityName, String destinationEntityName,
+                          String depth, String numberOfActions){
+        this.sourceEntityName.set(sourceEntityName);
+        this.destinationEntityName.set(destinationEntityName);
+        this.depth.set(depth);
+        this.numberOfActions.set(numberOfActions);
     }
 }

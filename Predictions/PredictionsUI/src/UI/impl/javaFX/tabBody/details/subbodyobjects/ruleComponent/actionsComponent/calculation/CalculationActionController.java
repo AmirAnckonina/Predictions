@@ -23,9 +23,9 @@ public class CalculationActionController extends CalculationModel {
         secondCalculationArg.textProperty().bind(secondArgument);
     }
 
-    public void setValues(SimpleStringProperty type, SimpleStringProperty firstArgument, SimpleStringProperty secondArgument){
-        this.type = type;
-        this.firstArgument = firstArgument;
-        this.secondArgument = secondArgument;
+    public void setValues(String type, String firstArgument, String secondArgument){
+        this.type.set(type);
+        this.firstArgument.set(firstArgument);
+        this.secondArgument.set(secondArgument);
     }
 }

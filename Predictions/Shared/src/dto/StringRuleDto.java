@@ -1,20 +1,21 @@
 package dto;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class StringRule {
+public class StringRuleDto {
 
     private String name;
     private String activationTickInterval;
     private String activationProbability;
     private String numberOfActions;
-    private List<StringAction> actions;
+    private List<StringActionDto> actions;
     private String fullRule;
 
-    public StringRule(String name, String activationTickInterval, String activationProbability, String numberOfActions,
-                      List<StringAction> actions, String fullRule) {
+    public StringRuleDto(String name, String activationTickInterval, String activationProbability, String numberOfActions,
+                         List<StringActionDto> actions, String fullRule) {
         this.name = name;
         this.activationTickInterval = activationTickInterval;
         this.activationProbability = activationProbability;
@@ -23,7 +24,7 @@ public class StringRule {
         this.fullRule = fullRule;
     }
 
-    public StringRule(String fullRule) {
+    public StringRuleDto(String fullRule) {
         parseStringRuleToDetailedRule(fullRule);
     }
 
@@ -37,7 +38,6 @@ public class StringRule {
         Pattern namePattern = Pattern.compile("rule name: ([^\\r\\n]+)");
         Pattern activationPattern = Pattern.compile("Activation\\{ticksInterval=(\\d+), probability=([0-9.]+)\\}");
         Pattern numberOfActionsPattern = Pattern.compile("Number of actions under rule: (\\d+)");
-        Pattern actionPattern = Pattern.compile("Number of actions under rule: (\\d+)");
 
         Matcher nameMatcher = namePattern.matcher(fullRule);
         Matcher activationMatcher = activationPattern.matcher(fullRule);
@@ -60,6 +60,22 @@ public class StringRule {
         this.activationProbability = activationProbability;
         this.activationTickInterval = activationTickInterval;
         this.fullRule = fullRule;
+        parseRuleToActions(fullRule);
+    }
+
+    private void parseRuleToActions(String fullRule) {
+        this.actions = new LinkedList<>();
+        String[] fullNameLinesArray = fullRule.split("\r\n");
+        for(String line:fullNameLinesArray){
+            if(!line.startsWith("rule name") && !line.startsWith("Activation") && !line.startsWith("Number of") &&
+                    !line.startsWith("\r") && !line.startsWith("\n")){
+                this.actions.add(new StringActionDto(line));
+            }
+        }
+    }
+
+    public List<StringActionDto> getActions() {
+        return actions;
     }
 
     public String getName() {

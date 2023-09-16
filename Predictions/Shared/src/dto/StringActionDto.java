@@ -5,12 +5,14 @@ import enums.ActionType;
 import java.util.HashMap;
 import java.util.Map;
 
-public class StringAction {
+public class StringActionDto {
     private String type;
     private String mainEntity;
     private String secondEntityName;
     private String secondEntityType;
     private String secondEntityValue;
+    private String propertyName;
+    private String value;
     private String calculationType;
     private String numOfThenActions;
     private String numOfElseActions;
@@ -25,19 +27,40 @@ public class StringAction {
     private String secondArg;
     private String comparedValue;
 
-    public StringAction(String action) {
+    public StringActionDto(String action) {
         setActionsPropertyFromString(action);
     }
 
+    public String getPropertyName() {
+        return propertyName;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public String getFirstArg() {
+        return firstArg;
+    }
+
+    public String getSecondArg() {
+        return secondArg;
+    }
+
+    public String getComparedValue() {
+        return comparedValue;
+    }
+
     private void setActionsPropertyFromString(String action) {
-        int braceIndex = action.indexOf("{");
-        this.type = action.substring(0, braceIndex).trim();
-        String actionDetail = action.substring(braceIndex + 1, action.length());
+        int openBraceIndex = action.indexOf("{");
+        int closeBraceIndex = action.indexOf("}");
+        this.type = action.substring(0, openBraceIndex).trim();
+        String actionDetail = action.substring(openBraceIndex + 1, closeBraceIndex);
         String[] listOfDetails = actionDetail.split(",");
         Map<String,String> detailesMap = new HashMap<>();
         for(String detail:listOfDetails){
             String fixDetail = detail.replaceAll(" ", "");
-            int equalsIndex = action.indexOf("=");
+            int equalsIndex = fixDetail.indexOf("=");
             detailesMap.put(fixDetail.substring(0,equalsIndex), fixDetail.substring(equalsIndex + 1,fixDetail.length()));
         }
 
@@ -51,8 +74,12 @@ public class StringAction {
             case INCREASE:
             case DECREASE:
             case SET:
+                this.value = detailesMap.get("by");
             case REPLACE:
             case KILL:
+                this.propertyName = detailesMap.get("propertyName");
+                this.mainEntity = detailesMap.get("primaryEntityName");
+                this.secondEntityName = detailesMap.get("actionSecondaryEntityDefinition");
                 break;
             case CALCULATION:
             case DIVIDE:
@@ -71,14 +98,17 @@ public class StringAction {
                     this.operatorAction = detailesMap.get("operator");
                     this.comparedValue = detailesMap.get("comparedValue");
                 }
-                //simple type
-                //multiple type
                 break;
             case PROXIMITY:
                 this.destinationEntity = detailesMap.get("targetEntityName");
                 this.sourceEntity = detailesMap.get("sourceEntityName");
-                this.depthCircle = detailesMap.get("envDepth");
                 this.numOfActionInProximity = detailesMap.get("actionsUnderProximity");
+                this.depthCircle = detailesMap.get("envDepth");
+                if(detailesMap.get("envDepth").indexOf("=") != -1) {
+                    String envDepth = detailesMap.get("envDepth").substring(detailesMap.get("envDepth").indexOf("=") + 1);
+                    envDepth = "Value of - " + envDepth;
+                    this.depthCircle = envDepth;
+                }
                 break;
         }
     }

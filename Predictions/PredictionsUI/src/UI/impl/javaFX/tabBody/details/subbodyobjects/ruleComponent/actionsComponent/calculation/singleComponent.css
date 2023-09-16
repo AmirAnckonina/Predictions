@@ -1,0 +1,6 @@
+.singleComponent {
+    -fx-background-color: white;
+    -fx-border-width: 5px;
+    -fx-border-color: gray;
+    -fx-background-radius: 5.0;
+}

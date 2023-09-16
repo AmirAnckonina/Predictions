@@ -25,20 +25,20 @@ public class SimpleConditionActionController extends SimpleConditionModel {
 
     @FXML
     private void initialize() {
-        conditionNumOfThanAction.textProperty().bind(numOfThan.asString());
-        conditionNumOfElseAction.textProperty().bind(numOfElse.asString());
+        conditionNumOfThanAction.textProperty().bind(numOfThan);
+        conditionNumOfElseAction.textProperty().bind(numOfElse);
         propertyConditionAction.textProperty().bind(property);
         operatorConditionAction.textProperty().bind(operator);
         valueConditionAction.textProperty().bind(value);
     }
 
-    public void setValues(SimpleIntegerProperty numOfThan, SimpleIntegerProperty numOfElse, SimpleStringProperty property,
-                          SimpleStringProperty operator, SimpleStringProperty value){
-        this.numOfThan = numOfThan;
-        this.numOfElse = numOfElse;
-        this.property = property;
-        this.operator = operator;
-        this.value = value;
+    public void setValues(String numOfThan, String numOfElse, String property,
+                          String operator, String value){
+        this.numOfThan.set(numOfThan);
+        this.numOfElse.set(numOfElse);
+        this.property.set(property);
+        this.operator.set(operator);
+        this.value.set(value);
     }
 
 }

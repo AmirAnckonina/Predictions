@@ -7,13 +7,13 @@ public class ProximityModel {
 
     protected SimpleStringProperty sourceEntityName;
     protected SimpleStringProperty destinationEntityName;
-    protected SimpleIntegerProperty depth;
-    protected SimpleIntegerProperty numberOfActions;
+    protected SimpleStringProperty depth;
+    protected SimpleStringProperty numberOfActions;
 
     public ProximityModel() {
         this.sourceEntityName = new SimpleStringProperty();
         this.destinationEntityName = new SimpleStringProperty();
-        this.depth = new SimpleIntegerProperty();
-        this.numberOfActions = new SimpleIntegerProperty();
+        this.depth = new SimpleStringProperty();
+        this.numberOfActions = new SimpleStringProperty();
     }
 }
