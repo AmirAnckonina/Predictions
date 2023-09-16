@@ -3,10 +3,9 @@ package UI.impl.javaFX.tabBody.newExecution.components.entityPopulation;
 import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.KeyValueProperty;
 import UI.impl.javaFX.tabBody.newExecution.model.KeyToIntegerData;
 import UI.impl.javaFX.tabBody.newExecution.newExecutionMain.NewExecutionController;
-import dto.enums.SetPropertyStatus;
+import enums.SetPropertyStatus;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.util.converter.NumberStringConverter;
 
 public class EntityPopulationController extends KeyToIntegerData implements KeyValueProperty {
     private NewExecutionController newExecutionController;

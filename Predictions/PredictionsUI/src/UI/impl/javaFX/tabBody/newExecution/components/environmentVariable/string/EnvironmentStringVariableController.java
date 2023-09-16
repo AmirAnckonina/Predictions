@@ -3,7 +3,7 @@ package UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.strin
 import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.KeyValueProperty;
 import UI.impl.javaFX.tabBody.newExecution.model.KeyToStringData;
 import UI.impl.javaFX.tabBody.newExecution.newExecutionMain.NewExecutionController;
-import dto.enums.SetPropertyStatus;
+import enums.SetPropertyStatus;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;

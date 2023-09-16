@@ -1,4 +1,4 @@
-package dto.enums;
+package enums;
 
 public enum SetPropertyStatus {
     SUCCEEDED,

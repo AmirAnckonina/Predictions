@@ -4,7 +4,6 @@ import dto.BasePropertyDto;
 import dto.EnvironmentPropertiesDto;
 import dto.EnvironmentPropertyDto;
 import dto.SimulationDetailsDto;
-import response.SimulatorResponse;
 import simulator.builder.api.interfaces.WorldBuilder;
 import simulator.builder.manager.api.WorldBuilderManager;
 import simulator.builder.utils.factory.WorldBuilderFactory;
@@ -13,7 +12,7 @@ import simulator.builder.utils.file.enums.DataFileType;
 import simulator.definition.entity.EntityDefinition;
 import simulator.definition.property.api.abstracts.AbstractNumericPropertyDefinition;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
-import simulator.definition.property.impl.Range;
+import structure.impl.Range;
 import simulator.definition.rule.Rule;
 import simulator.definition.world.WorldDefinition;
 
@@ -36,11 +35,28 @@ public class WorldBuilderManagerImpl implements WorldBuilderManager {
        this.worldDefinition
                .getEnvironment()
                .getEnvironmentProperties()
-               .forEach( (envPropName, envPropDef) -> {
-                   envPropDtoList.add(new EnvironmentPropertyDto(envPropName, envPropDef.getType()));
-               });
+               .forEach((envPropName, envPropDef) ->
+                       envPropDtoList.add(arrangeSingleEnvironmentPropertyDto(envPropName, envPropDef)));
 
        return envPropDtoList;
+
+    }
+
+    private EnvironmentPropertyDto arrangeSingleEnvironmentPropertyDto(String envPropName, AbstractPropertyDefinition envPropDef) {
+
+        EnvironmentPropertyDto envPropDto;
+        if (envPropDef instanceof AbstractNumericPropertyDefinition
+                &&  ((AbstractNumericPropertyDefinition) envPropDef).getRange().isPresent()) {
+
+           Range range = (Range) (((AbstractNumericPropertyDefinition)envPropDef).getRange()).get();
+           envPropDto = new EnvironmentPropertyDto(
+                    envPropName, envPropDef.getType(), new Range<>(range.getFrom(), range.getTo()));
+
+        } else {
+            envPropDto = new EnvironmentPropertyDto(envPropName, envPropDef.getType());
+        }
+
+        return envPropDto;
     }
 
     @Override

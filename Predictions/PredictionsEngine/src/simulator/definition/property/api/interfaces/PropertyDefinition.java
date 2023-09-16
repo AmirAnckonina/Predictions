@@ -8,6 +8,6 @@ public interface PropertyDefinition<T> {
     PropertyType getType();
     T generateValue();
     String toString();
-    void setActiveValueGenerator(ValueGenerator<T> activeValueGenerator);
+    void setFixedValueGenerator(T fixedValue);
     void resetToDefaultValueGenerator();
 }

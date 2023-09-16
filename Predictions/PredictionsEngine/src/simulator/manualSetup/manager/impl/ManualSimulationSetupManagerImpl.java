@@ -8,6 +8,7 @@ import simulator.definition.property.valueGenerator.impl.fixed.FixedValueGenerat
 import simulator.definition.world.WorldDefinition;
 import simulator.manualSetup.exception.SimulationManualSetupException;
 import simulator.manualSetup.manager.api.ManualSimulationSetupManager;
+import structure.impl.Range;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,8 +98,8 @@ public class ManualSimulationSetupManagerImpl implements ManualSimulationSetupMa
         worldDefinition
                 .getEnvironment()
                 .getPropertyByName(envPropertyName)
-                .setActiveValueGenerator(
-                        new FixedValueGenerator(envPropertyValue)
+                .setFixedValueGenerator(
+                        envPropertyValue
                 );
     }
 

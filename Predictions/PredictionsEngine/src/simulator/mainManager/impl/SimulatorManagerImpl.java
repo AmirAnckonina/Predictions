@@ -69,10 +69,10 @@ public class SimulatorManagerImpl implements SimulatorManager {
     public SimulationEndDto runSimulator() {
 
         establishmentManager.establishSimulation(this.worldBuilderManager.getWorldDefinition());
-         SimulationDocument simulationDocument
+        SimulationDocument simulationDocument
                  = infoManager.createNewSimulationDocument(
                          worldBuilderManager.getWorldDefinition(), establishmentManager.getEstablishedWorldInstance()
-         );
+        );
 
         return executionManager.runSimulator(simulationDocument);
     }

@@ -3,6 +3,7 @@ package simulator.definition.property.api.abstracts;
 import simulator.definition.property.api.interfaces.PropertyDefinition;
 import enums.PropertyType;
 import simulator.definition.property.valueGenerator.api.ValueGenerator;
+import simulator.definition.property.valueGenerator.impl.fixed.FixedValueGenerator;
 
 public abstract class AbstractPropertyDefinition<T> implements PropertyDefinition<T> {
     private final String name;
@@ -18,8 +19,8 @@ public abstract class AbstractPropertyDefinition<T> implements PropertyDefinitio
     }
 
     @Override
-    public void setActiveValueGenerator(ValueGenerator<T> activeValueGenerator) {
-        this.activeValueGenerator = activeValueGenerator;
+    public void setFixedValueGenerator(T fixedValue) {
+        this.activeValueGenerator = new FixedValueGenerator<>(fixedValue);
     }
 
     @Override

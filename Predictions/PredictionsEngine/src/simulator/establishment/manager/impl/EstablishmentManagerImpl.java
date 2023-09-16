@@ -44,7 +44,8 @@ public class EstablishmentManagerImpl implements EstablishmentManager {
             // please validate the spaceGridInstance
             SpaceGridInstance spaceGrid =
                     new SpaceGridInstanceImpl(
-                            worldDefinition.getSpaceGridDefinition().getColumns(), worldDefinition.getSpaceGridDefinition().getRows());
+                            worldDefinition.getSpaceGridDefinition().getRows(),
+                            worldDefinition.getSpaceGridDefinition().getColumns());
             List<Rule> rules = this.worldDefinition.getRules();
             Termination termination = this.worldDefinition.getTermination();
             MovementManager movementManager = new MovementManagerImpl();

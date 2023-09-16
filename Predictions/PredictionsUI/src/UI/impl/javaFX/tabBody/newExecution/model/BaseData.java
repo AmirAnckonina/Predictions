@@ -1,7 +1,5 @@
 package UI.impl.javaFX.tabBody.newExecution.model;
 
-import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.KeyValueProperty;
-import dto.enums.SetPropertyStatus;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 
