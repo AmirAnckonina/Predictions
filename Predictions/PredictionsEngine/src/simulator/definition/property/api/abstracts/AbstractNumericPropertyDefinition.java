@@ -1,7 +1,8 @@
 package simulator.definition.property.api.abstracts;
 
 import enums.PropertyType;
-import simulator.definition.property.impl.Range;
+import simulator.definition.property.valueGenerator.utils.exception.ValueGeneratorSetupException;
+import structure.impl.Range;
 import simulator.definition.property.valueGenerator.api.ValueGenerator;
 
 import java.util.Optional;
@@ -20,6 +21,20 @@ public class AbstractNumericPropertyDefinition<T extends Number> extends Abstrac
 
     public Optional<Range<T>> getRange() {
         return Optional.ofNullable(range);
+    }
+
+    @Override
+    public void setFixedValueGenerator(T fixedValue) {
+        getRange().ifPresent((rng) -> {
+            if (!rng.inRangeValidation(fixedValue)) {
+                throw new ValueGeneratorSetupException(
+                        String.format(
+                                "The given fixed value %d is out of the range %d - %d", fixedValue, rng.getFrom(), rng.getTo()
+                        )
+                );
+            }
+        });
+        super.setFixedValueGenerator(fixedValue);
     }
 
     @Override

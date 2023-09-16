@@ -5,7 +5,7 @@ import resources.jaxb.schema.generated.PRDValue;
 import simulator.builder.impl.baseImpl.BasePropertyBuilder;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 import enums.PropertyType;
-import simulator.definition.property.impl.*;
+import structure.impl.Range;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class XmlPropertyBuilder extends BasePropertyBuilder {

@@ -9,6 +9,7 @@ import enums.PropertyType;
 import simulator.definition.rule.Rule;
 import simulator.definition.termination.Termination;
 import simulator.definition.world.WorldDefinition;
+import simulator.establishment.exception.SimulationEstablishmentException;
 import simulator.establishment.manager.api.EstablishmentManager;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.entity.impl.EntityInstanceImpl;
@@ -36,20 +37,23 @@ public class EstablishmentManagerImpl implements EstablishmentManager {
     }
     @Override
     public void establishSimulation(WorldDefinition worldDefinition) {
-
-
-            this.worldDefinition = worldDefinition;
-            EnvironmentInstance envInstance = establishEnvironment();
-            Map<String, List<EntityInstance>> entitiesInstances = createEntitiesInstances();
-            // please validate the spaceGridInstance
-            SpaceGridInstance spaceGrid =
-                    new SpaceGridInstanceImpl(
-                            worldDefinition.getSpaceGridDefinition().getColumns(), worldDefinition.getSpaceGridDefinition().getRows());
-            List<Rule> rules = this.worldDefinition.getRules();
-            Termination termination = this.worldDefinition.getTermination();
-            MovementManager movementManager = new MovementManagerImpl();
-            movementManager.placeEntitiesRandomizeOnSpaceGrid(entitiesInstances, spaceGrid);
-            this.worldInstance = new WorldInstanceImpl(envInstance, entitiesInstances, rules, termination, spaceGrid);
+        try {
+                this.worldDefinition = worldDefinition;
+                EnvironmentInstance envInstance = establishEnvironment();
+                Map<String, List<EntityInstance>> entitiesInstances = createEntitiesInstances();
+                // please validate the spaceGridInstance
+                SpaceGridInstance spaceGrid =
+                        new SpaceGridInstanceImpl(
+                                worldDefinition.getSpaceGridDefinition().getRows(),
+                                worldDefinition.getSpaceGridDefinition().getColumns());
+                List<Rule> rules = this.worldDefinition.getRules();
+                Termination termination = this.worldDefinition.getTermination();
+                MovementManager movementManager = new MovementManagerImpl();
+                movementManager.placeEntitiesRandomizeOnSpaceGrid(entitiesInstances, spaceGrid);
+                this.worldInstance = new WorldInstanceImpl(envInstance, entitiesInstances, rules, termination, spaceGrid);
+        } catch (Exception e) {
+            throw new SimulationEstablishmentException("An error occurred while trying to establish simulation");
+        }
     }
 
     @Override

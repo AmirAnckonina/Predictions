@@ -4,31 +4,31 @@ import structure.api.Coordinate;
 
 public class CoordinateImpl implements Coordinate {
 
-    private int x;
-    private int y;
+    private int colIdx;
+    private int rowIdx;
 
-    public CoordinateImpl(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public CoordinateImpl(int colIdx, int rowIdx) {
+        this.colIdx = colIdx;
+        this.rowIdx = rowIdx;
     }
 
     @Override
-    public int getX() {
-        return x;
+    public int getColIdx() {
+        return colIdx;
     }
 
     @Override
-    public int getY() {
-        return y;
+    public int getRowIdx() {
+        return rowIdx;
     }
 
     @Override
-    public void setX(int x) {
-        this.x = x;
+    public void setColIdx(int colIdx) {
+        this.colIdx = colIdx;
     }
 
     @Override
-    public void setY(int y) {
-        this.y = y;
+    public void setRowIdx(int rowIdx) {
+        this.rowIdx = rowIdx;
     }
 }

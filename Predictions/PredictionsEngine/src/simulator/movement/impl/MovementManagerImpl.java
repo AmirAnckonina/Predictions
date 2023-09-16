@@ -44,29 +44,30 @@ public class MovementManagerImpl implements MovementManager {
     @Override
     public void placeEntitiesRandomizeOnSpaceGrid(Map<String, List<EntityInstance>> entitiesInstances, SpaceGridInstance spaceGrid) {
         Random random = new Random();
-        List<Coordinate> emptyCoordinates = generateCellCoordinates(spaceGrid.getHeight(), spaceGrid.getWidth());
+        List<Coordinate> emptyCoordinates = generateCellCoordinates(spaceGrid.getRows(), spaceGrid.getColumns());
+        try {
+            for (Map.Entry<String, List<EntityInstance>> entry : entitiesInstances.entrySet()) {
+                String key = entry.getKey();
+                List<EntityInstance> entityInstanceS = entry.getValue();
 
-        for (Map.Entry<String, List<EntityInstance>> entry : entitiesInstances.entrySet()) {
-            String key = entry.getKey();
-            List<EntityInstance> entityInstanceS = entry.getValue();
+                for (EntityInstance entityInstance : entityInstanceS) {
+                    // Find a random empty cell in the matrix
+                    boolean placed = false;
+                    while (!placed) {
+                        int randomCoordinateIndex = random.nextInt(emptyCoordinates.size());
+                        Coordinate randomCoordinate = emptyCoordinates.get(randomCoordinateIndex);
+                        if (!spaceGrid.getCell(randomCoordinate).isOccupied()) {
+                            spaceGrid.getCell(randomCoordinate).insertObjectToCell(entityInstance);
+                            entityInstance.setCoordinate(emptyCoordinates.get(randomCoordinateIndex));
+                            placed = true;
+                        }
 
-            for (EntityInstance entityInstance : entityInstanceS) {
-                // Find a random empty cell in the matrix
-                boolean placed = false;
-
-                while (!placed) {
-                    int randomCoordinateIndex = random.nextInt(emptyCoordinates.size());
-                    Coordinate randomCoordinate = emptyCoordinates.get(randomCoordinateIndex);
-
-                    if (!spaceGrid.getCell(randomCoordinate).isOccupied()) {
-                        spaceGrid.getCell(randomCoordinate).insertObjectToCell(entityInstance);
-                        entityInstance.setCoordinate(emptyCoordinates.get(randomCoordinateIndex));
-                        placed = true;
+                        emptyCoordinates.remove(randomCoordinateIndex);
                     }
-
-                    emptyCoordinates.remove(randomCoordinateIndex);
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
         }
     }
 

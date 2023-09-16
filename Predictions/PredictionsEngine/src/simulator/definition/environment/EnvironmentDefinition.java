@@ -41,7 +41,7 @@ public class EnvironmentDefinition {
 
     public void setValueGeneratorByPropertyName(String propertyName, ValueGenerator valueGenerator){
         if(this.environmentProperties.containsKey(propertyName)) {
-            this.environmentProperties.get(propertyName).setActiveValueGenerator(valueGenerator);
+            this.environmentProperties.get(propertyName).setFixedValueGenerator(valueGenerator);
         }
         else throw new MapValueException("Property does not exist");
     }

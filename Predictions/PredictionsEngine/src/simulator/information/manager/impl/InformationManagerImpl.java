@@ -4,6 +4,9 @@ import simulator.definition.world.WorldDefinition;
 import simulator.execution.instance.world.api.WorldInstance;
 import simulator.information.manager.exception.SimulationInformationException;
 import simulator.information.simulationDocument.api.SimulationDocument;
+import simulator.information.simulationDocument.impl.SimulationDocumentImpl;
+import simulator.information.tickDocument.api.TickDocument;
+import simulator.information.tickDocument.impl.TickDocumentImpl;
 import simulator.mainManager.utils.SimulatorUtils;
 import simulator.result.impl.SimulationInitialInfo;
 import simulator.result.manager.api.ResultManager;
@@ -24,35 +27,10 @@ public class InformationManagerImpl implements InformationManager {
     @Override
     public SimulationDocument createNewSimulationDocument(WorldDefinition worldDefinition, WorldInstance worldInstance) {
         String guid = SimulatorUtils.getGUID();
-        // build dto - temporary:
-        Map<String, Integer> entitiesPopulation = new HashMap<>();
-        worldDefinition.getEntities()
-                .forEach(
-                        (entName, entDef) ->
-                                entitiesPopulation.put(entName, entDef.getPopulation())
-                );
+        Map<Integer, TickDocument> tickDocumentMap = new HashMap<>();
+        TickDocument startingTickDoc = new TickDocumentImpl(0,0, worldInstance.getEntitiesInstances());
+        tickDocumentMap.put(0, startingTickDoc);
 
-        Map<String, Set<String>> entitiesPropertiesNames = new HashMap<>();
-        worldDefinition.getEntities()
-                .forEach(
-                        (entName, entDef) ->
-                                entitiesPropertiesNames.put(entName, entDef.getProperties().keySet())
-                );
-
-        SimulationInitialInfo simulationInitialInfo =
-                new SimulationInitialInfo(
-                        guid,
-                        entitiesPopulation,
-                        entitiesPropertiesNames,
-                        worldInstance
-                );
-
-        //SimulationResult simulationResult = new SimulationResultImpl(simulationInitialInfo);
-//        simulatorResultManager.addSimulationResult(
-//                simulationResult.getSimulationUuid(), simulationResult
-//        );
-
-        //return simulationDocument;
-        throw new SimulationInformationException("No implemented set new Simulation Document");
+        return new SimulationDocumentImpl(guid, worldInstance, tickDocumentMap);
     }
 }

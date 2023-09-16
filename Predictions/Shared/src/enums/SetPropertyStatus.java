@@ -1,7 +1,7 @@
-package dto.enums;
+package enums;
 
 public enum SetPropertyStatus {
     SUCCEEDED,
     FAILED,
-    RESET
+    NONE
 }

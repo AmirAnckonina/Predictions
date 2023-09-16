@@ -37,7 +37,7 @@ public class CellImpl<T> implements Cell<T>{
     public boolean insertObjectToCell(T data) {
         boolean returnVal = false;
 
-        if(this.contentStatus == CellOccupationStatus.EMPTY){
+        if (this.contentStatus == CellOccupationStatus.EMPTY){
             this.data = data;
             returnVal = true;
             this.contentStatus = CellOccupationStatus.OCCUPIED;

@@ -3,6 +3,7 @@ package simulator.definition.property.impl;
 import simulator.definition.property.api.abstracts.AbstractNumericPropertyDefinition;
 import enums.PropertyType;
 import simulator.definition.property.valueGenerator.api.ValueGenerator;
+import structure.impl.Range;
 
 public class DecimalPropertyDefinition extends AbstractNumericPropertyDefinition<Integer> {
 

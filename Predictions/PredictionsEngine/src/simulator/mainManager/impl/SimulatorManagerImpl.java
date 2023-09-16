@@ -69,10 +69,10 @@ public class SimulatorManagerImpl implements SimulatorManager {
     public SimulationEndDto runSimulator() {
 
         establishmentManager.establishSimulation(this.worldBuilderManager.getWorldDefinition());
-         SimulationDocument simulationDocument
+        SimulationDocument simulationDocument
                  = infoManager.createNewSimulationDocument(
                          worldBuilderManager.getWorldDefinition(), establishmentManager.getEstablishedWorldInstance()
-         );
+        );
 
         return executionManager.runSimulator(simulationDocument);
     }
@@ -131,6 +131,11 @@ public class SimulatorManagerImpl implements SimulatorManager {
     public void resetSingleEnvironmentVariable(String envVarName) {
         this.manualSimulationSetupManager
                 .resetSingleEnvironmentVariable(this.worldBuilderManager.getWorldDefinition(), envVarName);
+    }
+
+    @Override
+    public Integer getMaxPopulationSize() {
+        return this.worldBuilderManager.getMaxPopulationSize();
     }
 
 }

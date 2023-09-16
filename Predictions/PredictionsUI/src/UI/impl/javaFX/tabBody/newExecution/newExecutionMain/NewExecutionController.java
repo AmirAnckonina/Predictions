@@ -8,12 +8,12 @@ import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.floats
 import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.string.EnvironmentStringVariableController;
 import UI.impl.javaFX.utils.exception.PredictionsUIComponentException;
 import dto.EnvironmentPropertyDto;
-import dto.enums.SetPropertyStatus;
-import enums.PropertyType;
+import enums.SetPropertyStatus;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -33,6 +33,7 @@ public class NewExecutionController {
     @FXML private ListView<GridPane> envPropListView;
     @FXML private Button clearVarButton;
     @FXML private Button startButton;
+    @FXML private Label maxPopLabel;
 
     private SimulatorManager simulatorManager;
     private Map<String, EntityPopulationController> entityPopulationControllerMap;
@@ -65,12 +66,12 @@ public class NewExecutionController {
         this.simulatorManager.runSimulator();
     }
 
-    /**
-     * Should be called by the AppController
-     */
     public void initializeNewExecutionTab() {
 
         try {
+            resetController();
+            this.maxPopLabel.textProperty().set(this.maxPopLabel.textProperty().get() + " " + this.simulatorManager.getMaxPopulationSize());
+
             List<String> entities = this.simulatorManager.getAllEntities();
             entities.forEach(this::createEntityPopulationComponent);
 
@@ -78,31 +79,36 @@ public class NewExecutionController {
             envPropsDtoList.forEach(this::createEnvironmentPropertyComponent);
 
         } catch (Exception e) {
-            System.out.println("t");
+            e.printStackTrace(System.out);
         }
     }
 
-    private void createEnvironmentPropertyComponent(EnvironmentPropertyDto envProp) {
-        String propName = envProp.getEnvPropName();
-        PropertyType propType = envProp.getPropertyType();
+    private void resetController() {
+        this.entPopulationListView.getItems().clear();
+        this.envPropListView.getItems().clear();
+        this.entityPopulationControllerMap = new HashMap<>();
+        this.environmentPropertyControllerMap = new HashMap<>();
+    }
 
-        switch (propType) {
+    private void createEnvironmentPropertyComponent(EnvironmentPropertyDto envProp) {
+
+        switch (envProp.getPropertyType()) {
             case STRING:
-                createEnvironmentStringVariableComponent(propName, propType);
+                createEnvironmentStringVariableComponent(envProp);
                 break;
             case FLOAT:
             case DECIMAL:
-                createEnvironmentFloatVariableComponent(propName, propType);
+                createEnvironmentFloatVariableComponent(envProp);
                 break;
             case BOOLEAN:
-                createEnvironmentBooleanVariableComponent(propName, propType);
+                createEnvironmentBooleanVariableComponent(envProp);
                 break;
             default:
                 throw new PredictionsUIComponentException("Can't create GridPane for key-value");
         }
     }
 
-    private void createEnvironmentBooleanVariableComponent(String propName, PropertyType propType) {
+    private void createEnvironmentBooleanVariableComponent(EnvironmentPropertyDto envProp) {
         try
         {
             FXMLLoader loader = new FXMLLoader();
@@ -112,16 +118,16 @@ public class NewExecutionController {
 
             EnvironmentBooleanVariableController controller = loader.getController();
             controller.setNewExecutionController(this);
-            controller.initSetupForEnvBooleanVariable(propName);
+            controller.initSetupForEnvBooleanVariable(envProp.getEnvPropName());
             envPropListView.getItems().add((GridPane) gpComponent);
-            environmentPropertyControllerMap.put(propName, controller);
+            environmentPropertyControllerMap.put(envProp.getEnvPropName(), controller);
         } catch (IOException ioe) {
             System.out.println(ioe.getMessage());
             ioe.printStackTrace(System.out);
         }
     }
 
-    private void createEnvironmentFloatVariableComponent(String propName, PropertyType propType) {
+    private void createEnvironmentFloatVariableComponent(EnvironmentPropertyDto envProp) {
         try
         {
             FXMLLoader loader = new FXMLLoader();
@@ -131,9 +137,9 @@ public class NewExecutionController {
 
             EnvironmentFloatVariableController controller = loader.getController();
             controller.setNewExecutionController(this);
-            controller.initSetupForEnvFloatVariable(propName);
+            controller.initSetupForEnvFloatVariable(envProp.getEnvPropName(), envProp.getRange());
             envPropListView.getItems().add((GridPane) gpComponent);
-            environmentPropertyControllerMap.put(propName, controller);
+            environmentPropertyControllerMap.put(envProp.getEnvPropName(), controller);
 
         } catch (IOException ioe) {
             System.out.println(ioe.getMessage());
@@ -142,7 +148,7 @@ public class NewExecutionController {
 
     }
 
-    private void createEnvironmentStringVariableComponent(String propName, PropertyType propType) {
+    private void createEnvironmentStringVariableComponent(EnvironmentPropertyDto envProp) {
 
         try
         {
@@ -153,9 +159,9 @@ public class NewExecutionController {
 
             EnvironmentStringVariableController controller = loader.getController();
             controller.setNewExecutionController(this);
-            controller.initSetupForEnvStringVariable(propName);
+            controller.initSetupForEnvStringVariable(envProp.getEnvPropName());
             envPropListView.getItems().add((GridPane) gpComponent);
-            environmentPropertyControllerMap.put(propName, controller);
+            environmentPropertyControllerMap.put(envProp.getEnvPropName(), controller);
         } catch (IOException ioe) {
             System.out.println(ioe.getMessage());
             ioe.printStackTrace(System.out);
@@ -165,7 +171,6 @@ public class NewExecutionController {
 
     private void createEntityPopulationComponent(String entityName) {
         try {
-
             FXMLLoader loader = new FXMLLoader();
             URL fxmlUrl = getClass().getResource(ENTITY_POPULATION_FXML_RESOURCE);
             loader.setLocation(fxmlUrl);
@@ -217,11 +222,11 @@ public class NewExecutionController {
 
     public void rollbackSingleEntityPopulation(String entityName) {
         this.simulatorManager.resetSingleEntityPopulation(entityName);
-        this.entityPopulationControllerMap.get(entityName).setStatus(SetPropertyStatus.RESET);
+        this.entityPopulationControllerMap.get(entityName).setStatus(SetPropertyStatus.NONE);
     }
 
     public void rollbackSingleEnvironmentVariable(String envVarName) {
         this.simulatorManager.resetSingleEnvironmentVariable(envVarName);
-        this.environmentPropertyControllerMap.get(envVarName).setStatus(SetPropertyStatus.RESET);
+        this.environmentPropertyControllerMap.get(envVarName).setStatus(SetPropertyStatus.NONE);
     }
 }

@@ -3,13 +3,15 @@ package UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.float
 import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.KeyValueProperty;
 import UI.impl.javaFX.tabBody.newExecution.model.KeyToFloatData;
 import UI.impl.javaFX.tabBody.newExecution.newExecutionMain.NewExecutionController;
-import dto.enums.SetPropertyStatus;
+import enums.SetPropertyStatus;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.util.converter.NumberStringConverter;
+import structure.impl.Range;
+
+import java.util.Optional;
 
 public class EnvironmentFloatVariableController extends KeyToFloatData implements KeyValueProperty {
 
@@ -57,10 +59,16 @@ public class EnvironmentFloatVariableController extends KeyToFloatData implement
         }
 
     }
-    public void initSetupForEnvFloatVariable(String envPropertyName) {
+    public void initSetupForEnvFloatVariable(String envPropertyName, Optional<Range> range) {
         this.keyNameProperty.set(envPropertyName);
         this.checkboxProperty.set(false);
         this.typeProperty.set("Numeric");
+        range.ifPresent((rng) -> {
+            this.typeProperty.set(
+                    this.typeProperty.getValue()
+                    + String.format("\nRange: %.3f to %.3f", rng.getFrom(), rng.getTo())
+            );
+        });
         this.envVarTextField.setDisable(true);
         this.setButton.setDisable(true);
     }

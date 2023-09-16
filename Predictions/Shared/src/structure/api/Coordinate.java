@@ -2,8 +2,8 @@ package structure.api;
 
 public interface Coordinate {
 
-    int getX();
-    int getY();
-    void setX(int x);
-    void setY(int y);
+    int getColIdx();
+    int getRowIdx();
+    void setColIdx(int colIdx);
+    void setRowIdx(int rowIdx);
 }

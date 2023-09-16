@@ -1,4 +1,4 @@
-package simulator.definition.property.impl;
+package structure.impl;
 
 public class Range<T extends Number> {
     private final T from;
@@ -17,9 +17,10 @@ public class Range<T extends Number> {
         return to;
     }
 
-//    public boolean isInRange(T numToCheck){
-//        return numToCheck >= from && numToCheck <= to;
-//    }
+    public boolean inRangeValidation(T value) {
+        return value.doubleValue() >= this.from.doubleValue()  && value.doubleValue() <= this.to.doubleValue();
+    }
+
 
     @Override
     public String toString() {

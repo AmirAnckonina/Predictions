@@ -13,50 +13,58 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class SpaceGridInstanceImpl implements SpaceGridInstance {
-    private Integer height = null;
-    private Integer width = null;
-    private Integer totalNumberOfCells = null;
-    private Integer totalNumberOfFreeCells = null;
-    private Cell<EntityInstance>[][] matrix = null;
-    private List<EntityInstance> neighborsInstances = null;
-    private List<Cell> neighborsCells = null;
+    private Integer rows;
+    private Integer columns;
+    private Integer totalCells;
+    private Integer totalUnoccuipiedCells;
+    private final Cell<EntityInstance>[][] spaceGrid;
+    private List<EntityInstance> neighborsInstances;
+    private List<Cell> neighborsCells;
 
-    public SpaceGridInstanceImpl(Integer height, Integer width) {
-        this.height = height;
-        this.width = width;
-        this.totalNumberOfCells = this.totalNumberOfFreeCells = height * width;
-        this.matrix = new CellImpl[width][height];
+    public SpaceGridInstanceImpl(Integer rows, Integer columns) {
+        this.rows = rows;
+        this.columns = columns;
+        this.totalCells = this.totalUnoccuipiedCells = rows * columns;
+        this.spaceGrid = initSpaceGrid();
+    }
 
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                matrix[x][y] = new CellImpl<>(new CoordinateImpl(x, y));
+
+    @Override
+    public Cell<EntityInstance>[][] initSpaceGrid() {
+        Cell<EntityInstance>[][] spaceGrid = new CellImpl[this.rows][this.columns];
+
+        for (int rowIdx = 0; rowIdx < rows; rowIdx++) {
+            for (int colIdx = 0; colIdx < columns; colIdx++) {
+                spaceGrid[rowIdx][colIdx] = new CellImpl<>(new CoordinateImpl(rowIdx, colIdx));
             }
         }
+
+        return spaceGrid;
     }
 
     @Override
-    public int getTotalNumberOfFreeCells() {
-        return this.totalNumberOfFreeCells;
+    public int getTotalUnoccuipiedCells() {
+        return this.totalUnoccuipiedCells;
     }
 
     @Override
-    public int getTotalNumberOfCells() {
-        return this.totalNumberOfCells;
+    public int getTotalCells() {
+        return this.totalCells;
     }
 
     @Override
-    public int getHeight() {
-        return height;
+    public int getRows() {
+        return rows;
     }
 
     @Override
-    public int getWidth() {
-        return width;
+    public int getColumns() {
+        return columns;
     }
 
     @Override
     public Cell getCell(Coordinate coordinate) {
-        return this.matrix[coordinate.getX()][coordinate.getY()];
+        return this.spaceGrid[coordinate.getColIdx()][coordinate.getRowIdx()];
     }
 
     @Override
@@ -106,9 +114,9 @@ public class SpaceGridInstanceImpl implements SpaceGridInstance {
     @Override
     public List<EntityInstance> getListOfAllInstances() {
         List<EntityInstance> entityInstanceList = new ArrayList<>();
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                entityInstanceList.add(matrix[x][y].getData());
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < columns; x++) {
+                entityInstanceList.add(spaceGrid[x][y].getData());
             }
         }
 
@@ -128,22 +136,22 @@ public class SpaceGridInstanceImpl implements SpaceGridInstance {
                     continue;
                 }
 
-                int neighborX = coordinate.getX() + dx;
-                int neighborY = coordinate.getY() + dy;
+                int neighborX = coordinate.getColIdx() + dx;
+                int neighborY = coordinate.getRowIdx() + dy;
 
-                neighborsCells.add(matrix[neighborX][neighborY]);
+                neighborsCells.add(spaceGrid[neighborX][neighborY]);
 
                 // Check if the neighbor is within the matrix boundaries
-                if (neighborX >= 0 && neighborX < height && neighborY >= 0 && neighborY < width) {
-                    if(familyName.isPresent() && familyName.get().equals(matrix[neighborX][neighborY].getData().getEntityNameFamily())){
-                        neighborsInstances.add(matrix[neighborX][neighborY].getData());
+                if (neighborX >= 0 && neighborX < rows && neighborY >= 0 && neighborY < columns) {
+                    if(familyName.isPresent() && familyName.get().equals(spaceGrid[neighborX][neighborY].getData().getEntityNameFamily())){
+                        neighborsInstances.add(spaceGrid[neighborX][neighborY].getData());
                     }
                 } else {
                     // Handle boundary conditions
-                    int wrappedX = (neighborX + height) % height;
-                    int wrappedY = (neighborY + width) % width;
-                    if(familyName.isPresent() && familyName.get().equals(matrix[neighborX][neighborY].getData().getEntityNameFamily())){
-                        neighborsInstances.add(matrix[wrappedX][wrappedY].getData());
+                    int wrappedX = (neighborX + rows) % rows;
+                    int wrappedY = (neighborY + columns) % columns;
+                    if(familyName.isPresent() && familyName.get().equals(spaceGrid[neighborX][neighborY].getData().getEntityNameFamily())){
+                        neighborsInstances.add(spaceGrid[wrappedX][wrappedY].getData());
                     }
                 }
             }
