@@ -74,7 +74,8 @@ public class StringActionDto {
             case INCREASE:
             case DECREASE:
             case SET:
-                this.value = detailesMap.get("by");
+                this.value = (detailesMap.get("by") == null)?detailesMap.get("value"):detailesMap.get("by");
+
             case REPLACE:
             case KILL:
                 this.propertyName = detailesMap.get("propertyName");
@@ -85,8 +86,8 @@ public class StringActionDto {
             case DIVIDE:
             case MULTIPLY:
                 this.calculationType = this.type;
-                this.firstArg = detailesMap.get("");
-                this.secondArg = detailesMap.get("");
+                this.firstArg = detailesMap.get("arg1");
+                this.secondArg = detailesMap.get("arg2");
                 break;
             case CONDITION:
                 if(detailesMap.containsKey("multi")) {
