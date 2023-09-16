@@ -17,8 +17,8 @@
             <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="20.0" prefWidth="25.0" />
             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="120.0" />
             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="20.0" prefWidth="25.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="20.0" prefWidth="250.0" />
-            <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" minWidth="20.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="20.0" prefWidth="400.0" />
+            <ColumnConstraints fillWidth="false" halignment="RIGHT" hgrow="ALWAYS" minWidth="20.0" />
          </columnConstraints>
          <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="15.0" vgrow="NEVER" />

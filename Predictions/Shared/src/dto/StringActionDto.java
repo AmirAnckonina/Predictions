@@ -31,6 +31,26 @@ public class StringActionDto {
         setActionsPropertyFromString(action);
     }
 
+    public String getPropertyName() {
+        return propertyName;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public String getFirstArg() {
+        return firstArg;
+    }
+
+    public String getSecondArg() {
+        return secondArg;
+    }
+
+    public String getComparedValue() {
+        return comparedValue;
+    }
+
     private void setActionsPropertyFromString(String action) {
         int openBraceIndex = action.indexOf("{");
         int closeBraceIndex = action.indexOf("}");
@@ -60,7 +80,6 @@ public class StringActionDto {
                 this.propertyName = detailesMap.get("propertyName");
                 this.mainEntity = detailesMap.get("primaryEntityName");
                 this.secondEntityName = detailesMap.get("actionSecondaryEntityDefinition");
-                System.out.println("t");
                 break;
             case CALCULATION:
             case DIVIDE:

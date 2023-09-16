@@ -22,6 +22,7 @@ public class EntityPropertyController extends EntityPropertyModel {
     @FXML
     private Label rangeTo;
 
+    @FXML
     private void initialize() {
         propertyName.textProperty().bind(name);
         type.textProperty().bind(propertyType);
@@ -30,13 +31,11 @@ public class EntityPropertyController extends EntityPropertyModel {
         rangeTo.textProperty().bind(to);
     }
 
-    public void setValues(SimpleStringProperty name, SimpleStringProperty propertyType,
-                          SimpleStringProperty depth, SimpleStringProperty from,
-                          SimpleStringProperty to){
-        this.name = name;
-        this.propertyType = propertyType;
-        this.initializationType = depth;
-        this.from = from;
-        this.to = to;
+    public void setValues(String name, String propertyType, String initializationType, String from, String to){
+        this.name.set(name);
+        this.propertyType.set(propertyType);
+        this.initializationType.set(initializationType);
+        this.from.set(from);
+        this.to.set(to);
     }
 }

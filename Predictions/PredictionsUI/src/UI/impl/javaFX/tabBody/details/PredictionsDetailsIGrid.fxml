@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
@@ -75,7 +76,15 @@
                   </VBox>
                </content>
             </ScrollPane>
-            <ScrollPane fx:id="rightDetailsScrollPane" fitToHeight="true" fitToWidth="true" prefViewportWidth="600.0" />
+            <ScrollPane prefHeight="415.0" prefWidth="600.0">
+               <content>
+                  <FlowPane fx:id="rightDetailsFlowPaneListView">
+                     <opaqueInsets>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </opaqueInsets>
+                  </FlowPane>
+               </content>
+            </ScrollPane>
          </children>
          <padding>
             <Insets top="5.0" />

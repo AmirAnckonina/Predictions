@@ -2,7 +2,9 @@ package UI.impl.javaFX.tabBody.details;
 
 import UI.impl.javaFX.mainScene.PredictionsMainController;
 import UI.impl.javaFX.tabBody.details.subbodyobjects.SimulationDetail;
+import UI.impl.javaFX.tabBody.details.subbodyobjects.entity.property.EntityPropertyController;
 import UI.impl.javaFX.tabBody.details.subbodyobjects.environment.EnvironmentController;
+import UI.impl.javaFX.tabBody.details.subbodyobjects.ruleComponent.RuleController;
 import UI.impl.javaFX.tabBody.details.subbodyobjects.simulationTitle;
 import dto.*;
 import enums.ActionType;
@@ -12,8 +14,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import simulator.mainManager.api.SimulatorManager;
@@ -22,7 +24,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
-import static UI.impl.javaFX.common.CommonResourcesPaths.ENV_DETAILS_FXML_RESOURCE;
+import static UI.impl.javaFX.common.CommonResourcesPaths.*;
 
 
 public class DetailsController {
@@ -42,7 +44,7 @@ public class DetailsController {
     @FXML
     private ListView<simulationTitle> entitiesDetailsLeftListLV;
     @FXML
-    private ScrollPane rightDetailsScrollPane;
+    private FlowPane rightDetailsFlowPaneListView;
     @FXML
     private ListView<simulationTitle> environmentDetailsLeftListLV;
     @FXML
@@ -113,7 +115,7 @@ public class DetailsController {
         createEnvironmentComponent(name, type, value, from, to);
     }
     private void updateNewEntityDetailsComponentToRightListView(StringPropertyDto selectedEntity) {
-        createEntityComponent(selectedEntity);
+        createPropertyEntityComponent(selectedEntity);
     }
 
     private void updateNewRuleDetailsComponentToRightListView(StringRuleDto selectedRule) {
@@ -122,9 +124,8 @@ public class DetailsController {
         String activationProbability = selectedRule.getActivationProbability();
         List<StringActionDto> stringActionDtoList = selectedRule.getActions();
 
-        for(StringActionDto action:stringActionDtoList){
-            createRuleComponent(ActionType.valueOf((action.getType()).toUpperCase()), action);
-        }
+        createRuleComponent(ruleName, activationTickInterval,activationProbability, stringActionDtoList);
+
     }
 
     public void setPropertyDtoMap(Map<String, BasePropertyDto> propertyDtoList) {
@@ -156,7 +157,7 @@ public class DetailsController {
 
     @FXML
     void entitiesListViewLineClicked(MouseEvent event) {
-        StringEntityDto selectedEntity = entitiesDtoMap.get(this.environmentDetailsLeftListLV.
+        StringEntityDto selectedEntity = entitiesDtoMap.get(this.entitiesDetailsLeftListLV.
                 getSelectionModel().getSelectedItem().toString());
         cleanRightListView();
         Map<String, StringPropertyDto> propertyDtoMap = selectedEntity.getPropertyDtoMap();
@@ -168,7 +169,7 @@ public class DetailsController {
 
     @FXML
     void rulesListViewLineClicked(MouseEvent event) {
-        StringRuleDto selectedRule = ruleMap.get(this.environmentDetailsLeftListLV.
+        StringRuleDto selectedRule = ruleMap.get(this.rulesDetailsLeftListLV.
                 getSelectionModel().getSelectedItem().toString());
         cleanRightListView();
         updateNewRuleDetailsComponentToRightListView(selectedRule);
@@ -182,6 +183,7 @@ public class DetailsController {
         environmentListViewLeftLines.clear();
         entitiesListViewLeftLines.clear();
         rulesListViewLeftLines.clear();
+        rightDetailsFlowPaneListView.getChildren().clear();
     }
 
     public void setDetailsModel(DetailsModel detailsModel) {
@@ -202,51 +204,53 @@ public class DetailsController {
 
             EnvironmentController controller = loader.getController();
             controller.setValues(name, type, value, from, to);
-            rightDetailsScrollPane.setContent(gpComponent);
+            rightDetailsFlowPaneListView.getChildren().add(gpComponent);
         } catch (Exception e) {
             e.getMessage();
             e.printStackTrace(System.out);
         }
     }
 
-    private void createEntityComponent(StringPropertyDto selectedEntity) {
-    }
-
-    private void createRuleComponent(ActionType actionType, StringActionDto action) {
-
-        switch (actionType) {
-            case INCREASE:
-            case DECREASE:
-            case SET:
-            case REPLACE:
-            case KILL:
-                break;
-            case CALCULATION:
-            case DIVIDE:
-            case MULTIPLY:
-                break;
-            case CONDITION:
-                //simple type
-                //multiple type
-                break;
-            case PROXIMITY:
-                break;
-        }
-
+    private void createPropertyEntityComponent(StringPropertyDto selectedProperty) {
         try
         {
             FXMLLoader loader = new FXMLLoader();
-            URL fxmlUrl = getClass().getResource(ENV_DETAILS_FXML_RESOURCE);
+            URL fxmlUrl = getClass().getResource(ENT_PROP_DETAILS_FXML_RESOURCE);
             loader.setLocation(fxmlUrl);
             GridPane gpComponent = loader.load();
 
-            EnvironmentController controller = loader.getController();
-//            controller.setValues(name, type, value, from, to);
-            rightDetailsScrollPane.setContent(gpComponent);
+            EntityPropertyController controller = loader.getController();
+            controller.setValues(selectedProperty.getPropertyName(), selectedProperty.getPropertyType(),
+                    selectedProperty.getPropertyInitializationType(), selectedProperty.getPropertyRangeFrom(),
+                    selectedProperty.getPropertyRangeTo());
+            rightDetailsFlowPaneListView.getChildren().add(gpComponent);
         } catch (Exception e) {
             e.getMessage();
             e.printStackTrace(System.out);
         }
+    }
+
+    private void createRuleComponent(String ruleName, String mainEntity, String secondEntity,
+                                     List<StringActionDto> actions) {
+
+        for(StringActionDto action:actions){
+            try
+            {
+
+                FXMLLoader loader = new FXMLLoader();
+                URL fxmlUrl = getClass().getResource(RULE_MAIN_FXML_RESOURCE);
+                loader.setLocation(fxmlUrl);
+                GridPane gpComponent = loader.load();
+
+                RuleController controller = loader.getController();
+                controller.setValues(ruleName, action);
+                rightDetailsFlowPaneListView.getChildren().add(gpComponent);
+            } catch (Exception e) {
+                e.getMessage();
+                e.printStackTrace(System.out);
+            }
+        }
+
 
 
     }
