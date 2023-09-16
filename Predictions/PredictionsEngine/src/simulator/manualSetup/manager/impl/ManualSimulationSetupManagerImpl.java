@@ -8,6 +8,7 @@ import simulator.definition.property.valueGenerator.impl.fixed.FixedValueGenerat
 import simulator.definition.world.WorldDefinition;
 import simulator.manualSetup.exception.SimulationManualSetupException;
 import simulator.manualSetup.manager.api.ManualSimulationSetupManager;
+import structure.impl.Range;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,9 +98,19 @@ public class ManualSimulationSetupManagerImpl implements ManualSimulationSetupMa
         worldDefinition
                 .getEnvironment()
                 .getPropertyByName(envPropertyName)
-                .setValueGenerator(
-                        new FixedValueGenerator(envPropertyValue)
+                .setFixedValueGenerator(
+                        envPropertyValue
                 );
+    }
+
+    @Override
+    public void resetSingleEntityPopulation(WorldDefinition worldDefinition, String entityName) {
+        worldDefinition.getEntityDefinitionByName(entityName).setPopulation(0);
+    }
+
+    @Override
+    public void resetSingleEnvironmentVariable(WorldDefinition worldDefinition, String envVarName) {
+        worldDefinition.getEnvironment().getPropertyByName(envVarName).resetToDefaultValueGenerator();
     }
 
 
@@ -108,8 +119,11 @@ public class ManualSimulationSetupManagerImpl implements ManualSimulationSetupMa
 
             final int[] totalEntitiesPopulation = {0};
             worldDefinition.getEntities().forEach(
-                    (entName, entDef) ->
-                            totalEntitiesPopulation[0] += entDef.getPopulation()
+                    (entName, entDef) -> {
+                        if (!entName.equals(entityName)) {
+                            totalEntitiesPopulation[0] += entDef.getPopulation();
+                        }
+                    }
             );
 
             int totalWorldSpace = worldDefinition.getSpaceGridDefinition().getTotalSpace();

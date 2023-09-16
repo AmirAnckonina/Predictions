@@ -10,11 +10,11 @@ public class SpaceGridDefinition {
     }
 
     public Integer getRows() {
-        return rows;
+        return this.rows;
     }
 
     public Integer getColumns() {
-        return columns;
+        return this.columns;
     }
 
     public Integer getTotalSpace() {

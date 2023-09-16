@@ -1,22 +1,21 @@
 package UI.impl.javaFX.tabBody.newExecution.components.entityPopulation;
 
-import UI.impl.javaFX.mainScene.PredictionsMainController;
+import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.KeyValueProperty;
 import UI.impl.javaFX.tabBody.newExecution.model.KeyToIntegerData;
 import UI.impl.javaFX.tabBody.newExecution.newExecutionMain.NewExecutionController;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.event.ActionEvent;
+import enums.SetPropertyStatus;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.util.StringConverter;
-import javafx.util.converter.NumberStringConverter;
+import javafx.scene.control.*;
 
-public class EntityPopulationController extends KeyToIntegerData {
+public class EntityPopulationController extends KeyToIntegerData implements KeyValueProperty {
     private NewExecutionController newExecutionController;
 
     @FXML private Label entityNameLabel;
-    @FXML private TextField populationTextField;
+    @FXML private Label typeLabel;
+    @FXML private CheckBox setCheckbox;
+    @FXML private Label statusLabel;
+    @FXML private Button setButton;
+    @FXML private TextField valueTextfield;
 
     public EntityPopulationController() {
         super();
@@ -24,18 +23,53 @@ public class EntityPopulationController extends KeyToIntegerData {
 
     @FXML
     private void initialize() {
-        entityNameLabel.textProperty().bind(keyNameProperty);
-        populationTextField.textProperty().bindBidirectional(this.integerValueProperty, new NumberStringConverter());
+        setCheckbox.selectedProperty().bindBidirectional(this.checkboxProperty);
+        entityNameLabel.textProperty().bindBidirectional(keyNameProperty);
+        valueTextfield.textProperty().bindBidirectional(this.integerValuePropertyAsString);
+        typeLabel.textProperty().bindBidirectional(this.typeProperty);
+        statusLabel.textProperty().bindBidirectional(this.statusProperty);
+    }
+    @FXML
+    void OnSetButtonClicked() {
+        try {
+            Integer population = Integer.parseInt(this.integerValuePropertyAsString.get());
+            this.newExecutionController.setSingleEntityPopulation(keyNameProperty.get(), population);
+        } catch (Exception e) {
+            this.setStatus(SetPropertyStatus.FAILED);
+        }
     }
 
-
     @FXML
-    void onPopulationTextFieldUpdate() {
-        this.newExecutionController.setSingleEntityPopulation(keyNameProperty.get(), integerValueProperty.get());
+    void onSetCheckbox() {
+        boolean checked = this.checkboxProperty.get();
+        if (!checked) {
+            this.valueTextfield.setDisable(true);
+            this.setButton.setDisable(true);
+            this.newExecutionController.rollbackSingleEntityPopulation(this.keyNameProperty.get());
+        } else {
+            this.valueTextfield.setDisable(false);
+            this.setButton.setDisable(false);
+        }
+
+    }
+
+    @Override
+    public void setStatus(SetPropertyStatus setPropertyStatus) {
+        this.statusProperty.set(setPropertyStatus.toString());
+    }
+
+    @Override
+    public void clearAndResetProperty() {
+        this.checkboxProperty.set(false);
+        this.onSetCheckbox();
     }
 
     public void initSetupForEntityPopulation(String entityName) {
         this.keyNameProperty.set(entityName);
+        this.checkboxProperty.set(false);
+        this.typeProperty.set("Integer");
+        this.valueTextfield.setDisable(true);
+        this.setButton.setDisable(true);
     }
 
     public void setNewExecutionController(NewExecutionController newExecutionController) {

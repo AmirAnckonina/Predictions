@@ -1,13 +1,12 @@
 package UI.impl.javaFX.tabBody.newExecution.model;
 
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.*;
 
-public class KeyToIntegerData {
-    protected SimpleStringProperty keyNameProperty;
-    protected SimpleIntegerProperty integerValueProperty;
+public class KeyToIntegerData extends BaseData {
+    protected SimpleStringProperty integerValuePropertyAsString;
     public KeyToIntegerData() {
-        keyNameProperty = new SimpleStringProperty();
-        integerValueProperty = new SimpleIntegerProperty();
+        super();
+        integerValuePropertyAsString = new SimpleStringProperty();
+
     }
 }

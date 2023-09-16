@@ -55,11 +55,6 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
-    public void establishSimulation() {
-        establishmentManager.establishSimulation(worldBuilderManager.getWorldDefinition());
-    }
-
-    @Override
     public void setSelectedEnvironmentPropertiesValue(String propName, String type, String value) {
         manualSimulationSetupManager
                 .setSelectedEnvironmentPropertiesValue(
@@ -71,19 +66,13 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
-    public void setEntityDefinitionPopulation(String entityName, Integer entityPopulation) {
-         manualSimulationSetupManager
-                .setEntityDefinitionPopulation(
-                        worldBuilderManager.getWorldDefinition(), entityName, entityPopulation);
-
-    }
-
-    @Override
     public SimulationEndDto runSimulator() {
-         SimulationDocument simulationDocument
+
+        establishmentManager.establishSimulation(this.worldBuilderManager.getWorldDefinition());
+        SimulationDocument simulationDocument
                  = infoManager.createNewSimulationDocument(
-                         worldBuilderManager.getWorldDefinition(), executionManager.getWorldInstance()
-         );
+                         worldBuilderManager.getWorldDefinition(), establishmentManager.getEstablishedWorldInstance()
+        );
 
         return executionManager.runSimulator(simulationDocument);
     }
@@ -114,6 +103,14 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
+    public void setEntityDefinitionPopulation(String entityName, Integer entityPopulation) {
+        manualSimulationSetupManager
+                .setEntityDefinitionPopulation(
+                        worldBuilderManager.getWorldDefinition(), entityName, entityPopulation);
+
+    }
+
+    @Override
     public <T> void setEnvironmentPropertyValue(String envPropertyName, T envPropertyValue) {
         this.manualSimulationSetupManager.setEnvironmentPropertyValue(
                 this.worldBuilderManager.getWorldDefinition(), envPropertyName, envPropertyValue);
@@ -122,6 +119,23 @@ public class SimulatorManagerImpl implements SimulatorManager {
     @Override
     public List<EnvironmentPropertyDto> getAllEnvironmentProperties() {
         return this.worldBuilderManager.getAllEnvironmentProperties();
+    }
+
+    @Override
+    public void resetSingleEntityPopulation(String entityName) {
+        this.manualSimulationSetupManager
+                .resetSingleEntityPopulation(this.worldBuilderManager.getWorldDefinition(), entityName);
+    }
+
+    @Override
+    public void resetSingleEnvironmentVariable(String envVarName) {
+        this.manualSimulationSetupManager
+                .resetSingleEnvironmentVariable(this.worldBuilderManager.getWorldDefinition(), envVarName);
+    }
+
+    @Override
+    public Integer getMaxPopulationSize() {
+        return this.worldBuilderManager.getMaxPopulationSize();
     }
 
 }
