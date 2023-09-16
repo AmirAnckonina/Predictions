@@ -1,6 +1,6 @@
 package simulator.execution.context.api;
 
-import simulator.definition.board.api.SpaceGridInstance;
+import simulator.execution.instance.spaceGrid.api.SpaceGridInstanceWrapper;
 import simulator.execution.instance.entity.api.EntityInstance;
 
 import simulator.execution.instance.property.api.PropertyInstance;
@@ -15,5 +15,5 @@ public interface ExecutionContext {
     PropertyInstance getEnvironmentVariable(String name);
     void setSecondaryEntityInstance(EntityInstance additionalEntityInstance);
     TickDocument getTickDocument();
-    SpaceGridInstance getSpaceGridInstance();
+    SpaceGridInstanceWrapper getSpaceGridInstanceWrapper();
 }

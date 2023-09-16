@@ -1,8 +1,8 @@
-package simulator.movement.impl;
+package simulator.execution.instance.movement.manager.impl;
 
-import simulator.definition.board.api.SpaceGridInstance;
+import simulator.execution.instance.spaceGrid.api.SpaceGridInstanceWrapper;
 import simulator.execution.instance.entity.api.EntityInstance;
-import simulator.movement.api.MovementManager;
+import simulator.execution.instance.movement.manager.api.MovementManager;
 import structure.api.Cell;
 import structure.api.Coordinate;
 import structure.impl.CoordinateImpl;
@@ -14,25 +14,34 @@ import java.util.Random;
 
 public class MovementManagerImpl implements MovementManager {
     @Override
-    public void moveAllEntitiesOneStep(SpaceGridInstance board) {
-        List<EntityInstance> entityInstanceList = board.getListOfAllInstances();
+    public void moveAllEntitiesOneStep(SpaceGridInstanceWrapper spaceGridInstanceWrapper) {
 
-        for (EntityInstance entityInstance:entityInstanceList) {
-            moveSingleEntityOneStep(entityInstance, board);
+        List<EntityInstance> entityInstanceList = spaceGridInstanceWrapper.getAllInstancesOnSpaceGrid();
+        for (EntityInstance entityInstance: entityInstanceList) {
+            moveSingleEntityOneStep(entityInstance, spaceGridInstanceWrapper);
         }
     }
 
-    private void moveSingleEntityOneStep(EntityInstance entityInstance, SpaceGridInstance board) {
-        Coordinate entityCoordinate = entityInstance.getCoordinate();
-        List<Cell> cellList = board.getListOfCellsInFirstCircle(entityCoordinate);
+    private void moveSingleEntityOneStep(EntityInstance entityInstance, SpaceGridInstanceWrapper spaceGridInstanceWrapper) {
 
-        for (Cell cell:cellList){
+        Coordinate entityCoordinate = entityInstance.getCoordinate();
+        Cell currEntityInstanceCell = spaceGridInstanceWrapper.getCellByCoordinate(entityCoordinate);
+        List<Cell> vacantCells = spaceGridInstanceWrapper.getOneStepVacantCells(entityCoordinate);
+        //List<Cell> cellList = spaceGridInstanceWrapper.getListOfCellsInFirstCircle(entityCoordinate);
+
+//        if (!vacantCells.isEmpty()) {
+//            int randomVacantCellIdx = new Random().nextInt(vacantCells.size());
+//            Cell vacantCellToMove = vacantCells.get(randomVacantCellIdx);
+//            vacantCellToMove.insertObjectInstanceToCell(entityInstance);
+//        }
+
+        for (Cell cell:vacantCells) {
             if(!cell.isOccupied()){
-                Cell oldCell = board.getCell(entityCoordinate);
-                oldCell.removeData();
+                Cell oldCell = spaceGridInstanceWrapper.getCellByCoordinate(entityCoordinate);
+                oldCell.removeObjectInstanceFromCell();
 
                 Coordinate newCellCoordinate = cell.getCoordinate();
-                cell.insertObjectToCell(entityCoordinate);
+                cell.insertObjectInstanceToCell(entityCoordinate);
                 entityInstance.setCoordinate(newCellCoordinate);
 
                 break;
@@ -42,7 +51,7 @@ public class MovementManagerImpl implements MovementManager {
     }
 
     @Override
-    public void placeEntitiesRandomizeOnSpaceGrid(Map<String, List<EntityInstance>> entitiesInstances, SpaceGridInstance spaceGrid) {
+    public void placeEntitiesRandomizeOnSpaceGrid(Map<String, List<EntityInstance>> entitiesInstances, SpaceGridInstanceWrapper spaceGrid) {
         Random random = new Random();
         List<Coordinate> emptyCoordinates = generateCellCoordinates(spaceGrid.getRows(), spaceGrid.getColumns());
         try {
@@ -56,8 +65,8 @@ public class MovementManagerImpl implements MovementManager {
                     while (!placed) {
                         int randomCoordinateIndex = random.nextInt(emptyCoordinates.size());
                         Coordinate randomCoordinate = emptyCoordinates.get(randomCoordinateIndex);
-                        if (!spaceGrid.getCell(randomCoordinate).isOccupied()) {
-                            spaceGrid.getCell(randomCoordinate).insertObjectToCell(entityInstance);
+                        if (!spaceGrid.getCellByCoordinate(randomCoordinate).isOccupied()) {
+                            spaceGrid.getCellByCoordinate(randomCoordinate).insertObjectInstanceToCell(entityInstance);
                             entityInstance.setCoordinate(emptyCoordinates.get(randomCoordinateIndex));
                             placed = true;
                         }
@@ -84,7 +93,7 @@ public class MovementManagerImpl implements MovementManager {
     }
 
     @Override
-    public void setEntitiesOnSpaceGrid(SpaceGridInstance board, List<EntityInstance> entityInstanceList) {
+    public void setEntitiesOnSpaceGrid(SpaceGridInstanceWrapper board, List<EntityInstance> entityInstanceList) {
 
     }
 }

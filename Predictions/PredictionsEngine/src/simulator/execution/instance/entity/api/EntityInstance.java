@@ -9,7 +9,6 @@ public interface EntityInstance {
     int getId();
     void killEntity();
     boolean isAlive();
-
     Coordinate getCoordinate();
     void setCoordinate(Coordinate coordinate);
     String getEntityNameFamily();

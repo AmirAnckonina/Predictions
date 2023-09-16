@@ -1,6 +1,6 @@
 package simulator.runner.impl;
 
-import simulator.definition.board.api.SpaceGridInstance;
+import simulator.execution.instance.spaceGrid.api.SpaceGridInstanceWrapper;
 import simulator.definition.rule.Rule;
 import simulator.definition.rule.action.api.interfaces.Action;
 import simulator.definition.rule.action.secondaryEntity.api.ActionSecondaryEntityDefinition;
@@ -12,8 +12,8 @@ import simulator.execution.instance.entity.manager.impl.SecondaryEntityInstances
 import simulator.information.simulationDocument.api.SimulationDocument;
 import simulator.information.tickDocument.api.TickDocument;
 import simulator.information.tickDocument.impl.TickDocumentImpl;
-import simulator.movement.api.MovementManager;
-import simulator.movement.impl.MovementManagerImpl;
+import simulator.execution.instance.movement.manager.api.MovementManager;
+import simulator.execution.instance.movement.manager.impl.MovementManagerImpl;
 import simulator.runner.api.SimulatorRunner;
 import simulator.execution.context.api.ExecutionContext;
 import simulator.execution.context.impl.ExecutionContextImpl;
@@ -92,7 +92,7 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
         Termination termination = worldInstance.getTermination();
         List<Rule> rules = worldInstance.getRules();
         Map<String, List<EntityInstance>> entitiesInstances = worldInstance.getEntitiesInstances();
-        SpaceGridInstance spaceGridInstance = worldInstance.getSpaceGrid();
+        SpaceGridInstanceWrapper spaceGridInstanceWrapper = worldInstance.getSpaceGridWrapper();
 
         while (!termination.shouldTerminate(currTick, currTimeInMilliSec)) {
 
@@ -100,7 +100,7 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
 
             // 1. Entities movement
             MovementManager movementManager = new MovementManagerImpl();
-            movementManager.moveAllEntitiesOneStep(this.worldInstance.getSpaceGrid());
+            movementManager.moveAllEntitiesOneStep(this.worldInstance.getSpaceGridWrapper());
 
             // 2. Scan rules,
             // check activation for the current tick,
@@ -118,7 +118,7 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
                                         // for each entityInstance (of the current type) do:
                                         currEntityInstances.forEach((currEntityInstance) -> {
                                                     actionInvocationProcedure(
-                                                            currAction, spaceGridInstance, currEntityInstance, currTickDocument
+                                                            currAction, spaceGridInstanceWrapper, currEntityInstance, currTickDocument
                                                     );
                                         });
                                     }
@@ -156,12 +156,12 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
     }
 
     private void actionInvocationProcedure(
-            Action currAction, SpaceGridInstance spaceGridInstance, EntityInstance currPrimaryEntityInstance, TickDocument currTickDocument) {
+            Action currAction, SpaceGridInstanceWrapper spaceGridInstanceWrapper, EntityInstance currPrimaryEntityInstance, TickDocument currTickDocument) {
 
         //Base execContext building
         ExecutionContext executionContext
                 = new ExecutionContextImpl(
-                        spaceGridInstance, currPrimaryEntityInstance, this.entitiesInstancesManager, this.environmentInstance, currTickDocument
+                spaceGridInstanceWrapper, currPrimaryEntityInstance, this.entitiesInstancesManager, this.environmentInstance, currTickDocument
                 );
 
         // check for secondary entity context existence

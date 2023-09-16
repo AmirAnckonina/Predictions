@@ -27,10 +27,6 @@ public class InformationManagerImpl implements InformationManager {
     @Override
     public SimulationDocument createNewSimulationDocument(WorldDefinition worldDefinition, WorldInstance worldInstance) {
         String guid = SimulatorUtils.getGUID();
-        Map<Integer, TickDocument> tickDocumentMap = new HashMap<>();
-        TickDocument startingTickDoc = new TickDocumentImpl(0,0, worldInstance.getEntitiesInstances());
-        tickDocumentMap.put(0, startingTickDoc);
-
-        return new SimulationDocumentImpl(guid, worldInstance, tickDocumentMap);
+        return new SimulationDocumentImpl(guid, worldInstance);
     }
 }
