@@ -4,10 +4,9 @@ import UI.impl.javaFX.mainScene.PredictionsMainController;
 import UI.impl.javaFX.tabBody.details.subbodyobjects.SimulationDetail;
 import UI.impl.javaFX.tabBody.details.subbodyobjects.entity.property.EntityPropertyController;
 import UI.impl.javaFX.tabBody.details.subbodyobjects.environment.EnvironmentController;
-import UI.impl.javaFX.tabBody.details.subbodyobjects.ruleComponent.RuleController;
+import UI.impl.javaFX.tabBody.details.subbodyobjects.ruleComponent.MainActionController;
 import UI.impl.javaFX.tabBody.details.subbodyobjects.simulationTitle;
 import dto.*;
-import enums.ActionType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -177,6 +176,8 @@ public class DetailsController {
 
     private void cleanRightListView() {
         listViewRightLines.clear();
+        rightDetailsFlowPaneListView.getChildren().clear();
+        rightDetailsFlowPaneListView.getChildren().removeAll();
     }
 
     private void cleanLeftListsView() {
@@ -184,6 +185,7 @@ public class DetailsController {
         entitiesListViewLeftLines.clear();
         rulesListViewLeftLines.clear();
         rightDetailsFlowPaneListView.getChildren().clear();
+        rightDetailsFlowPaneListView.getChildren().removeAll();
     }
 
     public void setDetailsModel(DetailsModel detailsModel) {
@@ -242,7 +244,7 @@ public class DetailsController {
                 loader.setLocation(fxmlUrl);
                 GridPane gpComponent = loader.load();
 
-                RuleController controller = loader.getController();
+                MainActionController controller = loader.getController();
                 controller.setValues(ruleName, action);
                 rightDetailsFlowPaneListView.getChildren().add(gpComponent);
             } catch (Exception e) {

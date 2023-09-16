@@ -19,8 +19,10 @@ public class StringEntityDto {
 
         this.entityName = entityDetailLines[0].replaceAll(" ", "");
         for(String property:propertiesLines){
-            StringPropertyDto propertyDto = new StringPropertyDto(property);
-            propertyDtoMap.put(propertyDto.getPropertyName(), propertyDto);
+            if(property.indexOf("property name") != -1){
+                StringPropertyDto propertyDto = new StringPropertyDto(property);
+                propertyDtoMap.put(propertyDto.getPropertyName(), propertyDto);
+            }
         }
     }
 

@@ -13,11 +13,10 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 
 import java.net.URL;
-import java.util.List;
 
 import static UI.impl.javaFX.common.CommonResourcesPaths.*;
 
-public class RuleController extends RuleModel {
+public class MainActionController extends RuleModel {
 
     @FXML
     private Label ruleName;
