@@ -6,7 +6,8 @@ import UI.impl.javaFX.tabBody.details.subbodyobjects.environment.EnvironmentCont
 import UI.impl.javaFX.tabBody.details.subbodyobjects.simulationTitle;
 import dto.BasePropertyDto;
 import dto.SimulationDetailsDto;
-import dto.StringRule;
+import dto.StringEntityDto;
+import dto.StringRuleDto;
 import enums.ActionType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -33,8 +34,9 @@ public class DetailsController {
     private Stage primaryStage;
     private SimulatorManager simulatorManager;
     private Map<String, BasePropertyDto> propertyDtoMap;
-    private Map<String, String> entitiesDtoMap;
-    private Map<String, StringRule> ruleMap;
+    private Map<String, StringEntityDto> entitiesDtoMap;
+    private Map<String, StringRuleDto> ruleMap;
+    private Map<String, String> envPropertiesInfo;
     private SimulationDetailsDto simulationDetailsDto;
 
     @FXML
@@ -64,6 +66,18 @@ public class DetailsController {
 
     public void setSimulationDetailsDto(SimulationDetailsDto simulationDetailsDto) {
         this.simulationDetailsDto = simulationDetailsDto;
+    }
+
+    public void setEntitiesDtoMap(Map<String, StringEntityDto> entitiesDtoMap) {
+        this.entitiesDtoMap = entitiesDtoMap;
+    }
+
+    public void setRuleMap(Map<String, StringRuleDto> ruleMap) {
+        this.ruleMap = ruleMap;
+    }
+
+    public void setEnvPropertiesInfo(Map<String, String> envPropertiesInfo) {
+        this.envPropertiesInfo = envPropertiesInfo;
     }
 
     public void loadFileButtonClicked(){
@@ -108,13 +122,13 @@ public class DetailsController {
     public void showCurrPropertyDtoList(){
         cleanLeftListsView();
         environmentDetailsLeftListLV.getItems().clear();
-        for (Map.Entry<String, BasePropertyDto> propertyDto : propertyDtoMap.entrySet()) {
+        for (Map.Entry<String, BasePropertyDto> propertyDto:propertyDtoMap.entrySet()) {
             insertNewLineToLeftEnvironmentListView(propertyDto.getKey());
         }
-        for(Map.Entry<String,String> entityName: entitiesDtoMap.entrySet()){
+        for(Map.Entry<String,StringEntityDto> entityName:entitiesDtoMap.entrySet()){
             insertNewLineToLeftEntitiesListView(entityName.getKey());
         }
-        for(Map.Entry<String,StringRule> rule: ruleMap.entrySet()){
+        for(Map.Entry<String, StringRuleDto> rule:ruleMap.entrySet()){
             insertNewLineToLeftRulesListView(rule.getKey());
         }
         simulationDetailsDto.getRulesActions();

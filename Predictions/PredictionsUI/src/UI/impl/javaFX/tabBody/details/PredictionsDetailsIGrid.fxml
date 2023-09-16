@@ -13,14 +13,15 @@
          <children>
             <ScrollPane hbarPolicy="ALWAYS" vbarPolicy="ALWAYS" HBox.hgrow="ALWAYS">
                <content>
-                  <VBox minHeight="450.0">
+                  <VBox maxHeight="400.0" minHeight="400.0" prefHeight="400.0">
                      <children>
-                        <ScrollPane fitToHeight="true" minViewportHeight="100.0" minViewportWidth="200.0" prefHeight="200.0" prefViewportHeight="400.0" prefViewportWidth="350.0" prefWidth="200.0">
+                        <Label text="Environment varibels:" />
+                        <ScrollPane fitToHeight="true" maxHeight="-Infinity" minViewportHeight="100.0" minViewportWidth="200.0" prefHeight="150.0" prefViewportHeight="150.0" prefViewportWidth="350.0" prefWidth="200.0">
                            <padding>
                               <Insets bottom="2.0" right="10.0" top="2.0" />
                            </padding>
                            <content>
-                              <ListView fx:id="environmentDetailsLeftListLV" minHeight="150.0" minWidth="200.0" onMouseClicked="#environmentListViewLineClicked">
+                              <ListView fx:id="environmentDetailsLeftListLV" maxHeight="-Infinity" minHeight="100.0" minWidth="200.0" onMouseClicked="#environmentListViewLineClicked" prefHeight="150.0">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
@@ -30,12 +31,17 @@
                               </ListView>
                            </content>
                         </ScrollPane>
-                        <ScrollPane fitToHeight="true" layoutX="10.0" layoutY="10.0" minViewportHeight="100.0" minViewportWidth="200.0" prefHeight="200.0" prefViewportHeight="400.0" prefViewportWidth="350.0" prefWidth="200.0">
+                        <Label maxHeight="20.0" text="Entities:">
+                           <padding>
+                              <Insets bottom="1.0" top="1.0" />
+                           </padding>
+                        </Label>
+                        <ScrollPane fitToHeight="true" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" minViewportHeight="100.0" minViewportWidth="200.0" prefHeight="150.0" prefViewportHeight="150.0" prefViewportWidth="350.0" prefWidth="200.0">
                            <padding>
                               <Insets bottom="2.0" right="10.0" top="2.0" />
                            </padding>
                            <content>
-                              <ListView fx:id="entitiesDetailsLeftListLV" minHeight="150.0" minWidth="200.0" onMouseClicked="#environmentListViewLineClicked">
+                              <ListView fx:id="entitiesDetailsLeftListLV" maxHeight="-Infinity" minHeight="100.0" minWidth="200.0" onMouseClicked="#environmentListViewLineClicked" prefHeight="150.0">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
@@ -45,12 +51,17 @@
                               </ListView>
                            </content>
                         </ScrollPane>
-                        <ScrollPane fitToHeight="true" layoutX="10.0" layoutY="223.0" minViewportHeight="200.0" minViewportWidth="100.0" prefHeight="200.0" prefViewportHeight="400.0" prefViewportWidth="350.0" prefWidth="200.0">
+                        <Label maxHeight="20.0" text="Rules:">
+                           <VBox.margin>
+                              <Insets bottom="1.0" top="1.0" />
+                           </VBox.margin>
+                        </Label>
+                        <ScrollPane fitToHeight="true" layoutX="10.0" layoutY="223.0" maxHeight="-Infinity" minViewportHeight="200.0" minViewportWidth="100.0" prefHeight="150.0" prefViewportHeight="150.0" prefViewportWidth="350.0" prefWidth="200.0">
                            <padding>
                               <Insets bottom="2.0" right="10.0" top="2.0" />
                            </padding>
                            <content>
-                              <ListView fx:id="rulesDetailsLeftListLV" minHeight="150.0" minWidth="200.0" onMouseClicked="#environmentListViewLineClicked">
+                              <ListView fx:id="rulesDetailsLeftListLV" maxHeight="-Infinity" minHeight="100.0" minWidth="200.0" onMouseClicked="#environmentListViewLineClicked" prefHeight="150.0">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
