@@ -65,7 +65,7 @@ public class StringRuleDto {
 
     private void parseRuleToActions(String fullRule) {
         this.actions = new LinkedList<>();
-        String[] fullNameLinesArray = fullRule.split("\n");
+        String[] fullNameLinesArray = fullRule.split("\r\n");
         for(String line:fullNameLinesArray){
             if(!line.startsWith("rule name") && !line.startsWith("Activation") && !line.startsWith("Number of") &&
                     !line.startsWith("\r") && !line.startsWith("\n")){

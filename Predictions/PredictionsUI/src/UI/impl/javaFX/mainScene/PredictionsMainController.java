@@ -120,6 +120,7 @@ public class PredictionsMainController {
         detailsComponentController.setPropertyDtoMap(environmentPropertiesDto.getPropertiesMap());
         detailsComponentController.setRuleMap(simulationDetailsDto.getRuleMap());
         detailsComponentController.setEntitiesDtoMap(simulationDetailsDto.getEntityDtoMap());
+        detailsComponentController.setTerminationDto(simulationDetailsDto.getTerminationInfo());
         detailsComponentController.showCurrPropertyDtoList();
 
         System.out.println("detailsTabClicked");

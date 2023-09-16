@@ -3,6 +3,7 @@ package UI.impl.javaFX.tabBody.details.subbodyobjects.ruleComponent;
 import UI.impl.javaFX.tabBody.details.subbodyobjects.ruleComponent.actionsComponent.calculation.CalculationActionController;
 import UI.impl.javaFX.tabBody.details.subbodyobjects.ruleComponent.actionsComponent.condition.multipleCondition.MultipleConditionActionController;
 import UI.impl.javaFX.tabBody.details.subbodyobjects.ruleComponent.actionsComponent.condition.simpleCondition.SimpleConditionActionController;
+import UI.impl.javaFX.tabBody.details.subbodyobjects.ruleComponent.actionsComponent.generic.GenericActionController;
 import UI.impl.javaFX.tabBody.details.subbodyobjects.ruleComponent.actionsComponent.proximity.ProximityActionController;
 import dto.StringActionDto;
 import enums.ActionType;
@@ -18,8 +19,6 @@ import static UI.impl.javaFX.common.CommonResourcesPaths.*;
 
 public class MainActionController extends RuleModel {
 
-    @FXML
-    private Label ruleName;
 
     @FXML
     private Label mainEntity;
@@ -33,24 +32,33 @@ public class MainActionController extends RuleModel {
     @FXML
     private Label actionType;
 
+    @FXML
+    private Label tikInterval;
+
+    @FXML
+    private Label probability;
+
     private StringActionDto actions;
 
 
     @FXML
     private void initialize() {
-        ruleName.textProperty().bind(name);
         mainEntity.textProperty().bind(main);
         secondaryEntity.textProperty().bind(secondary);
         actionType.textProperty().bind(type);
+        tikInterval.textProperty().bind(tikInterv);
+        probability.textProperty().bind(prob);
     }
 
-    public void setValues(String name, StringActionDto action){
-        this.name.set(name);
+    public void setValues(String activationTickInterval, String activationProbability, StringActionDto action){
+        this.tikInterv.set(activationTickInterval);
+        this.prob.set(activationProbability);
         this.main.set(action.getMainEntity());
         this.secondary.set(action.getSecondEntityValue());
         this.type.set(action.getType());
         this.actions = action;
         createActionComponent(action);
+        //activationTickInterval, activationProbability, action
 
     }
 
@@ -63,6 +71,7 @@ public class MainActionController extends RuleModel {
             case SET:
             case REPLACE:
             case KILL:
+                createGenericActionComponent(action);
                 break;
             case CALCULATION:
             case DIVIDE:
@@ -77,6 +86,23 @@ public class MainActionController extends RuleModel {
                 break;
         }
 
+    }
+
+    private void createGenericActionComponent(StringActionDto action) {
+        try
+        {
+            FXMLLoader loader = new FXMLLoader();
+            URL fxmlUrl = getClass().getResource(RULE_GENERIC_DETAILS_FXML_RESOURCE);
+            loader.setLocation(fxmlUrl);
+            GridPane gpComponent = loader.load();
+
+            GenericActionController controller = loader.getController();
+            controller.setValues(action.getValue());
+            externComponent.getChildren().add(gpComponent);
+        } catch (Exception e) {
+            e.getMessage();
+            e.printStackTrace(System.out);
+        }
     }
 
     private void createProximityActionComponent(StringActionDto action) {

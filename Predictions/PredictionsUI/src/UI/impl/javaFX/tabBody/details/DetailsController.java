@@ -118,12 +118,11 @@ public class DetailsController {
     }
 
     private void updateNewRuleDetailsComponentToRightListView(StringRuleDto selectedRule) {
-        String ruleName = selectedRule.getName();
         String activationTickInterval = selectedRule.getActivationTickInterval();
         String activationProbability = selectedRule.getActivationProbability();
         List<StringActionDto> stringActionDtoList = selectedRule.getActions();
 
-        createRuleComponent(ruleName, activationTickInterval,activationProbability, stringActionDtoList);
+        createRuleComponent(activationTickInterval, activationProbability, stringActionDtoList);
 
     }
 
@@ -232,20 +231,19 @@ public class DetailsController {
         }
     }
 
-    private void createRuleComponent(String ruleName, String mainEntity, String secondEntity,
+    private void createRuleComponent(String activationTickInterval, String activationProbability,
                                      List<StringActionDto> actions) {
 
         for(StringActionDto action:actions){
             try
             {
-
                 FXMLLoader loader = new FXMLLoader();
                 URL fxmlUrl = getClass().getResource(RULE_MAIN_FXML_RESOURCE);
                 loader.setLocation(fxmlUrl);
                 GridPane gpComponent = loader.load();
 
                 MainActionController controller = loader.getController();
-                controller.setValues(ruleName, action);
+                controller.setValues(activationTickInterval, activationProbability, action);
                 rightDetailsFlowPaneListView.getChildren().add(gpComponent);
             } catch (Exception e) {
                 e.getMessage();
@@ -257,4 +255,17 @@ public class DetailsController {
 
     }
 
+    public void setTerminationDto(String terminationInfo) {
+        String value = terminationInfo.substring(terminationInfo.indexOf("{") + 1, terminationInfo.indexOf("}"));
+        String[] terminationOptions = value.split(",");
+        String firstOption = terminationOptions[0].replaceAll("=",": ").replaceAll("null", "-")
+                .replaceAll("ticksTermination", "Ticks termination");
+        String secondOption = terminationOptions[1].replaceAll("=",": ").replaceAll("null", "-")
+                .replaceAll("secondsTermination", "Time termination");
+        this.terminationDetailsLabel.textProperty().set(firstOption + "   " + secondOption);
+
+        //ticksTermination=null
+
+        //secondsTermination
+    }
 }
