@@ -4,10 +4,7 @@ import UI.impl.javaFX.mainScene.PredictionsMainController;
 import UI.impl.javaFX.tabBody.details.subbodyobjects.SimulationDetail;
 import UI.impl.javaFX.tabBody.details.subbodyobjects.environment.EnvironmentController;
 import UI.impl.javaFX.tabBody.details.subbodyobjects.simulationTitle;
-import dto.BasePropertyDto;
-import dto.SimulationDetailsDto;
-import dto.StringEntityDto;
-import dto.StringRuleDto;
+import dto.*;
 import enums.ActionType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,6 +19,7 @@ import javafx.stage.Stage;
 import simulator.mainManager.api.SimulatorManager;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
 
 import static UI.impl.javaFX.common.CommonResourcesPaths.ENV_DETAILS_FXML_RESOURCE;
@@ -99,7 +97,7 @@ public class DetailsController {
         rulesDetailsLeftListLV.setItems(rulesListViewLeftLines);
         return true;
     }
-    public void updateNewComponentToRightListView(String name, String type, String value, String from, String to){
+    public void updateNewEnvironmentDetailsComponentToRightListView(String name, String type, String value, String from, String to){
         if(name == null){
             name = "";
         }
@@ -113,6 +111,20 @@ public class DetailsController {
             from = "";
         }
         createEnvironmentComponent(name, type, value, from, to);
+    }
+    private void updateNewEntityDetailsComponentToRightListView(StringPropertyDto selectedEntity) {
+        createEntityComponent(selectedEntity);
+    }
+
+    private void updateNewRuleDetailsComponentToRightListView(StringRuleDto selectedRule) {
+        String ruleName = selectedRule.getName();
+        String activationTickInterval = selectedRule.getActivationTickInterval();
+        String activationProbability = selectedRule.getActivationProbability();
+        List<StringActionDto> stringActionDtoList = selectedRule.getActions();
+
+        for(StringActionDto action:stringActionDtoList){
+            createRuleComponent(ActionType.valueOf((action.getType()).toUpperCase()), action);
+        }
     }
 
     public void setPropertyDtoMap(Map<String, BasePropertyDto> propertyDtoList) {
@@ -131,23 +143,35 @@ public class DetailsController {
         for(Map.Entry<String, StringRuleDto> rule:ruleMap.entrySet()){
             insertNewLineToLeftRulesListView(rule.getKey());
         }
-        simulationDetailsDto.getRulesActions();
-
     }
 
     @FXML
     void environmentListViewLineClicked(MouseEvent event) {
-        BasePropertyDto selectedSimulation = propertyDtoMap.get(this.environmentDetailsLeftListLV.
+        BasePropertyDto selectedEnvironmentVariable = propertyDtoMap.get(this.environmentDetailsLeftListLV.
                 getSelectionModel().getSelectedItem().toString());
         cleanRightListView();
+        updateNewEnvironmentDetailsComponentToRightListView(selectedEnvironmentVariable.getName(), selectedEnvironmentVariable.getPropertyType(),
+                selectedEnvironmentVariable.getValue(), selectedEnvironmentVariable.getFrom(), selectedEnvironmentVariable.getTo());
+    }
 
-        try {
-            updateNewComponentToRightListView(selectedSimulation.getName(), selectedSimulation.getPropertyType(),
-                    selectedSimulation.getValue(), selectedSimulation.getFrom(), selectedSimulation.getTo());
-        }catch (Exception e){
-            e.getMessage();
-            e.printStackTrace(System.out);
+    @FXML
+    void entitiesListViewLineClicked(MouseEvent event) {
+        StringEntityDto selectedEntity = entitiesDtoMap.get(this.environmentDetailsLeftListLV.
+                getSelectionModel().getSelectedItem().toString());
+        cleanRightListView();
+        Map<String, StringPropertyDto> propertyDtoMap = selectedEntity.getPropertyDtoMap();
+
+        for(StringPropertyDto entity:propertyDtoMap.values()){
+            updateNewEntityDetailsComponentToRightListView(entity);
         }
+    }
+
+    @FXML
+    void rulesListViewLineClicked(MouseEvent event) {
+        StringRuleDto selectedRule = ruleMap.get(this.environmentDetailsLeftListLV.
+                getSelectionModel().getSelectedItem().toString());
+        cleanRightListView();
+        updateNewRuleDetailsComponentToRightListView(selectedRule);
     }
 
     private void cleanRightListView() {
@@ -169,7 +193,6 @@ public class DetailsController {
     }
 
     private void createEnvironmentComponent(String name, String type, String value, String from, String to) {
-
         try
         {
             FXMLLoader loader = new FXMLLoader();
@@ -184,10 +207,12 @@ public class DetailsController {
             e.getMessage();
             e.printStackTrace(System.out);
         }
-
     }
 
-    private void createRuleComponent(ActionType actionType) {
+    private void createEntityComponent(StringPropertyDto selectedEntity) {
+    }
+
+    private void createRuleComponent(ActionType actionType, StringActionDto action) {
 
         switch (actionType) {
             case INCREASE:

@@ -74,6 +74,10 @@ public class StringRuleDto {
         }
     }
 
+    public List<StringActionDto> getActions() {
+        return actions;
+    }
+
     public String getName() {
         return name;
     }
