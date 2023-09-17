@@ -53,7 +53,7 @@ public class StringActionDto {
 
     private void setActionsPropertyFromString(String action) {
         int openBraceIndex = action.indexOf("{");
-        int closeBraceIndex = action.indexOf("}");
+        int closeBraceIndex = action.lastIndexOf("}");
         this.type = action.substring(0, openBraceIndex).trim();
         String actionDetail = action.substring(openBraceIndex + 1, closeBraceIndex);
         String[] listOfDetails = actionDetail.split(",");
@@ -69,12 +69,38 @@ public class StringActionDto {
             this.secondEntityName = detailesMap.get("actionSecondaryEntityDefinition");
         }
 
+        ////////////////////
+        this.value = (detailesMap.get("by") == null)?detailesMap.get("value"):detailesMap.get("by");
+        this.propertyName = detailesMap.get("propertyName");
+        this.mainEntity = detailesMap.get("primaryEntityName");
+        this.secondEntityName = detailesMap.get("actionSecondaryEntityDefinition");
+        this.calculationType = this.type;
+        this.firstArg = detailesMap.get("arg1");
+        this.secondArg = detailesMap.get("arg2");
+        if(detailesMap.containsKey("multi")) {
+            this.numOfThenActions = detailesMap.get("thenActions");
+            this.numOfElseActions = detailesMap.get("elseActions");
+        }
+        else{
+            this.propertyAction = detailesMap.get("property");
+            this.operatorAction = detailesMap.get("operator");
+            this.comparedValue = detailesMap.get("comparedValue");
+        }
+        this.destinationEntity = detailesMap.get("targetEntityName");
+        this.sourceEntity = detailesMap.get("sourceEntityName");
+        this.numOfActionInProximity = detailesMap.get("actionsUnderProximity");
+        this.depthCircle = detailesMap.get("envDepth");
+
+        ////////////////////
 
         switch (ActionType.valueOf(type.toUpperCase())) {
             case INCREASE:
             case DECREASE:
             case SET:
                 this.value = (detailesMap.get("by") == null)?detailesMap.get("value"):detailesMap.get("by");
+                this.value = (this.value.startsWith("environmentPropertyName"))?
+                        this.value.replaceAll("environmentPropertyName", "Environment property")
+                        :this.value;
 
             case REPLACE:
             case KILL:
@@ -86,11 +112,18 @@ public class StringActionDto {
             case DIVIDE:
             case MULTIPLY:
                 this.calculationType = this.type;
-                this.firstArg = detailesMap.get("arg1");
-                this.secondArg = detailesMap.get("arg2");
+                this.firstArg = (detailesMap.get("arg1").startsWith("environmentPropertyName"))?
+                        detailesMap.get("arg1")
+                                .replaceAll("environmentPropertyName", "Environment property")
+                        :detailesMap.get("arg1");
+                this.secondArg = (detailesMap.get("arg2").startsWith("environmentPropertyName"))?
+                        detailesMap.get("arg2")
+                                .replaceAll("environmentPropertyName", "Environment property")
+                        :detailesMap.get("arg2");
                 break;
             case CONDITION:
-                if(detailesMap.containsKey("multi")) {
+                //????
+                if(detailesMap.containsKey("multi")/* || detailesMap.get("condition").indexOf("multi") != -1*/) {
                     this.numOfThenActions = detailesMap.get("thenActions");
                     this.numOfElseActions = detailesMap.get("elseActions");
                 }

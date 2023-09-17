@@ -13,7 +13,7 @@
          <children>
             <ScrollPane prefWidth="300.0">
                <content>
-                  <ListView fx:id="executionListView" maxWidth="300.0" prefWidth="300.0" />
+                  <ListView fx:id="executionListView" maxWidth="300.0" onMouseClicked="#simulationIDListClicked" prefWidth="300.0" />
                </content>
             </ScrollPane>
             <VBox prefHeight="200.0">
