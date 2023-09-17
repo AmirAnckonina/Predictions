@@ -7,8 +7,10 @@ import simulator.execution.instance.entity.api.EntityInstance;
 import java.util.List;
 
 public interface EntitiesInstancesManager {
+    List<EntityInstance> getKillWaitingList();
+    List<EntityInstance> getCreateWaitingList();
     EntityInstance createEntityInstance(EntityDefinition entityDefinition);
     List<EntityInstance> getEntityInstances(String entityName);
     void killEntity(String entityName, int id);
-
+    void addInstanceToKillWaitingList(EntityInstance entityInstanceToKill);
 }

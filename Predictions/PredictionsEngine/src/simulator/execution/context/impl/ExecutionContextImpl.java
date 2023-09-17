@@ -10,9 +10,6 @@ import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.information.tickDocument.api.TickDocument;
 import simulator.runner.utils.exceptions.SimulatorRunnerException;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class ExecutionContextImpl implements ExecutionContext {
 
     //private Map<String, EntityInstance> entityInstanceMap;
@@ -50,18 +47,11 @@ public class ExecutionContextImpl implements ExecutionContext {
     }
 
     @Override
-    public EntityInstance getPrimaryEntityInstance() {
-        return this.primaryEntityInstance;
-    }
+    public EntityInstance getPrimaryEntityInstance() { return this.primaryEntityInstance; }
 
     @Override
     public EntityInstance getSecondaryEntityInstance() {
         return secondaryEntityInstance;
-    }
-
-    @Override
-    public void removeEntity(String entityName, EntityInstance entityInstance) {
-        entitiesInstancesManager.killEntity(entityName,entityInstance.getId());
     }
 
     @Override
@@ -76,13 +66,17 @@ public class ExecutionContextImpl implements ExecutionContext {
     }
 
     @Override
-    public TickDocument getTickDocument() {
-
-        return this.currTickDocument;
-    }
+    public TickDocument getTickDocument() { return this.currTickDocument; }
 
     @Override
     public SpaceGridInstance getSpaceGridInstance() {
         return this.spaceGridInstance;
+    }
+
+    @Override
+    public void killEntityInstanceProcedure(String primaryEntityName) {
+        EntityInstance entityInstanceToKill = getEntityInstanceByName(primaryEntityName);
+        entityInstanceToKill.killMyself();
+        this.entitiesInstancesManager.addInstanceToKillWaitingList(entityInstanceToKill);
     }
 }
