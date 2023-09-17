@@ -25,27 +25,22 @@ public class MovementManagerImpl implements MovementManager {
     private void moveSingleEntityOneStep(EntityInstance entityInstance, SpaceGridInstanceWrapper spaceGridInstanceWrapper) {
 
         Coordinate entityCoordinate = entityInstance.getCoordinate();
-        Cell currEntityInstanceCell = spaceGridInstanceWrapper.getCellByCoordinate(entityCoordinate);
-        List<Cell> vacantCells = spaceGridInstanceWrapper.getOneStepVacantCells(entityCoordinate);
-        //List<Cell> cellList = spaceGridInstanceWrapper.getListOfCellsInFirstCircle(entityCoordinate);
 
+        List<Cell> vacantCells = spaceGridInstanceWrapper.getOneStepVacantCells(entityCoordinate);
         if (!vacantCells.isEmpty()) {
+            // Generate adj cell to move
             int randomVacantCellIdx = new Random().nextInt(vacantCells.size());
             Cell vacantCellToMove = vacantCells.get(randomVacantCellIdx);
+
+            // First, remove the entityInstance from the currentCell
+            Cell currEntityInstanceCell = spaceGridInstanceWrapper.getCellByCoordinate(entityCoordinate);
+            currEntityInstanceCell.removeObjectInstanceFromCell();
+
+            // Place the Entity Instance in the new generated adj cell
             vacantCellToMove.insertObjectInstanceToCell(entityInstance);
-        }
-
-        for (Cell cell:vacantCells) {
-            if(!cell.isOccupied()){
-                Cell oldCell = spaceGridInstanceWrapper.getCellByCoordinate(entityCoordinate);
-                oldCell.removeObjectInstanceFromCell();
-
-                Coordinate newCellCoordinate = cell.getCoordinate();
-                cell.insertObjectInstanceToCell(entityCoordinate);
-                entityInstance.setCoordinate(newCellCoordinate);
-
-                break;
-            }
+            entityInstance.setCoordinate(vacantCellToMove.getCoordinate());
+        } else {
+            // do not make any move.
         }
 
     }

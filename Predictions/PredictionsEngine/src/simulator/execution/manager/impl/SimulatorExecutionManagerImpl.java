@@ -1,21 +1,19 @@
 package simulator.execution.manager.impl;
 
 import dto.SimulationEndDto;
-import response.SimulatorResponse;
 import simulator.establishment.manager.api.EstablishmentManager;
 import simulator.execution.instance.world.api.WorldInstance;
-import simulator.execution.manager.api.ExecutionManager;
+import simulator.execution.manager.api.SimulatorExecutionManager;
 import simulator.information.simulationDocument.api.SimulationDocument;
-import simulator.result.api.SimulationResult;
 import simulator.runner.api.SimulatorRunner;
 import simulator.runner.impl.SimulatorRunnerImpl;
 
-public class ExecutionManagerImpl implements ExecutionManager {
+public class SimulatorExecutionManagerImpl implements SimulatorExecutionManager {
     private WorldInstance worldInstance;
     private EstablishmentManager establishmentManager;
     private SimulatorRunner simulatorRunner;
 
-    public ExecutionManagerImpl() {
+    public SimulatorExecutionManagerImpl() {
     }
 
     @Override
