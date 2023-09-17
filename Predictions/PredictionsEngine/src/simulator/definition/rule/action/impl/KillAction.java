@@ -20,8 +20,11 @@ public class KillAction extends AbstractAction {
 
     @Override
     public void invoke(ExecutionContext executionContext) {
-        executionContext
+
+        /*executionContext
                 .getEntityInstanceByName(this.primaryEntityName)
-                .killEntity();
+                .killEntity();*/
+
+        executionContext.killEntityInstanceProcedure(this.primaryEntityName);
     }
 }

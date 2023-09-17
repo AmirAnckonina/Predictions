@@ -47,18 +47,11 @@ public class ExecutionContextImpl implements ExecutionContext {
     }
 
     @Override
-    public EntityInstance getPrimaryEntityInstance() {
-        return this.primaryEntityInstance;
-    }
+    public EntityInstance getPrimaryEntityInstance() { return this.primaryEntityInstance; }
 
     @Override
     public EntityInstance getSecondaryEntityInstance() {
         return secondaryEntityInstance;
-    }
-
-    @Override
-    public void removeEntity(String entityName, EntityInstance entityInstance) {
-        entitiesInstancesManager.killEntity(entityName,entityInstance.getId());
     }
 
     @Override
@@ -73,13 +66,17 @@ public class ExecutionContextImpl implements ExecutionContext {
     }
 
     @Override
-    public TickDocument getTickDocument() {
-
-        return this.currTickDocument;
-    }
+    public TickDocument getTickDocument() { return this.currTickDocument; }
 
     @Override
     public SpaceGridInstanceWrapper getSpaceGridInstanceWrapper() {
         return this.spaceGridInstanceWrapper;
+    }
+
+    @Override
+    public void killEntityInstanceProcedure(String primaryEntityName) {
+        EntityInstance entityInstanceToKill = getEntityInstanceByName(primaryEntityName);
+        entityInstanceToKill.killMyself();
+        this.entitiesInstancesManager.addInstanceToKillWaitingList(entityInstanceToKill);
     }
 }

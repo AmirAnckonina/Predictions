@@ -1,23 +1,32 @@
 package simulator.execution.instance.entity.manager.impl;
 
 import simulator.definition.entity.EntityDefinition;
-import simulator.definition.rule.action.secondaryEntity.api.ActionSecondaryEntityDefinition;
-import simulator.definition.rule.action.utils.enums.SecondaryEntitySelectionType;
-import simulator.execution.context.impl.ExecutionContextImpl;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.entity.manager.api.EntitiesInstancesManager;
 import simulator.runner.utils.exceptions.SimulatorRunnerException;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class EntitiesInstancesManagerImpl implements EntitiesInstancesManager {
 
-    Map<String, List<EntityInstance>> entitiesInstances;
+    private Map<String, List<EntityInstance>> entitiesInstances;
+    private List<EntityInstance> killWaitingList;
+    private List<EntityInstance> createWaitingList;
 
     public EntitiesInstancesManagerImpl(Map<String, List<EntityInstance>> entitiesInstances) {
         this.entitiesInstances = entitiesInstances;
+        this.killWaitingList = new ArrayList<>();
+        this.createWaitingList = new ArrayList<>();
+    }
+
+    @Override
+    public List<EntityInstance> getKillWaitingList() {
+        return this.killWaitingList;
+    }
+
+    @Override
+    public List<EntityInstance> getCreateWaitingList() {
+        return this.createWaitingList;
     }
 
 
@@ -39,6 +48,11 @@ public class EntitiesInstancesManagerImpl implements EntitiesInstancesManager {
                 .removeIf(
                         entIns -> entIns.getId() == id
                 );
+    }
+
+    @Override
+    public void addInstanceToKillWaitingList(EntityInstance entityInstanceToKill) {
+        throw new SimulatorRunnerException("Not impl addInstanceToKillWaitingList");
     }
 
 }

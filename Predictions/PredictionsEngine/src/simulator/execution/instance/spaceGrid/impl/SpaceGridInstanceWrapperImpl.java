@@ -142,17 +142,17 @@ public class SpaceGridInstanceWrapperImpl implements SpaceGridInstanceWrapper {
     @Override
     public List<Cell> getOneStepVacantCells(Coordinate coordinate) {
 
-        List<Cell> accessibleCells = new ArrayList<>();
+        List<Cell> vacantCells = new ArrayList<>();
         List<Coordinate> oneStepCoordinates = getOneStepCoordinates(coordinate);
 
         for (Coordinate currAdjCoordinate : oneStepCoordinates) {
 
             Cell currAdjCell = getCellByCoordinate(currAdjCoordinate);
             if (!currAdjCell.isOccupied()) {
-                accessibleCells.add(currAdjCell);
+                vacantCells.add(currAdjCell);
             }
         }
-        return accessibleCells;
+        return vacantCells;
     }
 
     @Override

@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
@@ -64,9 +65,10 @@
             <Insets bottom="3.0" />
          </GridPane.margin>
       </GridPane>
-      <FlowPane fx:id="externComponent" prefWidth="100.0" GridPane.rowIndex="1">
-         <GridPane.margin>
-            <Insets bottom="3.0" left="15.0" right="3.0" top="3.0" />
-         </GridPane.margin></FlowPane>
+      <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+         <content>
+            <FlowPane fx:id="externComponent" prefWidth="100.0" />
+         </content>
+      </ScrollPane>
    </children>
 </GridPane>

@@ -29,11 +29,11 @@ public class MovementManagerImpl implements MovementManager {
         List<Cell> vacantCells = spaceGridInstanceWrapper.getOneStepVacantCells(entityCoordinate);
         //List<Cell> cellList = spaceGridInstanceWrapper.getListOfCellsInFirstCircle(entityCoordinate);
 
-//        if (!vacantCells.isEmpty()) {
-//            int randomVacantCellIdx = new Random().nextInt(vacantCells.size());
-//            Cell vacantCellToMove = vacantCells.get(randomVacantCellIdx);
-//            vacantCellToMove.insertObjectInstanceToCell(entityInstance);
-//        }
+        if (!vacantCells.isEmpty()) {
+            int randomVacantCellIdx = new Random().nextInt(vacantCells.size());
+            Cell vacantCellToMove = vacantCells.get(randomVacantCellIdx);
+            vacantCellToMove.insertObjectInstanceToCell(entityInstance);
+        }
 
         for (Cell cell:vacantCells) {
             if(!cell.isOccupied()){

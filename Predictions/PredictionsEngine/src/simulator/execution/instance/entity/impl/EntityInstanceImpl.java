@@ -37,7 +37,7 @@ public class EntityInstanceImpl implements EntityInstance {
     }
 
     @Override
-    public void killEntity() {
+    public void killMyself() {
         alive = false;
     }
 

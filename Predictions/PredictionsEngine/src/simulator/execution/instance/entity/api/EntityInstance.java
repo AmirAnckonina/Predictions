@@ -7,7 +7,7 @@ public interface EntityInstance {
     PropertyInstance getPropertyInstanceByName(String propertyName);
     void addPropertyInstance(String propertyName, PropertyInstance propertyInstance);
     int getId();
-    void killEntity();
+    void killMyself();
     boolean isAlive();
     Coordinate getCoordinate();
     void setCoordinate(Coordinate coordinate);

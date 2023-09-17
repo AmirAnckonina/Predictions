@@ -102,33 +102,29 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
             MovementManager movementManager = new MovementManagerImpl();
             movementManager.moveAllEntitiesOneStep(this.worldInstance.getSpaceGridWrapper());
 
-            // 2. Scan rules,
-            // check activation for the current tick,
-            // aggregate the activated rules only.
-            // aggregate the actions to invoke under the activated rule
+            // 2. Scan rules,check activation for the current tick.
+            // aggregate the activated rules only. aggregate the actions to invoke under the activated rule
             List<Rule> activatedRules = getActiveRulesForCurrTick(currTick, worldInstance.getRules());
             List<Action> actionsToInvoke = getActionToInvokeFromRules(activatedRules);
 
             // 3. Foreach entity type
-            entitiesInstances.forEach( (currEntityName , currEntityInstances) -> {
-                        actionsToInvoke.forEach( (currAction) -> {
-                                    // check if the action entity context is matching the current entity type (by name)
-                                    if (currAction.getPrimaryEntityName().equals(currEntityName)) {
-                                        // Retrieve all the current entity instances and
-                                        // for each entityInstance (of the current type) do:
-                                        currEntityInstances.forEach((currEntityInstance) -> {
-                                                    actionInvocationProcedure(
-                                                            currAction, spaceGridInstanceWrapper, currEntityInstance, currTickDocument
-                                                    );
-                                        });
-                                    }
-                                    // // // else -> continue to the next entity type
+            entitiesInstances.forEach((currEntityName , currEntityInstances) -> {
+                actionsToInvoke.forEach((currAction) -> {
+                    // check if the action entity context is matching the current entity type (by name)
+                    if (currAction.getPrimaryEntityName().equals(currEntityName)) {
+                        // Retrieve all the current entity instances
+                        currEntityInstances.forEach((currEntityInstance) -> {
+                            actionInvocationProcedure(
+                                    currAction, spaceGridInstanceWrapper, currEntityInstance, currTickDocument);
                         });
+                    }
+                });
             });
 
 
-            // 4. kill procedure
-            executeKillProcedure(entitiesInstances);
+            // 4. kill & create procedure
+            createNewInstancesProcedure(entitiesInstances);
+            cleanKilledInstancesProcedure(entitiesInstances);
 
             // 5. ticks + time procedures
             currTick += 1;
@@ -140,8 +136,15 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
         this.simulationDocument.getSimulationResult().setTerminationReason(worldInstance.getTermination().reasonForTerminate());
     }
 
-    private void executeKillProcedure(Map<String, List<EntityInstance>> entitiesInstances) {
+    private void createNewInstancesProcedure(Map<String, List<EntityInstance>> entitiesInstances) {
 
+       List<EntityInstance> instancesToCreate = this.entitiesInstancesManager.getCreateWaitingList();
+
+    }
+
+    private void cleanKilledInstancesProcedure(Map<String, List<EntityInstance>> entitiesInstances) {
+
+        List<EntityInstance> instanceToKill = this.entitiesInstancesManager.getKillWaitingList();
         entitiesInstances.forEach((entityFamily, entityInstances) -> {
 
             // Run on all current entity instances with itr
