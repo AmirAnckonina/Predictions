@@ -1,6 +1,6 @@
 package simulator.execution.context.impl;
 
-import simulator.definition.board.api.SpaceGridInstance;
+import simulator.execution.instance.spaceGrid.api.SpaceGridInstanceWrapper;
 import simulator.execution.context.api.ExecutionContext;
 
 import simulator.execution.instance.entity.api.EntityInstance;
@@ -18,10 +18,10 @@ public class ExecutionContextImpl implements ExecutionContext {
     private EntitiesInstancesManager entitiesInstancesManager;
     private EnvironmentInstance environmentInstance;
     private TickDocument currTickDocument;
-    private SpaceGridInstance spaceGridInstance;
+    private SpaceGridInstanceWrapper spaceGridInstanceWrapper;
 
-    public ExecutionContextImpl(SpaceGridInstance spaceGridInstance, EntityInstance entityInstance, EntitiesInstancesManager entitiesInstancesManager, EnvironmentInstance environmentInstance, TickDocument currTickDocument) {
-        this.spaceGridInstance = spaceGridInstance;
+    public ExecutionContextImpl(SpaceGridInstanceWrapper spaceGridInstanceWrapper, EntityInstance entityInstance, EntitiesInstancesManager entitiesInstancesManager, EnvironmentInstance environmentInstance, TickDocument currTickDocument) {
+        this.spaceGridInstanceWrapper = spaceGridInstanceWrapper;
         //entityInstanceMap = new HashMap<>();
         //entityInstanceMap.put(entityInstance.getEntityNameFamily(), entityInstance);
         this.primaryEntityInstance = entityInstance;
@@ -69,8 +69,8 @@ public class ExecutionContextImpl implements ExecutionContext {
     public TickDocument getTickDocument() { return this.currTickDocument; }
 
     @Override
-    public SpaceGridInstance getSpaceGridInstance() {
-        return this.spaceGridInstance;
+    public SpaceGridInstanceWrapper getSpaceGridInstanceWrapper() {
+        return this.spaceGridInstanceWrapper;
     }
 
     @Override

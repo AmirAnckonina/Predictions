@@ -7,9 +7,9 @@ public class CoordinateImpl implements Coordinate {
     private int colIdx;
     private int rowIdx;
 
-    public CoordinateImpl(int colIdx, int rowIdx) {
-        this.colIdx = colIdx;
+    public CoordinateImpl(int rowIdx, int colIdx) {
         this.rowIdx = rowIdx;
+        this.colIdx = colIdx;
     }
 
     @Override

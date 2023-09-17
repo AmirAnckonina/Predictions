@@ -113,7 +113,7 @@ public class SecondaryEntityInstancesRetrieveImpl implements SecondaryEntityInst
     @Override
     public boolean testConditionForEntityInstanceProcedure(EntityInstance entityInstance, ConditionExpression condExpression) {
         ExecutionContext testExecContext = new ExecutionContextImpl(
-                this.originExecutionContext.getSpaceGridInstance(),
+                this.originExecutionContext.getSpaceGridInstanceWrapper(),
                 entityInstance,
                 this.entitiesInstancesManager,
                 this.environmentInstance,
