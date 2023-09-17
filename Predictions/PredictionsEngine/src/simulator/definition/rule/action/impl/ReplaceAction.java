@@ -43,7 +43,7 @@ public class ReplaceAction extends AbstractAction {
     public void invoke(ExecutionContext executionContext) {
 
         EntityInstance instanceToKill = executionContext.getEntityInstanceByName(this.entityNameToKill);
-        instanceToKill.killEntity();
+        instanceToKill.killMyself();
 
         // Impl creation of new Entity according to the mode
 
