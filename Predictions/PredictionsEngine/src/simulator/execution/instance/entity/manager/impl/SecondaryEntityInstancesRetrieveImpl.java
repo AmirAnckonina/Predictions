@@ -3,6 +3,7 @@ package simulator.execution.instance.entity.manager.impl;
 import simulator.definition.rule.action.expression.conditionExpression.api.interfaces.ConditionExpression;
 import simulator.definition.rule.action.secondaryEntity.api.ActionSecondaryEntityDefinition;
 import simulator.definition.rule.action.utils.enums.SecondaryEntitySelectionType;
+import simulator.execution.context.api.CrossedExecutionContext;
 import simulator.execution.context.api.ExecutionContext;
 import simulator.execution.context.impl.ExecutionContextImpl;
 import simulator.execution.instance.entity.api.EntityInstance;
@@ -15,15 +16,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class SecondaryEntityInstancesRetrieveImpl implements SecondaryEntityInstancesRetrieve {
-
-    private final EntitiesInstancesManager entitiesInstancesManager;
-    private final EnvironmentInstance environmentInstance;
     private final ExecutionContext originExecutionContext;
 
 
-    public SecondaryEntityInstancesRetrieveImpl(EntitiesInstancesManager entitiesInstancesManager, EnvironmentInstance environmentInstance, ExecutionContext originExecutionContext) {
-        this.entitiesInstancesManager = entitiesInstancesManager;
-        this.environmentInstance = environmentInstance;
+    public SecondaryEntityInstancesRetrieveImpl(ExecutionContext originExecutionContext) {
         this.originExecutionContext = originExecutionContext;
     }
 
@@ -37,7 +33,10 @@ public class SecondaryEntityInstancesRetrieveImpl implements SecondaryEntityInst
                 secondaryEntityDef.getSecondaryEntitySelectionType();
 
         List<EntityInstance> allSecondaryEntitiesInstances
-                = this.entitiesInstancesManager.getEntityInstances(secondaryEntityName);
+                = this.originExecutionContext
+                .getCrossedExecutionContext()
+                .getEntitiesInstancesManager()
+                .getEntityInstances(secondaryEntityName);
 
         if (instancesSelectionType == SecondaryEntitySelectionType.ALL) {
             selectedSecondaryEntityInstances = allSecondaryEntitiesInstances;
@@ -112,13 +111,10 @@ public class SecondaryEntityInstancesRetrieveImpl implements SecondaryEntityInst
 
     @Override
     public boolean testConditionForEntityInstanceProcedure(EntityInstance entityInstance, ConditionExpression condExpression) {
-        ExecutionContext testExecContext = new ExecutionContextImpl(
-                this.originExecutionContext.getSpaceGridInstanceWrapper(),
-                entityInstance,
-                this.entitiesInstancesManager,
-                this.environmentInstance,
-                this.originExecutionContext.getTickDocument()
-        );
+        ExecutionContext testExecContext
+                = new ExecutionContextImpl(
+                        this.originExecutionContext.getCrossedExecutionContext(), entityInstance, this.originExecutionContext.getTickDocument());
+
         return condExpression.test(testExecContext);
     }
 }

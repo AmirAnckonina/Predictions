@@ -25,9 +25,9 @@ public class PropertyInstanceImpl implements PropertyInstance {
     }
 
     @Override
-    public void updateValue(Object val){//, Integer currTick) {
+    public void updateValue(Object val, int currTick) {
         this.value = val;
-        //this.lastTickUpdate = currTick;
+        this.lastTickUpdate = currTick;
     }
 
     @Override

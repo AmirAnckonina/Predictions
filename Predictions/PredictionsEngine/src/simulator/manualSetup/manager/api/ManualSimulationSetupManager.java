@@ -11,4 +11,5 @@ public interface ManualSimulationSetupManager {
     <T> void setEnvironmentPropertyValue(WorldDefinition worldDefinition, String envPropertyName, T envPropertyValue);
     void resetSingleEntityPopulation(WorldDefinition worldDefinition, String entityName);
     void resetSingleEnvironmentVariable(WorldDefinition worldDefinition, String envVarName);
+    void resetAllManualSetup(WorldDefinition worldDefinition);
 }

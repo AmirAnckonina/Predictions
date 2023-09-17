@@ -46,4 +46,9 @@ public class SimulationDocumentImpl implements SimulationDocument {
     public SimulationResult getSimulationResult() {
         return this.simulationResult;
     }
+
+    @Override
+    public void addTickDocument(TickDocument tickDocument) {
+        this.tickDocumentMap.put(tickDocument.getTickNumber(), tickDocument);
+    }
 }

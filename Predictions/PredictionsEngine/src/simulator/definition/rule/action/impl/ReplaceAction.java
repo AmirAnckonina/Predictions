@@ -6,6 +6,7 @@ import simulator.definition.rule.action.utils.enums.ReplaceActionCreationMode;
 import simulator.execution.context.api.ExecutionContext;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.runner.utils.exceptions.SimulatorRunnerException;
+import structure.coordinate.api.Coordinate;
 
 public class ReplaceAction extends AbstractAction {
     private String entityNameToKill;
@@ -43,11 +44,19 @@ public class ReplaceAction extends AbstractAction {
     public void invoke(ExecutionContext executionContext) {
 
         EntityInstance instanceToKill = executionContext.getEntityInstanceByName(this.entityNameToKill);
-        instanceToKill.killMyself();
+        Coordinate replaceCoordinate = executionContext.getEntityInstanceByName(this.entityNameToKill).getCoordinate();
+        EntityInstance createdEntityInstance = executionContext.createEntityInstanceProcedure(this.entityNameToCreate);
+        createdEntityInstance.setCoordinate(replaceCoordinate);
 
-        // Impl creation of new Entity according to the mode
+        executionContext
+                .getCrossedExecutionContext()
+                .getSpaceGridInstanceWrapper()
+                .setCellAsReserved(replaceCoordinate, createdEntityInstance);
 
-        throw new SimulatorRunnerException("Not impl replace action");
+        if (replaceActionCreationMode == ReplaceActionCreationMode.DERIVED) {
+            executionContext.derivePropertiesBetweenInstancesProcedure(createdEntityInstance, instanceToKill);
+        }
 
+        executionContext.killEntityInstanceProcedure(instanceToKill);
     }
 }

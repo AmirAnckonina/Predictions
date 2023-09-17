@@ -1,6 +1,6 @@
 package simulator.definition.property.valueGenerator.impl.random.impl.numeric.impl;
 
-import structure.impl.Range;
+import structure.range.Range;
 import simulator.definition.property.valueGenerator.impl.random.impl.numeric.api.AbstractNumericRandomValueGenerator;
 
 public class FloatRandomValueGenerator extends AbstractNumericRandomValueGenerator<Float> {

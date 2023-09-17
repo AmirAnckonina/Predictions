@@ -1,4 +1,4 @@
-package structure.impl;
+package structure.range;
 
 public class Range<T extends Number> {
     private final T from;

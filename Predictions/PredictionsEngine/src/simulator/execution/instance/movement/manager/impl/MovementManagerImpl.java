@@ -3,9 +3,10 @@ package simulator.execution.instance.movement.manager.impl;
 import simulator.execution.instance.spaceGrid.api.SpaceGridInstanceWrapper;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.movement.manager.api.MovementManager;
-import structure.api.Cell;
-import structure.api.Coordinate;
-import structure.impl.CoordinateImpl;
+import structure.cell.api.Cell;
+import structure.cell.enums.CellOccupationStatus;
+import structure.coordinate.api.Coordinate;
+import structure.coordinate.impl.CoordinateImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +61,7 @@ public class MovementManagerImpl implements MovementManager {
                     while (!placed) {
                         int randomCoordinateIndex = random.nextInt(emptyCoordinates.size());
                         Coordinate randomCoordinate = emptyCoordinates.get(randomCoordinateIndex);
-                        if (!spaceGrid.getCellByCoordinate(randomCoordinate).isOccupied()) {
+                        if (spaceGrid.getCellByCoordinate(randomCoordinate).getCellOccupationStatus() == CellOccupationStatus.EMPTY) {
                             spaceGrid.getCellByCoordinate(randomCoordinate).insertObjectInstanceToCell(entityInstance);
                             entityInstance.setCoordinate(emptyCoordinates.get(randomCoordinateIndex));
                             placed = true;

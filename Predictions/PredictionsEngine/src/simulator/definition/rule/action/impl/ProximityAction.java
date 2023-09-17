@@ -5,7 +5,7 @@ import simulator.definition.rule.action.expression.argumentExpression.api.interf
 import enums.ActionType;
 import simulator.execution.context.api.ExecutionContext;
 import simulator.runner.utils.exceptions.SimulatorRunnerException;
-import structure.api.Coordinate;
+import structure.coordinate.api.Coordinate;
 
 import java.util.List;
 
@@ -47,7 +47,7 @@ public class ProximityAction extends AbstractAction {
     public void invoke(ExecutionContext executionContext) {
 
         // Get the coordinate of the srcEntity
-        Coordinate srcEntityCoord = executionContext.getEntityInstanceByName(this.sourceEntityName).getCoordinate();
+        Coordinate srcEntityCoordinate = executionContext.getEntityInstanceByName(this.sourceEntityName).getCoordinate();
 
         // Get targetEntity instance in the envDepth - if there is!!!!
         // If so -> execute the Action...

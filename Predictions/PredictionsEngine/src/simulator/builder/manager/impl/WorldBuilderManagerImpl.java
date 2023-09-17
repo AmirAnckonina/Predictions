@@ -9,10 +9,10 @@ import simulator.builder.manager.api.WorldBuilderManager;
 import simulator.builder.utils.factory.WorldBuilderFactory;
 import simulator.builder.utils.file.WorldBuilderFileUtils;
 import simulator.builder.utils.file.enums.DataFileType;
-import simulator.definition.entity.EntityDefinition;
+import simulator.definition.entity.impl.EntityDefinition;
 import simulator.definition.property.api.abstracts.AbstractNumericPropertyDefinition;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
-import structure.impl.Range;
+import structure.range.Range;
 import simulator.definition.rule.Rule;
 import simulator.definition.world.WorldDefinition;
 

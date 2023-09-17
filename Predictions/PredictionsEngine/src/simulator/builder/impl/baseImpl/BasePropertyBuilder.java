@@ -7,7 +7,7 @@ import enums.PropertyType;
 import simulator.definition.property.impl.*;
 import simulator.definition.property.valueGenerator.api.ValueGenerator;
 import simulator.definition.property.valueGenerator.utils.factory.ValueGeneratorFactory;
-import structure.impl.Range;
+import structure.range.Range;
 
 public class BasePropertyBuilder implements PropertyBuilder {
 

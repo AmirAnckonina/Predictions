@@ -59,14 +59,14 @@ public class DecreaseAction extends AbstractPropertyAction {
                     Integer integerValue = (Integer) PropertyType.DECIMAL.convert(propertyValue);
                     Double doubledByExpValue =  Double.valueOf(by.getValue(executionContext).toString());
                     Double rawSumResultForDecimal = integerValue - doubledByExpValue;
-                    primaryEntityPropInstance.updateValue(rawSumResultForDecimal.intValue());
+                    primaryEntityPropInstance.updateValue(rawSumResultForDecimal.intValue(), executionContext.getTickDocument().getTickNumber());
                     break;
 
                 case FLOAT:
                     Float floatValue = (Float) PropertyType.FLOAT.convert(propertyValue);
                     Double doubleByExpValue = Double.valueOf(by.getValue(executionContext).toString());
                     Double rawSumResultForFloat = floatValue - doubleByExpValue;
-                    primaryEntityPropInstance.updateValue(rawSumResultForFloat.floatValue());
+                    primaryEntityPropInstance.updateValue(rawSumResultForFloat.floatValue(), executionContext.getTickDocument().getTickNumber());
                     break;
 
                 case BOOLEAN:

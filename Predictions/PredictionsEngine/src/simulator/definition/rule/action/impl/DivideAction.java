@@ -43,23 +43,23 @@ public class DivideAction extends AbstractCalculationAction {
     }
 
     @Override
-    public void invoke(ExecutionContext context) {
+    public void invoke(ExecutionContext executionContext) {
 
-        EntityInstance primaryEntityInstance = context.getEntityInstanceByName(this.primaryEntityName);
+        EntityInstance primaryEntityInstance = executionContext.getEntityInstanceByName(this.primaryEntityName);
         PropertyInstance primaryEntityPropertyInstance = primaryEntityInstance.getPropertyInstanceByName(this.propertyName);
         PropertyType resultPropertyType = primaryEntityPropertyInstance.getPropertyDefinition().getType();
-        Object arg1Value = arg1.getValue(context);
-        Object arg2Value = arg2.getValue(context);
+        Object arg1Value = arg1.getValue(executionContext);
+        Object arg2Value = arg2.getValue(executionContext);
 
         Double multiplyResult =  (Double.valueOf(arg1Value.toString()))  /  (Double.valueOf(arg2Value.toString()));
 
         if (resultPropertyType == PropertyType.DECIMAL) {
 
-            primaryEntityPropertyInstance.updateValue(new Integer(multiplyResult.intValue()));
+            primaryEntityPropertyInstance.updateValue(new Integer(multiplyResult.intValue()), executionContext.getTickDocument().getTickNumber());
 
         } else if (resultPropertyType == PropertyType.FLOAT) {
 
-            primaryEntityPropertyInstance.updateValue(new Float(multiplyResult.floatValue()));
+            primaryEntityPropertyInstance.updateValue(new Float(multiplyResult.floatValue()), executionContext.getTickDocument().getTickNumber());
         }
 
     }

@@ -137,4 +137,9 @@ public class SimulatorManagerImpl implements SimulatorManager {
         return this.worldBuilderManager.getMaxPopulationSize();
     }
 
+    @Override
+    public void resetAllManualSetup() {
+        this.manualSimulationSetupManager.resetAllManualSetup(this.worldBuilderManager.getWorldDefinition());
+    }
+
 }

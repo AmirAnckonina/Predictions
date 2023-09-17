@@ -5,15 +5,18 @@ import simulator.execution.instance.spaceGrid.api.SpaceGridInstanceWrapper;
 import simulator.execution.instance.spaceGrid.api.CellOrInstance;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.runner.utils.exceptions.SimulatorRunnerException;
-import structure.api.Cell;
-import structure.api.Coordinate;
-import structure.impl.CellImpl;
-import structure.impl.CoordinateImpl;
+import structure.cell.api.Cell;
+import structure.cell.enums.CellOccupationStatus;
+import structure.coordinate.api.Coordinate;
+import structure.cell.impl.CellImpl;
+import structure.coordinate.impl.CoordinateImpl;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SpaceGridInstanceWrapperImpl implements SpaceGridInstanceWrapper {
     private Integer rows;
@@ -130,7 +133,7 @@ public class SpaceGridInstanceWrapperImpl implements SpaceGridInstanceWrapper {
                 .forEach((rowOfCells) -> {
                     Arrays.stream(rowOfCells)
                             .forEach((singleCell) -> {
-                                if (singleCell.isOccupied()) {
+                                if (singleCell.getCellOccupationStatus() == CellOccupationStatus.OCCUPIED) {
                                     entityInstanceList.add(singleCell.getObjectInstance());
                                 }
                             });
@@ -148,7 +151,7 @@ public class SpaceGridInstanceWrapperImpl implements SpaceGridInstanceWrapper {
         for (Coordinate currAdjCoordinate : oneStepCoordinates) {
 
             Cell currAdjCell = getCellByCoordinate(currAdjCoordinate);
-            if (!currAdjCell.isOccupied()) {
+            if (currAdjCell.getCellOccupationStatus() == CellOccupationStatus.EMPTY) {
                 vacantCells.add(currAdjCell);
             }
         }
@@ -243,6 +246,24 @@ public class SpaceGridInstanceWrapperImpl implements SpaceGridInstanceWrapper {
         }
 
         return new CoordinateImpl(newRowIdx, coordinate.getColIdx());
+    }
+
+    @Override
+    public void setCellAsReserved(Coordinate coordinate, EntityInstance entityInstance) {
+        this.getCellByCoordinate(coordinate).reserveCell(entityInstance);
+    }
+
+    @Override
+    public void applyReservedCellsForCreatedInstances(List<EntityInstance> createdInstances) {
+
+        List<Cell> reservedCells =
+                createdInstances
+                        .stream()
+                        .map((singleInstance) -> this.getCellByCoordinate(singleInstance.getCoordinate()))
+                        .collect(Collectors.toList());
+
+        reservedCells.
+                forEach((cell) -> cell.setOccupationStatus(CellOccupationStatus.OCCUPIED));
     }
 
 

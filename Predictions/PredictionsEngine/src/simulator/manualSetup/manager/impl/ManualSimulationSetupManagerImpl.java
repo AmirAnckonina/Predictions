@@ -1,5 +1,6 @@
 package simulator.manualSetup.manager.impl;
 
+import simulator.definition.entity.impl.EntityDefinition;
 import simulator.definition.environment.EnvironmentDefinition;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 import enums.PropertyType;
@@ -8,7 +9,7 @@ import simulator.definition.property.valueGenerator.impl.fixed.FixedValueGenerat
 import simulator.definition.world.WorldDefinition;
 import simulator.manualSetup.exception.SimulationManualSetupException;
 import simulator.manualSetup.manager.api.ManualSimulationSetupManager;
-import structure.impl.Range;
+import structure.range.Range;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,12 +106,26 @@ public class ManualSimulationSetupManagerImpl implements ManualSimulationSetupMa
 
     @Override
     public void resetSingleEntityPopulation(WorldDefinition worldDefinition, String entityName) {
-        worldDefinition.getEntityDefinitionByName(entityName).setPopulation(0);
+        worldDefinition.getEntityDefinitionByName(entityName).ResetPopulation();
     }
 
     @Override
     public void resetSingleEnvironmentVariable(WorldDefinition worldDefinition, String envVarName) {
         worldDefinition.getEnvironment().getPropertyByName(envVarName).resetToDefaultValueGenerator();
+    }
+
+    @Override
+    public void resetAllManualSetup(WorldDefinition worldDefinition) {
+        worldDefinition
+                .getEntities()
+                        .values()
+                                .forEach(EntityDefinition::ResetPopulation);
+
+        worldDefinition
+                .getEnvironment()
+                .getEnvironmentProperties()
+                .values()
+                .forEach(AbstractPropertyDefinition::resetToDefaultValueGenerator);
     }
 
 

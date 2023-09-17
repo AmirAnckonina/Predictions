@@ -1,4 +1,4 @@
-package simulator.definition.entity;
+package simulator.definition.entity.impl;
 
 
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
@@ -72,4 +72,6 @@ public class EntityDefinition {
     public void setPopulation(Integer population) {
         this.population = population;
     }
+
+    public void ResetPopulation() { this.population = 0; }
 }

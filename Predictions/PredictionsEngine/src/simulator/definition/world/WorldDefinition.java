@@ -1,6 +1,6 @@
 package simulator.definition.world;
 
-import simulator.definition.entity.EntityDefinition;
+import simulator.definition.entity.impl.EntityDefinition;
 import simulator.definition.environment.EnvironmentDefinition;
 import simulator.definition.rule.Rule;
 import simulator.definition.spaceGrid.SpaceGridDefinition;

@@ -1,5 +1,8 @@
 package simulator.runner.impl;
 
+import simulator.definition.entity.impl.EntityDefinition;
+import simulator.execution.context.api.CrossedExecutionContext;
+import simulator.execution.context.impl.CrossedExecutionContextImpl;
 import simulator.execution.instance.spaceGrid.api.SpaceGridInstanceWrapper;
 import simulator.definition.rule.Rule;
 import simulator.definition.rule.action.api.interfaces.Action;
@@ -26,58 +29,20 @@ import java.util.*;
 public class SimulatorRunnerImpl implements SimulatorRunner {
 
     private final WorldInstance worldInstance;
-    private final EntitiesInstancesManager entitiesInstancesManager;
-    private final EnvironmentInstance environmentInstance;
     private SimulationDocument simulationDocument;
+    private CrossedExecutionContext crossedExecutionContext;
 
     public SimulatorRunnerImpl(SimulationDocument simulationDocument) {
         this.simulationDocument = simulationDocument;
         this.worldInstance = this.simulationDocument.getWorldInstance();
-        this.entitiesInstancesManager = new EntitiesInstancesManagerImpl(
-                worldInstance.getEntitiesInstances()
-        );
-        this.environmentInstance = this.simulationDocument.getWorldInstance().getEnvironmentInstance();
+        EntitiesInstancesManager entitiesInstancesManager = new EntitiesInstancesManagerImpl(worldInstance.getEntitiesInstances());
+        EnvironmentInstance environmentInstance = this.simulationDocument.getWorldInstance().getEnvironmentInstance();
+        SpaceGridInstanceWrapper spaceGridInstanceWrapper = this.simulationDocument.getWorldInstance().getSpaceGridWrapper();
+        Map<String, EntityDefinition> entityDefinitionMap = this.simulationDocument.getWorldInstance().getEntityDefinitionMap();
+        this.crossedExecutionContext =
+                new CrossedExecutionContextImpl(
+                        entitiesInstancesManager, environmentInstance, spaceGridInstanceWrapper, entityDefinitionMap);
     }
-
-//    @Override
-//    public void run(SimulationResult simulationResult) {
-//
-//        int currTick = 0;
-//        long currTimeInMilliSec = 0;
-//        long startTimeInMilliSec;
-//
-//        startTimeInMilliSec = System.currentTimeMillis();
-//        simulationResult.setStartingTime(startTimeInMilliSec);
-//
-//        while (!worldInstance.getTermination().shouldTerminate(currTick, currTimeInMilliSec)) {
-//
-//            List<EntityInstance> entityInstanceList = primaryEntityInstanceManager.getInstances();
-//            Iterator<EntityInstance> entityItr = entityInstanceList.iterator();
-//            while (entityItr.hasNext()) {
-//                EntityInstance entityInstance = entityItr.next();
-//                ExecutionContext executionContext = buildExecutionContext(entityInstance);
-//                for (Rule rule : worldInstance.getRules()) {
-//                    if (rule.getActivation().isActive(currTick)) {
-//                        for (AbstractAction action : rule.getActions()) {
-//                            try {
-//                                action.invoke(executionContext);
-//                            } catch (Exception e) {
-//                            }
-//                        }
-//                    }
-//                }
-//
-//               if (!entityInstance.isAlive()) {
-//                   entityItr.remove();
-//               }
-//            }
-//
-//            currTick += 1;
-//            currTimeInMilliSec = System.currentTimeMillis() - startTimeInMilliSec;
-//        }
-//
-//        simulationResult.setTerminationReason(worldInstance.getTermination().reasonForTerminate());
-//    }
 
     @Override
     public void run() {
@@ -89,10 +54,10 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
         startTimeInMilliSec = System.currentTimeMillis();
         //this.simulationDocument.setStartingTime(startTimeInMilliSec);
 
-        Termination termination = worldInstance.getTermination();
-        List<Rule> rules = worldInstance.getRules();
-        Map<String, List<EntityInstance>> entitiesInstances = worldInstance.getEntitiesInstances();
-        SpaceGridInstanceWrapper spaceGridInstanceWrapper = worldInstance.getSpaceGridWrapper();
+        Termination termination = this.worldInstance.getTermination();
+        List<Rule> rules = this.worldInstance.getRules();
+        Map<String, List<EntityInstance>> entitiesInstances = this.worldInstance.getEntitiesInstances();
+        SpaceGridInstanceWrapper spaceGridInstanceWrapper = this.crossedExecutionContext.getSpaceGridInstanceWrapper();
 
         while (!termination.shouldTerminate(currTick, currTimeInMilliSec)) {
 
@@ -103,21 +68,20 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
 
             // 2. Scan rules,check activation for the current tick.
             // aggregate the activated rules only. aggregate the actions to invoke under the activated rule
-            List<Rule> activatedRules = getActiveRulesForCurrTick(currTick, worldInstance.getRules());
+            List<Rule> activatedRules = getActiveRulesForCurrTick(currTick, this.worldInstance.getRules());
             List<Action> actionsToInvoke = getActionToInvokeFromRules(activatedRules);
 
             // 3. Foreach entity type
             tickActionsProcedure(entitiesInstances, actionsToInvoke, spaceGridInstanceWrapper, currTickDocument);
 
             // 4. kill & create procedure
-            createNewInstancesProcedure(entitiesInstances);
-            cleanKilledInstancesProcedure(entitiesInstances);
+            createNewInstancesProcedure();
+            killInstancesProcedure();
 
             // 5. ticks + time procedures
+            simulationDocument.addTickDocument(currTickDocument);
             currTick += 1;
             currTimeInMilliSec = System.currentTimeMillis() - startTimeInMilliSec;
-            // SaveTickDocument
-
         }
 
         this.simulationDocument.getSimulationResult().setTerminationReason(worldInstance.getTermination().reasonForTerminate());
@@ -126,7 +90,6 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
     private void tickActionsProcedure(Map<String, List<EntityInstance>> entitiesInstances, List<Action> actionsToInvoke, SpaceGridInstanceWrapper spaceGridInstanceWrapper, TickDocument currTickDocument) {
 
         try {
-
             entitiesInstances.forEach((currEntityName , currEntityInstances) -> {
                 actionsToInvoke.forEach((currAction) -> {
                     // check if the action entity context is matching the current entity type (by name)
@@ -154,26 +117,30 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
         }
     }
 
-    private void createNewInstancesProcedure(Map<String, List<EntityInstance>> entitiesInstances) {
+    private void createNewInstancesProcedure() {
 
-       List<EntityInstance> instancesToCreate = this.entitiesInstancesManager.getCreateWaitingList();
+        try {
+
+            List<EntityInstance> createdInstances =
+                    this.crossedExecutionContext.getEntitiesInstancesManager().getCreateWaitingList();
+
+            this.crossedExecutionContext
+                    .getSpaceGridInstanceWrapper()
+                    .applyReservedCellsForCreatedInstances(createdInstances);
+
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+
 
     }
 
-    private void cleanKilledInstancesProcedure(Map<String, List<EntityInstance>> entitiesInstances) {
-
-        List<EntityInstance> instanceToKill = this.entitiesInstancesManager.getKillWaitingList();
-        entitiesInstances.forEach((entityFamily, entityInstances) -> {
-
-            // Run on all current entity instances with itr
-            Iterator<EntityInstance> entityItr = entityInstances.iterator();
-            while (entityItr.hasNext()) {
-                EntityInstance entityInstance = entityItr.next();
-                if (!entityInstance.isAlive()) {
-                   entityItr.remove();
-                }
-            }
-        });
+    private void killInstancesProcedure() {
+        try {
+            this.crossedExecutionContext.getEntitiesInstancesManager().completeKillEntitiesInstancesInWaitingList();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
     }
 
     private void singleActionInvocationProcedure(
@@ -181,9 +148,7 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
 
         //Base execContext building
         ExecutionContext executionContext
-                = new ExecutionContextImpl(
-                spaceGridInstanceWrapper, currPrimaryEntityInstance, this.entitiesInstancesManager, this.environmentInstance, currTickDocument
-                );
+                = new ExecutionContextImpl(this.crossedExecutionContext, currPrimaryEntityInstance, currTickDocument);
 
         // check for secondary entity context existence
         Optional<ActionSecondaryEntityDefinition> maybeSecondaryEntityDefinition =
@@ -205,8 +170,8 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
             Action currAction, ExecutionContext executionContext, ActionSecondaryEntityDefinition secondaryEntityDef) {
 
         // Gather secondaryInstanceProcedure
-        SecondaryEntityInstancesRetrieve instancesRetriever
-                = new SecondaryEntityInstancesRetrieveImpl(this.entitiesInstancesManager, this.environmentInstance, executionContext);
+        SecondaryEntityInstancesRetrieve instancesRetriever = new SecondaryEntityInstancesRetrieveImpl(executionContext);
+
         List<EntityInstance> secondaryEntityInstances =
                 instancesRetriever.getSecondaryEntityInstancesByDefinition(secondaryEntityDef);
 

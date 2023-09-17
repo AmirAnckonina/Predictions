@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import structure.impl.Range;
+import structure.range.Range;
 
 import java.util.Optional;
 

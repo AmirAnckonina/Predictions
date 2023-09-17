@@ -2,7 +2,7 @@ package simulator.definition.property.api.abstracts;
 
 import enums.PropertyType;
 import simulator.definition.property.valueGenerator.utils.exception.ValueGeneratorSetupException;
-import structure.impl.Range;
+import structure.range.Range;
 import simulator.definition.property.valueGenerator.api.ValueGenerator;
 
 import java.util.Optional;

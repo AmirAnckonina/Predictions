@@ -3,7 +3,7 @@ package simulator.establishment.manager.impl;
 import dto.EstablishedEnvironmentInfoDto;
 import simulator.execution.instance.spaceGrid.api.SpaceGridInstanceWrapper;
 import simulator.execution.instance.spaceGrid.impl.SpaceGridInstanceWrapperImpl;
-import simulator.definition.entity.EntityDefinition;
+import simulator.definition.entity.impl.EntityDefinition;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 import enums.PropertyType;
 import simulator.definition.rule.Rule;
@@ -25,6 +25,7 @@ import simulator.execution.instance.movement.manager.impl.MovementManagerImpl;
 import java.util.*;
 
 public class EstablishmentManagerImpl implements EstablishmentManager {
+    private static final int DEFAULT_STARTING_TICK = 0;
     private WorldDefinition worldDefinition;
     private WorldInstance worldInstance;
 
@@ -39,8 +40,9 @@ public class EstablishmentManagerImpl implements EstablishmentManager {
     public void establishSimulation(WorldDefinition worldDefinition) {
         try {
                 this.worldDefinition = worldDefinition;
+                Map<String, EntityDefinition> entityDefinitionMap = createEntityDefinitionMap();
                 EnvironmentInstance envInstance = establishEnvironment();
-                Map<String, List<EntityInstance>> entitiesInstances = createEntitiesInstances();
+                Map<String, List<EntityInstance>> entitiesInstances = createAllEntitiesInstances();
                 // please validate the spaceGridInstance
                 SpaceGridInstanceWrapper spaceGrid =
                         new SpaceGridInstanceWrapperImpl(
@@ -50,53 +52,48 @@ public class EstablishmentManagerImpl implements EstablishmentManager {
                 Termination termination = this.worldDefinition.getTermination();
                 MovementManager movementManager = new MovementManagerImpl();
                 movementManager.placeEntitiesRandomizeOnSpaceGrid(entitiesInstances, spaceGrid);
-                this.worldInstance = new WorldInstanceImpl(envInstance, entitiesInstances, rules, termination, spaceGrid);
+                this.worldInstance = new WorldInstanceImpl(entityDefinitionMap, envInstance, entitiesInstances, rules, termination, spaceGrid);
         } catch (Exception e) {
             throw new SimulationEstablishmentException("An error occurred while trying to establish simulation");
         }
     }
 
     @Override
+    public Map<String, EntityDefinition> createEntityDefinitionMap() {
+        return new HashMap<>(this.worldDefinition.getEntities());
+    }
+
+    @Override
     public EnvironmentInstance establishEnvironment() {
 
         Map<String, PropertyInstance> environmentVariables =
-                createPropertyInstances(worldDefinition.getEnvironment().getEnvironmentProperties());
+                createPropertyInstances(
+                        worldDefinition.getEnvironment().getEnvironmentProperties(),
+                        DEFAULT_STARTING_TICK);
 
         return new EnvironmentInstanceImpl(environmentVariables);
     }
 
     @Override
-    public Map<String, List<EntityInstance>> createEntitiesInstances() {
+    public Map<String, List<EntityInstance>> createAllEntitiesInstances() {
 
         Map<String , List<EntityInstance>> entitiesInstances = new HashMap<>();
         Map<String, EntityDefinition> entitiesDefinitions = this.worldDefinition.getEntities();
-        entitiesDefinitions
-                .forEach(
-                        (entName, entDef) ->
-                                entitiesInstances.put(
-                                        entName, createSingleEntityInstances(entDef)
-                                )
-                );
+        entitiesDefinitions.forEach((entName, entDef) ->
+                entitiesInstances.put(entName, createEntityInstances(entDef)));
 
         return entitiesInstances;
     }
 
     @Override
-    public List<EntityInstance> createSingleEntityInstances(EntityDefinition entityDefinition) {
+    public List<EntityInstance> createEntityInstances(EntityDefinition entityDefinition) {
 
         // Result :
         List<EntityInstance> primaryEntityInstances = new ArrayList<>();
 
         for (int index = 0; index < entityDefinition.getPopulation(); index++) {
 
-            EntityInstance singlePrimaryInstance;
-
-            Map<String, PropertyInstance> entityPropertyInstances =
-                    createPropertyInstances(entityDefinition.getProperties());
-
-            singlePrimaryInstance = new EntityInstanceImpl(entityDefinition.getName(), index + 1, entityPropertyInstances);
-
-            // Finally after we build singleEntityInstance with it properties, we add it to the list result.
+            EntityInstance singlePrimaryInstance = createSingleEntityInstance(entityDefinition, index + 1, DEFAULT_STARTING_TICK);
             primaryEntityInstances.add(singlePrimaryInstance);
         }
 
@@ -104,8 +101,19 @@ public class EstablishmentManagerImpl implements EstablishmentManager {
     }
 
     @Override
-    public Map<String, PropertyInstance> createPropertyInstances(
-            Map<String, AbstractPropertyDefinition> propertyDefinitions) {
+    public EntityInstance createSingleEntityInstance(EntityDefinition entityDefinition, int id, int tickNoForProperties) {
+
+        EntityInstance singleInstance;
+
+        Map<String, PropertyInstance> entityPropertyInstances =
+                createPropertyInstances(entityDefinition.getProperties(), tickNoForProperties);
+
+        singleInstance = new EntityInstanceImpl(entityDefinition.getName(), id, entityPropertyInstances);
+        return singleInstance;
+    }
+
+    @Override
+    public Map<String, PropertyInstance> createPropertyInstances(Map<String, AbstractPropertyDefinition> propertyDefinitions, int tickNo) {
 
         Map<String, PropertyInstance> propertyInstanceMap = new HashMap<>();
 
@@ -118,7 +126,7 @@ public class EstablishmentManagerImpl implements EstablishmentManager {
             AbstractPropertyDefinition propDefinition = entry.getValue();
 
             PropertyInstance propertyInstance =
-                    new PropertyInstanceImpl(propDefinition, propDefinition.generateValue(), 0);
+                    new PropertyInstanceImpl(propDefinition, propDefinition.generateValue(), tickNo);
 
             propertyInstanceMap.put(propName, propertyInstance);
         }

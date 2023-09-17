@@ -2,7 +2,7 @@ package simulator.builder.api.interfaces;
 
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 import enums.PropertyType;
-import structure.impl.Range;
+import structure.range.Range;
 
 public interface PropertyBuilder {
     AbstractPropertyDefinition buildProperty(String name, PropertyType propertyType, Range doubledRange, String rawInitValue);

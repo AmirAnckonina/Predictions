@@ -1,4 +1,4 @@
-package structure.api;
+package structure.coordinate.api;
 
 public interface Coordinate {
 

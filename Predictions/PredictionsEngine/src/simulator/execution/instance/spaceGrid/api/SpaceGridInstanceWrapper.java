@@ -2,8 +2,8 @@ package simulator.execution.instance.spaceGrid.api;
 
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.movement.enums.MoveDirection;
-import structure.api.Cell;
-import structure.api.Coordinate;
+import structure.cell.api.Cell;
+import structure.coordinate.api.Coordinate;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,4 +28,6 @@ public interface SpaceGridInstanceWrapper {
     Coordinate getEastCoordinate(Coordinate coordinate);
     Coordinate getWestCoordinate(Coordinate coordinate);
     Coordinate getSouthCoordinate(Coordinate coordinate);
+    void setCellAsReserved(Coordinate coordinate, EntityInstance entityInstance);
+    void applyReservedCellsForCreatedInstances(List<EntityInstance> createdInstances);
 }

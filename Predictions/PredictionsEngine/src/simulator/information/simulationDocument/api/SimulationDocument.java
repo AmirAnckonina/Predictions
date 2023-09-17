@@ -13,4 +13,5 @@ public interface SimulationDocument {
      Map<Integer, TickDocument> getTickDocumentMap();
      TickDocument getTickDocumentByTickNumber(int tickNo);
      SimulationResult getSimulationResult();
+     void addTickDocument(TickDocument tickDocument);
 }
