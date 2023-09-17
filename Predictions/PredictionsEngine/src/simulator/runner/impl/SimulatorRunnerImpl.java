@@ -1,6 +1,6 @@
 package simulator.runner.impl;
 
-import simulator.definition.board.api.SpaceGridInstance;
+import simulator.execution.instance.spaceGrid.api.SpaceGridInstanceWrapper;
 import simulator.definition.rule.Rule;
 import simulator.definition.rule.action.api.interfaces.Action;
 import simulator.definition.rule.action.secondaryEntity.api.ActionSecondaryEntityDefinition;
@@ -12,8 +12,8 @@ import simulator.execution.instance.entity.manager.impl.SecondaryEntityInstances
 import simulator.information.simulationDocument.api.SimulationDocument;
 import simulator.information.tickDocument.api.TickDocument;
 import simulator.information.tickDocument.impl.TickDocumentImpl;
-import simulator.movement.api.MovementManager;
-import simulator.movement.impl.MovementManagerImpl;
+import simulator.execution.instance.movement.manager.api.MovementManager;
+import simulator.execution.instance.movement.manager.impl.MovementManagerImpl;
 import simulator.runner.api.SimulatorRunner;
 import simulator.execution.context.api.ExecutionContext;
 import simulator.execution.context.impl.ExecutionContextImpl;
@@ -92,43 +92,26 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
         Termination termination = worldInstance.getTermination();
         List<Rule> rules = worldInstance.getRules();
         Map<String, List<EntityInstance>> entitiesInstances = worldInstance.getEntitiesInstances();
-        SpaceGridInstance spaceGridInstance = worldInstance.getSpaceGrid();
+        SpaceGridInstanceWrapper spaceGridInstanceWrapper = worldInstance.getSpaceGridWrapper();
 
         while (!termination.shouldTerminate(currTick, currTimeInMilliSec)) {
 
             TickDocument currTickDocument =  new TickDocumentImpl(currTick, currTimeInMilliSec, entitiesInstances);
 
             // 1. Entities movement
-            MovementManager movementManager = new MovementManagerImpl();
-            movementManager.moveAllEntitiesOneStep(this.worldInstance.getSpaceGrid());
+            entitiesMovementProcedure();
 
-            // 2. Scan rules,
-            // check activation for the current tick,
-            // aggregate the activated rules only.
-            // aggregate the actions to invoke under the activated rule
+            // 2. Scan rules,check activation for the current tick.
+            // aggregate the activated rules only. aggregate the actions to invoke under the activated rule
             List<Rule> activatedRules = getActiveRulesForCurrTick(currTick, worldInstance.getRules());
             List<Action> actionsToInvoke = getActionToInvokeFromRules(activatedRules);
 
             // 3. Foreach entity type
-            entitiesInstances.forEach( (currEntityName , currEntityInstances) -> {
-                        actionsToInvoke.forEach( (currAction) -> {
-                                    // check if the action entity context is matching the current entity type (by name)
-                                    if (currAction.getPrimaryEntityName().equals(currEntityName)) {
-                                        // Retrieve all the current entity instances and
-                                        // for each entityInstance (of the current type) do:
-                                        currEntityInstances.forEach((currEntityInstance) -> {
-                                                    actionInvocationProcedure(
-                                                            currAction, spaceGridInstance, currEntityInstance, currTickDocument
-                                                    );
-                                        });
-                                    }
-                                    // // // else -> continue to the next entity type
-                        });
-            });
+            tickActionsProcedure(entitiesInstances, actionsToInvoke, spaceGridInstanceWrapper, currTickDocument);
 
-
-            // 4. kill procedure
-            executeKillProcedure(entitiesInstances);
+            // 4. kill & create procedure
+            createNewInstancesProcedure(entitiesInstances);
+            cleanKilledInstancesProcedure(entitiesInstances);
 
             // 5. ticks + time procedures
             currTick += 1;
@@ -140,8 +123,46 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
         this.simulationDocument.getSimulationResult().setTerminationReason(worldInstance.getTermination().reasonForTerminate());
     }
 
-    private void executeKillProcedure(Map<String, List<EntityInstance>> entitiesInstances) {
+    private void tickActionsProcedure(Map<String, List<EntityInstance>> entitiesInstances, List<Action> actionsToInvoke, SpaceGridInstanceWrapper spaceGridInstanceWrapper, TickDocument currTickDocument) {
 
+        try {
+
+            entitiesInstances.forEach((currEntityName , currEntityInstances) -> {
+                actionsToInvoke.forEach((currAction) -> {
+                    // check if the action entity context is matching the current entity type (by name)
+                    if (currAction.getPrimaryEntityName().equals(currEntityName)) {
+                        // Retrieve all the current entity instances
+                        currEntityInstances.forEach((currEntityInstance) -> {
+                            singleActionInvocationProcedure(
+                                    currAction, spaceGridInstanceWrapper, currEntityInstance, currTickDocument);
+                        });
+                    }
+                });
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+    }
+
+    private void entitiesMovementProcedure() {
+        try {
+            MovementManager movementManager = new MovementManagerImpl();
+            movementManager.moveAllEntitiesOneStep(this.worldInstance.getSpaceGridWrapper());
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+    }
+
+    private void createNewInstancesProcedure(Map<String, List<EntityInstance>> entitiesInstances) {
+
+       List<EntityInstance> instancesToCreate = this.entitiesInstancesManager.getCreateWaitingList();
+
+    }
+
+    private void cleanKilledInstancesProcedure(Map<String, List<EntityInstance>> entitiesInstances) {
+
+        List<EntityInstance> instanceToKill = this.entitiesInstancesManager.getKillWaitingList();
         entitiesInstances.forEach((entityFamily, entityInstances) -> {
 
             // Run on all current entity instances with itr
@@ -155,13 +176,13 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
         });
     }
 
-    private void actionInvocationProcedure(
-            Action currAction, SpaceGridInstance spaceGridInstance, EntityInstance currPrimaryEntityInstance, TickDocument currTickDocument) {
+    private void singleActionInvocationProcedure(
+            Action currAction, SpaceGridInstanceWrapper spaceGridInstanceWrapper, EntityInstance currPrimaryEntityInstance, TickDocument currTickDocument) {
 
         //Base execContext building
         ExecutionContext executionContext
                 = new ExecutionContextImpl(
-                        spaceGridInstance, currPrimaryEntityInstance, this.entitiesInstancesManager, this.environmentInstance, currTickDocument
+                spaceGridInstanceWrapper, currPrimaryEntityInstance, this.entitiesInstancesManager, this.environmentInstance, currTickDocument
                 );
 
         // check for secondary entity context existence

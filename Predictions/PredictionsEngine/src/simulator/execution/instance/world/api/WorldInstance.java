@@ -1,6 +1,6 @@
 package simulator.execution.instance.world.api;
 
-import simulator.definition.board.api.SpaceGridInstance;
+import simulator.execution.instance.spaceGrid.api.SpaceGridInstanceWrapper;
 import simulator.definition.rule.Rule;
 import simulator.definition.termination.Termination;
 import simulator.execution.instance.entity.api.EntityInstance;
@@ -17,6 +17,6 @@ public interface WorldInstance {
     EnvironmentInstance getEnvironmentInstance();
     Map<String, List<EntityInstance>> getEntitiesInstances();
     List<EntityInstance> getEntityInstancesByEntityName(String entityName);
-    SpaceGridInstance getSpaceGrid();
+    SpaceGridInstanceWrapper getSpaceGridWrapper();
 
 }

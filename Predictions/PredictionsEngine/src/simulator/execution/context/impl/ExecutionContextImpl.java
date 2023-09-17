@@ -1,6 +1,6 @@
 package simulator.execution.context.impl;
 
-import simulator.definition.board.api.SpaceGridInstance;
+import simulator.execution.instance.spaceGrid.api.SpaceGridInstanceWrapper;
 import simulator.execution.context.api.ExecutionContext;
 
 import simulator.execution.instance.entity.api.EntityInstance;
@@ -15,19 +15,16 @@ import java.util.Map;
 
 public class ExecutionContextImpl implements ExecutionContext {
 
-    //private Map<String, EntityInstance> entityInstanceMap;
-    private EntityInstance primaryEntityInstance;
-    private EntityInstance secondaryEntityInstance;
+    private Map<String, EntityInstance> entityInstanceMap;
     private EntitiesInstancesManager entitiesInstancesManager;
     private EnvironmentInstance environmentInstance;
     private TickDocument currTickDocument;
-    private SpaceGridInstance spaceGridInstance;
+    private SpaceGridInstanceWrapper spaceGridInstanceWrapper;
 
-    public ExecutionContextImpl(SpaceGridInstance spaceGridInstance, EntityInstance entityInstance, EntitiesInstancesManager entitiesInstancesManager, EnvironmentInstance environmentInstance, TickDocument currTickDocument) {
-        this.spaceGridInstance = spaceGridInstance;
-        //entityInstanceMap = new HashMap<>();
-        //entityInstanceMap.put(entityInstance.getEntityNameFamily(), entityInstance);
-        this.primaryEntityInstance = entityInstance;
+    public ExecutionContextImpl(SpaceGridInstanceWrapper spaceGridInstanceWrapper, EntityInstance primaryEntityInstance, EntitiesInstancesManager entitiesInstancesManager, EnvironmentInstance environmentInstance, TickDocument currTickDocument) {
+        this.spaceGridInstanceWrapper = spaceGridInstanceWrapper;
+        this.entityInstanceMap = new HashMap<>();
+        this.entityInstanceMap.put(primaryEntityInstance.getEntityNameFamily(), primaryEntityInstance);
         this.entitiesInstancesManager = entitiesInstancesManager;
         this.environmentInstance = environmentInstance;
         this.currTickDocument = currTickDocument;
@@ -36,32 +33,7 @@ public class ExecutionContextImpl implements ExecutionContext {
 
     @Override
     public EntityInstance getEntityInstanceByName(String entityName) {
-        //return this.entityInstanceMap.get(entityName);
-        EntityInstance entityInstance;
-        if (this.primaryEntityInstance.getEntityNameFamily().equals(entityName)) {
-            entityInstance = this.primaryEntityInstance;
-        } else if (this.secondaryEntityInstance.getEntityNameFamily().equals(entityName)) {
-            entityInstance = this.secondaryEntityInstance;
-        } else {
-            throw new SimulatorRunnerException("Couldn't reach the requested entityInstance by entity name, under exec context impl");
-        }
-
-        return entityInstance;
-    }
-
-    @Override
-    public EntityInstance getPrimaryEntityInstance() {
-        return this.primaryEntityInstance;
-    }
-
-    @Override
-    public EntityInstance getSecondaryEntityInstance() {
-        return secondaryEntityInstance;
-    }
-
-    @Override
-    public void removeEntity(String entityName, EntityInstance entityInstance) {
-        entitiesInstancesManager.killEntity(entityName,entityInstance.getId());
+        return this.entityInstanceMap.get(entityName);
     }
 
     @Override
@@ -71,18 +43,21 @@ public class ExecutionContextImpl implements ExecutionContext {
 
     @Override
     public void setSecondaryEntityInstance(EntityInstance secondaryEntityInstance) {
-        //this.entityInstanceMap.put(additionalEntityInstance.getEntityNameFamily(), additionalEntityInstance);
-        this.secondaryEntityInstance = secondaryEntityInstance;
+        this.entityInstanceMap.put(secondaryEntityInstance.getEntityNameFamily(), secondaryEntityInstance);
     }
 
     @Override
-    public TickDocument getTickDocument() {
+    public TickDocument getTickDocument() { return this.currTickDocument; }
 
-        return this.currTickDocument;
+    @Override
+    public SpaceGridInstanceWrapper getSpaceGridInstanceWrapper() {
+        return this.spaceGridInstanceWrapper;
     }
 
     @Override
-    public SpaceGridInstance getSpaceGridInstance() {
-        return this.spaceGridInstance;
+    public void killEntityInstanceProcedure(String primaryEntityName) {
+        EntityInstance entityInstanceToKill = getEntityInstanceByName(primaryEntityName);
+        entityInstanceToKill.killMyself();
+        this.entitiesInstancesManager.addInstanceToKillWaitingList(entityInstanceToKill);
     }
 }

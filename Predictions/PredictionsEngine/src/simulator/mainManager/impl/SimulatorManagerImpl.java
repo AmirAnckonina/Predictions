@@ -11,8 +11,8 @@ import simulator.manualSetup.manager.api.ManualSimulationSetupManager;
 import simulator.establishment.manager.api.EstablishmentManager;
 import simulator.manualSetup.manager.impl.ManualSimulationSetupManagerImpl;
 import simulator.establishment.manager.impl.EstablishmentManagerImpl;
-import simulator.execution.manager.api.ExecutionManager;
-import simulator.execution.manager.impl.ExecutionManagerImpl;
+import simulator.execution.manager.api.SimulatorExecutionManager;
+import simulator.execution.manager.impl.SimulatorExecutionManagerImpl;
 import simulator.information.manager.api.InformationManager;
 import simulator.information.manager.impl.InformationManagerImpl;
 import simulator.mainManager.api.SimulatorManager;
@@ -28,13 +28,13 @@ public class SimulatorManagerImpl implements SimulatorManager {
     private EstablishmentManager establishmentManager;
     private ManualSimulationSetupManager manualSimulationSetupManager;
     private WorldBuilderManager worldBuilderManager;
-    private ExecutionManager executionManager;
+    private SimulatorExecutionManager simulatorExecutionManager;
     private InformationManager infoManager;
     private ResultManager simulatorResultManager;
 
     public SimulatorManagerImpl() {
         this.worldBuilderManager = new WorldBuilderManagerImpl();
-        this.executionManager = new ExecutionManagerImpl();
+        this.simulatorExecutionManager = new SimulatorExecutionManagerImpl();
         this.infoManager = new InformationManagerImpl();
         this.establishmentManager = new EstablishmentManagerImpl();
         this.manualSimulationSetupManager = new ManualSimulationSetupManagerImpl();

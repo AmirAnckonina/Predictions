@@ -5,6 +5,7 @@ import simulator.information.simulationDocument.api.SimulationDocument;
 import simulator.information.tickDocument.api.TickDocument;
 import simulator.result.api.SimulationResult;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,10 +15,10 @@ public class SimulationDocumentImpl implements SimulationDocument {
     private Map<Integer, TickDocument> tickDocumentMap;
     private SimulationResult simulationResult;
 
-    public SimulationDocumentImpl(String simulationGuid, WorldInstance worldInstance, Map<Integer, TickDocument> tickDocumentMap) {
-        SimulationGuid = simulationGuid;
+    public SimulationDocumentImpl(String simulationGuid, WorldInstance worldInstance) {
+        this.SimulationGuid = simulationGuid;
         this.worldInstance = worldInstance;
-        this.tickDocumentMap = tickDocumentMap;
+        this.tickDocumentMap = new HashMap<>();
     }
 
 

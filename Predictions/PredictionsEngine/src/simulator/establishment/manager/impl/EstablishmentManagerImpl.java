@@ -1,8 +1,8 @@
 package simulator.establishment.manager.impl;
 
 import dto.EstablishedEnvironmentInfoDto;
-import simulator.definition.board.api.SpaceGridInstance;
-import simulator.definition.board.impl.SpaceGridInstanceImpl;
+import simulator.execution.instance.spaceGrid.api.SpaceGridInstanceWrapper;
+import simulator.execution.instance.spaceGrid.impl.SpaceGridInstanceWrapperImpl;
 import simulator.definition.entity.EntityDefinition;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 import enums.PropertyType;
@@ -19,8 +19,8 @@ import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.execution.instance.property.impl.PropertyInstanceImpl;
 import simulator.execution.instance.world.api.WorldInstance;
 import simulator.execution.instance.world.impl.WorldInstanceImpl;
-import simulator.movement.api.MovementManager;
-import simulator.movement.impl.MovementManagerImpl;
+import simulator.execution.instance.movement.manager.api.MovementManager;
+import simulator.execution.instance.movement.manager.impl.MovementManagerImpl;
 
 import java.util.*;
 
@@ -42,8 +42,8 @@ public class EstablishmentManagerImpl implements EstablishmentManager {
                 EnvironmentInstance envInstance = establishEnvironment();
                 Map<String, List<EntityInstance>> entitiesInstances = createEntitiesInstances();
                 // please validate the spaceGridInstance
-                SpaceGridInstance spaceGrid =
-                        new SpaceGridInstanceImpl(
+                SpaceGridInstanceWrapper spaceGrid =
+                        new SpaceGridInstanceWrapperImpl(
                                 worldDefinition.getSpaceGridDefinition().getRows(),
                                 worldDefinition.getSpaceGridDefinition().getColumns());
                 List<Rule> rules = this.worldDefinition.getRules();
