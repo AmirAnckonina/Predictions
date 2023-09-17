@@ -152,4 +152,8 @@ public class ResultManagerImpl implements ResultManager {
         return isSucceeded;
     }
 
+    public SimulationResult getSimulationResultBySimulationId(String simulationID){
+        return this.simulationResults.get(simulationID);
+    }
+
 }

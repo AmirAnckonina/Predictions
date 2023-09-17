@@ -4,6 +4,8 @@ import dto.*;
 import simulator.builder.manager.api.WorldBuilderManager;
 import simulator.builder.manager.impl.WorldBuilderManagerImpl;
 import simulator.information.simulationDocument.api.SimulationDocument;
+import simulator.information.simulationDocument.api.SimulationDocumentFacade;
+import simulator.information.simulationDocument.impl.SimulationDocumentFacadeImpl;
 import simulator.mainManager.utils.exception.SimulatorManagerException;
 import simulator.manualSetup.manager.api.ManualSimulationSetupManager;
 import simulator.establishment.manager.api.EstablishmentManager;
@@ -66,7 +68,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
-    public SimulationEndDto runSimulator() {
+    public SimulationDocumentFacade runSimulator() {
 
         establishmentManager.establishSimulation(this.worldBuilderManager.getWorldDefinition());
         SimulationDocument simulationDocument
@@ -74,7 +76,9 @@ public class SimulatorManagerImpl implements SimulatorManager {
                          worldBuilderManager.getWorldDefinition(), establishmentManager.getEstablishedWorldInstance()
         );
 
-        return executionManager.runSimulator(simulationDocument);
+        executionManager.runSimulator(simulationDocument);
+
+        return infoManager.createSimulationDocumentFacade(simulationDocument);
     }
 
     @Override

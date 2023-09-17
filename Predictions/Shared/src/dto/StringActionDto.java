@@ -114,11 +114,11 @@ public class StringActionDto {
                 this.calculationType = this.type;
                 this.firstArg = (detailesMap.get("arg1").startsWith("environmentPropertyName"))?
                         detailesMap.get("arg1")
-                                .replaceAll("environmentPropertyName", "Environment property")
+                                .replaceAll("environmentPropertyName", "Environment property").replaceAll("=", " - ")
                         :detailesMap.get("arg1");
                 this.secondArg = (detailesMap.get("arg2").startsWith("environmentPropertyName"))?
                         detailesMap.get("arg2")
-                                .replaceAll("environmentPropertyName", "Environment property")
+                                .replaceAll("environmentPropertyName", "Environment property").replaceAll("=", " - ")
                         :detailesMap.get("arg2");
                 break;
             case CONDITION:

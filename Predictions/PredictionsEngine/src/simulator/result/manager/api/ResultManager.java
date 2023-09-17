@@ -21,4 +21,5 @@ public interface ResultManager {
     Map<String,Integer> getAllEntitiesHasPropertyByPropertyNameBySimulationID(
             String entityName, String uuid, String propertyName);
     List<String> getAllPropertiesOfEntityBySimulationIndex(String entityName, Integer simulationIndex);
+    SimulationResult getSimulationResultBySimulationId(String simulationID);
 }
