@@ -8,7 +8,7 @@ import simulator.builder.utils.file.XmlBuilderUtils;
 import simulator.builder.validator.api.WorldBuilderContextValidator;
 import simulator.builder.utils.file.WorldBuilderFileUtils;
 import simulator.builder.utils.file.enums.DataFileType;
-import simulator.definition.entity.EntityDefinition;
+import simulator.definition.entity.impl.EntityDefinition;
 import simulator.definition.environment.EnvironmentDefinition;
 import simulator.definition.rule.Rule;
 import simulator.definition.spaceGrid.SpaceGridDefinition;

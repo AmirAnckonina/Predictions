@@ -25,10 +25,10 @@ public class SetAction extends AbstractPropertyAction {
     }
 
     @Override
-    public void invoke(ExecutionContext context) {
-        context
+    public void invoke(ExecutionContext executionContext) {
+        executionContext
                 .getEntityInstanceByName(this.primaryEntityName)
                 .getPropertyInstanceByName(this.propertyName)
-                .updateValue(value);
+                .updateValue(value, executionContext.getTickDocument().getTickNumber());
     }
 }

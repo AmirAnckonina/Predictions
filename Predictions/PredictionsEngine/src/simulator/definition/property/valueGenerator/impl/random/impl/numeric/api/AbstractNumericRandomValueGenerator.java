@@ -1,6 +1,6 @@
 package simulator.definition.property.valueGenerator.impl.random.impl.numeric.api;
 
-import structure.impl.Range;
+import structure.range.Range;
 import simulator.definition.property.valueGenerator.impl.random.api.BaseRandomValueGenerator;
 
 import java.util.Optional;

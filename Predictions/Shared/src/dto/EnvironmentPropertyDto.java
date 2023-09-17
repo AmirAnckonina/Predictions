@@ -1,7 +1,7 @@
 package dto;
 
 import enums.PropertyType;
-import structure.impl.Range;
+import structure.range.Range;
 
 import java.util.Optional;
 

@@ -1,35 +1,28 @@
 package simulator.execution.context.impl;
 
+import simulator.definition.entity.impl.EntityDefinition;
+import simulator.execution.context.api.CrossedExecutionContext;
 import simulator.execution.instance.spaceGrid.api.SpaceGridInstanceWrapper;
 import simulator.execution.context.api.ExecutionContext;
 
 import simulator.execution.instance.entity.api.EntityInstance;
-import simulator.execution.instance.entity.manager.api.EntitiesInstancesManager;
-import simulator.execution.instance.environment.api.EnvironmentInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.information.tickDocument.api.TickDocument;
-import simulator.runner.utils.exceptions.SimulatorRunnerException;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ExecutionContextImpl implements ExecutionContext {
-
+    private CrossedExecutionContext crossedExecutionContext;
     private Map<String, EntityInstance> entityInstanceMap;
-    private EntitiesInstancesManager entitiesInstancesManager;
-    private EnvironmentInstance environmentInstance;
     private TickDocument currTickDocument;
-    private SpaceGridInstanceWrapper spaceGridInstanceWrapper;
 
-    public ExecutionContextImpl(SpaceGridInstanceWrapper spaceGridInstanceWrapper, EntityInstance primaryEntityInstance, EntitiesInstancesManager entitiesInstancesManager, EnvironmentInstance environmentInstance, TickDocument currTickDocument) {
-        this.spaceGridInstanceWrapper = spaceGridInstanceWrapper;
+    public ExecutionContextImpl(CrossedExecutionContext crossedExecutionContext, EntityInstance primaryEntityInstance, TickDocument currTickDocument) {
+        this.crossedExecutionContext = crossedExecutionContext;
         this.entityInstanceMap = new HashMap<>();
         this.entityInstanceMap.put(primaryEntityInstance.getEntityNameFamily(), primaryEntityInstance);
-        this.entitiesInstancesManager = entitiesInstancesManager;
-        this.environmentInstance = environmentInstance;
         this.currTickDocument = currTickDocument;
     }
-
 
     @Override
     public EntityInstance getEntityInstanceByName(String entityName) {
@@ -38,7 +31,7 @@ public class ExecutionContextImpl implements ExecutionContext {
 
     @Override
     public PropertyInstance getEnvironmentVariable(String name) {
-        return environmentInstance.getPropertyByName(name);
+        return this.crossedExecutionContext.getEnvironmentInstance().getPropertyByName(name);
     }
 
     @Override
@@ -51,13 +44,37 @@ public class ExecutionContextImpl implements ExecutionContext {
 
     @Override
     public SpaceGridInstanceWrapper getSpaceGridInstanceWrapper() {
-        return this.spaceGridInstanceWrapper;
+        return this.crossedExecutionContext.getSpaceGridInstanceWrapper();
     }
 
     @Override
-    public void killEntityInstanceProcedure(String primaryEntityName) {
-        EntityInstance entityInstanceToKill = getEntityInstanceByName(primaryEntityName);
+    public void killEntityInstanceProcedure(EntityInstance entityInstanceToKill) {
         entityInstanceToKill.killMyself();
-        this.entitiesInstancesManager.addInstanceToKillWaitingList(entityInstanceToKill);
+        this.crossedExecutionContext.getEntitiesInstancesManager().addInstanceToKillWaitingList(entityInstanceToKill);
+    }
+
+    @Override
+    public EntityInstance createEntityInstanceProcedure(String entityFamilyName) {
+
+        EntityInstance createdEntityInstance;
+        EntityDefinition entityDefinition = this.crossedExecutionContext.getEntityDefinitionByName(entityFamilyName);
+        createdEntityInstance =
+                this.crossedExecutionContext
+                        .getEntitiesInstancesManager()
+                        .createEntityInstanceByDefinition(entityDefinition, this.currTickDocument.getTickNumber());
+
+        return createdEntityInstance;
+    }
+
+    @Override
+    public CrossedExecutionContext getCrossedExecutionContext() {
+        return this.crossedExecutionContext;
+    }
+
+    @Override
+    public void derivePropertiesBetweenInstancesProcedure(EntityInstance targetEntityInstance, EntityInstance sourceEntityInstance) {
+        this.crossedExecutionContext
+                .getEntitiesInstancesManager()
+                .derivePropertiesBetweenInstances(targetEntityInstance, sourceEntityInstance, this.currTickDocument);
     }
 }

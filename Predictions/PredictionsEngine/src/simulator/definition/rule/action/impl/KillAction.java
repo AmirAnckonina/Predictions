@@ -25,6 +25,6 @@ public class KillAction extends AbstractAction {
                 .getEntityInstanceByName(this.primaryEntityName)
                 .killEntity();*/
 
-        executionContext.killEntityInstanceProcedure(this.primaryEntityName);
+        executionContext.killEntityInstanceProcedure(executionContext.getEntityInstanceByName(this.primaryEntityName));
     }
 }

@@ -1,6 +1,6 @@
 package simulator.definition.property.valueGenerator.utils.factory;
 
-import structure.impl.Range;
+import structure.range.Range;
 import simulator.definition.property.valueGenerator.api.ValueGenerator;
 import simulator.definition.property.valueGenerator.impl.fixed.FixedValueGenerator;
 import simulator.definition.property.valueGenerator.impl.random.impl.bool.BooleanRandomValueGenerator;

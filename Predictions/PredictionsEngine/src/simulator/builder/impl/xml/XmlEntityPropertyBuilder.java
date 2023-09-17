@@ -3,7 +3,7 @@ package simulator.builder.impl.xml;
 import resources.jaxb.schema.generated.PRDProperty;
 import simulator.builder.impl.baseImpl.BasePropertyBuilder;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
-import structure.impl.Range;
+import structure.range.Range;
 import enums.PropertyType;
 
 public class XmlEntityPropertyBuilder extends BasePropertyBuilder {

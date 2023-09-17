@@ -64,6 +64,7 @@ public class NewExecutionController {
     @FXML
     void onStartButtonClicked() {
         this.simulatorManager.runSimulator();
+        this.simulatorManager.resetAllManualSetup();
     }
 
     public void initializeNewExecutionTab() {

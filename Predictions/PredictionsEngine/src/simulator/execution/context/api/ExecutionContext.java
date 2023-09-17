@@ -8,11 +8,13 @@ import simulator.information.tickDocument.api.TickDocument;
 
 
 public interface ExecutionContext {
-
     EntityInstance getEntityInstanceByName(String entityName);
     PropertyInstance getEnvironmentVariable(String name);
     void setSecondaryEntityInstance(EntityInstance additionalEntityInstance);
     TickDocument getTickDocument();
     SpaceGridInstanceWrapper getSpaceGridInstanceWrapper();
-    void killEntityInstanceProcedure(String primaryEntityName);
+    void killEntityInstanceProcedure(EntityInstance entityInstanceToKill);
+    EntityInstance createEntityInstanceProcedure(String EntityFamilyName);
+    CrossedExecutionContext getCrossedExecutionContext();
+    void derivePropertiesBetweenInstancesProcedure(EntityInstance createdEntityInstance, EntityInstance instanceToKill);
 }

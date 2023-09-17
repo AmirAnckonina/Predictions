@@ -1,5 +1,6 @@
 package simulator.execution.instance.world.impl;
 
+import simulator.definition.entity.impl.EntityDefinition;
 import simulator.execution.instance.spaceGrid.api.SpaceGridInstanceWrapper;
 import simulator.definition.rule.Rule;
 import simulator.definition.termination.Termination;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 public class WorldInstanceImpl implements WorldInstance {
 
+    private Map<String, EntityDefinition> entityDefinitionMap;
     private EnvironmentInstance environmentInstance;
     private Map<String, List<EntityInstance>> entitiesInstances;
     private List<Rule> rules;
@@ -20,17 +22,24 @@ public class WorldInstanceImpl implements WorldInstance {
     private SpaceGridInstanceWrapper spaceGridWrapper;
 
     public WorldInstanceImpl(
+            Map<String, EntityDefinition> entityDefinitionMap,
             EnvironmentInstance environmentInstance,
             Map<String, List<EntityInstance>> entitiesInstances,
             List<Rule> rules,
             Termination termination,
             SpaceGridInstanceWrapper spaceGrid) {
 
+        this.entityDefinitionMap = entityDefinitionMap;
         this.environmentInstance = environmentInstance;
         this.entitiesInstances = entitiesInstances;
         this.rules = rules;
         this.termination = termination;
         this.spaceGridWrapper = spaceGrid;
+    }
+
+    @Override
+    public Map<String, EntityDefinition> getEntityDefinitionMap() {
+        return entityDefinitionMap;
     }
 
     @Override

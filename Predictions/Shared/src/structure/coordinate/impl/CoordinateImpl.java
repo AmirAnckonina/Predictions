@@ -1,6 +1,6 @@
-package structure.impl;
+package structure.coordinate.impl;
 
-import structure.api.Coordinate;
+import structure.coordinate.api.Coordinate;
 
 public class CoordinateImpl implements Coordinate {
 
