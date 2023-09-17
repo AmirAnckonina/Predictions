@@ -11,11 +11,8 @@ import java.util.Date;
 import java.util.List;
 
 public class DetailsModel {
-
     private SimulatorManager simulatorManager;
     private ResultManager simulatorResultManager;
-
-
     private DetailsController mainController;
     private Stage primaryStage;
 
@@ -23,8 +20,12 @@ public class DetailsModel {
 
 
     public DetailsModel() {
-        this.simulatorManager = new SimulatorManagerImpl();
+    }
+
+    public void setSimulatorManager(SimulatorManager simulatorManager) {
+        this.simulatorManager = simulatorManager;
         this.simulatorResultManager = this.simulatorManager.getSimulatorResultManagerImpl();
+
     }
 
 

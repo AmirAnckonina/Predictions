@@ -2,6 +2,7 @@ package simulator.mainManager.api;
 import dto.*;
 import response.SimulatorResponse;
 import simulator.definition.world.WorldDefinition;
+import simulator.information.simulationDocument.api.SimulationDocumentFacade;
 import simulator.result.manager.api.ResultManager;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public interface SimulatorManager {
     EnvironmentPropertiesDto getEnvironmentPropertiesDefinition();
     void setSelectedEnvironmentPropertiesValue(String propName, String type, String value);
     void setEntityDefinitionPopulation(String entityName, Integer entityPopulation);
-    SimulationEndDto runSimulator();
+    SimulationDocumentFacade runSimulator();
     void exitSimulator();
     ResultManager getSimulatorResultManagerImpl();
     EstablishedEnvironmentInfoDto getEstablishedEnvironmentInfo();

@@ -61,6 +61,7 @@ public class PredictionsMainController {
             detailsComponentController.setDetailsModel(detailsModel);
             detailsComponentController.setSimulatorManager(simulatorManager);
             detailsModel.setController(detailsComponentController);
+            detailsModel.setSimulatorManager(simulatorManager);
 
             //Set execution tab component
             newExecutionComponentController.setPredictionsMainController(this);
@@ -142,7 +143,7 @@ public class PredictionsMainController {
 
         currentScreen = eCurrentScreen.RESULTS;
         newSimulationLoadedFlag = false;
-
+        resultsComponentController.simulationTabClicked();
 
 
         System.out.println("resultsTabClicked");
