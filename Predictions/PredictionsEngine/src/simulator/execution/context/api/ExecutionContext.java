@@ -10,8 +10,6 @@ import simulator.information.tickDocument.api.TickDocument;
 public interface ExecutionContext {
 
     EntityInstance getEntityInstanceByName(String entityName);
-    EntityInstance getPrimaryEntityInstance();
-    EntityInstance getSecondaryEntityInstance();
     PropertyInstance getEnvironmentVariable(String name);
     void setSecondaryEntityInstance(EntityInstance additionalEntityInstance);
     TickDocument getTickDocument();

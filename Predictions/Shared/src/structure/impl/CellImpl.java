@@ -57,7 +57,7 @@ public class CellImpl<T> implements Cell<T>{
     }
 
     @Override
-    public T removeObjectInstanceFromCell(){
+    public T removeObjectInstanceFromCell() {
         T copy = objectInstance;
         this.objectInstance = null;
         this.contentStatus = CellOccupationStatus.EMPTY;

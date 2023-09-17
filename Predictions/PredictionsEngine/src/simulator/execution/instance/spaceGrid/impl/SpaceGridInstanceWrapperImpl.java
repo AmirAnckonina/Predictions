@@ -236,7 +236,7 @@ public class SpaceGridInstanceWrapperImpl implements SpaceGridInstanceWrapper {
     public Coordinate getSouthCoordinate(Coordinate coordinate) {
         int newRowIdx;
 
-        if (coordinate.getRowIdx() + 1 > lastColIdx) {
+        if (coordinate.getRowIdx() + 1 > lastRowIdx) {
             newRowIdx = firstRowIdx;
         } else {
             newRowIdx = coordinate.getRowIdx() + 1;
