@@ -76,7 +76,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
                          worldBuilderManager.getWorldDefinition(), establishmentManager.getEstablishedWorldInstance()
         );
 
-        executionManager.runSimulator(simulationDocument);
+        simulatorExecutionManager.runSimulator(simulationDocument);
 
         return infoManager.createSimulationDocumentFacade(simulationDocument);
     }
