@@ -8,9 +8,11 @@ import simulator.execution.context.api.ExecutionContext;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.information.tickDocument.api.TickDocument;
+import structure.coordinate.api.Coordinate;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class ExecutionContextImpl implements ExecutionContext {
     private CrossedExecutionContext crossedExecutionContext;
@@ -76,5 +78,12 @@ public class ExecutionContextImpl implements ExecutionContext {
         this.crossedExecutionContext
                 .getEntitiesInstancesManager()
                 .derivePropertiesBetweenInstances(targetEntityInstance, sourceEntityInstance, this.currTickDocument);
+    }
+
+    @Override
+    public Optional<EntityInstance> searchEntityInstance(Coordinate srcEntityCoordinate, String targetEntityName, Integer envCircleDepthValue) {
+        return this.crossedExecutionContext
+                .getSpaceGridInstanceWrapper()
+                .searchEntityInstance(srcEntityCoordinate, targetEntityName, envCircleDepthValue);
     }
 }

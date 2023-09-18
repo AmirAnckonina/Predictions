@@ -1,34 +1,30 @@
 package simulator.execution.instance.spaceGrid.impl;
 
+import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.movement.enums.MoveDirection;
 import simulator.execution.instance.spaceGrid.api.SpaceGridInstanceWrapper;
 import simulator.execution.instance.spaceGrid.api.CellOrInstance;
-import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.runner.utils.exceptions.SimulatorRunnerException;
-import structure.cell.api.Cell;
-import structure.cell.enums.CellOccupationStatus;
+import simulator.execution.instance.spaceGrid.cell.api.Cell;
+import simulator.execution.instance.spaceGrid.cell.enums.CellOccupationStatus;
 import structure.coordinate.api.Coordinate;
-import structure.cell.impl.CellImpl;
+import simulator.execution.instance.spaceGrid.cell.impl.CellImpl;
 import structure.coordinate.impl.CoordinateImpl;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class SpaceGridInstanceWrapperImpl implements SpaceGridInstanceWrapper {
-    private Integer rows;
-    private Integer columns;
-    private Integer firstRowIdx;
-    private Integer firstColIdx;
-    private Integer lastRowIdx;
-    private Integer lastColIdx;
-    private Integer totalCells;
-    private Integer totalUnoccuipiedCells;
-    private final Cell<EntityInstance>[][] spaceGrid;
-    private List<EntityInstance> neighborsInstances;
+    private final Integer rows;
+    private final Integer columns;
+    private final Integer firstRowIdx;
+    private final Integer firstColIdx;
+    private final Integer lastRowIdx;
+    private final Integer lastColIdx;
+    private final Integer totalCells;
+    private Integer totalUnoccupiedCells;
+    private final Cell[][] spaceGrid;
+    private List<simulator.execution.instance.entity.api.EntityInstance> neighborsInstances;
     private List<Cell> neighborsCells;
 
     public SpaceGridInstanceWrapperImpl(Integer rows, Integer columns) {
@@ -38,18 +34,18 @@ public class SpaceGridInstanceWrapperImpl implements SpaceGridInstanceWrapper {
         this.columns = columns;
         this.firstColIdx = 0;
         this.lastColIdx = this.columns - 1;
-        this.totalCells = this.totalUnoccuipiedCells = rows * columns;
+        this.totalCells = this.totalUnoccupiedCells = rows * columns;
         this.spaceGrid = initSpaceGrid();
     }
 
 
     @Override
-    public Cell<EntityInstance>[][] initSpaceGrid() {
-        Cell<EntityInstance>[][] spaceGrid = new CellImpl[this.rows][this.columns];
+    public Cell[][] initSpaceGrid() {
+        Cell[][] spaceGrid = new CellImpl[this.rows][this.columns];
 
         for (int rowIdx = 0; rowIdx < rows; rowIdx++) {
             for (int colIdx = 0; colIdx < columns; colIdx++) {
-                spaceGrid[rowIdx][colIdx] = new CellImpl<>(new CoordinateImpl(rowIdx, colIdx));
+                spaceGrid[rowIdx][colIdx] = new CellImpl(new CoordinateImpl(rowIdx, colIdx));
             }
         }
 
@@ -57,8 +53,8 @@ public class SpaceGridInstanceWrapperImpl implements SpaceGridInstanceWrapper {
     }
 
     @Override
-    public int getTotalUnoccuipiedCells() {
-        return this.totalUnoccuipiedCells;
+    public int getTotalUnoccupiedCells() {
+        return this.totalUnoccupiedCells;
     }
 
     @Override
@@ -82,13 +78,13 @@ public class SpaceGridInstanceWrapperImpl implements SpaceGridInstanceWrapper {
     }
 
     @Override
-    public List<EntityInstance> getListOfInstancesInFirstCircle(Coordinate coordinate) {
+    public List<simulator.execution.instance.entity.api.EntityInstance> getListOfInstancesInFirstCircle(Coordinate coordinate) {
         getListOfInstancesOrCellsInGenericCircle(coordinate, 1, CellOrInstance.INSTANCE, null);
         return getNeighborsInstancesReference();
     }
 
     @Override
-    public List<EntityInstance> getListOfInstancesInFirstCircleByFamilyName(Coordinate coordinate, Optional<String> FamilyName) {
+    public List<simulator.execution.instance.entity.api.EntityInstance> getListOfInstancesInFirstCircleByFamilyName(Coordinate coordinate, Optional<String> FamilyName) {
         getListOfInstancesOrCellsInGenericCircle(coordinate, 1, CellOrInstance.INSTANCE, FamilyName);
         return getNeighborsInstancesReference();
     }
@@ -100,19 +96,19 @@ public class SpaceGridInstanceWrapperImpl implements SpaceGridInstanceWrapper {
     }
 
     @Override
-    public List<EntityInstance> getListOfInstancesInSecondCircle(Coordinate coordinate) {
+    public List<simulator.execution.instance.entity.api.EntityInstance> getListOfInstancesInSecondCircle(Coordinate coordinate) {
         getListOfInstancesOrCellsInGenericCircle(coordinate, 2, CellOrInstance.INSTANCE, null);
         return getNeighborsInstancesReference();
     }
 
     @Override
-    public List<EntityInstance> getListOfInstancesInSecondCircleByFamilyName(Coordinate coordinate, Optional<String> FamilyName) {
+    public List<simulator.execution.instance.entity.api.EntityInstance> getListOfInstancesInSecondCircleByFamilyName(Coordinate coordinate, Optional<String> FamilyName) {
         getListOfInstancesOrCellsInGenericCircle(coordinate, 2, CellOrInstance.INSTANCE, FamilyName);
         return getNeighborsInstancesReference();
     }
 
-    private List<EntityInstance> getNeighborsInstancesReference(){
-        List<EntityInstance> tempList = this.neighborsInstances;
+    private List<simulator.execution.instance.entity.api.EntityInstance> getNeighborsInstancesReference(){
+        List<simulator.execution.instance.entity.api.EntityInstance> tempList = this.neighborsInstances;
         this.neighborsInstances = null;
 
         return tempList;
@@ -126,9 +122,9 @@ public class SpaceGridInstanceWrapperImpl implements SpaceGridInstanceWrapper {
     }
 
     @Override
-    public List<EntityInstance> getAllInstancesOnSpaceGrid() {
+    public List<simulator.execution.instance.entity.api.EntityInstance> getAllInstancesOnSpaceGrid() {
 
-        List<EntityInstance> entityInstanceList = new ArrayList<>();
+        List<simulator.execution.instance.entity.api.EntityInstance> entityInstanceList = new ArrayList<>();
         Arrays.stream(this.spaceGrid)
                 .forEach((rowOfCells) -> {
                     Arrays.stream(rowOfCells)
@@ -146,7 +142,7 @@ public class SpaceGridInstanceWrapperImpl implements SpaceGridInstanceWrapper {
     public List<Cell> getOneStepVacantCells(Coordinate coordinate) {
 
         List<Cell> vacantCells = new ArrayList<>();
-        List<Coordinate> oneStepCoordinates = getOneStepCoordinates(coordinate);
+        List<Coordinate> oneStepCoordinates = getOneStepStraightCoordinates(coordinate);
 
         for (Coordinate currAdjCoordinate : oneStepCoordinates) {
 
@@ -159,19 +155,19 @@ public class SpaceGridInstanceWrapperImpl implements SpaceGridInstanceWrapper {
     }
 
     @Override
-    public List<Coordinate> getOneStepCoordinates(Coordinate coordinate) {
+    public List<Coordinate> getOneStepStraightCoordinates(Coordinate coordinate) {
 
         List<Coordinate> coordList = new ArrayList<>();
-        coordList.add(getAdjacentCoordinateByDirection(coordinate, MoveDirection.NORTH));
-        coordList.add(getAdjacentCoordinateByDirection(coordinate, MoveDirection.EAST));
-        coordList.add(getAdjacentCoordinateByDirection(coordinate, MoveDirection.WEST));
-        coordList.add(getAdjacentCoordinateByDirection(coordinate, MoveDirection.SOUTH));
+        coordList.add(getAdjacentStraightCoordinateByDirection(coordinate, MoveDirection.NORTH));
+        coordList.add(getAdjacentStraightCoordinateByDirection(coordinate, MoveDirection.EAST));
+        coordList.add(getAdjacentStraightCoordinateByDirection(coordinate, MoveDirection.WEST));
+        coordList.add(getAdjacentStraightCoordinateByDirection(coordinate, MoveDirection.SOUTH));
 
         return coordList;
     }
 
     @Override
-    public Coordinate getAdjacentCoordinateByDirection(Coordinate coordinate, MoveDirection moveDirection) {
+    public Coordinate getAdjacentStraightCoordinateByDirection(Coordinate coordinate, MoveDirection moveDirection) {
         Coordinate adjCoordinate;
 
         switch (moveDirection) {
@@ -192,6 +188,46 @@ public class SpaceGridInstanceWrapperImpl implements SpaceGridInstanceWrapper {
         }
 
         return adjCoordinate;
+    }
+
+    @Override
+    public Optional<EntityInstance> searchEntityInstance(Coordinate srcEntityCoordinate, String targetEntityName, Integer envCircleDepthValue) {
+        
+        EntityInstance singleTargetEntityInstance = null;
+        
+        // get all coordinates to the Nth circle
+        List<Coordinate> allCoordinatesInDepth = getAllCoordinatesInNCircleDepth(srcEntityCoordinate, envCircleDepthValue);
+        List<EntityInstance> targetEntityInstances =
+                allCoordinatesInDepth
+                        .stream()
+                        .map(this::getCellByCoordinate)
+                        .filter(cell -> cell.getCellOccupationStatus() == CellOccupationStatus.OCCUPIED)
+                        .map(Cell::getObjectInstance)
+                        .filter(objectInstance -> objectInstance.getEntityNameFamily().equals(targetEntityName))
+                        .collect(Collectors.toList());
+
+        if (!targetEntityInstances.isEmpty()) {
+            int randIdx = new Random().nextInt(targetEntityInstances.size());
+            singleTargetEntityInstance = targetEntityInstances.get(randIdx);
+        }
+
+        return Optional.ofNullable(singleTargetEntityInstance);
+    }
+
+    @Override
+    public List<Coordinate> getAllCoordinatesInNCircleDepth(Coordinate srcCoordinate, int circleDepth) {
+
+        List<Coordinate> coordinates = new ArrayList<>();
+
+        for (int dRow = -circleDepth; dRow <= circleDepth; dRow++) {
+            for (int dCol = -circleDepth; dCol <= circleDepth; dCol++) {
+                int actualRowIdx = (dRow + rows) % rows;
+                int actualColIdx = (dCol + columns) % columns;
+                coordinates.add(new CoordinateImpl(actualRowIdx, actualColIdx));
+            }
+        }
+
+        return coordinates;
     }
 
     @Override
@@ -249,12 +285,12 @@ public class SpaceGridInstanceWrapperImpl implements SpaceGridInstanceWrapper {
     }
 
     @Override
-    public void setCellAsReserved(Coordinate coordinate, EntityInstance entityInstance) {
+    public void setCellAsReserved(Coordinate coordinate, simulator.execution.instance.entity.api.EntityInstance entityInstance) {
         this.getCellByCoordinate(coordinate).reserveCell(entityInstance);
     }
 
     @Override
-    public void applyReservedCellsForCreatedInstances(List<EntityInstance> createdInstances) {
+    public void applyReservedCellsForCreatedInstances(List<simulator.execution.instance.entity.api.EntityInstance> createdInstances) {
 
         List<Cell> reservedCells =
                 createdInstances
@@ -262,8 +298,7 @@ public class SpaceGridInstanceWrapperImpl implements SpaceGridInstanceWrapper {
                         .map((singleInstance) -> this.getCellByCoordinate(singleInstance.getCoordinate()))
                         .collect(Collectors.toList());
 
-        reservedCells.
-                forEach((cell) -> cell.setOccupationStatus(CellOccupationStatus.OCCUPIED));
+        reservedCells.forEach((cell) -> cell.setOccupationStatus(CellOccupationStatus.OCCUPIED));
     }
 
 

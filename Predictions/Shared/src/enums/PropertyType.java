@@ -2,18 +2,23 @@ package enums;
 
 public enum PropertyType {
     DECIMAL{
+        @Override
         public Integer convert(Object value) {
             if (!(value instanceof Integer)) {
                 throw new IllegalArgumentException("value " + value + " is not of a DECIMAL type (expected Integer class)");
             }
             return (Integer) value;
         }
-    }, BOOLEAN{
+    }, BOOLEAN {
         public Boolean convert(Object value) {
-            if (!(value instanceof Boolean)) {
+
+            if (value instanceof Boolean) {
+                return (Boolean) value;
+            } else if ("true".equalsIgnoreCase(value.toString()) || "false".equalsIgnoreCase(value.toString())) {
+                    return Boolean.parseBoolean(value.toString());
+            } else {
                 throw new IllegalArgumentException("value " + value + " is not of a BOOLEAN type (expected Boolean class)");
             }
-            return (Boolean) value;
         }
     }, STRING{
         public String convert(Object value) {
@@ -31,5 +36,5 @@ public enum PropertyType {
         }
 
     };
-    public abstract <T> T convert(T value);
+    public abstract <T> T convert(Object value);
 }

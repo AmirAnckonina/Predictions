@@ -127,6 +127,8 @@ public class SimulatorRunnerImpl implements SimulatorRunner {
             this.crossedExecutionContext
                     .getSpaceGridInstanceWrapper()
                     .applyReservedCellsForCreatedInstances(createdInstances);
+            
+            this.crossedExecutionContext.getEntitiesInstancesManager().clearCreationWaitingList();
 
         } catch (Exception e) {
             e.printStackTrace(System.out);

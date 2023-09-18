@@ -40,10 +40,20 @@ public class EqualityConditionExpression extends AbstractSingleConditionExpressi
                     "can't complete equality test");
         }
 
+        if (propType != PropertyType.BOOLEAN || compType != PropertyType.BOOLEAN) {
+            System.out.println("debug");
+        }
         Boolean returnValue = false;
-        switch (propType) {
+        returnValue
+                = propType.convert(
+                        this.conditionProperty.getValue(context)
+                )
+                .equals(
+                        compType.convert(this.comparedValue.getValue(context))
+                );
+       /* switch (propType) {
             case BOOLEAN:
-                returnValue = (Boolean) this.conditionProperty.getValue(context)
+                returnValue = this.conditionProperty.getValue(context)
                         == (Boolean) this.comparedValue.getValue(context);
                 break;
             case STRING:
@@ -59,7 +69,7 @@ public class EqualityConditionExpression extends AbstractSingleConditionExpressi
                 returnValue = (Integer) this.conditionProperty.getValue(context)
                         == (Integer) this.comparedValue.getValue(context);
                 break;
-        }
+        }*/
 
         return returnValue;
     }

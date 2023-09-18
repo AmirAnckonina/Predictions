@@ -24,9 +24,11 @@ public class TicksMethodArgumentExpression extends AbstractEntityPropertyMethodA
 
     @Override
     public Object getValue(ExecutionContext context) {
-        return context
+        Integer tickNo = context
                 .getEntityInstanceByName(this.entityName)
                 .getPropertyInstanceByName(this.propertyName)
                 .getLastTickUpdate();
+
+        return Float.parseFloat(tickNo.toString());
     }
 }

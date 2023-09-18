@@ -3,8 +3,8 @@ package simulator.execution.instance.movement.manager.impl;
 import simulator.execution.instance.spaceGrid.api.SpaceGridInstanceWrapper;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.movement.manager.api.MovementManager;
-import structure.cell.api.Cell;
-import structure.cell.enums.CellOccupationStatus;
+import simulator.execution.instance.spaceGrid.cell.api.Cell;
+import simulator.execution.instance.spaceGrid.cell.enums.CellOccupationStatus;
 import structure.coordinate.api.Coordinate;
 import structure.coordinate.impl.CoordinateImpl;
 

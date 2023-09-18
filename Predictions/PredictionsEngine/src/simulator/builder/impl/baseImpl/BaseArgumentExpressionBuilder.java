@@ -185,7 +185,7 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
 
         return new TicksMethodArgumentExpression(
                 ExpressionMethodType.TICKS,
-                contextValidator.getEntityPropertyType(entityName, propertyName),
+                PropertyType.FLOAT,
                 entityName,
                 propertyName);
     }

@@ -15,6 +15,6 @@ public interface EntitiesInstancesManager {
     void addInstanceToKillWaitingList(EntityInstance entityInstanceToKill);
     void completeKillEntitiesInstancesInWaitingList();
     void addInstanceToCreateWaitingList(EntityInstance entityInstanceToCreate);
-    void completeCreateEntitiesInstancesInWaitingList();
+    void clearCreationWaitingList();
     void derivePropertiesBetweenInstances(EntityInstance targetEntityInstance, EntityInstance sourceEntityInstance, TickDocument tickDocument);
 }

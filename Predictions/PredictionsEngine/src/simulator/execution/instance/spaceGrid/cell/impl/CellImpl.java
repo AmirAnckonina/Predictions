@@ -1,22 +1,23 @@
-package structure.cell.impl;
+package simulator.execution.instance.spaceGrid.cell.impl;
 
-import structure.cell.api.Cell;
-import structure.cell.enums.CellOccupationStatus;
-import structure.cell.exception.UnauthorizedCellAccess;
+import simulator.execution.instance.entity.api.EntityInstance;
+import simulator.execution.instance.spaceGrid.cell.api.Cell;
+import simulator.execution.instance.spaceGrid.cell.exception.UnauthorizedCellAccess;
+import simulator.execution.instance.spaceGrid.cell.enums.CellOccupationStatus;
 import structure.coordinate.api.Coordinate;
 
-public class CellImpl<T> implements Cell<T> {
+public class CellImpl implements Cell {
     private Coordinate coordinate;
-    private T objectInstance;
+    private EntityInstance objectInstance;
     private CellOccupationStatus occupationStatus;
 
-    private CellImpl(Coordinate coordinate, T objectInstance, CellOccupationStatus occupationStatus) {
+    private CellImpl(Coordinate coordinate, EntityInstance objectInstance, CellOccupationStatus occupationStatus) {
         this.coordinate = coordinate;
         this.objectInstance = objectInstance;
         this.occupationStatus = occupationStatus;
     }
 
-    public CellImpl(Coordinate coordinate, T objectInstance) {
+    public CellImpl(Coordinate coordinate, EntityInstance objectInstance) {
         this(coordinate, objectInstance, CellOccupationStatus.OCCUPIED);
     }
 
@@ -25,7 +26,7 @@ public class CellImpl<T> implements Cell<T> {
     }
 
     @Override
-    public T getObjectInstance() {
+    public EntityInstance getObjectInstance() {
         if (this.occupationStatus == CellOccupationStatus.RESERVED) {
             throw new UnauthorizedCellAccess("Object instance couldn't be returned, because cell is reserved");
         }
@@ -33,12 +34,12 @@ public class CellImpl<T> implements Cell<T> {
     }
 
     @Override
-    public void updateObjectInstance(T objectInstance) {
+    public void updateObjectInstance(EntityInstance objectInstance) {
         this.objectInstance = objectInstance;
     }
 
     @Override
-    public boolean insertObjectInstanceToCell(T objectInstance) {
+    public boolean insertObjectInstanceToCell(EntityInstance objectInstance) {
         boolean returnVal = false;
 
         if (this.occupationStatus == CellOccupationStatus.EMPTY){
@@ -51,8 +52,8 @@ public class CellImpl<T> implements Cell<T> {
     }
 
     @Override
-    public T removeObjectInstanceFromCell() {
-        T copy = objectInstance;
+    public EntityInstance removeObjectInstanceFromCell() {
+        EntityInstance copy = objectInstance;
         this.objectInstance = null;
         this.occupationStatus = CellOccupationStatus.EMPTY;
 
@@ -70,7 +71,7 @@ public class CellImpl<T> implements Cell<T> {
     }
 
     @Override
-    public void reserveCell(T objectInstance) {
+    public void reserveCell(EntityInstance objectInstance) {
         this.occupationStatus = CellOccupationStatus.RESERVED;
         this.objectInstance = objectInstance;
     }

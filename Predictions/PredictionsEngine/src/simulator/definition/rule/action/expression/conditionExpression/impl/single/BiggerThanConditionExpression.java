@@ -44,17 +44,15 @@ public class BiggerThanConditionExpression extends AbstractSingleConditionExpres
 
         switch (propType) {
             case DECIMAL:
-                returnValue = (Integer) this.conditionProperty.getValue(context)
-                        > (Integer) this.comparedValue.getValue(context);
+            case FLOAT:
+                returnValue = ( (Float) (this.conditionProperty.getValue(context)) )
+                        > ( (Float) (this.comparedValue.getValue(context)));
                 break;
             case BOOLEAN:
             case STRING:
                 throw new SimulatorRunnerException("Different arguments types - Condition test is not available");
-            case FLOAT:
-                returnValue = (Float) this.conditionProperty.getValue(context)
-                        > (Float) this.comparedValue.getValue(context);
-                break;
         }
+
         return returnValue;
     }
 }
