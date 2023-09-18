@@ -20,10 +20,7 @@ public class SimulationDocumentFacadeImpl implements SimulationDocumentFacade {
     @Override
     public Map<String, Integer> getMappedEntitiesToNumOfEntities() {
         Map<String, Integer> res = new HashMap<>();
-
-        for(Map.Entry<String,List<EntityInstance>> iter: simulationDocument.getWorldInstance().getEntitiesInstances().entrySet()){
-            res.put(new String(iter.getKey()), iter.getValue().size());
-        }
+        simulationDocument.getWorldInstance().getEntitiesInstances().forEach((entityName, entityInstances) -> res.put(entityName, entityInstances.size()));
 
         return res;
     }
