@@ -2,10 +2,12 @@ package structure.coordinate.impl;
 
 import structure.coordinate.api.Coordinate;
 
+import java.util.Objects;
+
 public class CoordinateImpl implements Coordinate {
 
-    private int colIdx;
     private int rowIdx;
+    private int colIdx;
 
     public CoordinateImpl(int rowIdx, int colIdx) {
         this.rowIdx = rowIdx;
@@ -20,6 +22,11 @@ public class CoordinateImpl implements Coordinate {
     @Override
     public int getRowIdx() {
         return rowIdx;
+    }
+
+    @Override
+    public boolean coordinateEquals(Coordinate otherCoordinate) {
+        return this.rowIdx == otherCoordinate.getRowIdx() && this.colIdx == otherCoordinate.getColIdx();
     }
 
     @Override

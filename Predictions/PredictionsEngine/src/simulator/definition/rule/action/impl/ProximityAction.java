@@ -1,13 +1,16 @@
 package simulator.definition.rule.action.impl;
 
+import enums.PropertyType;
 import simulator.definition.rule.action.api.abstracts.AbstractAction;
 import simulator.definition.rule.action.expression.argumentExpression.api.interfaces.ArgumentExpression;
 import enums.ActionType;
 import simulator.execution.context.api.ExecutionContext;
+import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.runner.utils.exceptions.SimulatorRunnerException;
 import structure.coordinate.api.Coordinate;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ProximityAction extends AbstractAction {
 
@@ -48,11 +51,15 @@ public class ProximityAction extends AbstractAction {
 
         // Get the coordinate of the srcEntity
         Coordinate srcEntityCoordinate = executionContext.getEntityInstanceByName(this.sourceEntityName).getCoordinate();
+        Integer envCircleDepthValue = Math.round(PropertyType.FLOAT.convert(this.envDepth.getValue(executionContext)));
 
-        // Get targetEntity instance in the envDepth - if there is!!!!
-        // If so -> execute the Action...
-        // Otherwise -> do nothing.
+        Optional<EntityInstance> maybeTargetEntityInstance =
+                executionContext.searchEntityInstance(srcEntityCoordinate, this.targetEntityName, envCircleDepthValue);
 
-        throw new SimulatorRunnerException("Proximity action invoke not implemented");
+        maybeTargetEntityInstance
+                .ifPresent(targetInstance -> {
+                    executionContext.setSecondaryEntityInstance(targetInstance);
+                    actionsUnderProximity.forEach((action) -> action.invoke(executionContext));
+                });
     }
 }

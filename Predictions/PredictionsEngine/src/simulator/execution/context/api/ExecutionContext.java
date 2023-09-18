@@ -5,6 +5,9 @@ import simulator.execution.instance.entity.api.EntityInstance;
 
 import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.information.tickDocument.api.TickDocument;
+import structure.coordinate.api.Coordinate;
+
+import java.util.Optional;
 
 
 public interface ExecutionContext {
@@ -17,4 +20,5 @@ public interface ExecutionContext {
     EntityInstance createEntityInstanceProcedure(String EntityFamilyName);
     CrossedExecutionContext getCrossedExecutionContext();
     void derivePropertiesBetweenInstancesProcedure(EntityInstance createdEntityInstance, EntityInstance instanceToKill);
+    Optional<EntityInstance> searchEntityInstance(Coordinate srcEntityCoordinate, String targetEntityName, Integer envCircleDepthValue);
 }

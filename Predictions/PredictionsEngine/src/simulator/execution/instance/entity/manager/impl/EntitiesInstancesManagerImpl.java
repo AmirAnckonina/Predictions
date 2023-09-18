@@ -84,21 +84,6 @@ public class EntitiesInstancesManagerImpl implements EntitiesInstancesManager {
             killEntityInstance(entityInstance.getEntityNameFamily(), entityInstance.getId());
             entityItr.remove();
         }
-
-        /**
-         * The part below is to validate i already deleted the instances, so it shouldn't reach the if block never
-         * This is the old loop but we changed the method
-         */
-        entitiesInstances.forEach((entityFamily, entityInstances) -> {
-            // Run on all current entity instances with itr
-            Iterator<EntityInstance> entityItr2 = entityInstances.iterator();
-            while (entityItr2.hasNext()) {
-                EntityInstance entityInstance = entityItr2.next();
-                if (!entityInstance.isAlive()) {
-                    entityItr2.remove();
-                }
-            }
-        });
     }
 
     @Override
@@ -107,9 +92,8 @@ public class EntitiesInstancesManagerImpl implements EntitiesInstancesManager {
     }
 
     @Override
-    public void completeCreateEntitiesInstancesInWaitingList() {
-
-        throw new SimulatorRunnerException("Not impl createEntitiesInstancesInWaitingList method");
+    public void clearCreationWaitingList() {
+        this.createWaitingList.clear();
     }
 
     @Override
@@ -128,5 +112,6 @@ public class EntitiesInstancesManagerImpl implements EntitiesInstancesManager {
                     }
         });
     }
+
 
 }

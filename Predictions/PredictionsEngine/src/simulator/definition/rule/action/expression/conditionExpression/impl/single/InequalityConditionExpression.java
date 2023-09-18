@@ -31,6 +31,7 @@ public class InequalityConditionExpression extends AbstractSingleConditionExpres
 
     @Override
     public boolean test(ExecutionContext context) {
+
         PropertyType propType = this.conditionProperty.getExpressionReturnedValueType();
         PropertyType compType = this.comparedValue.getExpressionReturnedValueType();
 
@@ -40,7 +41,14 @@ public class InequalityConditionExpression extends AbstractSingleConditionExpres
         }
 
         Boolean returnValue = false;
-        switch (propType) {
+        returnValue
+                = propType.convert(
+                        this.conditionProperty.getValue(context)
+                )
+                .equals(
+                        compType.convert(this.comparedValue.getValue(context))
+                );
+       /* switch (propType) {
             case BOOLEAN:
                 returnValue = (Boolean) this.conditionProperty.getValue(context)
                         != (Boolean) this.comparedValue.getValue(context);
@@ -58,7 +66,7 @@ public class InequalityConditionExpression extends AbstractSingleConditionExpres
                 returnValue = (Integer) this.conditionProperty.getValue(context)
                         != (Integer) this.comparedValue.getValue(context);
                 break;
-        }
+        }*/
 
         return returnValue;
     }
