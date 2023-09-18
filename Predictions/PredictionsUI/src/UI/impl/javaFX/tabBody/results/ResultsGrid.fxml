@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.impl.javaFX.tabBody.results.ResultsController">
@@ -18,21 +23,36 @@
             </ScrollPane>
             <VBox prefHeight="200.0">
                <children>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="280.0" prefWidth="600.0">
+                  <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="280.0">
                      <content>
                         <VBox>
                            <children>
-                              <Button fx:id="reRunButton" maxHeight="25.0" minHeight="25.0" mnemonicParsing="false" onAction="#reRunButtonClicked" prefHeight="25.0" text="ReRun!" />
-                              <ListView fx:id="executionDetailsListView" />
+                              <HBox spacing="10.0">
+                                 <children>
+                                    <Button fx:id="reRunButton" maxHeight="25.0" minHeight="25.0" mnemonicParsing="false" onAction="#reRunButtonClicked" prefHeight="25.0" text="ReRun!" />
+                                    <RadioButton fx:id="resultByEntity" mnemonicParsing="false" onMouseClicked="#resultByEntityClicked" text="Result by entity">
+                                       <padding>
+                                          <Insets bottom="3.0" top="3.0" />
+                                       </padding>
+                                    </RadioButton>
+                                 </children>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </HBox>
+                              <ListView fx:id="executionDetailsListView" VBox.vgrow="ALWAYS" />
                            </children>
                         </VBox>
                      </content>
                   </ScrollPane>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="280.0" prefWidth="700.0">
-                     <content>
-                        <ListView fx:id="executionDetailsListView" minHeight="200.0" minWidth="300.0" />
-                     </content>
-                  </ScrollPane>
+                  <GridPane fx:id="resultComponentHolderGP" VBox.vgrow="ALWAYS">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                  </GridPane>
                </children>
             </VBox>
          </children>

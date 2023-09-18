@@ -2,6 +2,8 @@ package simulator.information.manager.impl;
 
 import dto.SimulationEndDto;
 import simulator.definition.world.WorldDefinition;
+import simulator.execution.instance.entity.api.EntityInstance;
+import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.execution.instance.world.api.WorldInstance;
 import simulator.information.manager.exception.SimulationInformationException;
 import simulator.information.simulationDocument.api.SimulationDocument;
@@ -17,6 +19,7 @@ import simulator.result.manager.impl.ResultManagerImpl;
 import simulator.information.manager.api.InformationManager;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -38,4 +41,5 @@ public class InformationManagerImpl implements InformationManager {
         SimulationDocumentFacadeImpl simulationDocumentFacade = new SimulationDocumentFacadeImpl(simulationDocument);
         return null;
     }
+
 }

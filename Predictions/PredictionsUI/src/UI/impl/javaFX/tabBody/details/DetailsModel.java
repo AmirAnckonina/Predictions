@@ -24,8 +24,7 @@ public class DetailsModel {
 
     public void setSimulatorManager(SimulatorManager simulatorManager) {
         this.simulatorManager = simulatorManager;
-        this.simulatorResultManager = this.simulatorManager.getSimulatorResultManagerImpl();
-
+//        this.simulatorResultManager = this.simulatorManager.getSimulatorResultManagerImpl();
     }
 
 

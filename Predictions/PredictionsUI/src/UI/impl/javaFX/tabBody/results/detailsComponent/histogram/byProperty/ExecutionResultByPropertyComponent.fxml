@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+
+<GridPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byProperty.ExecutionResultByPropertyController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+   </rowConstraints>
+   <children>
+      <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="280.0">
+         <content>
+            <HBox>
+               <children>
+                  <ScrollPane>
+                     <content>
+                        <ListView fx:id="executionDetailsEntitiesListView" minHeight="200.0" minWidth="300.0" onContextMenuRequested="#entityNameClicked" />
+                     </content>
+                  </ScrollPane>
+                  <ScrollPane>
+                     <content>
+                        <ListView fx:id="executionDetailsPropertiesListView" />
+                     </content>
+                  </ScrollPane>
+               </children>
+            </HBox>
+         </content>
+      </ScrollPane>
+   </children>
+</GridPane>
