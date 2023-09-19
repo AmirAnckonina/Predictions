@@ -3,6 +3,8 @@ package UI.impl.javaFX.tabBody.results;
 import UI.impl.javaFX.mainScene.PredictionsMainController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.DetailsResultController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.entity.EntityComponentController;
+import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byEntities.ExecutionResultByEntityController;
+import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byProperty.ExecutionResultByPropertyController;
 import UI.impl.javaFX.top.PredictionsTopModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,6 +12,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.RadioButton;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -24,8 +28,7 @@ import java.util.*;
 import java.util.List;
 import java.util.Map;
 
-import static UI.impl.javaFX.common.CommonResourcesPaths.RESULT_SIMULATION_DETAILS_FXML_RESOURCE;
-import static UI.impl.javaFX.common.CommonResourcesPaths.RESULT_SIMULATION_ENTITY_DETAILS_FXML_RESOURCE;
+import static UI.impl.javaFX.common.CommonResourcesPaths.*;
 
 public class ResultsController {
 
@@ -45,7 +48,10 @@ public class ResultsController {
     private Button reRunButton;
 
     @FXML
-    private ListView<?> executionDetailsListView;
+    private RadioButton resultByEntity;
+
+    @FXML
+    private GridPane resultComponentHolderGP;
 
     @FXML
     public void initialize() {
@@ -53,6 +59,12 @@ public class ResultsController {
 
     @FXML
     public void reRunButtonClicked(ActionEvent event) {
+
+    }
+
+
+    @FXML
+    void resultByEntityClicked(MouseEvent event) {
 
     }
 
@@ -80,6 +92,46 @@ public class ResultsController {
             e.getMessage();
             e.printStackTrace(System.out);
         }
+    }
+
+    private void createHistogramByPropertyComponent(List<String> propertiesList){
+        try
+        {
+            FXMLLoader loader = new FXMLLoader();
+            URL fxmlUrl = getClass().getResource(RESULT_SIMULATION_PROPERTY_DETAILS_HISTOGRAM_FXML_RESOURCE);
+            loader.setLocation(fxmlUrl);
+            GridPane gpComponent = loader.load();
+
+            ExecutionResultByPropertyController controller = loader.getController();
+            controller.setMainController(this);
+            controller.setPropertiesList(propertiesList);
+            resultComponentHolderGP.getChildren().clear();
+            resultComponentHolderGP.getChildren().add(gpComponent);
+        } catch (Exception e) {
+            e.getMessage();
+            e.printStackTrace(System.out);
+        }
+    }
+
+    private void createHistogramByEntityComponent(List<String> entitiesList){
+        try
+        {
+            FXMLLoader loader = new FXMLLoader();
+            URL fxmlUrl = getClass().getResource(RESULT_SIMULATION_ENTITY_DETAILS_HISTOGRAM_FXML_RESOURCE);
+            loader.setLocation(fxmlUrl);
+            GridPane gpComponent = loader.load();
+            ExecutionResultByEntityController controller = loader.getController();
+            controller.setList(entitiesList);
+            resultComponentHolderGP.getChildren().clear();
+            resultComponentHolderGP.getChildren().add(gpComponent);
+        } catch (Exception e) {
+            e.getMessage();
+            e.printStackTrace(System.out);
+        }
+    }
+
+    public void entityChosenInHistogramByProperty(String entityName){
+
     }
 
     public void simulationTabClicked(){
