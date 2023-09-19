@@ -4,20 +4,15 @@ import UI.impl.javaFX.tabBody.details.DetailsController;
 import UI.impl.javaFX.tabBody.details.DetailsModel;
 import UI.impl.javaFX.tabBody.newExecution.newExecutionMain.NewExecutionController;
 import UI.impl.javaFX.tabBody.results.ResultsController;
-import UI.impl.javaFX.tabBody.results.ResultsModel;
+import UI.impl.javaFX.tabBody.results.detailsComponent.ResultsModel;
 import UI.impl.javaFX.top.TopController;
 import UI.impl.javaFX.top.PredictionsTopModel;
-import dto.BasePropertyDto;
 import dto.EnvironmentPropertiesDto;
-import dto.EstablishedEnvironmentInfoDto;
 import dto.SimulationDetailsDto;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
-import response.SimulatorResponse;
 import simulator.mainManager.api.SimulatorManager;
 import simulator.mainManager.impl.SimulatorManagerImpl;
-
-import java.util.Map;
 
 public class PredictionsMainController {
 

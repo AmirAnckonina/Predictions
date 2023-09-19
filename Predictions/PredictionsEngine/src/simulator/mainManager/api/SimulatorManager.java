@@ -13,7 +13,6 @@ public interface SimulatorManager {
     void setEntityDefinitionPopulation(String entityName, Integer entityPopulation);
     SimulationDocumentInfoDto runSimulator();
     void exitSimulator();
-    ResultManager getSimulatorResultManagerImpl();
     EstablishedEnvironmentInfoDto getEstablishedEnvironmentInfo();
     List<String> getAllEntities();
     <T> void setEnvironmentPropertyValue(String envPropertyName, T envPropertyValue);

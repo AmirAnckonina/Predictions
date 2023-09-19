@@ -1,4 +1,6 @@
-package UI.impl.javaFX.tabBody.results;
+package UI.impl.javaFX.tabBody.results.detailsComponent;
+
+import UI.impl.javaFX.tabBody.results.ResultsController;
 
 public class ResultsModel {
     private ResultsController resultsController;
