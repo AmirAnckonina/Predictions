@@ -27,7 +27,7 @@ public class SimulationDocumentImpl implements SimulationDocument {
         this.simulationStatus = SimulationStatus.READY;
         this.tickDocumentMap = new HashMap<>();
         this.createInitialSimulationDocumentInfoDto();
-        this.createInitialTickDocument();
+        //this.createInitialTickDocument();
     }
 
     @Override
@@ -51,10 +51,10 @@ public class SimulationDocumentImpl implements SimulationDocument {
                 );
     }
 
-    @Override
+ /*   @Override
     public void createInitialTickDocument() {
         this.addTickDocument(new TickDocumentImpl(INIT_TICK, 0, this.worldInstance.getEntitiesInstances()));
-    }
+    }*/
 
     @Override
     public SimulationDocumentInfoDto getInitialSimulationDocumentInfoDto() {
