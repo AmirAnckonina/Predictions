@@ -2,6 +2,8 @@ package simulator.information.manager.impl;
 
 import dto.SimulationDocumentInfoDto;
 import simulator.definition.world.WorldDefinition;
+import simulator.execution.instance.entity.api.EntityInstance;
+import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.execution.instance.world.api.WorldInstance;
 import simulator.information.manager.exception.SimulationInformationException;
 import simulator.information.simulationDocument.api.SimulationDocument;
@@ -13,10 +15,7 @@ import simulator.result.manager.api.ResultManager;
 import simulator.result.manager.impl.ResultManagerImpl;
 import simulator.information.manager.api.InformationManager;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -67,6 +66,38 @@ public class InformationManagerImpl implements InformationManager {
     @Override
     public SimulationDocumentInfoDto getInitialSimulationDocumentInfo(String simulationGuid) {
         return this.simulationDocumentMap.get(simulationGuid).getInitialSimulationDocumentInfoDto();
+    }
+
+    @Override
+    public Map<String, Integer> getMappedPropertiesToNumOfEntitiesWithSameValues(String propertyName, String simulationGuid) {
+        Map<String,List<EntityInstance>> entitiesNames = simulationDocumentMap.get(simulationGuid).getSimulationResult().getEntities();
+        List<String> propertiesByEntity = new ArrayList<>();
+        entitiesNames.forEach((entityName, entityInstancesList) -> propertiesByEntity.
+                addAll(simulationDocumentMap.get(simulationGuid).getSimulationResult().getEntityPropertiesNames(entityName)));
+
+        Map<String,Integer> entityInstanceList = getAllEntityInstancesHasPropertyByPropertyName(
+                propertyName, simulationGuid);
+
+        return entityInstanceList;
+    }
+
+    private Map<String,Integer> getAllEntityInstancesHasPropertyByPropertyName(
+            String propertyName, String simulationGuid) {
+        Set<String> entitiesNames = this.simulationDocumentMap.get(simulationGuid).getWorldInstance().getEntityDefinitionMap().keySet();
+        List<EntityInstance> entityInstanceList = new ArrayList<>();
+        entitiesNames.forEach(nameOfEntity -> entityInstanceList.addAll(this.simulationDocumentMap.get(simulationGuid).getSimulationResult()
+                .getEntities().get(nameOfEntity)));
+        Map<String, Integer> valueCountMap = new HashMap<>();
+
+        for (EntityInstance instance : entityInstanceList) {
+            PropertyInstance propertyInstance = instance.getPropertyInstanceByName(propertyName);
+            if (propertyInstance != null) {
+                Object value = propertyInstance.getValue();
+                valueCountMap.put("" + value, valueCountMap.getOrDefault("" + value, 0) + 1);
+            }
+        }
+
+        return valueCountMap;
     }
 
 }

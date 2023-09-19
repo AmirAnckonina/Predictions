@@ -13,9 +13,12 @@ public class TickDocumentImpl implements TickDocument {
     Map<String, List<EntityInstance>> entitiesInstancesMap;
 
     public TickDocumentImpl(int tickNumber, long timePassedInSeconds, Map<String, List<EntityInstance>> entitiesInstancesMap) {
-        this.tickNumber = tickNumber;
-        this.timePassedInSeconds = timePassedInSeconds;
-        this.entitiesInstancesMap = entitiesInstancesMap;
+            this.tickNumber = tickNumber;
+            this.timePassedInSeconds = timePassedInSeconds;
+
+        synchronized (this) {
+            this.entitiesInstancesMap = entitiesInstancesMap;
+        }
     }
 
     @Override

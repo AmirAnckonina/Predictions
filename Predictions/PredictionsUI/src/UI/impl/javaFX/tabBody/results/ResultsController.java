@@ -7,6 +7,7 @@ import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byEntities.Exec
 import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byProperty.ExecutionResultByPropertyController;
 import UI.impl.javaFX.top.PredictionsTopModel;
 import dto.SimulationDocumentInfoDto;
+import dto.SimulationResultMappedProperties;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -103,11 +104,6 @@ public class ResultsController {
         }
     }
 
-
-    public void setSimulationDocumentFacade(SimulationDocumentFacade simulationDocumentFacade) {
-        this.simulationDocumentFacade = simulationDocumentFacade;
-    }
-
     private void pollUpdatedSimulationDocumentDto() {
         // get the current simulation Guid - according to what currently choosed under lost view
         String guid = this.executionListView.getSelectionModel().getSelectedItem().getText();
@@ -126,23 +122,23 @@ public class ResultsController {
     }
 
     private void createSimulationResultComponent(SimulationDocumentInfoDto simulationDocumentInfoDto) {
-//        try
-//        {
-//            FXMLLoader loader = new FXMLLoader();
-//            URL fxmlUrl = getClass().getResource(RESULT_SIMULATION_DETAILS_FXML_RESOURCE);
-//            loader.setLocation(fxmlUrl);
-//            GridPane gpComponent = loader.load();
-//
-//            detailsResultController = loader.getController();
-//            detailsResultController.setValues(simulationDocumentInfoDto.getSimulationGuid(),
-//                    simulationDocumentInfoDto.getTickNo().toString(),
-//                    simulationDocumentInfoDto.getTimePassedInSeconds().toString(),
-//                    simulationDocumentInfoDto.getCurrentEntityPopulationMap(),
-//                    simulationDocumentInfoDto.getInitialEntityPopulationMap());
-//        } catch (Exception e) {
-//            e.getMessage();
-//            e.printStackTrace(System.out);
-//        }
+        try
+        {
+            FXMLLoader loader = new FXMLLoader();
+            URL fxmlUrl = getClass().getResource(RESULT_SIMULATION_DETAILS_FXML_RESOURCE);
+            loader.setLocation(fxmlUrl);
+            GridPane gpComponent = loader.load();
+
+            detailsResultController = loader.getController();
+            detailsResultController.setValues(simulationDocumentInfoDto.getSimulationGuid(),
+                    simulationDocumentInfoDto.getTickNo().toString(),
+                    simulationDocumentInfoDto.getTimePassedInSeconds().toString(),
+                    simulationDocumentInfoDto.getCurrentEntityPopulationMap(),
+                    simulationDocumentInfoDto.getInitialEntityPopulationMap());
+        } catch (Exception e) {
+            e.getMessage();
+            e.printStackTrace(System.out);
+        }
     }
 
     private void createHistogramByPropertyComponent(List<String> propertiesList){
@@ -182,12 +178,12 @@ public class ResultsController {
     }
 
     public void entityChosenInHistogramByProperty(String propertyName){
-        SimulationResult simulationResult = simulationResultMap.get(this.executionListView.getSelectionModel().getSelectedItem().toString());
         executionResultByPropertyController.clearPropertyList();
-        Map<String, Integer> mappedPropertiesValuesToNumOfEntitiesWithSameValue = simulationDocumentFacade.
-                getMappedPropertiesToNumOfEntitiesWithSameValues(propertyName);
+        SimulationResultMappedProperties mappedPropertiesValuesToNumOfEntitiesWithSameValue = simulatorManager.
+                getMappedPropertiesToNumOfEntitiesWithSameValues(propertyName, this.executionListView.getSelectionModel().getSelectedItem().toString());
         List<String> resMapped = new ArrayList<>();
-        mappedPropertiesValuesToNumOfEntitiesWithSameValue.forEach((propName, numOfEntities) -> resMapped.add(propName + ": " + numOfEntities));
+        mappedPropertiesValuesToNumOfEntitiesWithSameValue.getMappedPropertiesToNumOfEntitiesByValues()
+                .forEach((propName, numOfEntities) -> resMapped.add(propName + ": " + numOfEntities));
         executionResultByPropertyController.setPropertiesList(resMapped);
     }
 

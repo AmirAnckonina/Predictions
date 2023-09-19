@@ -3,6 +3,7 @@ import dto.*;
 import simulator.result.manager.api.ResultManager;
 
 import java.util.List;
+import java.util.Map;
 
 public interface SimulatorManager {
 
@@ -25,4 +26,6 @@ public interface SimulatorManager {
     void pauseSimulationByGuid(String GUID);
     void resumeSimulationByGuid(String GUID);
     SimulationDocumentInfoDto getLatestSimulationDocumentInfo(String guid);
+
+    SimulationResultMappedProperties getMappedPropertiesToNumOfEntitiesWithSameValues(String propertyName, String string);
 }

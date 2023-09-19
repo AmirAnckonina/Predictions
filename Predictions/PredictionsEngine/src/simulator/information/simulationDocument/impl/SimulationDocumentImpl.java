@@ -24,10 +24,12 @@ public class SimulationDocumentImpl implements SimulationDocument {
 //private Map<SimulationStatus, SimulationDocumentInfoDto> statusInfoMap;
 
     public SimulationDocumentImpl(String simulationGuid, WorldInstance worldInstance) {
-        this.SimulationGuid = simulationGuid;
-        this.worldInstance = worldInstance;
-        this.simulationStatus = SimulationStatus.READY;
-        this.tickDocumentMap = new ConcurrentHashMap<>();
+        synchronized (this) {
+            this.SimulationGuid = simulationGuid;
+            this.worldInstance = worldInstance;
+            this.simulationStatus = SimulationStatus.READY;
+            this.tickDocumentMap = new ConcurrentHashMap<>();
+        }
         this.createInitialSimulationDocumentInfoDto();
         //this.createInitialTickDocument();
     }
@@ -36,11 +38,13 @@ public class SimulationDocumentImpl implements SimulationDocument {
     public void createInitialSimulationDocumentInfoDto() {
         Map<String, Integer> initEntityPopulationMap = new HashMap<>();
 
-        this.worldInstance
-                .getEntitiesInstances()
-                .forEach((entityName, entityInstances) -> {
-                    initEntityPopulationMap.put(entityName, entityInstances.size());
-                });
+        synchronized (this) {
+            this.worldInstance
+                    .getEntitiesInstances()
+                    .forEach((entityName, entityInstances) -> {
+                        initEntityPopulationMap.put(entityName, entityInstances.size());
+                    });
+        }
 
         this.initialSimulationDocumentInfoDto =
                 new SimulationDocumentInfoDto(
@@ -95,12 +99,16 @@ public class SimulationDocumentImpl implements SimulationDocument {
 
     @Override
     public void addTickDocument(TickDocument tickDocument) {
-        this.tickDocumentMap.put(tickDocument.getTickNumber(), tickDocument);
+        synchronized (this){
+            this.tickDocumentMap.put(tickDocument.getTickNumber(), tickDocument);
+        }
     }
 
     @Override
     public void setSimulationStatus(SimulationStatus simulationStatus) {
-        this.simulationStatus = simulationStatus;
+        synchronized (this){
+            this.simulationStatus = simulationStatus;
+        }
     }
 
     @Override

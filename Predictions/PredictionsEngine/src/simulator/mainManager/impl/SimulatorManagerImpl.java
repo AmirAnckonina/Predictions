@@ -19,6 +19,7 @@ import simulator.runner.utils.exceptions.SimulatorRunnerException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class SimulatorManagerImpl implements SimulatorManager {
 
@@ -161,6 +162,14 @@ public class SimulatorManagerImpl implements SimulatorManager {
     @Override
     public SimulationDocumentInfoDto getLatestSimulationDocumentInfo(String guid) {
          return this.infoManager.getLatestSimulationDocumentInfo(guid);
+    }
+
+    @Override
+    public SimulationResultMappedProperties getMappedPropertiesToNumOfEntitiesWithSameValues(String propertyName, String guid) {
+        SimulationResultMappedProperties mappedProperties = new SimulationResultMappedProperties(
+                infoManager.getMappedPropertiesToNumOfEntitiesWithSameValues(propertyName, guid),
+                guid);
+        return mappedProperties;
     }
 
 }
