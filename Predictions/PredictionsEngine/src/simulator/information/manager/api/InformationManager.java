@@ -10,6 +10,7 @@ public interface InformationManager {
     SimulationDocument createNewSimulationDocument(WorldDefinition worldDefinition, WorldInstance worldInstance);
 
     SimulationDocumentFacade createSimulationDocumentFacade(SimulationDocument simulationDocument);
-    SimulationDocumentInfoDto getLatestSimulationDocumentInfo(String guid);
-    SimulationDocumentInfoDto getInitialSimulationDocumentInfo(String simulationGuid);
+    SimulationDocumentInfoDto getLatestSimulationDocumentInfoDto(String guid);
+    SimulationDocumentInfoDto getInitialSimulationDocumentInfoDto(String simulationGuid);
+    SimulationDocument getSimulationDocumentByGuid(String guid);
 }

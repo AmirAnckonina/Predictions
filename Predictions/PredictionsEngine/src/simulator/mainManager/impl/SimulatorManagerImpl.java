@@ -42,7 +42,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
     public void buildSimulationWorld(String filePath) {
         this.worldBuilderManager.buildSimulationWorld(filePath);
         this.simulatorExecutionManager
-                .initThreadPoolExecuter(
+                .initThreadPoolService(
                         this.worldBuilderManager
                                 .getWorldDefinition()
                                 .getThreadCountDefinition()
@@ -81,7 +81,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
         simulatorExecutionManager.runSimulator(simulationDocument);
 
-        return this.infoManager.getInitialSimulationDocumentInfo(simulationDocument.getSimulationGuid());
+        return this.infoManager.getInitialSimulationDocumentInfoDto(simulationDocument.getSimulationGuid());
     }
 
     @Override
@@ -144,23 +144,26 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
-    public void stopSimulationByGuid(String GUID) {
-        //this.simulatorExecutionManager.
+    public SimulationDocumentInfoDto stopSimulationByGuid(String guid) {
+        this.simulatorExecutionManager.stopSimulation(this.infoManager.getSimulationDocumentByGuid(guid));
+        return this.infoManager.getLatestSimulationDocumentInfoDto(guid);
     }
 
     @Override
-    public void pauseSimulationByGuid(String GUID) {
-
+    public SimulationDocumentInfoDto pauseSimulationByGuid(String guid) {
+        this.simulatorExecutionManager.pauseSimulation(this.infoManager.getSimulationDocumentByGuid(guid));
+        return this.infoManager.getLatestSimulationDocumentInfoDto(guid);
     }
 
     @Override
-    public void resumeSimulationByGuid(String GUID) {
-
+    public SimulationDocumentInfoDto resumeSimulationByGuid(String guid) {
+        this.simulatorExecutionManager.resumeSimulation(this.infoManager.getSimulationDocumentByGuid(guid));
+        return this.infoManager.getLatestSimulationDocumentInfoDto(guid);
     }
 
     @Override
     public SimulationDocumentInfoDto getLatestSimulationDocumentInfo(String guid) {
-         return this.infoManager.getLatestSimulationDocumentInfo(guid);
+         return this.infoManager.getLatestSimulationDocumentInfoDto(guid);
     }
 
 }

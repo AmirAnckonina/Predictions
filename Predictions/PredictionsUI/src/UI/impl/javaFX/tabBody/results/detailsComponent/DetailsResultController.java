@@ -4,6 +4,8 @@ import static UI.impl.javaFX.common.CommonResourcesPaths.*;
 import UI.impl.javaFX.tabBody.results.DetailsResultModel;
 import UI.impl.javaFX.tabBody.results.ResultsController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.entity.EntityComponentController;
+import UI.impl.javaFX.utils.exception.PredictionsUIComponentException;
+import dto.SimulationDocumentInfoDto;
 import javafx.event.ActionEvent;
 import simulator.execution.instance.entity.impl.EntitiesResult;
 
@@ -59,17 +61,17 @@ public class DetailsResultController extends DetailsResultModel {
 
     @FXML
     void pauseSimulationClicked(ActionEvent event) {
-
+        this.mainController.onPauseSimulation(this.simulationID.get());
     }
 
     @FXML
     void resumeSimulationClicked(ActionEvent event) {
-
+        this.mainController.onResumeSimulation(this.simulationID.get());
     }
 
     @FXML
     void stopSimulationClicked(ActionEvent event) {
-
+        this.mainController.onStopSimulation(this.simulationID.get());
     }
 
     public void setMainController(ResultsController mainController) {
@@ -102,5 +104,9 @@ public class DetailsResultController extends DetailsResultModel {
             e.getMessage();
             e.printStackTrace(System.out);
         }
+    }
+
+    public void setSimulationInfoByGuid(String simulationID, SimulationDocumentInfoDto simulationDocumentInfoDto) {
+        throw new PredictionsUIComponentException("Not impl setSimulationInfoByGuid under detailsREsultontroller");
     }
 }
