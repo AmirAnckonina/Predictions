@@ -50,12 +50,20 @@ public class InformationManagerImpl implements InformationManager {
 
     @Override
     public SimulationDocumentInfoDto getSimulationDocumentInfo(String guid) {
-        SimulationDocument reqSimDoc = this.simulationDocumentMap.get(guid);
+
+        SimulationDocument simulationDoc = this.simulationDocumentMap.get(guid);
+        TickDocument latestTickDoc = simulationDoc.getLatestTickDocument();
+        Map<String, Integer> entityPopulationMap = new HashMap<>();
+        latestTickDoc
+                .getEntitiesInstancesMap()
+                .forEach((entityName, entityInstances) -> entityPopulationMap.put(entityName, entityInstances.size()));
+
         return new SimulationDocumentInfoDto(
-                reqSimDoc.getSimulationGuid(),
-                reqSimDoc.getSimulationStatus(),
-                reqSimDoc.getLatestTickDocument().getTickNumber(),
-                reqSimDoc.getLatestTickDocument().getTimePassedInSeconds()
+                simulationDoc.getSimulationGuid(),
+                simulationDoc.getSimulationStatus(),
+                simulationDoc.getLatestTickDocument().getTickNumber(),
+                simulationDoc.getLatestTickDocument().getTimePassedInSeconds(),
+                entityPopulationMap
         );
     }
 
