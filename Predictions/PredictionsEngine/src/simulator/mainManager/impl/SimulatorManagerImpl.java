@@ -151,4 +151,19 @@ public class SimulatorManagerImpl implements SimulatorManager {
         this.manualSimulationSetupManager.resetAllManualSetup(this.worldBuilderManager.getWorldDefinition());
     }
 
+    @Override
+    public void stopSimulationByGuid(String GUID) {
+
+    }
+
+    @Override
+    public void pauseSimulationByGuid(String GUID) {
+
+    }
+
+    @Override
+    public void resumeSimulationByGuid(String GUID) {
+
+    }
+
 }

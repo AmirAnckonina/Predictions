@@ -85,7 +85,7 @@ public class ResultsController {
 
     @FXML
     public void simulationIDListClicked(MouseEvent event) {
-        SimulationResult simulationResult = simulationResultMap.get(this.executionListView.getItems().toString());
+        SimulationResult simulationResult = simulationResultMap.get(this.executionListView.getSelectionModel().getSelectedItem().toString());
 
         createSimulationResultComponent(simulationResult, this.executionListView.getItems().toString());
     }
