@@ -2,6 +2,7 @@ package UI.impl.javaFX.tabBody.results;
 
 import UI.impl.javaFX.mainScene.PredictionsMainController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.DetailsResultController;
+import UI.impl.javaFX.tabBody.results.detailsComponent.entity.EntityComponentController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byEntities.ExecutionResultByEntityController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byProperty.ExecutionResultByPropertyController;
 import UI.impl.javaFX.top.PredictionsTopModel;
@@ -14,9 +15,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import simulator.information.simulationDocument.api.SimulationDocument;
+import simulator.information.simulationDocument.api.SimulationDocumentFacade;
 import simulator.mainManager.api.SimulatorManager;
 import simulator.result.api.SimulationResult;
 import simulator.result.manager.api.ResultManager;
@@ -36,11 +40,15 @@ import static UI.impl.javaFX.common.CommonResourcesPaths.*;
 public class ResultsController {
     private PredictionsMainController mainController;
     private PredictionsTopModel predictionsTopModel;
+    private ExecutionResultByPropertyController executionResultByPropertyController;
     private Stage primaryStage;
     private SimulatorManager simulatorManager;
+    private SimulationDocumentFacade simulationDocumentFacade;
     private ResultsModel resultsModel;
     private Map<String, SimulationResult> simulationResultMap;
     private ResultManager simulatorResultManager;
+    private ExecutionResultByEntityController executionResultByEntityController = null;
+    private DetailsResultController detailsResultController = null;
 
     @FXML private ListView<Label> executionListView;
 
@@ -53,20 +61,6 @@ public class ResultsController {
     @FXML
     public void initialize() {
 
-    }
-
-    public ResultsController() {
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-        scheduledExecutorService.scheduleAtFixedRate(this::pollUpdatedSimulationDocumentDto, 0, 200, TimeUnit.MILLISECONDS);
-    }
-
-    private void pollUpdatedSimulationDocumentDto() {
-        // get the current simulation Guid - according to what currently choosed under lost view
-        String guid = this.executionListView.getSelectionModel().getSelectedItem().getText();
-        SimulationDocumentInfoDto simulationDocumentDto = this.simulatorManager.getSimulationDocumentInfo(guid);
-        Platform.runLater(() -> {
-            //() -> updateSimulationInfoUI().accept(simulationDocumentDto)
-        });
     }
 
     @FXML
@@ -82,12 +76,50 @@ public class ResultsController {
 
     @FXML
     public void simulationIDListClicked(MouseEvent event) {
-        SimulationResult simulationResult = simulationResultMap.get(this.executionListView.getSelectionModel().getSelectedItem().toString());
+        String guid = this.executionListView.getSelectionModel().getSelectedItem().toString();
+        SimulationDocumentInfoDto simulationDocumentInfoDto = this.simulatorManager.getSimulationDocumentInfo(guid);
 
-        createSimulationResultComponent(simulationResult, this.executionListView.getItems().toString());
+        SimulationResult simulationResult = simulationResultMap.get(guid);
+
+        createSimulationResultComponent(simulationDocumentInfoDto); //info component
+
+
+        if(resultByEntity.isPressed()){
+            createHistogramByEntityComponent(new ArrayList<>(simulationResult.getEntities().keySet()));
+        }else {
+            createHistogramByPropertyComponent(simulationResult.getAllPropertiesOfAllEntities());
+        }
     }
 
-    private void createSimulationResultComponent(SimulationResult simulationResult, String simulationIndex) {
+    public ResultsController() {
+        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+        scheduledExecutorService.scheduleAtFixedRate(this::pollUpdatedSimulationDocumentDto, 0, 200, TimeUnit.MILLISECONDS);
+    }
+
+    public void setSimulationDocumentFacade(SimulationDocumentFacade simulationDocumentFacade) {
+        this.simulationDocumentFacade = simulationDocumentFacade;
+    }
+
+    private void pollUpdatedSimulationDocumentDto() {
+        // get the current simulation Guid - according to what currently choosed under lost view
+        String guid = this.executionListView.getSelectionModel().getSelectedItem().getText();
+        SimulationDocumentInfoDto simulationDocumentDto = this.simulatorManager.getSimulationDocumentInfo(guid);
+        Platform.runLater(() -> {
+            updateSimulationInfoUI(simulationDocumentDto);
+        });
+    }
+
+    private void updateSimulationInfoUI(SimulationDocumentInfoDto simulationDocumentInfoDto) {
+        if(this.detailsResultController != null){
+            detailsResultController.setValues(simulationDocumentInfoDto.getSimulationGuid(),
+                    simulationDocumentInfoDto.getTickNo().toString(),
+                    simulationDocumentInfoDto.getTimePassedInSeconds().toString(),
+                    simulationDocumentInfoDto.getCurrentEntityPopulationMap(),
+                    simulationDocumentInfoDto.getInitialEntityPopulationMap());
+        }
+    }
+
+    private void createSimulationResultComponent(SimulationDocumentInfoDto simulationDocumentInfoDto) {
         try
         {
             FXMLLoader loader = new FXMLLoader();
@@ -95,11 +127,12 @@ public class ResultsController {
             loader.setLocation(fxmlUrl);
             GridPane gpComponent = loader.load();
 
-            DetailsResultController controller = loader.getController();
-            controller.setValues(simulationResult.getSimulationUuid(),
-                    simulationResult.getTerminationReason().name(),
-                    simulationResult.getTerminationReason().name(),
-                    simulatorResultManager, simulationIndex);
+            detailsResultController = loader.getController();
+            detailsResultController.setValues(simulationDocumentInfoDto.getSimulationGuid(),
+                    simulationDocumentInfoDto.getTickNo().toString(),
+                    simulationDocumentInfoDto.getTimePassedInSeconds().toString(),
+                    simulationDocumentInfoDto.getCurrentEntityPopulationMap(),
+                    simulationDocumentInfoDto.getInitialEntityPopulationMap());
         } catch (Exception e) {
             e.getMessage();
             e.printStackTrace(System.out);
@@ -114,9 +147,9 @@ public class ResultsController {
             loader.setLocation(fxmlUrl);
             GridPane gpComponent = loader.load();
 
-            ExecutionResultByPropertyController controller = loader.getController();
-            controller.setMainController(this);
-            controller.setPropertiesList(propertiesList);
+            this.executionResultByPropertyController = loader.getController();
+            executionResultByPropertyController.setMainController(this);
+            executionResultByPropertyController.setPropertiesList(propertiesList);
             resultComponentHolderGP.getChildren().clear();
             resultComponentHolderGP.getChildren().add(gpComponent);
         } catch (Exception e) {
@@ -142,8 +175,14 @@ public class ResultsController {
         }
     }
 
-    public void entityChosenInHistogramByProperty(String entityName){
-
+    public void entityChosenInHistogramByProperty(String propertyName){
+        SimulationResult simulationResult = simulationResultMap.get(this.executionListView.getSelectionModel().getSelectedItem().toString());
+        executionResultByPropertyController.clearPropertyList();
+        Map<String, Integer> mappedPropertiesValuesToNumOfEntitiesWithSameValue = simulationDocumentFacade.
+                getMappedPropertiesToNumOfEntitiesWithSameValues(propertyName);
+        List<String> resMapped = new ArrayList<>();
+        mappedPropertiesValuesToNumOfEntitiesWithSameValue.forEach((propName, numOfEntities) -> resMapped.add(propName + ": " + numOfEntities));
+        executionResultByPropertyController.setPropertiesList(resMapped);
     }
 
     public void simulationTabClicked(){
