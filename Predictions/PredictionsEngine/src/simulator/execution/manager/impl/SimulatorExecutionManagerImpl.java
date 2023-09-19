@@ -1,6 +1,7 @@
 package simulator.execution.manager.impl;
 
 import dto.SimulationEndDto;
+import enums.SimulationStatus;
 import simulator.establishment.manager.api.EstablishmentManager;
 import simulator.execution.instance.world.api.WorldInstance;
 import simulator.execution.manager.api.SimulatorExecutionManager;
@@ -12,9 +13,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class SimulatorExecutionManagerImpl implements SimulatorExecutionManager {
-    private WorldInstance worldInstance;
-    private EstablishmentManager establishmentManager;
-    private SimulationRunner simulationRunner;
     private ExecutorService simulationExecutorService;
 
     public SimulatorExecutionManagerImpl() { }
@@ -26,12 +24,24 @@ public class SimulatorExecutionManagerImpl implements SimulatorExecutionManager 
     }
 
     @Override
-    public void initThreadPoolExecuter(Integer threadCount) {
+    public void initThreadPoolService(Integer threadCount) {
         this.simulationExecutorService = Executors.newFixedThreadPool(threadCount);
     }
 
     @Override
-    public WorldInstance getWorldInstance() {
-        return this.worldInstance;
+    public void stopSimulation(SimulationDocument simulationDocument) {
+        simulationDocument.setSimulationStatus(SimulationStatus.STOPPED);
     }
+
+    @Override
+    public void pauseSimulation(SimulationDocument simulationDocument) {
+        simulationDocument.setSimulationStatus(SimulationStatus.PAUSED);
+    }
+
+    @Override
+    public void resumeSimulation(SimulationDocument simulationDocument) {
+        simulationDocument.setSimulationStatus(SimulationStatus.RUNNING);
+    }
+
+
 }

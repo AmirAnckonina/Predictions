@@ -210,11 +210,9 @@ public class ResultsController {
     public void setMainController(PredictionsMainController mainController) {
         this.mainController = mainController;
     }
-
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
-
     public void setResultsModel(ResultsModel resultsModel) {
         this.resultsModel = resultsModel;
     }
@@ -232,5 +230,32 @@ public class ResultsController {
     public void addNewSimulationGuid(String simulationGuid) {
         // Impl adding to listView
         this.executionListView.getItems().add(new Label(simulationGuid));
+    }
+
+    public void onPauseSimulation(String simulationID) {
+        try {
+            SimulationDocumentInfoDto simulationDocumentInfoDto = this.simulatorManager.pauseSimulationByGuid(simulationID);
+            this.detailsResultController.setSimulationInfoByGuid(simulationID, simulationDocumentInfoDto);
+        } catch (Exception e){
+            e.printStackTrace(System.out);
+        }
+    }
+
+    public void onStopSimulation(String simulationID) {
+        try {
+            SimulationDocumentInfoDto simulationDocumentInfoDto = this.simulatorManager.stopSimulationByGuid(simulationID);
+            this.detailsResultController.setSimulationInfoByGuid(simulationID, simulationDocumentInfoDto);
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+    }
+
+    public void onResumeSimulation(String simulationID) {
+        try {
+            SimulationDocumentInfoDto simulationDocumentInfoDto = this.simulatorManager.resumeSimulationByGuid(simulationID);
+            this.detailsResultController.setSimulationInfoByGuid(simulationID, simulationDocumentInfoDto);
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
     }
 }

@@ -15,4 +15,5 @@ public interface InformationManager {
     SimulationDocumentInfoDto getLatestSimulationDocumentInfo(String guid);
     SimulationDocumentInfoDto getInitialSimulationDocumentInfo(String simulationGuid);
     Map<String, Integer> getMappedPropertiesToNumOfEntitiesWithSameValues(String propertyName, String simulationGuid);
+    SimulationDocument getSimulationDocumentByGuid(String guid);
 }

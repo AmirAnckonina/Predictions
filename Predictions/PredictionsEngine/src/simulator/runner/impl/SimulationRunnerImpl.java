@@ -1,5 +1,6 @@
 package simulator.runner.impl;
 
+import enums.SimulationStatus;
 import simulator.definition.entity.impl.EntityDefinition;
 import simulator.execution.context.api.CrossedExecutionContext;
 import simulator.execution.context.impl.CrossedExecutionContextImpl;
@@ -22,7 +23,6 @@ import simulator.execution.context.impl.ExecutionContextImpl;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.environment.api.EnvironmentInstance;
 import simulator.execution.instance.world.api.WorldInstance;
-import simulator.runner.api.SimulationRunner;
 
 import java.util.*;
 
@@ -39,9 +39,7 @@ public class SimulationRunnerImpl implements Runnable {
         EnvironmentInstance environmentInstance = this.simulationDocument.getWorldInstance().getEnvironmentInstance();
         SpaceGridInstanceWrapper spaceGridInstanceWrapper = this.simulationDocument.getWorldInstance().getSpaceGridWrapper();
         Map<String, EntityDefinition> entityDefinitionMap = this.simulationDocument.getWorldInstance().getEntityDefinitionMap();
-        this.crossedExecutionContext =
-                new CrossedExecutionContextImpl(
-                        entitiesInstancesManager, environmentInstance, spaceGridInstanceWrapper, entityDefinitionMap);
+        this.crossedExecutionContext = new CrossedExecutionContextImpl(entitiesInstancesManager, environmentInstance, spaceGridInstanceWrapper, entityDefinitionMap);
     }
 
     @Override
@@ -51,13 +49,14 @@ public class SimulationRunnerImpl implements Runnable {
         long currTimeInMilliSec = 0;
         long startTimeInMilliSec;
 
-        startTimeInMilliSec = System.currentTimeMillis();
-        //this.simulationDocument.setStartingTime(startTimeInMilliSec);
 
         Termination termination = this.worldInstance.getTermination();
         List<Rule> rules = this.worldInstance.getRules();
         Map<String, List<EntityInstance>> entitiesInstances = this.worldInstance.getEntitiesInstances();
         SpaceGridInstanceWrapper spaceGridInstanceWrapper = this.crossedExecutionContext.getSpaceGridInstanceWrapper();
+        this.simulationDocument.setSimulationStatus(SimulationStatus.RUNNING);
+
+        startTimeInMilliSec = System.currentTimeMillis();
 
         while (!termination.shouldTerminate(currTick, currTimeInMilliSec)) {
 
@@ -82,9 +81,26 @@ public class SimulationRunnerImpl implements Runnable {
             simulationDocument.addTickDocument(currTickDocument);
             currTick += 1;
             currTimeInMilliSec = System.currentTimeMillis() - startTimeInMilliSec;
+
+            handleSimulationRunInterruptions(termination);
         }
 
         this.simulationDocument.getSimulationResult().setTerminationReason(worldInstance.getTermination().reasonForTerminate());
+    }
+
+    private void handleSimulationRunInterruptions(Termination termination) {
+
+        SimulationStatus status = this.simulationDocument.getSimulationStatus();
+        while (status == SimulationStatus.PAUSED) {
+            try {
+                this.wait();
+            } catch (InterruptedException e) { }
+        }
+
+        if (status == SimulationStatus.STOPPED) {
+            termination.terminateInTheNextTick();
+        }
+
     }
 
     private void tickActionsProcedure(Map<String, List<EntityInstance>> entitiesInstances, List<Action> actionsToInvoke, SpaceGridInstanceWrapper spaceGridInstanceWrapper, TickDocument currTickDocument) {

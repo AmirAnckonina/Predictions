@@ -1,6 +1,5 @@
 package simulator.mainManager.api;
 import dto.*;
-import simulator.result.manager.api.ResultManager;
 
 import java.util.List;
 import java.util.Map;
@@ -22,9 +21,9 @@ public interface SimulatorManager {
     void resetSingleEnvironmentVariable(String envVarName);
     Integer getMaxPopulationSize();
     void resetAllManualSetup();
-    void stopSimulationByGuid(String GUID);
-    void pauseSimulationByGuid(String GUID);
-    void resumeSimulationByGuid(String GUID);
+    SimulationDocumentInfoDto stopSimulationByGuid(String guid);
+    SimulationDocumentInfoDto pauseSimulationByGuid(String guid);
+    SimulationDocumentInfoDto resumeSimulationByGuid(String guid);
     SimulationDocumentInfoDto getLatestSimulationDocumentInfo(String guid);
 
     SimulationResultMappedProperties getMappedPropertiesToNumOfEntitiesWithSameValues(String propertyName, String string);
