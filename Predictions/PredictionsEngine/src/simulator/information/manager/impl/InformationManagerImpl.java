@@ -45,7 +45,7 @@ public class InformationManagerImpl implements InformationManager {
     }
 
     @Override
-    public SimulationDocumentInfoDto getLatestSimulationDocumentInfo(String guid) {
+    public SimulationDocumentInfoDto getLatestSimulationDocumentInfoDto(String guid) {
 
         SimulationDocument simulationDoc = this.simulationDocumentMap.get(guid);
         TickDocument latestTickDoc = simulationDoc.getLatestTickDocument();
@@ -65,8 +65,14 @@ public class InformationManagerImpl implements InformationManager {
     }
 
     @Override
-    public SimulationDocumentInfoDto getInitialSimulationDocumentInfo(String simulationGuid) {
+    public SimulationDocumentInfoDto getInitialSimulationDocumentInfoDto(String simulationGuid) {
         return this.simulationDocumentMap.get(simulationGuid).getInitialSimulationDocumentInfoDto();
+    }
+
+    @Override
+    public SimulationDocument getSimulationDocumentByGuid(String guid) {
+        throw new SimulationInformationException("Please add sync here !!!!!!!");
+        //return this.simulationDocumentMap.get(guid);
     }
 
 }

@@ -7,17 +7,18 @@ import java.util.Optional;
 public class Termination {
     private final Integer ticksTermination;
     private final Integer secondsTermination;
-    private Boolean byUser;
-    private TerminationReason reasonForTerminate;
+    private Boolean terminationWillBeDoneByUser;
+    private TerminationReason terminationReason;
+    private Boolean terminateFlagUp;
 
-    public Termination(Integer ticksTermination, Integer secondsTermination, Boolean byUser) {
+    public Termination(Integer ticksTermination, Integer secondsTermination, Boolean terminationWillBeDoneByUser) {
         this.ticksTermination =  ticksTermination;
         this.secondsTermination = secondsTermination;
-        this.byUser = byUser;
+        this.terminationWillBeDoneByUser = terminationWillBeDoneByUser;
+        this.terminateFlagUp = false;
     }
 
     public Optional<Integer> getTicksTermination() {
-
         return Optional.ofNullable(ticksTermination);
     }
 
@@ -27,16 +28,35 @@ public class Termination {
     }
 
     public Optional<Boolean> byUser() {
-        return  Optional.ofNullable(byUser);
+        return  Optional.ofNullable(terminationWillBeDoneByUser);
+    }
+
+    public void terminateInTheNextTick() {
+        this.terminateFlagUp = true;
     }
 
     public boolean shouldTerminate(int currTick, long currTimeInMilliSec) {
+        boolean shouldTerminateResult;
+
+        if (terminateFlagUp) {
+            shouldTerminateResult = true;
+            this.terminationReason = TerminationReason.USER;
+        } else if (terminationWillBeDoneByUser) {
+            shouldTerminateResult = false;
+            this.terminationReason = TerminationReason.USER;
+        } else {
+            shouldTerminateResult = checkTerminationByTicksOrSeconds(currTick, currTimeInMilliSec);
+        }
+
+        return shouldTerminateResult;
+    }
+
+    private boolean checkTerminationByTicksOrSeconds(int currTick, long currTimeInMilliSec) {
 
         boolean shouldTerminateBySeconds = false;
         boolean shouldTerminateByTicks = false;
 
         if (getSecondsTermination().isPresent()) {
-
             Float currTimeInSec = (currTimeInMilliSec / 1000f);
             shouldTerminateBySeconds = getSecondsTermination().get() <= currTimeInSec;
         }
@@ -46,11 +66,11 @@ public class Termination {
         }
 
         if (shouldTerminateBySeconds && !shouldTerminateByTicks){
-            reasonForTerminate = TerminationReason.Time;
+            terminationReason = TerminationReason.Time;
         } else if (shouldTerminateByTicks && !shouldTerminateBySeconds) {
-            reasonForTerminate = TerminationReason.Ticks;
+            terminationReason = TerminationReason.Ticks;
         } else {
-            reasonForTerminate = TerminationReason.TicksAndTime;
+            terminationReason = TerminationReason.TicksAndTime;
         }
 
         return shouldTerminateBySeconds || shouldTerminateByTicks;
@@ -65,6 +85,6 @@ public class Termination {
     }
 
     public TerminationReason reasonForTerminate(){
-        return reasonForTerminate;
+        return terminationReason;
     }
 }

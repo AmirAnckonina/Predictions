@@ -30,14 +30,15 @@ public class XmlTerminationBuilder implements TerminationBuilder {
             termination = new Termination(ticksTermination, secondsTermination, byUser);
         }
         else {
-            termination = buildTeminationInCaseOFTicksOrSeconds(ticksTermination, secondsTermination);
+            byUser = false;
+            termination = buildTeminationInCaseOFTicksOrSeconds(ticksTermination, secondsTermination, byUser);
         }
 
         return termination;
     }
 
     private Termination buildTeminationInCaseOFTicksOrSeconds(
-            Integer ticksTermination, Integer secondsTermination) {
+            Integer ticksTermination, Integer secondsTermination, Boolean byUser) {
 
         List<Object> generatedTerminationConditions = generatedTermination.getPRDBySecondOrPRDByTicks();
 
@@ -60,7 +61,7 @@ public class XmlTerminationBuilder implements TerminationBuilder {
             }
         }
 
-        return new Termination(ticksTermination, secondsTermination, false);
+        return new Termination(ticksTermination, secondsTermination, byUser);
     }
 
 }
