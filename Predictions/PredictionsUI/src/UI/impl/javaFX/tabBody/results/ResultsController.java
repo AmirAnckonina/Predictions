@@ -2,7 +2,6 @@ package UI.impl.javaFX.tabBody.results;
 
 import UI.impl.javaFX.mainScene.PredictionsMainController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.DetailsResultController;
-import UI.impl.javaFX.tabBody.results.detailsComponent.entity.EntityComponentController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byEntities.ExecutionResultByEntityController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byProperty.ExecutionResultByPropertyController;
 import UI.impl.javaFX.top.PredictionsTopModel;
@@ -15,11 +14,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
-import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import simulator.information.simulationDocument.api.SimulationDocument;
 import simulator.information.simulationDocument.api.SimulationDocumentFacade;
 import simulator.mainManager.api.SimulatorManager;
 import simulator.result.api.SimulationResult;
@@ -76,14 +73,16 @@ public class ResultsController {
 
     @FXML
     public void simulationIDListClicked(MouseEvent event) {
-        String guid = this.executionListView.getSelectionModel().getSelectedItem().toString();
-        SimulationDocumentInfoDto simulationDocumentInfoDto = this.simulatorManager.getSimulationDocumentInfo(guid);
 
-        SimulationResult simulationResult = simulationResultMap.get(guid);
+        String guid = this.executionListView.getSelectionModel().getSelectedItem().getText();
+        SimulationDocumentInfoDto simulationDocumentInfoDto = this.simulatorManager.getLatestSimulationDocumentInfo(guid);
+
 
         createSimulationResultComponent(simulationDocumentInfoDto); //info component
 
+// -------------------------------------------------------------------------------------------------
 
+        SimulationResult simulationResult = simulationResultMap.get(guid);
         if(resultByEntity.isPressed()){
             createHistogramByEntityComponent(new ArrayList<>(simulationResult.getEntities().keySet()));
         }else {
@@ -103,7 +102,7 @@ public class ResultsController {
     private void pollUpdatedSimulationDocumentDto() {
         // get the current simulation Guid - according to what currently choosed under lost view
         String guid = this.executionListView.getSelectionModel().getSelectedItem().getText();
-        SimulationDocumentInfoDto simulationDocumentDto = this.simulatorManager.getSimulationDocumentInfo(guid);
+        SimulationDocumentInfoDto simulationDocumentDto = this.simulatorManager.getLatestSimulationDocumentInfo(guid);
         Platform.runLater(() -> {
             updateSimulationInfoUI(simulationDocumentDto);
         });
@@ -185,22 +184,24 @@ public class ResultsController {
         executionResultByPropertyController.setPropertiesList(resMapped);
     }
 
-    public void simulationTabClicked(){
-        this.executionListView.getItems().clear();
-        this.simulatorResultManager = this.simulatorManager.getSimulatorResultManagerImpl();
-        List<SimulationResult> simulationResults = this.simulatorResultManager.getSortedHistoricalSimulationsList();
+    public void simulationTabClicked() {
 
-        for(SimulationResult simulationResult:simulationResults){
-
-        }
-        for (int i = 0; i < simulationResults.size(); i++) {
-            Label simulationIDLbl = new Label();
-            simulationIDLbl.setText((i + 1) + ". SimulationUuid:\"" + simulationResults.get(i).getSimulationUuid() + "\"" + ": "
-                    + getSimulatorStartingTimeInString(simulationResults.get(i)));
-            System.out.println();
-            executionListView.getItems().add(simulationIDLbl);
-
-        }
+        //Consider use it under bottom component that responsible to show result (histogram ... )
+//        this.executionListView.getItems().clear();
+//        this.simulatorResultManager = this.simulatorManager.getSimulatorResultManagerImpl();
+//
+//        List<SimulationResult> simulationResults = this.simulatorResultManager.getSortedHistoricalSimulationsList();
+//
+//        for (SimulationResult simulationResult:simulationResults){
+//
+//        }
+//        for (int i = 0; i < simulationResults.size(); i++) {
+//            Label simulationIDLbl = new Label();
+//            simulationIDLbl.setText((i + 1) + ". SimulationUuid:\"" + simulationResults.get(i).getSimulationUuid() + "\"" + ": "
+//                    + getSimulatorStartingTimeInString(simulationResults.get(i)));
+//            System.out.println();
+//            executionListView.getItems().add(simulationIDLbl);
+//        }
     }
 
     public void setMainController(PredictionsMainController mainController) {
@@ -223,5 +224,10 @@ public class ResultsController {
         String formattedTime = formatter.format(new Date(simulationResults.getSimulationStartingTime()));
 
         return formattedTime;
+    }
+
+    public void addNewSimulationGuid(String simulationGuid) {
+        // Impl adding to listView
+        this.executionListView.getItems().add(new Label(simulationGuid));
     }
 }

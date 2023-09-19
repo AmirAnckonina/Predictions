@@ -6,11 +6,13 @@ import simulator.execution.instance.world.api.WorldInstance;
 import simulator.information.manager.exception.SimulationInformationException;
 import simulator.information.simulationDocument.api.SimulationDocument;
 import simulator.information.tickDocument.api.TickDocument;
+import simulator.information.tickDocument.impl.TickDocumentImpl;
 import simulator.result.api.SimulationResult;
 
 import java.util.*;
 
 public class SimulationDocumentImpl implements SimulationDocument {
+    private static final Integer INIT_TICK = -1;
     private String SimulationGuid;
     private WorldInstance worldInstance;
     private Map<Integer, TickDocument> tickDocumentMap;
@@ -25,9 +27,11 @@ public class SimulationDocumentImpl implements SimulationDocument {
         this.simulationStatus = SimulationStatus.READY;
         this.tickDocumentMap = new HashMap<>();
         this.createInitialSimulationDocumentInfoDto();
+        //this.createInitialTickDocument();
     }
 
-    private void createInitialSimulationDocumentInfoDto() {
+    @Override
+    public void createInitialSimulationDocumentInfoDto() {
         Map<String, Integer> initEntityPopulationMap = new HashMap<>();
 
         this.worldInstance
@@ -40,18 +44,22 @@ public class SimulationDocumentImpl implements SimulationDocument {
                 new SimulationDocumentInfoDto(
                         this.SimulationGuid,
                         this.simulationStatus,
-                        0,
+                        INIT_TICK,
                         new Long(0),
                         initEntityPopulationMap,
                         initEntityPopulationMap
                 );
     }
 
+ /*   @Override
+    public void createInitialTickDocument() {
+        this.addTickDocument(new TickDocumentImpl(INIT_TICK, 0, this.worldInstance.getEntitiesInstances()));
+    }*/
+
     @Override
     public SimulationDocumentInfoDto getInitialSimulationDocumentInfoDto() {
         return initialSimulationDocumentInfoDto;
     }
-
 
     @Override
     public String getSimulationGuid() {

@@ -8,6 +8,7 @@ import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.floats
 import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.string.EnvironmentStringVariableController;
 import UI.impl.javaFX.utils.exception.PredictionsUIComponentException;
 import dto.EnvironmentPropertyDto;
+import dto.SimulationDocumentInfoDto;
 import enums.SetPropertyStatus;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -63,8 +64,10 @@ public class NewExecutionController {
 
     @FXML
     void onStartButtonClicked() {
-        this.simulatorManager.runSimulator();
+        SimulationDocumentInfoDto simulationDocumentInfoDto = this.simulatorManager.runSimulator();
         this.simulatorManager.resetAllManualSetup();
+        //reset newExecTab?
+        this.predictionsMainController.onNewSimulationStart(simulationDocumentInfoDto.getSimulationGuid());
     }
 
     public void initializeNewExecutionTab() {

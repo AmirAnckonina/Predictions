@@ -1,6 +1,5 @@
 package simulator.mainManager.api;
 import dto.*;
-import simulator.information.simulationDocument.api.SimulationDocumentFacade;
 import simulator.result.manager.api.ResultManager;
 
 import java.util.List;
@@ -26,5 +25,5 @@ public interface SimulatorManager {
     void stopSimulationByGuid(String GUID);
     void pauseSimulationByGuid(String GUID);
     void resumeSimulationByGuid(String GUID);
-    SimulationDocumentInfoDto getSimulationDocumentInfo(String guid);
+    SimulationDocumentInfoDto getLatestSimulationDocumentInfo(String guid);
 }
