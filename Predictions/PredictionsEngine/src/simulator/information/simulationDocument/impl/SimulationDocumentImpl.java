@@ -10,6 +10,8 @@ import simulator.information.tickDocument.impl.TickDocumentImpl;
 import simulator.result.api.SimulationResult;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class SimulationDocumentImpl implements SimulationDocument {
     private static final Integer INIT_TICK = -1;
@@ -25,7 +27,7 @@ public class SimulationDocumentImpl implements SimulationDocument {
         this.SimulationGuid = simulationGuid;
         this.worldInstance = worldInstance;
         this.simulationStatus = SimulationStatus.READY;
-        this.tickDocumentMap = new HashMap<>();
+        this.tickDocumentMap = new ConcurrentHashMap<>();
         this.createInitialSimulationDocumentInfoDto();
         //this.createInitialTickDocument();
     }

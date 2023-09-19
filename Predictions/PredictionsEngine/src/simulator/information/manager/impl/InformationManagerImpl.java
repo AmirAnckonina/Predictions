@@ -17,13 +17,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class InformationManagerImpl implements InformationManager {
     private ResultManager simulatorResultManager;
     private Map<String, SimulationDocument> simulationDocumentMap;
 
     public InformationManagerImpl() {
-        this.simulationDocumentMap = new HashMap<>();
+        this.simulationDocumentMap = new ConcurrentHashMap<>();
         this.simulatorResultManager = new ResultManagerImpl();
     }
 
