@@ -47,6 +47,7 @@ public class ResultsController {
     private ResultsModel resultsModel;
     private Map<String, SimulationResult> simulationResultMap;
     private ResultManager simulatorResultManager;
+    private ExecutionResultByEntityController executionResultByEntityController = null;
 
     @FXML private ListView<Label> executionListView;
 
@@ -117,8 +118,10 @@ public class ResultsController {
 
             DetailsResultController controller = loader.getController();
             controller.setValues(simulationDocumentInfoDto.getSimulationGuid(),
-                    simulationDocumentInfoDto.getTickNo(),
-                    simulationDocumentInfoDto.getTimePassedInSeconds());
+                    simulationDocumentInfoDto.getTickNo().toString(),
+                    simulationDocumentInfoDto.getTimePassedInSeconds().toString(),
+                    simulationDocumentInfoDto.getEntityPopulationMap(),
+                    simulationDocumentInfoDto.);
         } catch (Exception e) {
             e.getMessage();
             e.printStackTrace(System.out);
@@ -133,9 +136,9 @@ public class ResultsController {
             loader.setLocation(fxmlUrl);
             GridPane gpComponent = loader.load();
 
-            ExecutionResultByPropertyController controller = loader.getController();
-            controller.setMainController(this);
-            controller.setPropertiesList(propertiesList);
+            this.executionResultByPropertyController = loader.getController();
+            executionResultByPropertyController.setMainController(this);
+            executionResultByPropertyController.setPropertiesList(propertiesList);
             resultComponentHolderGP.getChildren().clear();
             resultComponentHolderGP.getChildren().add(gpComponent);
         } catch (Exception e) {
