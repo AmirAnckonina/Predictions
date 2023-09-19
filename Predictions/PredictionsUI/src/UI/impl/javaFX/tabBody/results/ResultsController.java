@@ -47,6 +47,8 @@ public class ResultsController {
     private ExecutionResultByEntityController executionResultByEntityController = null;
     private DetailsResultController detailsResultController = null;
 
+    @FXML private DetailsResultController executionDetailsController;
+
     @FXML private ListView<Label> executionListView;
 
     @FXML private Button reRunButton;
@@ -57,7 +59,7 @@ public class ResultsController {
 
     @FXML
     public void initialize() {
-
+        executionDetailsController.setMainController(this);
     }
 
     @FXML
@@ -109,33 +111,31 @@ public class ResultsController {
     }
 
     private void updateSimulationInfoUI(SimulationDocumentInfoDto simulationDocumentInfoDto) {
-        if(this.detailsResultController != null){
-            detailsResultController.setValues(simulationDocumentInfoDto.getSimulationGuid(),
-                    simulationDocumentInfoDto.getTickNo().toString(),
-                    simulationDocumentInfoDto.getTimePassedInSeconds().toString(),
-                    simulationDocumentInfoDto.getCurrentEntityPopulationMap(),
-                    simulationDocumentInfoDto.getInitialEntityPopulationMap());
-        }
+        executionDetailsController.setValues(simulationDocumentInfoDto.getSimulationGuid(),
+                simulationDocumentInfoDto.getTickNo().toString(),
+                simulationDocumentInfoDto.getTimePassedInSeconds().toString(),
+                simulationDocumentInfoDto.getCurrentEntityPopulationMap(),
+                simulationDocumentInfoDto.getInitialEntityPopulationMap());
     }
 
     private void createSimulationResultComponent(SimulationDocumentInfoDto simulationDocumentInfoDto) {
-        try
-        {
-            FXMLLoader loader = new FXMLLoader();
-            URL fxmlUrl = getClass().getResource(RESULT_SIMULATION_DETAILS_FXML_RESOURCE);
-            loader.setLocation(fxmlUrl);
-            GridPane gpComponent = loader.load();
-
-            detailsResultController = loader.getController();
-            detailsResultController.setValues(simulationDocumentInfoDto.getSimulationGuid(),
-                    simulationDocumentInfoDto.getTickNo().toString(),
-                    simulationDocumentInfoDto.getTimePassedInSeconds().toString(),
-                    simulationDocumentInfoDto.getCurrentEntityPopulationMap(),
-                    simulationDocumentInfoDto.getInitialEntityPopulationMap());
-        } catch (Exception e) {
-            e.getMessage();
-            e.printStackTrace(System.out);
-        }
+//        try
+//        {
+//            FXMLLoader loader = new FXMLLoader();
+//            URL fxmlUrl = getClass().getResource(RESULT_SIMULATION_DETAILS_FXML_RESOURCE);
+//            loader.setLocation(fxmlUrl);
+//            GridPane gpComponent = loader.load();
+//
+//            detailsResultController = loader.getController();
+//            detailsResultController.setValues(simulationDocumentInfoDto.getSimulationGuid(),
+//                    simulationDocumentInfoDto.getTickNo().toString(),
+//                    simulationDocumentInfoDto.getTimePassedInSeconds().toString(),
+//                    simulationDocumentInfoDto.getCurrentEntityPopulationMap(),
+//                    simulationDocumentInfoDto.getInitialEntityPopulationMap());
+//        } catch (Exception e) {
+//            e.getMessage();
+//            e.printStackTrace(System.out);
+//        }
     }
 
     private void createHistogramByPropertyComponent(List<String> propertiesList){

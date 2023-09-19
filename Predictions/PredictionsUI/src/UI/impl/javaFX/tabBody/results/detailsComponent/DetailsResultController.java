@@ -2,6 +2,7 @@ package UI.impl.javaFX.tabBody.results.detailsComponent;
 
 import static UI.impl.javaFX.common.CommonResourcesPaths.*;
 import UI.impl.javaFX.tabBody.results.DetailsResultModel;
+import UI.impl.javaFX.tabBody.results.ResultsController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.entity.EntityComponentController;
 import javafx.event.ActionEvent;
 import simulator.execution.instance.entity.impl.EntitiesResult;
@@ -22,6 +23,8 @@ import java.util.Map;
 
 
 public class DetailsResultController extends DetailsResultModel {
+
+    private ResultsController mainController;
 
     @FXML
     private Label simulationIDLbl;
@@ -67,6 +70,10 @@ public class DetailsResultController extends DetailsResultModel {
     @FXML
     void stopSimulationClicked(ActionEvent event) {
 
+    }
+
+    public void setMainController(ResultsController mainController) {
+        this.mainController = mainController;
     }
 
     public void setValues(String simulationID, String numOfTicks, String timeCounter, Map<String, Integer> mappedEntityToNumOfInstances,
