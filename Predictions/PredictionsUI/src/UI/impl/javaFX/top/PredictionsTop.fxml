@@ -7,33 +7,41 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane maxHeight="120.0" maxWidth="700.0" minHeight="120.0" minWidth="600.0" prefHeight="120.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.impl.javaFX.top.TopController">
+<AnchorPane maxHeight="120.0" minHeight="120.0" prefHeight="120.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.impl.javaFX.top.TopController">
    <children>
-      <GridPane layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="120.0" prefHeight="120.0">
-         <columnConstraints>
-            <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="10.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="20.0" prefWidth="25.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="120.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="20.0" prefWidth="25.0" />
-            <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="20.0" prefWidth="400.0" />
-            <ColumnConstraints fillWidth="false" halignment="RIGHT" hgrow="ALWAYS" minWidth="20.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="15.0" vgrow="NEVER" />
-            <RowConstraints minHeight="30.0" prefHeight="35.0" vgrow="NEVER" />
-            <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="NEVER" />
-            <RowConstraints minHeight="30.0" prefHeight="35.0" vgrow="NEVER" />
-            <RowConstraints minHeight="30.0" prefHeight="35.0" vgrow="NEVER" />
-         </rowConstraints>
+      <HBox maxHeight="120.0" prefHeight="120.0">
          <children>
-            <Button fx:id="loadSimulationButton" mnemonicParsing="false" onAction="#loadSimulationButtonClicked" prefWidth="150.0" text="Load Simulation" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-            <Button fx:id="gueueManagmentButton" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#gueueManagmentClicked" text="Queue Managment" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
-            <Label fx:id="loadSimulationPath" text="-" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
-            <ComboBox fx:id="chooseSkinCB" onAction="#onSkinSelected" prefWidth="150.0" promptText="Choose skin" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
+            <fx:include fx:id="queueManagement" prefHeight="120.0" source="queue/QueueManagementComponent.fxml" HBox.hgrow="ALWAYS" />
+            <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="120.0" HBox.hgrow="SOMETIMES">
+               <columnConstraints>
+                  <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="10.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="20.0" prefWidth="25.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0" prefWidth="120.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="20.0" prefWidth="25.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="20.0" prefWidth="400.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="20.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="15.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="30.0" prefHeight="35.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="30.0" prefHeight="35.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="30.0" prefHeight="35.0" vgrow="NEVER" />
+               </rowConstraints>
+               <children>
+                  <Button fx:id="loadSimulationButton" mnemonicParsing="false" onAction="#loadSimulationButtonClicked" prefWidth="150.0" text="Load Simulation" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                  <Label fx:id="loadSimulationPath" text="-" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
+                  <ComboBox fx:id="chooseSkinCB" onAction="#onSkinSelected" prefWidth="150.0" promptText="Choose skin" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
+               </children>
+            </GridPane>
          </children>
-      </GridPane>
+         <padding>
+            <Insets left="1.0" right="5.0" />
+         </padding>
+      </HBox>
    </children>
    <padding>
       <Insets bottom="10.0" />

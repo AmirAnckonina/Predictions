@@ -1,5 +1,6 @@
 package UI.impl.javaFX.top;
 import UI.impl.javaFX.mainScene.PredictionsMainController;
+import UI.impl.javaFX.top.queue.QueueManagementController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -18,12 +19,11 @@ public class TopController {
     private PredictionsTopModel predictionsTopModel;
     private Stage primaryStage;
     private SimulatorManager simulatorManager;
+    @FXML
+    private QueueManagementController queueManagementController;
 
     @FXML
     private Button loadSimulationButton;
-
-    @FXML
-    private Button gueueManagmentButton;
 
     @FXML
     private Label loadSimulationPath;
@@ -34,13 +34,10 @@ public class TopController {
     @FXML
     private Label predictionTitle;
 
-    @FXML
-    void gueueManagmentClicked(ActionEvent event) {
-
-    }
 
     @FXML
     void loadSimulationButtonClicked(ActionEvent event) {
+        insertNewLineToQueueComponent("test");
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select simulation");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML Simulation", "*.xml"));
@@ -56,6 +53,7 @@ public class TopController {
 
     @FXML
     void onSkinSelected(ActionEvent event) {
+
         System.out.println("onSkinSelected");
     }
 
@@ -74,6 +72,16 @@ public class TopController {
         this.simulatorManager = simulatorManager;
     }
 
+    public void insertNewLineToQueueComponent(String line){
+        queueManagementController.addItem(line);
+    }
 
+    public void removeLineFromQueueComponent(String line){
+        queueManagementController.removeItem(line);
+    }
+
+    public void cleanQueueComponent(){
+        queueManagementController.cleanList();
+    }
 
 }
