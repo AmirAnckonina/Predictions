@@ -43,7 +43,7 @@ public class InformationManagerImpl implements InformationManager {
     }
 
     @Override
-    public SimulationDocumentInfoDto getSimulationDocumentInfo(String guid) {
+    public SimulationDocumentInfoDto getLatestSimulationDocumentInfo(String guid) {
 
         SimulationDocument simulationDoc = this.simulationDocumentMap.get(guid);
         TickDocument latestTickDoc = simulationDoc.getLatestTickDocument();
@@ -60,6 +60,11 @@ public class InformationManagerImpl implements InformationManager {
                 entityPopulationMap,
                 simulationDoc.getInitialSimulationDocumentInfoDto().getInitialEntityPopulationMap()
         );
+    }
+
+    @Override
+    public SimulationDocumentInfoDto getInitialSimulationDocumentInfo(String simulationGuid) {
+        return this.simulationDocumentMap.get(simulationGuid).getInitialSimulationDocumentInfoDto();
     }
 
 }

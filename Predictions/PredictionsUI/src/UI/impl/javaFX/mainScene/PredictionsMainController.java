@@ -139,15 +139,21 @@ public class PredictionsMainController {
     }
 
     public void resultsTabClicked(){
-        if(currentScreen == eCurrentScreen.RESULTS&& !newSimulationLoadedFlag){return;}
+        if (currentScreen == eCurrentScreen.RESULTS && !newSimulationLoadedFlag){ return; }
 
         currentScreen = eCurrentScreen.RESULTS;
         newSimulationLoadedFlag = false;
         resultsComponentController.simulationTabClicked();
 
-
         System.out.println("resultsTabClicked");
+    }
 
-
+    public void onNewSimulationStart(String simulationGuid) {
+        try {
+            this.resultsComponentController.addNewSimulationGuid(simulationGuid);
+            this.resultsTabClicked();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
     }
 }

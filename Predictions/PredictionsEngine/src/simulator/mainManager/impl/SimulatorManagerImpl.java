@@ -4,7 +4,6 @@ import dto.*;
 import simulator.builder.manager.api.WorldBuilderManager;
 import simulator.builder.manager.impl.WorldBuilderManagerImpl;
 import simulator.information.simulationDocument.api.SimulationDocument;
-import simulator.information.simulationDocument.api.SimulationDocumentFacade;
 import simulator.manualSetup.manager.api.ManualSimulationSetupManager;
 import simulator.establishment.manager.api.EstablishmentManager;
 import simulator.manualSetup.manager.impl.ManualSimulationSetupManagerImpl;
@@ -82,7 +81,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
         simulatorExecutionManager.runSimulator(simulationDocument);
 
-        return this.infoManager.getSimulationDocumentInfo(simulationDocument.getSimulationGuid());
+        return this.infoManager.getInitialSimulationDocumentInfo(simulationDocument.getSimulationGuid());
     }
 
     @Override
@@ -167,8 +166,8 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
-    public SimulationDocumentInfoDto getSimulationDocumentInfo(String guid) {
-         return this.infoManager.getSimulationDocumentInfo(guid);
+    public SimulationDocumentInfoDto getLatestSimulationDocumentInfo(String guid) {
+         return this.infoManager.getLatestSimulationDocumentInfo(guid);
     }
 
 }
