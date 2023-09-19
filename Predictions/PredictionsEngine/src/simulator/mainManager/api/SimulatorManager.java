@@ -1,7 +1,5 @@
 package simulator.mainManager.api;
 import dto.*;
-import response.SimulatorResponse;
-import simulator.definition.world.WorldDefinition;
 import simulator.information.simulationDocument.api.SimulationDocumentFacade;
 import simulator.result.manager.api.ResultManager;
 
@@ -25,4 +23,7 @@ public interface SimulatorManager {
     void resetSingleEnvironmentVariable(String envVarName);
     Integer getMaxPopulationSize();
     void resetAllManualSetup();
+    void stopSimulationByGuid(String GUID);
+    void pauseSimulationByGuid(String GUID);
+    void resumeSimulationByGuid(String GUID);
 }
