@@ -76,19 +76,24 @@ public class ResultsController {
     @FXML
     public void simulationIDListClicked(MouseEvent event) {
 
-        String guid = this.executionListView.getSelectionModel().getSelectedItem().getText();
-        SimulationDocumentInfoDto simulationDocumentInfoDto = this.simulatorManager.getLatestSimulationDocumentInfo(guid);
+        try {
+
+            String guid = this.executionListView.getSelectionModel().getSelectedItem().getText();
+            SimulationDocumentInfoDto simulationDocumentInfoDto = this.simulatorManager.getLatestSimulationDocumentInfo(guid);
 
 
-        createSimulationResultComponent(simulationDocumentInfoDto); //info component
+            createSimulationResultComponent(simulationDocumentInfoDto); //info component
 
 // -------------------------------------------------------------------------------------------------
 
-        SimulationResult simulationResult = simulationResultMap.get(guid);
-        if(resultByEntity.isPressed()){
-            createHistogramByEntityComponent(new ArrayList<>(simulationResult.getEntities().keySet()));
-        }else {
-            createHistogramByPropertyComponent(simulationResult.getAllPropertiesOfAllEntities());
+            SimulationResult simulationResult = simulationResultMap.get(guid);
+            if (resultByEntity.isPressed()) {
+                createHistogramByEntityComponent(new ArrayList<>(simulationResult.getEntities().keySet()));
+            } else {
+                createHistogramByPropertyComponent(simulationResult.getAllPropertiesOfAllEntities());
+            }
+        }catch (Exception e){
+            e.printStackTrace(System.out);
         }
     }
 
