@@ -107,9 +107,4 @@ public class SimulationDocumentImpl implements SimulationDocument {
 
         return latestTickDoc.get();
     }
-
-    @Override
-    public SimulationDocumentInfoDto getSimulationDocumentInfoByStatus(SimulationStatus status) {
-        return this.statusInfoMap.get(status);
-    }
 }

@@ -6,9 +6,7 @@ import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.information.simulationDocument.api.SimulationDocument;
 import simulator.information.simulationDocument.api.SimulationDocumentFacade;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SimulationDocumentFacadeImpl implements SimulationDocumentFacade {
     private SimulationDocument simulationDocument;
@@ -26,23 +24,29 @@ public class SimulationDocumentFacadeImpl implements SimulationDocumentFacade {
     }
 
     @Override
-    public Map<String, Integer> getMappedPropertiesToNumOfEntitiesWithSameValues(String entityName, String propertyName) {
-
+    public Map<String, Integer> getMappedPropertiesToNumOfEntitiesWithSameValues(String propertyName) {
         Map<String,List<EntityInstance>> entitiesNames = simulationDocument.getSimulationResult().getEntities();
-        List<String> propertiesByEntity = simulationDocument.getSimulationResult().getEntityPropertiesNames(entityName);
+        List<String> propertiesByEntity = new ArrayList<>();
+        entitiesNames.forEach((entityName, entityInstancesList) -> propertiesByEntity.
+                addAll(simulationDocument.getSimulationResult().getEntityPropertiesNames(entityName)));
 
         Map<String,Integer> entityInstanceList = getAllEntityInstancesHasPropertyByPropertyName(
-                entityName,
                 propertyName);
 
         return entityInstanceList;
     }
 
+    @Override
+    public List<String> getAllEntitiesNames() {
+        return new ArrayList<>(simulationDocument.getWorldInstance().getEntitiesInstances().keySet());
+    }
+
     private Map<String,Integer> getAllEntityInstancesHasPropertyByPropertyName(
-            String entityName,
             String propertyName) {
-        List<EntityInstance> entityInstanceList = this.simulationDocument.getSimulationResult()
-                .getEntities().get(entityName);
+        Set<String> entitiesNames = this.simulationDocument.getWorldInstance().getEntityDefinitionMap().keySet();
+        List<EntityInstance> entityInstanceList = new ArrayList<>();
+        entitiesNames.forEach(nameOfEntity -> entityInstanceList.addAll(this.simulationDocument.getSimulationResult()
+                .getEntities().get(nameOfEntity)));
         Map<String, Integer> valueCountMap = new HashMap<>();
 
         for (EntityInstance instance : entityInstanceList) {

@@ -20,5 +20,6 @@ public interface SimulationResult {
     void setInitializedEntityPopulation();
     void setStartingTime(long startTimeInMilliSec);
     void setTerminationReason(TerminationReason terminationReason);
-    public TerminationReason getTerminationReason();
+    TerminationReason getTerminationReason();
+    List<String> getAllPropertiesOfAllEntities();
 }
