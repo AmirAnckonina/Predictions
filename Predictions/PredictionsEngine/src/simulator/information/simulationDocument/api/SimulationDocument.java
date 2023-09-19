@@ -1,5 +1,6 @@
 package simulator.information.simulationDocument.api;
 
+import dto.SimulationDocumentInfoDto;
 import enums.SimulationStatus;
 import simulator.execution.instance.world.api.WorldInstance;
 import simulator.information.tickDocument.api.TickDocument;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface SimulationDocument {
+     SimulationDocumentInfoDto getInitialSimulationDocumentInfoDto();
      String getSimulationGuid();
      WorldInstance getWorldInstance();
      SimulationStatus getSimulationStatus();
@@ -18,4 +20,6 @@ public interface SimulationDocument {
      void addTickDocument(TickDocument tickDocument);
      void setSimulationStatus(SimulationStatus simulationStatus);
      TickDocument getLatestTickDocument();
+     //SimulationDocumentInfoDto getSimulationDocumentInfoByStatus(SimulationStatus status);
+
 }
