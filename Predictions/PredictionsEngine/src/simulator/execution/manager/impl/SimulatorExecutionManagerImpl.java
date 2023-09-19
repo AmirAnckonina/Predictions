@@ -5,28 +5,30 @@ import simulator.establishment.manager.api.EstablishmentManager;
 import simulator.execution.instance.world.api.WorldInstance;
 import simulator.execution.manager.api.SimulatorExecutionManager;
 import simulator.information.simulationDocument.api.SimulationDocument;
-import simulator.runner.api.SimulatorRunner;
-import simulator.runner.impl.SimulatorRunnerImpl;
+import simulator.runner.api.SimulationRunner;
+import simulator.runner.impl.SimulationRunnerImpl;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class SimulatorExecutionManagerImpl implements SimulatorExecutionManager {
     private WorldInstance worldInstance;
     private EstablishmentManager establishmentManager;
-    private SimulatorRunner simulatorRunner;
+    private SimulationRunner simulationRunner;
+    private ExecutorService simulationExecutorService;
 
-    public SimulatorExecutionManagerImpl() {
+    public SimulatorExecutionManagerImpl() { }
+    @Override
+    public void runSimulator(SimulationDocument simulationDocument) {
+
+        this.simulationExecutorService.execute(new SimulationRunnerImpl(simulationDocument));
+        /*this.simulatorRunner = new SimulatorRunnerImpl(simulationDocument);
+        this.simulatorRunner.run();*/
     }
 
     @Override
-    public SimulationEndDto runSimulator(SimulationDocument simulationDocument) {
-
-        this.simulatorRunner = new SimulatorRunnerImpl(simulationDocument);
-        this.simulatorRunner.run();
-
-        //need to add DTO to return termination reason.
-        return new SimulationEndDto(
-                        simulationDocument.getSimulationGuid(),
-                        simulationDocument.getSimulationResult().getTerminationReason().toString()
-        );
+    public void initThreadPoolExecuter(Integer threadCount) {
+        this.simulationExecutorService = Executors.newFixedThreadPool(threadCount);
     }
 
     @Override

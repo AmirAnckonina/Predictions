@@ -5,12 +5,12 @@ import simulator.definition.environment.EnvironmentDefinition;
 import simulator.definition.rule.Rule;
 import simulator.definition.spaceGrid.SpaceGridDefinition;
 import simulator.definition.termination.Termination;
-import simulator.definition.threadCount.ThreadCount;
+import simulator.definition.threadCount.ThreadCountDefinition;
 
 import java.util.*;
 
 public class WorldDefinition {
-    private ThreadCount threadCount;
+    private ThreadCountDefinition threadCountDefinition;
     private SpaceGridDefinition spaceGridDefinition;
     private EnvironmentDefinition environmentDefinition;
     private Map<String, EntityDefinition> entities;
@@ -18,14 +18,14 @@ public class WorldDefinition {
     private Termination termination;
 
     public WorldDefinition(
-            ThreadCount threadCount,
+            ThreadCountDefinition threadCountDefinition,
             SpaceGridDefinition spaceGridDefinition,
             EnvironmentDefinition environmentDefinition,
             Map<String, EntityDefinition> entities,
             List<Rule> rules,
             Termination termination) {
 
-        this.threadCount = threadCount;
+        this.threadCountDefinition = threadCountDefinition;
         this.spaceGridDefinition = spaceGridDefinition;
         this.environmentDefinition = environmentDefinition;
         this.entities = entities;
@@ -55,8 +55,8 @@ public class WorldDefinition {
         return termination;
     }
 
-    public ThreadCount getThreadCount() {
-        return threadCount;
+    public ThreadCountDefinition getThreadCountDefinition() {
+        return threadCountDefinition;
     }
 
     public SpaceGridDefinition getSpaceGridDefinition() {

@@ -5,8 +5,6 @@ import simulator.builder.manager.api.WorldBuilderManager;
 import simulator.builder.manager.impl.WorldBuilderManagerImpl;
 import simulator.information.simulationDocument.api.SimulationDocument;
 import simulator.information.simulationDocument.api.SimulationDocumentFacade;
-import simulator.information.simulationDocument.impl.SimulationDocumentFacadeImpl;
-import simulator.mainManager.utils.exception.SimulatorManagerException;
 import simulator.manualSetup.manager.api.ManualSimulationSetupManager;
 import simulator.establishment.manager.api.EstablishmentManager;
 import simulator.manualSetup.manager.impl.ManualSimulationSetupManagerImpl;
@@ -43,7 +41,13 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
     @Override
     public void buildSimulationWorld(String filePath) {
-        worldBuilderManager.buildSimulationWorld(filePath);
+        this.worldBuilderManager.buildSimulationWorld(filePath);
+        this.simulatorExecutionManager
+                .initThreadPoolExecuter(
+                        this.worldBuilderManager
+                                .getWorldDefinition()
+                                .getThreadCountDefinition()
+                                .getThreadCount());
     }
 
     @Override

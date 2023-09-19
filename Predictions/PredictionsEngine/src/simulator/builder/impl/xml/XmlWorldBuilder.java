@@ -13,7 +13,7 @@ import simulator.definition.environment.EnvironmentDefinition;
 import simulator.definition.rule.Rule;
 import simulator.definition.spaceGrid.SpaceGridDefinition;
 import simulator.definition.termination.Termination;
-import simulator.definition.threadCount.ThreadCount;
+import simulator.definition.threadCount.ThreadCountDefinition;
 import simulator.definition.world.WorldDefinition;
 
 import java.io.File;
@@ -58,19 +58,19 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
      */
     @Override
     public WorldDefinition buildWorld() {
-        ThreadCount threadCount = buildThreadCount();
+        ThreadCountDefinition threadCountDefinition = buildThreadCount();
         SpaceGridDefinition spaceGrid = buildSpaceGrid();
         EnvironmentDefinition environmentDefinition = buildEnvironment();
         Map<String, EntityDefinition> entities = buildEntities();
         List<Rule> rules = buildRules();
         Termination termination = buildTermination();
 
-        return new WorldDefinition(threadCount, spaceGrid, environmentDefinition, entities, rules, termination);
+        return new WorldDefinition(threadCountDefinition, spaceGrid, environmentDefinition, entities, rules, termination);
     }
 
     @Override
-    public ThreadCount buildThreadCount() {
-        return new ThreadCount(generatedWorldDefinition.getPRDThreadCount());
+    public ThreadCountDefinition buildThreadCount() {
+        return new ThreadCountDefinition(generatedWorldDefinition.getPRDThreadCount());
     }
 
     @Override

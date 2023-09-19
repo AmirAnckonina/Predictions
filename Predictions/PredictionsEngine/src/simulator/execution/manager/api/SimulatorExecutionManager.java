@@ -7,5 +7,6 @@ import simulator.information.simulationDocument.api.SimulationDocument;
 public interface SimulatorExecutionManager {
 
     WorldInstance getWorldInstance();
-    SimulationEndDto runSimulator(SimulationDocument simulationDocument);
+    void runSimulator(SimulationDocument simulationDocument);
+    void initThreadPoolExecuter(Integer threadCount);
 }
