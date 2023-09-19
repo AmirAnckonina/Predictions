@@ -1,21 +1,14 @@
 package simulator.information.manager.impl;
 
 import dto.SimulationDocumentInfoDto;
-import dto.SimulationEndDto;
-import enums.SimulationStatus;
 import simulator.definition.world.WorldDefinition;
-import simulator.execution.instance.entity.api.EntityInstance;
-import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.execution.instance.world.api.WorldInstance;
 import simulator.information.manager.exception.SimulationInformationException;
 import simulator.information.simulationDocument.api.SimulationDocument;
 import simulator.information.simulationDocument.api.SimulationDocumentFacade;
-import simulator.information.simulationDocument.impl.SimulationDocumentFacadeImpl;
 import simulator.information.simulationDocument.impl.SimulationDocumentImpl;
 import simulator.information.tickDocument.api.TickDocument;
-import simulator.information.tickDocument.impl.TickDocumentImpl;
 import simulator.mainManager.utils.SimulatorUtils;
-import simulator.result.impl.SimulationInitialInfo;
 import simulator.result.manager.api.ResultManager;
 import simulator.result.manager.impl.ResultManagerImpl;
 import simulator.information.manager.api.InformationManager;
@@ -45,7 +38,7 @@ public class InformationManagerImpl implements InformationManager {
 
     @Override
     public SimulationDocumentFacade createSimulationDocumentFacade(SimulationDocument simulationDocument) {
-        SimulationDocumentFacadeImpl simulationDocumentFacade = new SimulationDocumentFacadeImpl(simulationDocument);
+//        SimulationDocumentFacadeImpl simulationDocumentFacade = new SimulationDocumentFacadeImpl(simulationDocument);
         throw new SimulationInformationException("not impl creayeSimulationDocument");
     }
 

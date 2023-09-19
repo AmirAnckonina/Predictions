@@ -105,8 +105,18 @@ public class ResultsController {
         String guid = this.executionListView.getSelectionModel().getSelectedItem().getText();
         SimulationDocumentInfoDto simulationDocumentDto = this.simulatorManager.getSimulationDocumentInfo(guid);
         Platform.runLater(() -> {
-            //() -> updateSimulationInfoUI().accept(simulationDocumentDto)
+            updateSimulationInfoUI(simulationDocumentDto);
         });
+    }
+
+    private void updateSimulationInfoUI(SimulationDocumentInfoDto simulationDocumentInfoDto) {
+        if(this.detailsResultController != null){
+            detailsResultController.setValues(simulationDocumentInfoDto.getSimulationGuid(),
+                    simulationDocumentInfoDto.getTickNo().toString(),
+                    simulationDocumentInfoDto.getTimePassedInSeconds().toString(),
+                    simulationDocumentInfoDto.getCurrentEntityPopulationMap(),
+                    simulationDocumentInfoDto.getInitialEntityPopulationMap());
+        }
     }
 
     private void createSimulationResultComponent(SimulationDocumentInfoDto simulationDocumentInfoDto) {
@@ -121,8 +131,8 @@ public class ResultsController {
             detailsResultController.setValues(simulationDocumentInfoDto.getSimulationGuid(),
                     simulationDocumentInfoDto.getTickNo().toString(),
                     simulationDocumentInfoDto.getTimePassedInSeconds().toString(),
-                    simulationDocumentInfoDto.getEntityPopulationMap(),
-                    simulationDocumentInfoDto.);
+                    simulationDocumentInfoDto.getCurrentEntityPopulationMap(),
+                    simulationDocumentInfoDto.getInitialEntityPopulationMap());
         } catch (Exception e) {
             e.getMessage();
             e.printStackTrace(System.out);

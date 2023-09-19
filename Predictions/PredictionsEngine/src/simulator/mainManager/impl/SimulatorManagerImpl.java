@@ -72,7 +72,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
-    public SimulationDocumentFacade runSimulator() {
+    public SimulationDocumentInfoDto runSimulator() {
 
         establishmentManager.establishSimulation(this.worldBuilderManager.getWorldDefinition());
         SimulationDocument simulationDocument
@@ -82,7 +82,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
         simulatorExecutionManager.runSimulator(simulationDocument);
 
-        return infoManager.createSimulationDocumentFacade(simulationDocument);
+        return this.infoManager.getSimulationDocumentInfo(simulationDocument.getSimulationGuid());
     }
 
     @Override
