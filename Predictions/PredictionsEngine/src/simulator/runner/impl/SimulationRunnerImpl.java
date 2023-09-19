@@ -17,7 +17,6 @@ import simulator.information.tickDocument.api.TickDocument;
 import simulator.information.tickDocument.impl.TickDocumentImpl;
 import simulator.execution.instance.movement.manager.api.MovementManager;
 import simulator.execution.instance.movement.manager.impl.MovementManagerImpl;
-import simulator.runner.api.SimulatorRunner;
 import simulator.execution.context.api.ExecutionContext;
 import simulator.execution.context.impl.ExecutionContextImpl;
 import simulator.execution.instance.entity.api.EntityInstance;
@@ -26,13 +25,13 @@ import simulator.execution.instance.world.api.WorldInstance;
 
 import java.util.*;
 
-public class SimulatorRunnerImpl implements SimulatorRunner {
+public class SimulationRunnerImpl implements Runnable {
 
     private final WorldInstance worldInstance;
     private SimulationDocument simulationDocument;
     private CrossedExecutionContext crossedExecutionContext;
 
-    public SimulatorRunnerImpl(SimulationDocument simulationDocument) {
+    public SimulationRunnerImpl(SimulationDocument simulationDocument) {
         this.simulationDocument = simulationDocument;
         this.worldInstance = this.simulationDocument.getWorldInstance();
         EntitiesInstancesManager entitiesInstancesManager = new EntitiesInstancesManagerImpl(worldInstance.getEntitiesInstances());

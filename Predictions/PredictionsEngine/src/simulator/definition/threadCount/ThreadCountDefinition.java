@@ -1,9 +1,9 @@
 package simulator.definition.threadCount;
 
-public class ThreadCount {
+public class ThreadCountDefinition {
     private Integer threadCount;
 
-    public ThreadCount(Integer threadCount) {
+    public ThreadCountDefinition(Integer threadCount) {
         this.threadCount = threadCount;
     }
 
