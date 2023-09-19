@@ -1,5 +1,6 @@
 package simulator.information.simulationDocument.api;
 
+import enums.SimulationStatus;
 import simulator.execution.instance.world.api.WorldInstance;
 import simulator.information.tickDocument.api.TickDocument;
 import simulator.result.api.SimulationResult;
@@ -10,8 +11,11 @@ import java.util.Map;
 public interface SimulationDocument {
      String getSimulationGuid();
      WorldInstance getWorldInstance();
+     SimulationStatus getSimulationStatus();
      Map<Integer, TickDocument> getTickDocumentMap();
      TickDocument getTickDocumentByTickNumber(int tickNo);
      SimulationResult getSimulationResult();
      void addTickDocument(TickDocument tickDocument);
+     void setSimulationStatus(SimulationStatus simulationStatus);
+     TickDocument getLatestTickDocument();
 }

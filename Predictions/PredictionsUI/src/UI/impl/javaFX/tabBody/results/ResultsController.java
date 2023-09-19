@@ -2,10 +2,10 @@ package UI.impl.javaFX.tabBody.results;
 
 import UI.impl.javaFX.mainScene.PredictionsMainController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.DetailsResultController;
-import UI.impl.javaFX.tabBody.results.detailsComponent.entity.EntityComponentController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byEntities.ExecutionResultByEntityController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byProperty.ExecutionResultByPropertyController;
 import UI.impl.javaFX.top.PredictionsTopModel;
+import dto.SimulationDocumentInfoDto;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,11 +14,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
-import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import simulator.information.simulationDocument.api.SimulationDocument;
 import simulator.mainManager.api.SimulatorManager;
 import simulator.result.api.SimulationResult;
 import simulator.result.manager.api.ResultManager;
@@ -65,7 +63,7 @@ public class ResultsController {
     private void pollUpdatedSimulationDocumentDto() {
         // get the current simulation Guid - according to what currently choosed under lost view
         String guid;
-        //SimulationDocumentDto simulationDocumentDto = this.simulatorManager.getSimulationDocumentInfo(guid);
+        SimulationDocumentInfoDto simulationDocumentDto = this.simulatorManager.getSimulationDocumentInfo(guid);
         Platform.runLater(() -> {
             // simulationDocumentDto
             // call for UI update with the Dto provided

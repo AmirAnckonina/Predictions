@@ -26,4 +26,5 @@ public interface SimulatorManager {
     void stopSimulationByGuid(String GUID);
     void pauseSimulationByGuid(String GUID);
     void resumeSimulationByGuid(String GUID);
+    SimulationDocumentInfoDto getSimulationDocumentInfo(String guid);
 }

@@ -166,4 +166,9 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
     }
 
+    @Override
+    public SimulationDocumentInfoDto getSimulationDocumentInfo(String guid) {
+         return this.infoManager.getSimulationDocumentInfo(guid);
+    }
+
 }

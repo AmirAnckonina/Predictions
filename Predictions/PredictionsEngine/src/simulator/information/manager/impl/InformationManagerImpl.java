@@ -1,5 +1,6 @@
 package simulator.information.manager.impl;
 
+import dto.SimulationDocumentInfoDto;
 import dto.SimulationEndDto;
 import simulator.definition.world.WorldDefinition;
 import simulator.execution.instance.entity.api.EntityInstance;
@@ -25,21 +26,37 @@ import java.util.Set;
 
 public class InformationManagerImpl implements InformationManager {
     private ResultManager simulatorResultManager;
+    private Map<String, SimulationDocument> simulationDocumentMap;
 
     public InformationManagerImpl() {
+        this.simulationDocumentMap = new HashMap<>();
         this.simulatorResultManager = new ResultManagerImpl();
     }
 
     @Override
     public SimulationDocument createNewSimulationDocument(WorldDefinition worldDefinition, WorldInstance worldInstance) {
+        SimulationDocument simulationDocument;
         String guid = SimulatorUtils.getGUID();
-        return new SimulationDocumentImpl(guid, worldInstance);
+        simulationDocument = new SimulationDocumentImpl(guid, worldInstance);
+        this.simulationDocumentMap.put(guid, simulationDocument);
+        return simulationDocument;
     }
 
     @Override
     public SimulationDocumentFacade createSimulationDocumentFacade(SimulationDocument simulationDocument) {
         SimulationDocumentFacadeImpl simulationDocumentFacade = new SimulationDocumentFacadeImpl(simulationDocument);
-        return null;
+        throw new SimulationInformationException("not impl creayeSimulationDocument");
+    }
+
+    @Override
+    public SimulationDocumentInfoDto getSimulationDocumentInfo(String guid) {
+        SimulationDocument reqSimDoc = this.simulationDocumentMap.get(guid);
+        return new SimulationDocumentInfoDto(
+                reqSimDoc.getSimulationGuid(),
+                reqSimDoc.getSimulationStatus(),
+                reqSimDoc.getLatestTickDocument().getTickNumber(),
+                reqSimDoc.getLatestTickDocument().getTimePassedInSeconds()
+        );
     }
 
 }
