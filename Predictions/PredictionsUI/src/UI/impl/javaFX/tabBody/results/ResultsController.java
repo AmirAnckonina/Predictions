@@ -6,6 +6,7 @@ import UI.impl.javaFX.tabBody.results.detailsComponent.entity.EntityComponentCon
 import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byEntities.ExecutionResultByEntityController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byProperty.ExecutionResultByPropertyController;
 import UI.impl.javaFX.top.PredictionsTopModel;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +18,7 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import simulator.information.simulationDocument.api.SimulationDocument;
 import simulator.mainManager.api.SimulatorManager;
 import simulator.result.api.SimulationResult;
 import simulator.result.manager.api.ResultManager;
@@ -27,11 +29,13 @@ import java.util.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static UI.impl.javaFX.common.CommonResourcesPaths.*;
 
 public class ResultsController {
-
     private PredictionsMainController mainController;
     private PredictionsTopModel predictionsTopModel;
     private Stage primaryStage;
@@ -40,21 +44,32 @@ public class ResultsController {
     private Map<String, SimulationResult> simulationResultMap;
     private ResultManager simulatorResultManager;
 
+    @FXML private ListView<Label> executionListView;
 
-    @FXML
-    private ListView<Label> executionListView;
+    @FXML private Button reRunButton;
 
-    @FXML
-    private Button reRunButton;
+    @FXML private RadioButton resultByEntity;
 
-    @FXML
-    private RadioButton resultByEntity;
-
-    @FXML
-    private GridPane resultComponentHolderGP;
+    @FXML private GridPane resultComponentHolderGP;
 
     @FXML
     public void initialize() {
+
+    }
+
+    public ResultsController() {
+        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+        scheduledExecutorService.scheduleAtFixedRate(this::pollUpdatedSimulationDocumentDto, 0, 200, TimeUnit.MILLISECONDS);
+    }
+
+    private void pollUpdatedSimulationDocumentDto() {
+        // get the current simulation Guid - according to what currently choosed under lost view
+        String guid;
+        //SimulationDocumentDto simulationDocumentDto = this.simulatorManager.getSimulationDocumentInfo(guid);
+        Platform.runLater(() -> {
+            // simulationDocumentDto
+            // call for UI update with the Dto provided
+        });
     }
 
     @FXML
