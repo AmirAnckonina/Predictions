@@ -69,19 +69,18 @@ public class DetailsResultController extends DetailsResultModel {
 
     }
 
-    public void setValues(String simulationID, String numOfTicks, String timeCounter, ResultManager resultManager, String simulationIndex){
+    public void setValues(String simulationID, String numOfTicks, String timeCounter, Map<String, Integer> mappedEntityToNumOfInstances,
+                          Map<String, Integer> mappedEntityToNumOfInstancesInitialized){
         this.simulationID.set(simulationID);
         this.numOfTicks.set(numOfTicks);
         this.timeCounter.set(timeCounter);
         this.runningSimulationButtons.setDisable(false);
-        SimulationResult simulationResults = resultManager.getSimulationResultBySimulationId(simulationIndex);
-//
-//        for(EntitiesResult entitiesResult:simulationResults.getEntities())){
-//            createEntityComponent(entitiesResult);
-//        }
+
+        mappedEntityToNumOfInstances.forEach((entityName, numOfEntity) -> createEntityComponent(entityName,
+                mappedEntityToNumOfInstancesInitialized.get(entityName), numOfEntity));
     }
 
-    private void createEntityComponent(EntitiesResult entitiesResult) {
+    private void createEntityComponent(String entityName, Integer originNumOfInstance, Integer currNumOfEntities) {
         try
         {
             FXMLLoader loader = new FXMLLoader();
@@ -90,9 +89,7 @@ public class DetailsResultController extends DetailsResultModel {
             GridPane gpComponent = loader.load();
 
             EntityComponentController controller = loader.getController();
-            controller.setValues(entitiesResult.getName().toString(),
-                    entitiesResult.getNumOfInstancesInitialized().toString(),
-                    entitiesResult.getNumOfInstancesInEndOfSimulation().toString());
+            controller.setValues(entityName, originNumOfInstance.toString(), currNumOfEntities.toString());
             entitiesContainerLV.getItems().add(gpComponent);
         } catch (Exception e) {
             e.getMessage();

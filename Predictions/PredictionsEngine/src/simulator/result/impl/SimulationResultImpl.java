@@ -29,6 +29,13 @@ public class SimulationResultImpl implements SimulationResult {
         return terminationReason;
     }
 
+    @Override
+    public List<String> getAllPropertiesOfAllEntities() {
+        List<String> res = new ArrayList<>();
+        this.entitiesPropertiesNames.keySet().forEach(entityName -> res.addAll(getEntityPropertiesNames(entityName)));
+        return res;
+    }
+
     public void setTerminationReason(TerminationReason terminationReason) {
         this.terminationReason = terminationReason;
     }
