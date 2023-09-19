@@ -40,7 +40,7 @@
                                     <Insets />
                                  </opaqueInsets>
                               </HBox>
-                              <ListView fx:id="executionDetailsListView" VBox.vgrow="ALWAYS" />
+                              <fx:include fx:id="executionDetailsListView" source="detailsComponent/DetailsComponent.fxml" />
                            </children>
                         </VBox>
                      </content>

@@ -40,12 +40,14 @@
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <Label text="Simulatin ID:" />
+                                    <Label text="Simulation ID:" />
                                     <Label fx:id="simulationIDLbl" text="-" GridPane.columnIndex="1" />
                                     <Label text="Ticks:" GridPane.rowIndex="1" />
                                     <Label fx:id="ticksLbl" text="-" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Label text="Time" GridPane.rowIndex="2" />
+                                    <Label text="Time:" GridPane.rowIndex="2" />
                                     <Label fx:id="timeCounterLbl" text="-" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label text="Status:" GridPane.rowIndex="3" />
+                                    <Label fx:id="statusLbl" text="-" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                  </children>
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
