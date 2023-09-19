@@ -62,11 +62,10 @@ public class ResultsController {
 
     private void pollUpdatedSimulationDocumentDto() {
         // get the current simulation Guid - according to what currently choosed under lost view
-        String guid;
+        String guid = this.executionListView.getSelectionModel().getSelectedItem().getText();
         SimulationDocumentInfoDto simulationDocumentDto = this.simulatorManager.getSimulationDocumentInfo(guid);
         Platform.runLater(() -> {
-            // simulationDocumentDto
-            // call for UI update with the Dto provided
+            //() -> updateSimulationInfoUI().accept(simulationDocumentDto)
         });
     }
 

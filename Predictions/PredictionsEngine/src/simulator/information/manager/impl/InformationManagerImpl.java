@@ -2,6 +2,7 @@ package simulator.information.manager.impl;
 
 import dto.SimulationDocumentInfoDto;
 import dto.SimulationEndDto;
+import enums.SimulationStatus;
 import simulator.definition.world.WorldDefinition;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
@@ -63,7 +64,8 @@ public class InformationManagerImpl implements InformationManager {
                 simulationDoc.getSimulationStatus(),
                 simulationDoc.getLatestTickDocument().getTickNumber(),
                 simulationDoc.getLatestTickDocument().getTimePassedInSeconds(),
-                entityPopulationMap
+                entityPopulationMap,
+                simulationDoc.getInitialSimulationDocumentInfoDto().getInitialEntityPopulationMap()
         );
     }
 
