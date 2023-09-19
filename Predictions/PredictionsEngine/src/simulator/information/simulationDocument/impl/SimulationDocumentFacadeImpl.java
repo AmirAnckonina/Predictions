@@ -20,37 +20,25 @@ public class SimulationDocumentFacadeImpl implements SimulationDocumentFacade {
     @Override
     public Map<String, Integer> getMappedEntitiesToNumOfEntities() {
         Map<String, Integer> res = new HashMap<>();
-
-        for(Map.Entry<String,List<EntityInstance>> iter: simulationDocument.getWorldInstance().getEntitiesInstances().entrySet()){
-            res.put(new String(iter.getKey()), iter.getValue().size());
-        }
+        simulationDocument.getWorldInstance().getEntitiesInstances().forEach((entityName, entityInstances) -> res.put(entityName, entityInstances.size()));
 
         return res;
     }
 
     @Override
-    public Map<String, Integer> getMappedPropertiesToNumOfEntitiesWithSameValues(String entityName) {
-        return null;
+    public Map<String, Integer> getMappedPropertiesToNumOfEntitiesWithSameValues(String entityName, String propertyName) {
 
-//        Map<String,List<EntityInstance>> entitiesNames = simulationDocument.getSimulationResult().getEntities();
-//        simulationDocument.getSimulationResult().getEntityPropertiesNames(entityName);
-//
-//
-//        Map<String,Integer> entityInstanceList =
-//                this.simulatorResultManager
-//                        .getAllEntityInstancesHasPropertyByPropertyNameBySimulationIndex(
-//                                "smoker",
-//                                this.simulationIndex,
-//                                propertyNameChosen);
-//
-//        Map<String,Integer> entityInstanceList = getAllEntityInstancesHasPropertyByPropertyName(
-//                                "smoker",
-//                                propertyNameChosen);
-//
-//        return entityInstanceList;
+        Map<String,List<EntityInstance>> entitiesNames = simulationDocument.getSimulationResult().getEntities();
+        List<String> propertiesByEntity = simulationDocument.getSimulationResult().getEntityPropertiesNames(entityName);
+
+        Map<String,Integer> entityInstanceList = getAllEntityInstancesHasPropertyByPropertyName(
+                entityName,
+                propertyName);
+
+        return entityInstanceList;
     }
 
-    public Map<String,Integer> getAllEntityInstancesHasPropertyByPropertyName(
+    private Map<String,Integer> getAllEntityInstancesHasPropertyByPropertyName(
             String entityName,
             String propertyName) {
         List<EntityInstance> entityInstanceList = this.simulationDocument.getSimulationResult()
