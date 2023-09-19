@@ -10,6 +10,8 @@ import UI.impl.javaFX.top.PredictionsTopModel;
 import dto.EnvironmentPropertiesDto;
 import dto.SimulationDetailsDto;
 import javafx.fxml.FXML;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 import simulator.mainManager.api.SimulatorManager;
 import simulator.mainManager.impl.SimulatorManagerImpl;
@@ -33,6 +35,9 @@ public class PredictionsMainController {
     private NewExecutionController newExecutionComponentController;
     @FXML
     private ResultsController resultsComponentController;
+
+    @FXML
+    private TabPane mainTabPane;
 
     public PredictionsMainController() {
         this.simulatorManager = new SimulatorManagerImpl();
@@ -150,5 +155,10 @@ public class PredictionsMainController {
         } catch (Exception e) {
             e.printStackTrace(System.out);
         }
+    }
+
+    public void moveToResultTab() {
+        System.out.println("Moved to results");
+        mainTabPane.getSelectionModel().select(2);
     }
 }
