@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface SimulationDocument {
+     void createInitialSimulationDocumentInfoDto();
      SimulationDocumentInfoDto getInitialSimulationDocumentInfoDto();
      String getSimulationGuid();
      WorldInstance getWorldInstance();
@@ -20,6 +21,7 @@ public interface SimulationDocument {
      void addTickDocument(TickDocument tickDocument);
      void setSimulationStatus(SimulationStatus simulationStatus);
      TickDocument getLatestTickDocument();
+     void createInitialTickDocument();
      //SimulationDocumentInfoDto getSimulationDocumentInfoByStatus(SimulationStatus status);
 
 }
