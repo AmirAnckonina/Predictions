@@ -90,13 +90,6 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
-    public ResultManager getSimulatorResultManagerImpl() {
-        // WTF!!!!!!!!
-        return this.simulatorResultManager;
-    }
-
-
-    @Override
     public EstablishedEnvironmentInfoDto getEstablishedEnvironmentInfo() {
         return establishmentManager.getEstablishedEnvironmentInfo();
     }
@@ -152,7 +145,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
     @Override
     public void stopSimulationByGuid(String GUID) {
-
+        //this.simulatorExecutionManager.
     }
 
     @Override

@@ -2,6 +2,7 @@ package UI.impl.javaFX.tabBody.results;
 
 import UI.impl.javaFX.mainScene.PredictionsMainController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.DetailsResultController;
+import UI.impl.javaFX.tabBody.results.detailsComponent.ResultsModel;
 import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byEntities.ExecutionResultByEntityController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byProperty.ExecutionResultByPropertyController;
 import UI.impl.javaFX.top.PredictionsTopModel;
@@ -62,6 +63,10 @@ public class ResultsController {
         executionDetailsController.setMainController(this);
     }
 
+    public ResultsController() {
+        //ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+        //scheduledExecutorService.scheduleAtFixedRate(this::pollUpdatedSimulationDocumentDto, 0, 200, TimeUnit.MILLISECONDS);
+    }
     @FXML
     public void reRunButtonClicked(ActionEvent event) {
 
@@ -92,15 +97,12 @@ public class ResultsController {
             } else {
                 createHistogramByPropertyComponent(simulationResult.getAllPropertiesOfAllEntities());
             }
-        }catch (Exception e){
+
+        } catch (Exception e){
             e.printStackTrace(System.out);
         }
     }
 
-    public ResultsController() {
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-        scheduledExecutorService.scheduleAtFixedRate(this::pollUpdatedSimulationDocumentDto, 0, 200, TimeUnit.MILLISECONDS);
-    }
 
     public void setSimulationDocumentFacade(SimulationDocumentFacade simulationDocumentFacade) {
         this.simulationDocumentFacade = simulationDocumentFacade;
