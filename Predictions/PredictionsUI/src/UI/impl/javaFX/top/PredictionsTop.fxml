@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -37,11 +38,12 @@
                   <Button fx:id="loadSimulationButton" mnemonicParsing="false" onAction="#loadSimulationButtonClicked" prefWidth="150.0" text="Load Simulation" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
                   <Label fx:id="loadSimulationPath" prefHeight="28.0" prefWidth="383.0" text="-" textFill="#252323" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
                   <ComboBox fx:id="chooseSkinCB" onAction="#onSkinSelected" prefWidth="150.0" promptText="Choose skin" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
+                  <RadioButton fx:id="enableAnimationRB" mnemonicParsing="false" text="Enable animation" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                </children>
             </GridPane>
             <FlowPane alignment="TOP_RIGHT" prefHeight="121.0" prefWidth="419.0">
                <children>
-                  <TextField alignment="CENTER" editable="false" prefHeight="31.0" prefWidth="238.0" text="Queue Management">
+                  <TextField fx:id="queueTitle" alignment="CENTER" editable="false" prefHeight="31.0" prefWidth="238.0" text="Queue Management">
                      <font>
                         <Font name="System Bold Italic" size="15.0" />
                      </font>

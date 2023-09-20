@@ -26,9 +26,13 @@ public class StringActionDto {
     private String firstArg;
     private String secondArg;
     private String comparedValue;
+    private String multi;
 
     public StringActionDto(String action) {
         setActionsPropertyFromString(action);
+    }
+    public String getMulti() {
+        return multi;
     }
 
     public String getPropertyName() {
@@ -59,7 +63,7 @@ public class StringActionDto {
         String[] listOfDetails = actionDetail.split(",");
         Map<String,String> detailesMap = new HashMap<>();
         for(String detail:listOfDetails){
-            String fixDetail = detail.replaceAll(" ", "");
+            String fixDetail = detail.replaceAll(" ", "").replaceAll("}", "");
             int equalsIndex = fixDetail.indexOf("=");
             detailesMap.put(fixDetail.substring(0,equalsIndex), fixDetail.substring(equalsIndex + 1,fixDetail.length()));
         }
@@ -80,6 +84,7 @@ public class StringActionDto {
         if(detailesMap.containsKey("multi")) {
             this.numOfThenActions = detailesMap.get("thenActions");
             this.numOfElseActions = detailesMap.get("elseActions");
+            this.numOfConditionInLogicAction = detailesMap.get("conditions");
         }
         else{
             this.propertyAction = detailesMap.get("property");
@@ -122,10 +127,13 @@ public class StringActionDto {
                         :detailesMap.get("arg2");
                 break;
             case CONDITION:
-                //????
-                if(detailesMap.containsKey("multi")/* || detailesMap.get("condition").indexOf("multi") != -1*/) {
-                    this.numOfThenActions = detailesMap.get("thenActions");
-                    this.numOfElseActions = detailesMap.get("elseActions");
+                this.numOfThenActions = detailesMap.get("thenActions");
+                this.numOfElseActions = detailesMap.get("elseActions");
+                if(detailesMap.containsKey("multi") || detailesMap.get("condition").indexOf("multi") != -1) {
+//                    this.numOfThenActions = detailesMap.get("thenActions");
+//                    this.numOfElseActions = detailesMap.get("elseActions");
+                    this.numOfConditionInLogicAction = detailesMap.get("conditions");
+                    multi = "multi";
                 }
                 else{
                     this.propertyAction = detailesMap.get("property");

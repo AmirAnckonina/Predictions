@@ -119,18 +119,19 @@ public class PredictionsMainController {
 
     public void detailsTabClicked(){
         if(currentScreen == eCurrentScreen.DETAILS && !newSimulationLoadedFlag){return;}
+        if(newSimulationLoadedFlag) {
+            currentScreen = eCurrentScreen.DETAILS;
+            newSimulationLoadedFlag = false;
 
-        currentScreen = eCurrentScreen.DETAILS;
-        newSimulationLoadedFlag = false;
+            SimulationDetailsDto simulationDetailsDto = simulatorManager.getSimulationWorldDetails();
+            EnvironmentPropertiesDto environmentPropertiesDto = simulatorManager.getEnvironmentPropertiesDefinition();
 
-        SimulationDetailsDto simulationDetailsDto = simulatorManager.getSimulationWorldDetails();
-        EnvironmentPropertiesDto environmentPropertiesDto = simulatorManager.getEnvironmentPropertiesDefinition();
-
-        detailsComponentController.setPropertyDtoMap(environmentPropertiesDto.getPropertiesMap());
-        detailsComponentController.setRuleMap(simulationDetailsDto.getRuleMap());
-        detailsComponentController.setEntitiesDtoMap(simulationDetailsDto.getEntityDtoMap());
-        detailsComponentController.setTerminationDto(simulationDetailsDto.getTerminationInfo());
-        detailsComponentController.showCurrPropertyDtoList();
+            detailsComponentController.setPropertyDtoMap(environmentPropertiesDto.getPropertiesMap());
+            detailsComponentController.setRuleMap(simulationDetailsDto.getRuleMap());
+            detailsComponentController.setEntitiesDtoMap(simulationDetailsDto.getEntityDtoMap());
+            detailsComponentController.setTerminationDto(simulationDetailsDto.getTerminationInfo());
+            detailsComponentController.showCurrPropertyDtoList();
+        }
 
         System.out.println("detailsTabClicked");
     }
