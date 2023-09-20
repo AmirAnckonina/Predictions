@@ -82,7 +82,6 @@ public class SimulatorManagerImpl implements SimulatorManager {
         );
 
         simulatorExecutionManager.runSimulator(simulationDocument);
-
         return this.infoManager.getInitialSimulationDocumentInfoDto(simulationDocument.getSimulationGuid());
     }
 
@@ -199,4 +198,8 @@ public class SimulatorManagerImpl implements SimulatorManager {
         return mappedProperties;
     }
 
+    @Override
+    public SimulationsStatusesOverviewDto collectAllSimulationsStatuses() {
+        return this.infoManager.collectAllSimulationsStatusesDto();
+    }
 }

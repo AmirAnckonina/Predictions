@@ -169,4 +169,9 @@ public class PredictionsMainController {
         System.out.println("Moved to results");
         mainTabPane.getSelectionModel().select(2);
     }
+
+    public void onFirstSimulationStarted() {
+        this.topComponentController.startUIPolling();
+        this.resultsComponentController.startUIPolling();
+    }
 }

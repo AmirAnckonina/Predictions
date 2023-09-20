@@ -31,6 +31,9 @@ import java.util.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static UI.impl.javaFX.common.CommonResourcesPaths.*;
 
@@ -262,5 +265,10 @@ public class ResultsController {
         } catch (Exception e) {
             e.printStackTrace(System.out);
         }
+    }
+
+    public void startUIPolling() {
+        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+        scheduledExecutorService.scheduleAtFixedRate(this::pollUpdatedSimulationDocumentDto, 0, 200, TimeUnit.MILLISECONDS);
     }
 }

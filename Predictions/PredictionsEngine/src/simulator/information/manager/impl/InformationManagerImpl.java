@@ -1,6 +1,9 @@
 package simulator.information.manager.impl;
 
 import dto.SimulationDocumentInfoDto;
+import dto.SimulationsStatusesOverviewDto;
+import enums.OverviewSimulationStatus;
+import enums.SimulationStatus;
 import simulator.definition.world.WorldDefinition;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.entity.impl.EntitiesResult;
@@ -18,6 +21,7 @@ import simulator.information.manager.api.InformationManager;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public class InformationManagerImpl implements InformationManager {
     private ResultManager simulatorResultManager;
@@ -71,8 +75,43 @@ public class InformationManagerImpl implements InformationManager {
 
     @Override
     public SimulationDocument getSimulationDocumentByGuid(String guid) {
-        throw new SimulationInformationException("Please add sync here !!!!!!!");
-        //return this.simulationDocumentMap.get(guid);
+        return this.simulationDocumentMap.get(guid);
+    }
+
+    @Override
+    public SimulationsStatusesOverviewDto collectAllSimulationsStatusesDto() {
+
+        Map<OverviewSimulationStatus, Integer> simulationsStatusesOverviewMap = new HashMap<>();
+
+         Long currentlyRunning =
+                this.simulationDocumentMap
+                        .values()
+                        .stream()
+                        .filter((simDoc) -> simDoc.getSimulationStatus() == SimulationStatus.RUNNING)
+                        .count();
+        simulationsStatusesOverviewMap.put(OverviewSimulationStatus.RUNNING, currentlyRunning.intValue());
+
+        Long currentlyWaiting =
+                this.simulationDocumentMap
+                        .values()
+                        .stream()
+                        .filter((simDoc) ->
+                                simDoc.getSimulationStatus() == SimulationStatus.PAUSED
+                                        || simDoc.getSimulationStatus() == SimulationStatus.READY)
+                        .count();
+        simulationsStatusesOverviewMap.put(OverviewSimulationStatus.WAITING, currentlyWaiting.intValue());
+
+        Long finished =
+                this.simulationDocumentMap
+                        .values()
+                        .stream()
+                        .filter((simDoc) ->
+                                simDoc.getSimulationStatus() == SimulationStatus.STOPPED
+                                        || simDoc.getSimulationStatus() == SimulationStatus.COMPLETED)
+                        .count();
+        simulationsStatusesOverviewMap.put(OverviewSimulationStatus.FINISHED, finished.intValue());
+
+        return new SimulationsStatusesOverviewDto(simulationsStatusesOverviewMap);
     }
 
     @Override
