@@ -52,6 +52,8 @@ public class ExecutionContextImpl implements ExecutionContext {
     @Override
     public void killEntityInstanceProcedure(EntityInstance entityInstanceToKill) {
         entityInstanceToKill.killMyself();
+        //this.crossedExecutionContext.getSpaceGridInstanceWrapper().clearCellByCoordinate(entityInstanceToKill.getCoordinate());
+        this.crossedExecutionContext.getSpaceGridInstanceWrapper().setCellAsReserved(entityInstanceToKill.getCoordinate());
         this.crossedExecutionContext.getEntitiesInstancesManager().addInstanceToKillWaitingList(entityInstanceToKill);
     }
 

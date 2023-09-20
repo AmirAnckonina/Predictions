@@ -11,6 +11,6 @@ public interface Cell {
     EntityInstance removeObjectInstanceFromCell();
     Coordinate getCoordinate();
     CellOccupationStatus getCellOccupationStatus();
-    void reserveCell(EntityInstance objectInstance);
+    void reserveCell();
     void setOccupationStatus(CellOccupationStatus occupationStatus);
 }

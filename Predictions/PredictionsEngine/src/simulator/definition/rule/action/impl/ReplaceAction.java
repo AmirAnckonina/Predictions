@@ -51,7 +51,7 @@ public class ReplaceAction extends AbstractAction {
         executionContext
                 .getCrossedExecutionContext()
                 .getSpaceGridInstanceWrapper()
-                .setCellAsReserved(replaceCoordinate, createdEntityInstance);
+                .setCellAsReserved(replaceCoordinate);
 
         if (replaceActionCreationMode == ReplaceActionCreationMode.DERIVED) {
             executionContext.derivePropertiesBetweenInstancesProcedure(createdEntityInstance, instanceToKill);

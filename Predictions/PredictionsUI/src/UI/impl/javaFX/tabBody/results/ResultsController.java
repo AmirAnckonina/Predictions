@@ -47,6 +47,7 @@ public class ResultsController {
     private ResultsModel resultsModel;
     private Map<String, SimulationResult> simulationResultMap;
     private ResultManager simulatorResultManager;
+    private ScheduledExecutorService scheduledExecutorService;
     private ExecutionResultByEntityController executionResultByEntityController = null;
     @FXML private DetailsResultController detailsResultController;
 
@@ -64,8 +65,8 @@ public class ResultsController {
     }
 
     public ResultsController() {
-        //ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-        //scheduledExecutorService.scheduleAtFixedRate(this::pollUpdatedSimulationDocumentDto, 0, 200, TimeUnit.MILLISECONDS);
+        scheduledExecutorService = Executors.newScheduledThreadPool(1);
+
     }
     @FXML
     public void reRunButtonClicked(ActionEvent event) {
@@ -88,11 +89,11 @@ public class ResultsController {
     public void simulationIDListClicked(MouseEvent event) {
 
         try {
-
             String guid = this.executionListView.getSelectionModel().getSelectedItem().getText();
             SimulationDocumentInfoDto simulationDocumentInfoDto = this.simulatorManager.getLatestSimulationDocumentInfo(guid);
 
             updateSimulationResultComponent(simulationDocumentInfoDto); //info component
+            startUIPollingThread();
 
             if(simulationDocumentInfoDto.getSimulationStatus() == SimulationStatus.STOPPED||
                 simulationDocumentInfoDto.getSimulationStatus() == SimulationStatus.COMPLETED) {
@@ -267,7 +268,7 @@ public class ResultsController {
         }
     }
 
-    public void startUIPolling() {
+    public void startUIPollingThread() {
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
         scheduledExecutorService.scheduleAtFixedRate(this::pollUpdatedSimulationDocumentDto, 0, 200, TimeUnit.MILLISECONDS);
     }
