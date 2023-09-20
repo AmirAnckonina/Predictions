@@ -6,6 +6,7 @@ import simulator.definition.world.WorldDefinition;
 import simulator.execution.instance.world.api.WorldInstance;
 import simulator.information.simulationDocument.api.SimulationDocument;
 import simulator.information.simulationDocument.api.SimulationDocumentFacade;
+import simulator.result.api.SimulationResult;
 
 import java.util.Map;
 
@@ -17,4 +18,5 @@ public interface InformationManager {
     SimulationDocumentInfoDto getInitialSimulationDocumentInfoDto(String simulationGuid);
     SimulationDocument getSimulationDocumentByGuid(String guid);
     SimulationsStatusesOverviewDto collectAllSimulationsStatusesDto();
+    SimulationResult getSimulationResultByGuid(String guid);
 }

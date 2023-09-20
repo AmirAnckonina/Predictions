@@ -124,7 +124,7 @@ public class MainActionController extends RuleModel {
     }
 
     private void createConditionActionComponent(StringActionDto action) {
-        if(action.getNumOfThenActions() != null){
+        if(action.getMulti() != null){
             try
             {
                 FXMLLoader loader = new FXMLLoader();
@@ -133,7 +133,7 @@ public class MainActionController extends RuleModel {
                 GridPane gpComponent = loader.load();
 
                 MultipleConditionActionController controller = loader.getController();
-                controller.setValues(action.getOperatorAction(), action.getNumOfConditionInLogicAction());
+                controller.setValues(action.getOperatorAction(), action.getNumOfConditionInLogicAction(), action.getNumOfThenActions(), action.getNumOfElseActions());
                 externComponent.getChildren().add(gpComponent);
             } catch (Exception e) {
                 e.getMessage();

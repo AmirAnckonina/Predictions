@@ -27,23 +27,6 @@ public class DetailsModel {
 //        this.simulatorResultManager = this.simulatorManager.getSimulatorResultManagerImpl();
     }
 
-
-    public void showHistoricalSimulationResult() {
-        List<SimulationResult> simulationResults = this.simulatorResultManager.getSortedHistoricalSimulationsList();
-        String newLine;
-
-        for (int i = 0; i < simulationResults.size(); i++) {
-
-            newLine = (i + 1) + ". SimulationUuid:\"" + simulationResults.get(i).getSimulationUuid() + "\"" + ": "
-                    + getSimulatorStartingTimeInString(simulationResults.get(i));
-
-            controller.insertNewLineToLeftEnvironmentListView(newLine);
-        }
-
-        controller.loadFileButtonClicked();
-        System.out.print("Choose simulation to present: ");
-    }
-
     private String getSimulatorStartingTimeInString(SimulationResult simulationResults){
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy | HH.mm.ss");
         String formattedTime = formatter.format(new Date(simulationResults.getSimulationStartingTime()));

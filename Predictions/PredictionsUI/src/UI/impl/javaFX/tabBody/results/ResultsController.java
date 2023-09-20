@@ -122,16 +122,18 @@ public class ResultsController {
 
     private void updateSimulationInfoUI(SimulationDocumentInfoDto simulationDocumentInfoDto) {
         detailsResultController.setValues(simulationDocumentInfoDto.getSimulationGuid(),
-                simulationDocumentInfoDto.getTickNo().toString(),
+                (new Integer(simulationDocumentInfoDto.getTickNo() + 1)).toString(),
                 simulationDocumentInfoDto.getTimePassedInSeconds().toString(),
+                simulationDocumentInfoDto.getSimulationStatus().toString(),
                 simulationDocumentInfoDto.getCurrentEntityPopulationMap(),
                 simulationDocumentInfoDto.getInitialEntityPopulationMap());
     }
 
     private void updateSimulationResultComponent(SimulationDocumentInfoDto simulationDocumentInfoDto) {
         detailsResultController.setValues(simulationDocumentInfoDto.getSimulationGuid(),
-                simulationDocumentInfoDto.getTickNo().toString(),
+                (new Integer(simulationDocumentInfoDto.getTickNo() + 1)).toString(),
                 simulationDocumentInfoDto.getTimePassedInSeconds().toString(),
+                simulationDocumentInfoDto.getSimulationStatus().toString(),
                 simulationDocumentInfoDto.getCurrentEntityPopulationMap(),
                 simulationDocumentInfoDto.getInitialEntityPopulationMap());
     }
@@ -268,6 +270,11 @@ public class ResultsController {
         }
     }
 
+    public void reset() {
+        executionListView.getItems().clear();
+        resultComponentHolderGP.getChildren().clear();
+        detailsResultController.reset();
+    }
     public void startUIPollingThread() {
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
         scheduledExecutorService.scheduleAtFixedRate(this::pollUpdatedSimulationDocumentDto, 0, 200, TimeUnit.MILLISECONDS);
