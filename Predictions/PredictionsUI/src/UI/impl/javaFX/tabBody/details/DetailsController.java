@@ -268,4 +268,7 @@ public class DetailsController {
 
         //secondsTermination
     }
+
+    public void reset() {
+    }
 }

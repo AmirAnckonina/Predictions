@@ -87,4 +87,8 @@ public class TopController {
     public void showUserBuilderException(String massage) {
         this.loadSimulationPath.setText(massage);
     }
+
+    public void reset() {
+        mainController.resetGUI();
+    }
 }

@@ -135,6 +135,13 @@ public class PredictionsMainController {
         System.out.println("detailsTabClicked");
     }
 
+    public void resetGUI(){
+        this.topComponentController.reset();
+        this.resultsComponentController.reset();
+        this.detailsComponentController.reset();
+        this.newExecutionComponentController.reset();
+    }
+
     public void executionTabClicked() {
         if(currentScreen == eCurrentScreen.EXECUTION && !newSimulationLoadedFlag){return;}
 

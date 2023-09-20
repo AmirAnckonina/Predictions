@@ -235,4 +235,7 @@ public class NewExecutionController {
         this.simulatorManager.resetSingleEnvironmentVariable(envVarName);
         this.environmentPropertyControllerMap.get(envVarName).setStatus(SetPropertyStatus.NONE);
     }
+
+    public void reset() {
+    }
 }

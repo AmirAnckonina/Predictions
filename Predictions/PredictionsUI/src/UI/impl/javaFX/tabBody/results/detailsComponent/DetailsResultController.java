@@ -38,6 +38,9 @@ public class DetailsResultController extends DetailsResultModel {
     private Label timeCounterLbl;
 
     @FXML
+    private Label statusLbl;
+
+    @FXML
     private Button stopRunningSimulationBtn;
 
     @FXML
@@ -57,6 +60,7 @@ public class DetailsResultController extends DetailsResultModel {
         simulationIDLbl.textProperty().bind(simulationID);
         ticksLbl.textProperty().bind(numOfTicks);
         timeCounterLbl.textProperty().bind(timeCounter);
+        statusLbl.textProperty().bind(status);
     }
 
     @FXML
@@ -78,12 +82,13 @@ public class DetailsResultController extends DetailsResultModel {
         this.mainController = mainController;
     }
 
-    public void setValues(String simulationID, String numOfTicks, String timeCounter, Map<String, Integer> mappedEntityToNumOfInstances,
+    public void setValues(String simulationID, String numOfTicks, String timeCounter, String status, Map<String, Integer> mappedEntityToNumOfInstances,
                           Map<String, Integer> mappedEntityToNumOfInstancesInitialized){
         this.simulationID.set(simulationID);
         this.numOfTicks.set(numOfTicks);
         this.timeCounter.set(timeCounter);
         this.runningSimulationButtons.setDisable(false);
+        this.status.set(status);
 
         entitiesContainerLV.getItems().clear();
         mappedEntityToNumOfInstances.forEach((entityName, numOfEntity) -> createEntityComponent(entityName,
@@ -109,5 +114,13 @@ public class DetailsResultController extends DetailsResultModel {
 
     public void setSimulationInfoByGuid(String simulationID, SimulationDocumentInfoDto simulationDocumentInfoDto) {
         throw new PredictionsUIComponentException("Not impl setSimulationInfoByGuid under detailsREsultontroller");
+    }
+
+    public void reset() {
+        entitiesContainerLV.getItems().clear();
+        simulationID.set("");
+        numOfTicks.set("");
+        timeCounter.set("");
+        status.set("");
     }
 }
