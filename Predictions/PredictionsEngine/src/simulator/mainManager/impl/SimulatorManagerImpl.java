@@ -18,6 +18,7 @@ import simulator.result.manager.impl.ResultManagerImpl;
 import simulator.runner.utils.exceptions.SimulatorRunnerException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -104,6 +105,29 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
+    public List<String> getAllProperties() {
+        Map<String, String> propertiesMap = new HashMap<>();
+        List<String> propertiesList = new ArrayList<>();
+
+        this.worldBuilderManager.getWorldDefinition().getEntities().keySet().forEach(
+                entity -> insertEntityPropertiesToMapByEntityName(propertiesMap, entity));
+        propertiesList.addAll(propertiesMap.keySet());
+        return propertiesList;
+    }
+
+    @Override
+    public List<String> getPropertiesByEntity(String entityName) {
+        List<String> properties = new ArrayList<>();
+        properties.addAll(this.worldBuilderManager.getWorldDefinition().getEntities().get(entityName).getProperties().keySet());
+
+        return properties;
+    }
+
+    private void insertEntityPropertiesToMapByEntityName(Map<String, String> propertiesMap, String entity) {
+        this.worldBuilderManager.getWorldDefinition().getEntities().get(entity).getProperties().keySet().forEach(property->propertiesMap.put(property, property));
+    }
+
+    @Override
     public void setEntityDefinitionPopulation(String entityName, Integer entityPopulation) {
         manualSimulationSetupManager
                 .setEntityDefinitionPopulation(
@@ -168,9 +192,9 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
-    public SimulationResultMappedProperties getMappedPropertiesToNumOfEntitiesWithSameValues(String propertyName, String guid) {
+    public SimulationResultMappedProperties getMappedPropertiesToNumOfEntitiesWithSameValues(String propertyName, String entityName, String guid) {
         SimulationResultMappedProperties mappedProperties = new SimulationResultMappedProperties(
-                infoManager.getMappedPropertiesToNumOfEntitiesWithSameValues(propertyName, guid),
+                infoManager.getMappedPropertiesToNumOfEntitiesWithSameValues(propertyName, entityName, guid),
                 guid);
         return mappedProperties;
     }

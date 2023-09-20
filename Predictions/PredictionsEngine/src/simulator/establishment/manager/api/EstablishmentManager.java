@@ -1,7 +1,7 @@
 package simulator.establishment.manager.api;
 
 import dto.EstablishedEnvironmentInfoDto;
-import simulator.definition.entity.impl.EntityDefinition;
+import simulator.definition.entity.EntityDefinition;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 import simulator.definition.world.WorldDefinition;
 import simulator.execution.instance.entity.api.EntityInstance;

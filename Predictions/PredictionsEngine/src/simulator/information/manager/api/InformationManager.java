@@ -13,7 +13,7 @@ public interface InformationManager {
 
     SimulationDocumentFacade createSimulationDocumentFacade(SimulationDocument simulationDocument);
     SimulationDocumentInfoDto getLatestSimulationDocumentInfoDto(String guid);
-    Map<String, Integer> getMappedPropertiesToNumOfEntitiesWithSameValues(String propertyName, String simulationGuid);
+    Map<String, Integer> getMappedPropertiesToNumOfEntitiesWithSameValues(String propertyName, String entityName, String simulationGuid);
 
     SimulationDocumentInfoDto getInitialSimulationDocumentInfoDto(String simulationGuid);
 

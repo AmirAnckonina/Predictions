@@ -8,6 +8,7 @@ import simulator.information.simulationDocument.api.SimulationDocument;
 import simulator.information.tickDocument.api.TickDocument;
 import simulator.information.tickDocument.impl.TickDocumentImpl;
 import simulator.result.api.SimulationResult;
+import simulator.result.impl.SimulationResultImpl;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -124,5 +125,14 @@ public class SimulationDocumentImpl implements SimulationDocument {
         }
 
         return latestTickDoc.get();
+    }
+
+    @Override
+    public void finishSimulationSession(Long simulationStartingTime) {
+        this.simulationResult = new SimulationResultImpl(this.SimulationGuid, this.worldInstance,
+                this.getInitialSimulationDocumentInfoDto().getInitialEntityPopulationMap(),
+                simulationStartingTime);
+
+        simulationStatus = SimulationStatus.COMPLETED;
     }
 }

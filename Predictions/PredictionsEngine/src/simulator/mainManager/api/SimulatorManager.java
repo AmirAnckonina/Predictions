@@ -15,6 +15,8 @@ public interface SimulatorManager {
     void exitSimulator();
     EstablishedEnvironmentInfoDto getEstablishedEnvironmentInfo();
     List<String> getAllEntities();
+    List<String> getAllProperties();
+    List<String> getPropertiesByEntity(String entityName);
     <T> void setEnvironmentPropertyValue(String envPropertyName, T envPropertyValue);
     List<EnvironmentPropertyDto> getAllEnvironmentProperties();
     void resetSingleEntityPopulation(String entityName);
@@ -26,5 +28,5 @@ public interface SimulatorManager {
     SimulationDocumentInfoDto resumeSimulationByGuid(String guid);
     SimulationDocumentInfoDto getLatestSimulationDocumentInfo(String guid);
 
-    SimulationResultMappedProperties getMappedPropertiesToNumOfEntitiesWithSameValues(String propertyName, String string);
+    SimulationResultMappedProperties getMappedPropertiesToNumOfEntitiesWithSameValues(String propertyName, String entityName, String guid);
 }

@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
 <GridPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byProperty.ExecutionResultByPropertyController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
@@ -22,12 +21,17 @@
                <children>
                   <ScrollPane>
                      <content>
-                        <ListView fx:id="executionDetailsEntitiesListView" minHeight="200.0" minWidth="300.0" onContextMenuRequested="#entityNameClicked" />
+                        <ListView fx:id="executionDetailsLeftEntitiesListView" onMouseClicked="#entityNameClickedLeftList" />
                      </content>
                   </ScrollPane>
                   <ScrollPane>
                      <content>
-                        <ListView fx:id="executionDetailsPropertiesListView" />
+                        <ListView fx:id="executionDetailsPropertiesListView" minHeight="200.0" minWidth="300.0" onMouseClicked="#propertyNameClicked" />
+                     </content>
+                  </ScrollPane>
+                  <ScrollPane>
+                     <content>
+                        <ListView fx:id="executionDetailsRightEntitiesListView" />
                      </content>
                   </ScrollPane>
                </children>

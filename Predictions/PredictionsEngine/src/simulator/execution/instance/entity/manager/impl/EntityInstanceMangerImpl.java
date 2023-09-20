@@ -1,6 +1,6 @@
 package simulator.execution.instance.entity.manager.impl;
 
-import simulator.definition.entity.impl.EntityDefinition;
+import simulator.definition.entity.EntityDefinition;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.entity.manager.api.EntityInstanceManager;
 import simulator.runner.utils.exceptions.SimulatorRunnerException;

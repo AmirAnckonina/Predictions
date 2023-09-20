@@ -84,4 +84,7 @@ public class TopController {
         queueManagementController.cleanList();
     }
 
+    public void showUserBuilderException(String massage) {
+        this.loadSimulationPath.setText(massage);
+    }
 }

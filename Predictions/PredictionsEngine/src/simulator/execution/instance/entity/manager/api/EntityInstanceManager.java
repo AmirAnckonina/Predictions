@@ -1,6 +1,6 @@
 package simulator.execution.instance.entity.manager.api;
 
-import simulator.definition.entity.impl.EntityDefinition;
+import simulator.definition.entity.EntityDefinition;
 import simulator.execution.instance.entity.api.EntityInstance;
 
 import java.util.List;
