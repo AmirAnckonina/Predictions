@@ -1,6 +1,6 @@
 package simulator.execution.context.impl;
 
-import simulator.definition.entity.impl.EntityDefinition;
+import simulator.definition.entity.EntityDefinition;
 import simulator.execution.context.api.CrossedExecutionContext;
 import simulator.execution.instance.entity.manager.api.EntitiesInstancesManager;
 import simulator.execution.instance.environment.api.EnvironmentInstance;

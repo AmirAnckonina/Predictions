@@ -11,10 +11,9 @@ import java.util.Map;
 
 public interface InformationManager {
     SimulationDocument createNewSimulationDocument(WorldDefinition worldDefinition, WorldInstance worldInstance);
-
     SimulationDocumentFacade createSimulationDocumentFacade(SimulationDocument simulationDocument);
     SimulationDocumentInfoDto getLatestSimulationDocumentInfoDto(String guid);
-    Map<String, Integer> getMappedPropertiesToNumOfEntitiesWithSameValues(String propertyName, String simulationGuid);
+    Map<String, Integer> getMappedPropertiesToNumOfEntitiesWithSameValues(String propertyName, String entityName, String simulationGuid);
     SimulationDocumentInfoDto getInitialSimulationDocumentInfoDto(String simulationGuid);
     SimulationDocument getSimulationDocumentByGuid(String guid);
     SimulationsStatusesOverviewDto collectAllSimulationsStatusesDto();

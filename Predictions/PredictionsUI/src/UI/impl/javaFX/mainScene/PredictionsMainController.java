@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
+import simulator.builder.utils.exception.WorldBuilderException;
 import simulator.mainManager.api.SimulatorManager;
 import simulator.mainManager.impl.SimulatorManagerImpl;
 
@@ -88,24 +89,31 @@ public class PredictionsMainController {
     }
 
     public void onLoadSimulationButtonClicked(String simulationFilePath) {
-        simulatorManager.buildSimulationWorld(simulationFilePath);
-        this.newSimulationLoadedFlag = true;
+        try {
+            simulatorManager.buildSimulationWorld(simulationFilePath);
 
-        // Here we want to activate the tabs.
-        // Details tab - after the workd is built we can collect all the WorldDefinition/SimulationDetails to the view
-        // New Exec tab -
-        this.newExecutionComponentController.initializeNewExecutionTab();
+            this.newSimulationLoadedFlag = true;
 
-        switch (currentScreen) {
-            case DETAILS:
-                detailsTabClicked();
-                break;
-            case EXECUTION:
-                executionTabClicked();
-                break;
-            case RESULTS:
-                resultsTabClicked();
-                break;
+            // Here we want to activate the tabs.
+            // Details tab - after the workd is built we can collect all the WorldDefinition/SimulationDetails to the view
+            // New Exec tab -
+            this.newExecutionComponentController.initializeNewExecutionTab();
+
+            switch (currentScreen) {
+                case DETAILS:
+                    detailsTabClicked();
+                    break;
+                case EXECUTION:
+                    executionTabClicked();
+                    break;
+                case RESULTS:
+                    resultsTabClicked();
+                    break;
+            }
+        }catch (WorldBuilderException e){
+            topComponentController.showUserBuilderException(e.getMessage());
+        }catch (Exception e){
+
         }
     }
 

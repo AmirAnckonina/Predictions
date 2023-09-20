@@ -1,6 +1,6 @@
 package simulator.manualSetup.manager.impl;
 
-import simulator.definition.entity.impl.EntityDefinition;
+import simulator.definition.entity.EntityDefinition;
 import simulator.definition.environment.EnvironmentDefinition;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 import enums.PropertyType;

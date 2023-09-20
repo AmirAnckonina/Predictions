@@ -1,4 +1,5 @@
 package simulator.result.manager.api;
+import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.entity.impl.EntitiesResult;
 
 import simulator.result.api.SimulationResult;
@@ -11,6 +12,7 @@ public interface ResultManager {
 
     boolean addSimulationResult(String simulationID, SimulationResult simulationResult);
     List<EntitiesResult> getAllEntitiesExistBySimulationIndex(String entityName, String simulationID);
+    List<EntityInstance> getAllEntitiesInstancesExistBySimulationIndex(String entityName, String simulationID);
     List<EntitiesResult> getAllEntitiesExistBySimulationIndex(String entityName, Integer simulationIndex);
     String getSimulatorStartingTimeInStringByID(String SimulationID);
     String getSimulatorStartingTimeInStringByIndex(int simulationIndex);

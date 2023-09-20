@@ -1,7 +1,7 @@
 package simulator.execution.instance.entity.manager.impl;
 
 import enums.PropertyType;
-import simulator.definition.entity.impl.EntityDefinition;
+import simulator.definition.entity.EntityDefinition;
 import simulator.establishment.manager.api.EstablishmentManager;
 import simulator.establishment.manager.impl.EstablishmentManagerImpl;
 import simulator.execution.instance.entity.api.EntityInstance;

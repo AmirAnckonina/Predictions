@@ -1,11 +1,11 @@
 package simulator.definition.world;
 
-import simulator.definition.entity.impl.EntityDefinition;
 import simulator.definition.environment.EnvironmentDefinition;
 import simulator.definition.rule.Rule;
 import simulator.definition.spaceGrid.SpaceGridDefinition;
 import simulator.definition.termination.Termination;
 import simulator.definition.threadCount.ThreadCountDefinition;
+import simulator.definition.entity.EntityDefinition;
 
 import java.util.*;
 
@@ -13,7 +13,7 @@ public class WorldDefinition {
     private ThreadCountDefinition threadCountDefinition;
     private SpaceGridDefinition spaceGridDefinition;
     private EnvironmentDefinition environmentDefinition;
-    private Map<String, EntityDefinition> entities;
+    private Map<String,EntityDefinition> entities;
     private List<Rule> rules;
     private Termination termination;
 

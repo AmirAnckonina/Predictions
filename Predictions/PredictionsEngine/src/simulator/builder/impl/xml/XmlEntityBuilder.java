@@ -6,7 +6,7 @@ import simulator.builder.api.interfaces.EntityBuilder;
 import simulator.builder.utils.exception.WorldBuilderException;
 import simulator.builder.api.abstracts.AbstractComponentBuilder;
 import simulator.builder.validator.api.WorldBuilderContextValidator;
-import simulator.definition.entity.impl.EntityDefinition;
+import simulator.definition.entity.EntityDefinition;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 
 import java.util.HashMap;

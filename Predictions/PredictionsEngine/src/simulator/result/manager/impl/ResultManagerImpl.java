@@ -60,6 +60,14 @@ public class ResultManagerImpl implements ResultManager {
     }
 
     @Override
+    public List<EntityInstance> getAllEntitiesInstancesExistBySimulationIndex(String entityName, String simulationID) {
+        List<EntityInstance> entityInstanceList = new ArrayList<>();
+        entityInstanceList.addAll(simulationResults.get(simulationID).getEntities().get(entityName));
+
+        return entityInstanceList;
+    }
+
+    @Override
     public List<EntitiesResult> getAllEntitiesExistBySimulationIndex(String entityName, Integer simulationIndex) {
         /**
          * Careful - we should impl according to the needs - get by entity name...

@@ -115,4 +115,9 @@ public class TopController {
     private void pollUpdatedSimulationStatusesOverview() {
         collectSimulationsStatuses();
     }
+
+    public void showUserBuilderException(String massage) {
+        this.loadSimulationPath.setText(massage);
+    }
+
 }

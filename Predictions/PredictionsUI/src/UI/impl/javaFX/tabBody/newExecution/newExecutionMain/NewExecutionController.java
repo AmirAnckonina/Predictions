@@ -53,7 +53,6 @@ public class NewExecutionController {
 
     @FXML
     private void initialize() {
-        loadingProgressIndicator.setVisible(false);
     }
 
     public void setPredictionsMainController(PredictionsMainController predictionsMainController) {
@@ -68,7 +67,8 @@ public class NewExecutionController {
 
     @FXML
     void onStartButtonClicked() {
-        loadingProgressIndicator.setVisible(true);
+
+       // loadingProgressIndicator.setVisible(true);
         try {
             SimulationDocumentInfoDto simulationDocumentInfoDto = this.simulatorManager.runSimulator();
             if (!firstSimulationStartedFlag) {
@@ -77,7 +77,7 @@ public class NewExecutionController {
             }
             this.predictionsMainController.onNewSimulationStart(simulationDocumentInfoDto.getSimulationGuid());
             predictionsMainController.moveToResultTab();
-            loadingProgressIndicator.setVisible(false);
+           // loadingProgressIndicator.setVisible(false);
 
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -86,6 +86,7 @@ public class NewExecutionController {
             this.simulatorManager.resetAllManualSetup();
             initializeNewExecutionTab();
         }
+
     }
 
     public void initializeNewExecutionTab() {

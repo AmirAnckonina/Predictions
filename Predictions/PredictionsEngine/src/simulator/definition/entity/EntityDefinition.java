@@ -1,4 +1,4 @@
-package simulator.definition.entity.impl;
+package simulator.definition.entity;
 
 
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
