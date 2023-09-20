@@ -88,21 +88,24 @@ public class DetailsResultController extends DetailsResultModel {
         this.simulationID.set(simulationID);
         this.numOfTicks.set(numOfTicks);
         this.timeCounter.set(timeCounter);
-        this.runningSimulationButtons.setDisable(false);
         this.status.set(status);
         if(status.toLowerCase().equals("completed") || status.toLowerCase().equals("paused")){
-            for (Node node : runningSimulationButtons.getChildren()) {
-                if (node instanceof Button) {
-                    ((Button) node).setDisable(false);
-                }
-            }
-
-        }else {
             for (Node node : runningSimulationButtons.getChildren()) {
                 if (node instanceof Button) {
                     ((Button) node).setDisable(true);
                 }
             }
+            this.runningSimulationButtons.setDisable(true);
+
+
+        }else {
+            for (Node node : runningSimulationButtons.getChildren()) {
+                if (node instanceof Button) {
+                    ((Button) node).setDisable(false);
+                }
+            }
+            this.runningSimulationButtons.setDisable(false);
+
 
         }
         entitiesContainerLV.getItems().clear();
