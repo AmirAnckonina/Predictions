@@ -19,7 +19,7 @@ public class EntityComponentController extends EntityModule {
 
     public void setValues(String entityName, String numOfOriginalEntities, String numOfCurrEntities){
         this.name.set(entityName);
-        this.numOfEntitiesInstance.set(numOfOriginalEntities + "\\" + numOfCurrEntities);
+        this.numOfEntitiesInstance.set(numOfCurrEntities);
     }
 
 }
