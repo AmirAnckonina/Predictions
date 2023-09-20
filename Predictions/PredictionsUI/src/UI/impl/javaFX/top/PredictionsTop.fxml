@@ -4,24 +4,26 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="120.0" minHeight="120.0" prefHeight="120.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.impl.javaFX.top.TopController">
+<AnchorPane maxHeight="122.0" minHeight="120.0" prefHeight="122.0" prefWidth="1094.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.impl.javaFX.top.TopController">
    <children>
-      <HBox maxHeight="120.0" prefHeight="120.0">
+      <HBox maxHeight="121.0" prefHeight="121.0" prefWidth="1109.0">
          <children>
-            <fx:include fx:id="queueManagement" prefHeight="120.0" source="queue/QueueManagementComponent.fxml" HBox.hgrow="ALWAYS" />
-            <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="120.0" HBox.hgrow="SOMETIMES">
+            <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="120.0" prefHeight="120.0" prefWidth="1035.0" HBox.hgrow="SOMETIMES">
                <columnConstraints>
-                  <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="10.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="20.0" prefWidth="25.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0" prefWidth="120.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="20.0" prefWidth="25.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="20.0" prefWidth="400.0" />
+                  <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" maxWidth="128.0" minWidth="0.0" prefWidth="0.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="163.0" minWidth="12.0" prefWidth="14.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="333.0" minWidth="10.0" prefWidth="150.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="208.0" minWidth="20.0" prefWidth="22.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="586.0" minWidth="20.0" prefWidth="586.0" />
                   <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="20.0" />
                </columnConstraints>
                <rowConstraints>
@@ -33,10 +35,52 @@
                </rowConstraints>
                <children>
                   <Button fx:id="loadSimulationButton" mnemonicParsing="false" onAction="#loadSimulationButtonClicked" prefWidth="150.0" text="Load Simulation" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-                  <Label fx:id="loadSimulationPath" text="-" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
+                  <Label fx:id="loadSimulationPath" prefHeight="28.0" prefWidth="383.0" text="-" textFill="#252323" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
                   <ComboBox fx:id="chooseSkinCB" onAction="#onSkinSelected" prefWidth="150.0" promptText="Choose skin" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
                </children>
             </GridPane>
+            <FlowPane alignment="TOP_RIGHT" prefHeight="121.0" prefWidth="419.0">
+               <children>
+                  <TextField alignment="CENTER" editable="false" prefHeight="31.0" prefWidth="238.0" text="Queue Management">
+                     <font>
+                        <Font name="System Bold Italic" size="15.0" />
+                     </font>
+                  </TextField>
+                  <GridPane fx:id="queueGridPane" prefHeight="90.0" prefWidth="227.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="51.0" minWidth="10.0" prefWidth="17.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="139.0" minWidth="10.0" prefWidth="139.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="136.0" minWidth="10.0" prefWidth="56.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="74.0" minWidth="10.0" prefWidth="21.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label id="finished-" alignment="CENTER" prefHeight="17.0" prefWidth="120.0" text="Finished:" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label id="waiting-value-label" fx:id="waitingValueLabel" alignment="CENTER" prefHeight="17.0" prefWidth="50.0" text="0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="120.0" text="Waiting:" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label id="running-label" fx:id="runningLabel" alignment="CENTER" prefHeight="17.0" prefWidth="120.0" text="Running:" GridPane.columnIndex="1">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label id="running-value-label" fx:id="runningValueLabel" alignment="CENTER" prefHeight="17.0" prefWidth="50.0" text="0" GridPane.columnIndex="2" />
+                        <Label id="finished-value-label" fx:id="finishedValueLabel" alignment="CENTER" prefHeight="17.0" prefWidth="50.0" text="0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                     </children>
+                  </GridPane>
+               </children>
+            </FlowPane>
          </children>
          <padding>
             <Insets left="1.0" right="5.0" />
