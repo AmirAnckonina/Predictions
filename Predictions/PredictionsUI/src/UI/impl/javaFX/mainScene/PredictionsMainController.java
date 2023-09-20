@@ -10,7 +10,6 @@ import UI.impl.javaFX.top.PredictionsTopModel;
 import dto.EnvironmentPropertiesDto;
 import dto.SimulationDetailsDto;
 import javafx.fxml.FXML;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 import simulator.builder.utils.exception.WorldBuilderException;
@@ -180,6 +179,6 @@ public class PredictionsMainController {
 
     public void onFirstSimulationStarted() {
         this.topComponentController.startUIPolling();
-        this.resultsComponentController.startUIPolling();
+        this.resultsComponentController.startUIPollingThread();
     }
 }

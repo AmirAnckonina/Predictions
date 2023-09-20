@@ -71,9 +71,8 @@ public class CellImpl implements Cell {
     }
 
     @Override
-    public void reserveCell(EntityInstance objectInstance) {
+    public void reserveCell() {
         this.occupationStatus = CellOccupationStatus.RESERVED;
-        this.objectInstance = objectInstance;
     }
 
     @Override

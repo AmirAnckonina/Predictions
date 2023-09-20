@@ -8,7 +8,6 @@ import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.entity.manager.api.EntitiesInstancesManager;
 import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.information.tickDocument.api.TickDocument;
-import simulator.runner.utils.exceptions.SimulatorRunnerException;
 
 import java.util.*;
 
@@ -17,11 +16,14 @@ public class EntitiesInstancesManagerImpl implements EntitiesInstancesManager {
     private Map<String, List<EntityInstance>> entitiesInstances;
     private List<EntityInstance> killWaitingList;
     private List<EntityInstance> createWaitingList;
+    private Map<String, Integer> entityMaxIdMap;
 
     public EntitiesInstancesManagerImpl(Map<String, List<EntityInstance>> entitiesInstances) {
         this.entitiesInstances = entitiesInstances;
         this.killWaitingList = new ArrayList<>();
         this.createWaitingList = new ArrayList<>();
+        this.entityMaxIdMap = new HashMap<>();
+        completeCreationWaitingList();
     }
 
     @Override
@@ -41,17 +43,7 @@ public class EntitiesInstancesManagerImpl implements EntitiesInstancesManager {
         EntityInstance createdEntityInstance;
         EstablishmentManager establishmentManager = new EstablishmentManagerImpl();
 
-        OptionalInt maxId =
-                this.getEntityInstances(entityDefinition.getName())
-                        .stream()
-                        .mapToInt(EntityInstance::getId)
-                        .max();
-
-        if (!maxId.isPresent()) {
-            throw new SimulatorRunnerException(String.format("Couldn't find the maximum id of the entity %s", entityDefinition.getName()));
-        }
-
-        int newId = maxId.getAsInt() + 1;
+        int newId = this.entityMaxIdMap.get(entityDefinition.getName()) + 1;
         createdEntityInstance = establishmentManager.createSingleEntityInstance(entityDefinition, newId, tickNo);
 
         addInstanceToCreateWaitingList(createdEntityInstance);
@@ -72,6 +64,7 @@ public class EntitiesInstancesManagerImpl implements EntitiesInstancesManager {
 
     @Override
     public void addInstanceToKillWaitingList(EntityInstance entityInstanceToKill) {
+
         this.killWaitingList.add(entityInstanceToKill);
     }
 
@@ -92,8 +85,29 @@ public class EntitiesInstancesManagerImpl implements EntitiesInstancesManager {
     }
 
     @Override
-    public void clearCreationWaitingList() {
+    public void completeCreationWaitingList() {
+        this.createWaitingList
+                .forEach((entityInstance ->
+                        this.entitiesInstances.get(entityInstance.getEntityNameFamily()).add(entityInstance)));
+
         this.createWaitingList.clear();
+
+        this.entitiesInstances
+                .forEach((entityName, entityInstances) -> {
+                    OptionalInt maxId =
+                            entityInstances
+                                    .stream()
+                                    .mapToInt(EntityInstance::getId)
+                                    .max();
+
+                    if (!maxId.isPresent()) {
+                        this.entityMaxIdMap.put(entityName, 0);
+                    }
+                    else  {
+                        this.entityMaxIdMap.put(entityName, maxId.getAsInt());
+                    }
+
+                });
     }
 
     @Override

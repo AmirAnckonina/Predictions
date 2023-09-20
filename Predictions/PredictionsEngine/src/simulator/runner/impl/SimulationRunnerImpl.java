@@ -75,8 +75,8 @@ public class SimulationRunnerImpl implements Runnable {
             tickActionsProcedure(entitiesInstances, actionsToInvoke, spaceGridInstanceWrapper, currTickDocument);
 
             // 4. kill & create procedure
-            createNewInstancesProcedure();
             killInstancesProcedure();
+            createNewInstancesProcedure();
 
             // 5. ticks + time procedures
             simulationDocument.addTickDocument(currTickDocument);
@@ -151,7 +151,7 @@ public class SimulationRunnerImpl implements Runnable {
                     .getSpaceGridInstanceWrapper()
                     .applyReservedCellsForCreatedInstances(createdInstances);
             
-            this.crossedExecutionContext.getEntitiesInstancesManager().clearCreationWaitingList();
+            this.crossedExecutionContext.getEntitiesInstancesManager().completeCreationWaitingList();
 
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -162,6 +162,8 @@ public class SimulationRunnerImpl implements Runnable {
 
     private void killInstancesProcedure() {
         try {
+            List<EntityInstance> killInstances = this.crossedExecutionContext.getEntitiesInstancesManager().getKillWaitingList();
+            this.crossedExecutionContext.getSpaceGridInstanceWrapper().applyReservedCellsForKilledInstances(killInstances);
             this.crossedExecutionContext.getEntitiesInstancesManager().completeKillEntitiesInstancesInWaitingList();
         } catch (Exception e) {
             e.printStackTrace(System.out);
