@@ -77,6 +77,8 @@ public class EntitiesInstancesManagerImpl implements EntitiesInstancesManager {
             killEntityInstance(entityInstance.getEntityNameFamily(), entityInstance.getId());
             entityItr.remove();
         }
+
+        this.killWaitingList = new ArrayList<>();
     }
 
     @Override

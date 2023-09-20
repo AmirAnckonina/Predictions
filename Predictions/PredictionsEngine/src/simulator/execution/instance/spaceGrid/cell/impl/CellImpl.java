@@ -42,7 +42,7 @@ public class CellImpl implements Cell {
     public boolean insertObjectInstanceToCell(EntityInstance objectInstance) {
         boolean returnVal = false;
 
-        if (this.occupationStatus == CellOccupationStatus.EMPTY){
+        if (this.occupationStatus == CellOccupationStatus.EMPTY) {
             this.objectInstance = objectInstance;
             returnVal = true;
             this.occupationStatus = CellOccupationStatus.OCCUPIED;

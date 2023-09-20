@@ -90,7 +90,8 @@ public class SpaceGridInstanceWrapperImpl implements SpaceGridInstanceWrapper {
                 .forEach((rowOfCells) -> {
                     Arrays.stream(rowOfCells)
                             .forEach((singleCell) -> {
-                                if (singleCell.getCellOccupationStatus() == CellOccupationStatus.OCCUPIED) {
+                                if (singleCell.getCellOccupationStatus() == CellOccupationStatus.OCCUPIED
+                                && singleCell.getObjectInstance() != null) {
                                     entityInstanceList.add(singleCell.getObjectInstance());
                                 }
                             });
@@ -258,13 +259,12 @@ public class SpaceGridInstanceWrapperImpl implements SpaceGridInstanceWrapper {
     @Override
     public void applyReservedCellsForCreatedInstances(List<EntityInstance> createdInstances) {
 
-        List<Cell> reservedCells =
-                createdInstances
-                        .stream()
-                        .map((singleInstance) -> this.getCellByCoordinate(singleInstance.getCoordinate()))
-                        .collect(Collectors.toList());
-
-        reservedCells.forEach((cell) -> cell.setOccupationStatus(CellOccupationStatus.OCCUPIED));
+        createdInstances
+                .forEach((entityInstance -> {
+                    Cell cell = this.getCellByCoordinate(entityInstance.getCoordinate());
+                    cell.setOccupationStatus(CellOccupationStatus.EMPTY);
+                    cell.insertObjectInstanceToCell(entityInstance);
+                }));
     }
 
     @Override
@@ -277,7 +277,7 @@ public class SpaceGridInstanceWrapperImpl implements SpaceGridInstanceWrapper {
                             .filter((cell) -> cell.getCellOccupationStatus() == CellOccupationStatus.RESERVED)
                             .collect(Collectors.toList());
 
-            reservedCells.forEach((cell) -> cell.setOccupationStatus(CellOccupationStatus.EMPTY));
+            reservedCells.forEach((cell) -> cell.removeObjectInstanceFromCell());
     }
 
 

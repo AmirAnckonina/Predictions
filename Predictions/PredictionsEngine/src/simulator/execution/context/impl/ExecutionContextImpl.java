@@ -8,6 +8,7 @@ import simulator.execution.context.api.ExecutionContext;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.information.tickDocument.api.TickDocument;
+import simulator.runner.utils.exceptions.SimulatorRunnerException;
 import structure.coordinate.api.Coordinate;
 
 import java.util.HashMap;
@@ -28,7 +29,12 @@ public class ExecutionContextImpl implements ExecutionContext {
 
     @Override
     public EntityInstance getEntityInstanceByName(String entityName) {
-        return this.entityInstanceMap.get(entityName);
+        EntityInstance entityInstance = this.entityInstanceMap.get(entityName);
+        if (!entityInstance.isAlive()) {
+            throw new SimulatorRunnerException("Entity instance " + entityName + " " + entityInstance.getId()+ " is not alive!");
+        }
+
+        return entityInstance;
     }
 
     @Override

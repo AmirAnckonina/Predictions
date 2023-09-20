@@ -75,8 +75,8 @@ public class SimulationRunnerImpl implements Runnable {
             tickActionsProcedure(entitiesInstances, actionsToInvoke, spaceGridInstanceWrapper, currTickDocument);
 
             // 4. kill & create procedure
-            killInstancesProcedure();
             createNewInstancesProcedure();
+            killInstancesProcedure();
 
             // 5. ticks + time procedures
             simulationDocument.addTickDocument(currTickDocument);
@@ -162,8 +162,13 @@ public class SimulationRunnerImpl implements Runnable {
 
     private void killInstancesProcedure() {
         try {
-            List<EntityInstance> killInstances = this.crossedExecutionContext.getEntitiesInstancesManager().getKillWaitingList();
-            this.crossedExecutionContext.getSpaceGridInstanceWrapper().applyReservedCellsForKilledInstances(killInstances);
+            List<EntityInstance> killInstances
+                    = this.crossedExecutionContext.getEntitiesInstancesManager().getKillWaitingList();
+
+            this.crossedExecutionContext
+                    .getSpaceGridInstanceWrapper()
+                    .applyReservedCellsForKilledInstances(killInstances);
+
             this.crossedExecutionContext.getEntitiesInstancesManager().completeKillEntitiesInstancesInWaitingList();
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -211,7 +216,12 @@ public class SimulationRunnerImpl implements Runnable {
     }
 
     private void actionInvocation(Action currAction, ExecutionContext executionContext) {
-        currAction.invoke(executionContext);
+        try {
+            currAction.invoke(executionContext);
+
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
     }
 
     private List<Rule> getActiveRulesForCurrTick(int currTick, List<Rule> rules) {
