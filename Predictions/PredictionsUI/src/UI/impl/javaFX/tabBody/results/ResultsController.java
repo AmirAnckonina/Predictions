@@ -64,8 +64,8 @@ public class ResultsController {
     }
 
     public ResultsController() {
-        //ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-        //scheduledExecutorService.scheduleAtFixedRate(this::pollUpdatedSimulationDocumentDto, 0, 200, TimeUnit.MILLISECONDS);
+        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+        scheduledExecutorService.scheduleAtFixedRate(this::pollUpdatedSimulationDocumentDto, 0, 200, TimeUnit.MILLISECONDS);
     }
     @FXML
     public void reRunButtonClicked(ActionEvent event) {
@@ -270,7 +270,7 @@ public class ResultsController {
     }
 
     public void reset() {
-        executionListView.getItems().clear();
+//        executionListView.getItems().clear();
         resultComponentHolderGP.getChildren().clear();
         detailsResultController.reset();
     }
