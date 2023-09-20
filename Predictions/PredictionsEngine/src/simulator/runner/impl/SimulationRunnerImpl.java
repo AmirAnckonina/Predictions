@@ -1,7 +1,7 @@
 package simulator.runner.impl;
 
 import enums.SimulationStatus;
-import simulator.definition.entity.impl.EntityDefinition;
+import simulator.definition.entity.EntityDefinition;
 import simulator.execution.context.api.CrossedExecutionContext;
 import simulator.execution.context.impl.CrossedExecutionContextImpl;
 import simulator.execution.instance.spaceGrid.api.SpaceGridInstanceWrapper;

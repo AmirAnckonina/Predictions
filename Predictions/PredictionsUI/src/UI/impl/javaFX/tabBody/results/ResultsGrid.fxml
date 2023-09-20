@@ -21,9 +21,9 @@
                   <ListView fx:id="executionListView" maxWidth="300.0" onMouseClicked="#simulationIDListClicked" prefWidth="300.0" />
                </content>
             </ScrollPane>
-            <VBox prefHeight="200.0">
+            <VBox spacing="2.0" HBox.hgrow="SOMETIMES">
                <children>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="280.0">
+                  <ScrollPane fitToHeight="true" fitToWidth="true">
                      <content>
                         <VBox>
                            <children>
@@ -44,6 +44,9 @@
                            </children>
                         </VBox>
                      </content>
+                     <padding>
+                        <Insets bottom="2.0" />
+                     </padding>
                   </ScrollPane>
                   <GridPane fx:id="resultComponentHolderGP" VBox.vgrow="ALWAYS">
                     <columnConstraints>
@@ -52,6 +55,9 @@
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
+                     <padding>
+                        <Insets top="2.0" />
+                     </padding>
                   </GridPane>
                </children>
             </VBox>

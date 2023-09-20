@@ -1,6 +1,6 @@
 package simulator.execution.instance.entity.impl;
 
-import simulator.definition.entity.impl.EntityDefinition;
+import simulator.definition.entity.EntityDefinition;
 
 import java.util.Set;
 

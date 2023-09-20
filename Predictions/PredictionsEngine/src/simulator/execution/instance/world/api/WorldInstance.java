@@ -1,6 +1,6 @@
 package simulator.execution.instance.world.api;
 
-import simulator.definition.entity.impl.EntityDefinition;
+import simulator.definition.entity.EntityDefinition;
 import simulator.execution.instance.spaceGrid.api.SpaceGridInstanceWrapper;
 import simulator.definition.rule.Rule;
 import simulator.definition.termination.Termination;

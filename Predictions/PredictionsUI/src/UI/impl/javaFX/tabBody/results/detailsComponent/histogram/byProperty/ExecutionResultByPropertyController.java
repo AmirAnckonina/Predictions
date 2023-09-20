@@ -1,11 +1,10 @@
 package UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byProperty;
 
 import UI.impl.javaFX.tabBody.results.ResultsController;
-import UI.impl.javaFX.tabBody.results.detailsComponent.DetailsResultController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.MouseEvent;
 
 import java.util.List;
 
@@ -20,10 +19,10 @@ public class ExecutionResultByPropertyController {
     private ResultsController mainController;
 
     @FXML
-    void entityNameClicked(ContextMenuEvent event) {
-        String entityChosen = this.executionDetailsEntitiesListView.
-                getSelectionModel().getSelectedItem().toString();
-        mainController.entityChosenInHistogramByProperty(entityChosen);
+    void entityNameClicked(MouseEvent event) {
+        String entityChosen = this.executionDetailsPropertiesListView.
+                getSelectionModel().getSelectedItem().getText();
+        mainController.propertyChosenInHistogramByProperty(entityChosen);
     }
 
     public void setMainController(ResultsController mainController) {

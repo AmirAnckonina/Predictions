@@ -30,9 +30,6 @@ import java.util.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import static UI.impl.javaFX.common.CommonResourcesPaths.*;
 
@@ -76,7 +73,13 @@ public class ResultsController {
 
     @FXML
     void resultByEntityClicked(MouseEvent event) {
+        try {
+            this.executionListView.getSelectionModel().getSelectedItem().getText();
+                simulationIDListClicked(null);
 
+        }catch (Exception e){
+            //Means that no simulation ID was selected while clicking on the radio button
+        }
     }
 
     @FXML
@@ -92,11 +95,13 @@ public class ResultsController {
 
 // -------------------------------------------------------------------------------------------------
 
-            SimulationResult simulationResult = simulationResultMap.get(guid);
-            if (resultByEntity.isPressed()) {
-                createHistogramByEntityComponent(new ArrayList<>(simulationResult.getEntities().keySet()));
+            if (resultByEntity.isSelected()) {
+                List<String> simulationEntities = new ArrayList<>();
+                simulationDocumentInfoDto.getCurrentEntityPopulationMap().forEach(
+                        (entityName, numOfEntities) ->simulationEntities.add(entityName + ": " + numOfEntities));
+                createHistogramByEntityComponent(simulationEntities);
             } else {
-                createHistogramByPropertyComponent(simulationResult.getAllPropertiesOfAllEntities());
+                createHistogramByPropertyComponent(simulatorManager.getAllProperties());
             }
 
         } catch (Exception e){
@@ -149,7 +154,7 @@ public class ResultsController {
             loader.setLocation(fxmlUrl);
             GridPane gpComponent = loader.load();
 
-            this.executionResultByPropertyController = loader.getController();
+            executionResultByPropertyController = loader.getController();
             executionResultByPropertyController.setMainController(this);
             executionResultByPropertyController.setPropertiesList(propertiesList);
             resultComponentHolderGP.getChildren().clear();
@@ -177,8 +182,8 @@ public class ResultsController {
         }
     }
 
-    public void entityChosenInHistogramByProperty(String propertyName){
-        executionResultByPropertyController.clearPropertyList();
+    public void propertyChosenInHistogramByProperty(String propertyName){
+        executionResultByPropertyController.clearEntityList();
         SimulationResultMappedProperties mappedPropertiesValuesToNumOfEntitiesWithSameValue = simulatorManager.
                 getMappedPropertiesToNumOfEntitiesWithSameValues(propertyName, this.executionListView.getSelectionModel().getSelectedItem().toString());
         List<String> resMapped = new ArrayList<>();

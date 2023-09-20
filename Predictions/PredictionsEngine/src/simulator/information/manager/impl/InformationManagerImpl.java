@@ -44,6 +44,7 @@ public class InformationManagerImpl implements InformationManager {
 
     @Override
     public SimulationDocumentInfoDto getLatestSimulationDocumentInfoDto(String guid) {
+        // Why latest? this return SimulationDocumentInfoDto by guid which might not be the latest @ AmirAnko
 
         SimulationDocument simulationDoc = this.simulationDocumentMap.get(guid);
         TickDocument latestTickDoc = simulationDoc.getLatestTickDocument();

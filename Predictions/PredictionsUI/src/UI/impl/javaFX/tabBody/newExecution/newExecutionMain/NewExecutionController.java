@@ -36,7 +36,7 @@ public class NewExecutionController {
     @FXML private Button clearVarButton;
     @FXML private Button startButton;
     @FXML private Label maxPopLabel;
-    @FXML private ProgressIndicator loadingProgressIndicator;
+//    @FXML private ProgressIndicator loadingProgressIndicator;
 
     private SimulatorManager simulatorManager;
     private Map<String, EntityPopulationController> entityPopulationControllerMap;
@@ -51,7 +51,6 @@ public class NewExecutionController {
 
     @FXML
     private void initialize() {
-        loadingProgressIndicator.setVisible(false);
     }
 
     public void setPredictionsMainController(PredictionsMainController predictionsMainController) {
@@ -66,13 +65,11 @@ public class NewExecutionController {
 
     @FXML
     void onStartButtonClicked() {
-        loadingProgressIndicator.setVisible(true);
         SimulationDocumentInfoDto simulationDocumentInfoDto = this.simulatorManager.runSimulator();
         predictionsMainController.moveToResultTab();
         this.simulatorManager.resetAllManualSetup();
         //reset newExecTab?
         this.predictionsMainController.onNewSimulationStart(simulationDocumentInfoDto.getSimulationGuid());
-        loadingProgressIndicator.setVisible(false);
     }
 
     public void initializeNewExecutionTab() {

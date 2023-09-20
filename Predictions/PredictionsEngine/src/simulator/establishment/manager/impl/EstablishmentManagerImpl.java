@@ -3,7 +3,7 @@ package simulator.establishment.manager.impl;
 import dto.EstablishedEnvironmentInfoDto;
 import simulator.execution.instance.spaceGrid.api.SpaceGridInstanceWrapper;
 import simulator.execution.instance.spaceGrid.impl.SpaceGridInstanceWrapperImpl;
-import simulator.definition.entity.impl.EntityDefinition;
+import simulator.definition.entity.EntityDefinition;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 import enums.PropertyType;
 import simulator.definition.rule.Rule;
