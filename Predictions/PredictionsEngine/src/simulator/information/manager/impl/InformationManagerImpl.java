@@ -15,6 +15,7 @@ import simulator.information.simulationDocument.api.SimulationDocumentFacade;
 import simulator.information.simulationDocument.impl.SimulationDocumentImpl;
 import simulator.information.tickDocument.api.TickDocument;
 import simulator.mainManager.utils.SimulatorUtils;
+import simulator.result.api.SimulationResult;
 import simulator.result.manager.api.ResultManager;
 import simulator.result.manager.impl.ResultManagerImpl;
 import simulator.information.manager.api.InformationManager;
@@ -115,6 +116,11 @@ public class InformationManagerImpl implements InformationManager {
     }
 
     @Override
+    public SimulationResult getSimulationResultByGuid(String guid) {
+        return simulationDocumentMap.get(guid).getSimulationResult();
+    }
+
+    @Override
     public Map<String, Integer> getMappedPropertiesToNumOfEntitiesWithSameValues(String propertyName, String entityName, String simulationGuid) {
 //        Map<String,List<EntityInstance>> entitiesNames = simulationDocumentMap.get(simulationGuid).getSimulationResult().getEntities();
 //        List<String> propertiesByEntity = new ArrayList<>();
@@ -129,9 +135,11 @@ public class InformationManagerImpl implements InformationManager {
         return getAllEntityInstancesHasPropertyByPropertyName(propertyName, entityName, simulationGuid);
     }
 
+
+
     private Map<String,Integer> getAllEntityInstancesHasPropertyByPropertyName(
             String propertyName, String entityName, String simulationGuid) {
-        List<EntityInstance> entities = simulatorResultManager.getAllEntitiesInstancesExistBySimulationIndex(entityName, simulationGuid);
+        List<EntityInstance> entities = getSimulationResultByGuid(simulationGuid).getEntities().get(entityName);
         Map<String, Integer> valueCountMap = new HashMap<>();
 
         for (EntityInstance instance : entities) {

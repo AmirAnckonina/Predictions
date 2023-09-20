@@ -132,7 +132,6 @@ public class SimulationDocumentImpl implements SimulationDocument {
         this.simulationResult = new SimulationResultImpl(this.SimulationGuid, this.worldInstance,
                 this.getInitialSimulationDocumentInfoDto().getInitialEntityPopulationMap(),
                 simulationStartingTime);
-
         simulationStatus = SimulationStatus.COMPLETED;
     }
 }

@@ -10,7 +10,6 @@ import java.util.Map;
 
 public interface ResultManager {
 
-    boolean addSimulationResult(String simulationID, SimulationResult simulationResult);
     List<EntitiesResult> getAllEntitiesExistBySimulationIndex(String entityName, String simulationID);
     List<EntityInstance> getAllEntitiesInstancesExistBySimulationIndex(String entityName, String simulationID);
     List<EntitiesResult> getAllEntitiesExistBySimulationIndex(String entityName, Integer simulationIndex);

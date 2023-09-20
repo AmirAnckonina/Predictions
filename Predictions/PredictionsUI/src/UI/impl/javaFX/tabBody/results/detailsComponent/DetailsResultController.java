@@ -7,6 +7,7 @@ import UI.impl.javaFX.tabBody.results.detailsComponent.entity.EntityComponentCon
 import UI.impl.javaFX.utils.exception.PredictionsUIComponentException;
 import dto.SimulationDocumentInfoDto;
 import javafx.event.ActionEvent;
+import javafx.scene.Node;
 import simulator.execution.instance.entity.impl.EntitiesResult;
 
 import javafx.fxml.FXML;
@@ -38,6 +39,9 @@ public class DetailsResultController extends DetailsResultModel {
     private Label timeCounterLbl;
 
     @FXML
+    private Label statusLbl;
+
+    @FXML
     private Button stopRunningSimulationBtn;
 
     @FXML
@@ -57,6 +61,7 @@ public class DetailsResultController extends DetailsResultModel {
         simulationIDLbl.textProperty().bind(simulationID);
         ticksLbl.textProperty().bind(numOfTicks);
         timeCounterLbl.textProperty().bind(timeCounter);
+        statusLbl.textProperty().bind(status);
     }
 
     @FXML
@@ -78,13 +83,28 @@ public class DetailsResultController extends DetailsResultModel {
         this.mainController = mainController;
     }
 
-    public void setValues(String simulationID, String numOfTicks, String timeCounter, Map<String, Integer> mappedEntityToNumOfInstances,
+    public void setValues(String simulationID, String numOfTicks, String timeCounter, String status, Map<String, Integer> mappedEntityToNumOfInstances,
                           Map<String, Integer> mappedEntityToNumOfInstancesInitialized){
         this.simulationID.set(simulationID);
         this.numOfTicks.set(numOfTicks);
         this.timeCounter.set(timeCounter);
         this.runningSimulationButtons.setDisable(false);
+        this.status.set(status);
+        if(status.toLowerCase().equals("completed") || status.toLowerCase().equals("paused")){
+            for (Node node : runningSimulationButtons.getChildren()) {
+                if (node instanceof Button) {
+                    ((Button) node).setDisable(false);
+                }
+            }
 
+        }else {
+            for (Node node : runningSimulationButtons.getChildren()) {
+                if (node instanceof Button) {
+                    ((Button) node).setDisable(true);
+                }
+            }
+
+        }
         entitiesContainerLV.getItems().clear();
         mappedEntityToNumOfInstances.forEach((entityName, numOfEntity) -> createEntityComponent(entityName,
                 mappedEntityToNumOfInstancesInitialized.get(entityName), numOfEntity));
@@ -109,5 +129,13 @@ public class DetailsResultController extends DetailsResultModel {
 
     public void setSimulationInfoByGuid(String simulationID, SimulationDocumentInfoDto simulationDocumentInfoDto) {
         throw new PredictionsUIComponentException("Not impl setSimulationInfoByGuid under detailsREsultontroller");
+    }
+
+    public void reset() {
+        entitiesContainerLV.getItems().clear();
+        simulationID.set("");
+        numOfTicks.set("");
+        timeCounter.set("");
+        status.set("");
     }
 }

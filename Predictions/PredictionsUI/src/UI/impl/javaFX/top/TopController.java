@@ -2,16 +2,19 @@ package UI.impl.javaFX.top;
 import UI.impl.javaFX.mainScene.PredictionsMainController;
 import dto.SimulationsStatusesOverviewDto;
 import enums.OverviewSimulationStatus;
+import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
+import javafx.animation.RotateTransition;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import simulator.mainManager.api.SimulatorManager;
 
 import java.io.File;
@@ -33,7 +36,10 @@ public class TopController {
     @FXML private Button loadSimulationButton;
     @FXML private Label loadSimulationPath;
     @FXML private ComboBox<?> chooseSkinCB;
+    @FXML private RadioButton enableAnimationRB;
     @FXML private Label waitingValueLabel;
+
+    @FXML private TextField queueTitle;
     @FXML private Label predictionTitle;
     @FXML private Label runningLabel;
     @FXML private Label runningValueLabel;
@@ -59,14 +65,36 @@ public class TopController {
         fileChooser.setTitle("Select simulation");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML Simulation", "*.xml"));
         File selectedFile = fileChooser.showOpenDialog(primaryStage);
-        if(selectedFile == null){
+        if (selectedFile == null) {
             return;
         }
-
+        mainController.resetGUI();
         this.loadSimulationPath.setText(selectedFile.getAbsolutePath());
         this.predictionsTopModel.onLoadSimulationButtonClicked();
         this.mainController.onLoadSimulationButtonClicked(selectedFile.getAbsolutePath());
+
+        if(enableAnimationRB.isSelected()){
+            FadeTransition ft = new FadeTransition(Duration.millis(800), queueTitle);
+            ft.setFromValue(1);
+            ft.setToValue(0.2);
+            ft.setAutoReverse(true);
+            FadeTransition ftIn = new FadeTransition(Duration.millis(800), queueTitle);
+            ftIn.setFromValue(0.2);
+            ftIn.setToValue(1);
+            ftIn.setAutoReverse(true);
+            ft.setOnFinished(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    ftIn.play(); // Start the fade-in animation
+                }
+            });
+            RotateTransition rt = new RotateTransition(Duration.millis(1200), enableAnimationRB);
+            rt.setByAngle(360);
+            rt.play();
+            ft.play();
+        }
     }
+
 
     @FXML
     void onSkinSelected(ActionEvent event) {
@@ -120,4 +148,9 @@ public class TopController {
         this.loadSimulationPath.setText(massage);
     }
 
+    public void reset() {
+//        this.finishedValue.set(0);
+//        this.waitingValue.set(0);
+//        this.runningValue.set(0);
+    }
 }
