@@ -7,7 +7,7 @@
 			<PRD-range from="1" to="5"/>			
 		</PRD-env-property>
 	</PRD-environment>
-	<PRD-grid rows="10" columns="12"/>
+	<PRD-grid rows="50" columns="100"/>
 	<PRD-entities>
 		<PRD-entity name="Healthy">
 			<PRD-properties>
@@ -66,6 +66,6 @@
 		</PRD-rule>
 	</PRD-rules>
 	<PRD-termination>
-		<PRD-by-ticks count="840"/>
+		<PRD-by-ticks count="84000"/>
 	</PRD-termination>
 </PRD-world>

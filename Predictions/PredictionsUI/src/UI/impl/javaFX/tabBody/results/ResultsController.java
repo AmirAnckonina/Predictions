@@ -72,7 +72,6 @@ public class ResultsController {
 
     }
 
-
     @FXML
     void resultByEntityClicked(MouseEvent event) {
         try {
@@ -111,12 +110,17 @@ public class ResultsController {
     }
 
     private void pollUpdatedSimulationDocumentDto() {
-        // get the current simulation Guid - according to what currently choosed under lost view
-        String guid = this.executionListView.getSelectionModel().getSelectedItem().getText();
-        SimulationDocumentInfoDto simulationDocumentDto = this.simulatorManager.getLatestSimulationDocumentInfo(guid);
-        Platform.runLater(() -> {
-            updateSimulationInfoUI(simulationDocumentDto);
-        });
+        try {
+
+            // get the current simulation Guid - according to what currently choosed under lost view
+            String guid = this.executionListView.getSelectionModel().getSelectedItem().getText();
+            SimulationDocumentInfoDto simulationDocumentDto = this.simulatorManager.getLatestSimulationDocumentInfo(guid);
+            Platform.runLater(() -> {
+                updateSimulationInfoUI(simulationDocumentDto);
+            });
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
     }
 
     private void updateSimulationInfoUI(SimulationDocumentInfoDto simulationDocumentInfoDto) {
