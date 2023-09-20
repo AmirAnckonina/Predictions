@@ -93,7 +93,7 @@ public class NewExecutionController {
 
         try {
             resetController();
-            this.maxPopLabel.textProperty().set(this.maxPopLabel.textProperty().get() + " " + this.simulatorManager.getMaxPopulationSize());
+            this.maxPopLabel.textProperty().set("   MAX POPULATION: " + " " + this.simulatorManager.getMaxPopulationSize());
 
             List<String> entities = this.simulatorManager.getAllEntities();
             entities.forEach(this::createEntityPopulationComponent);

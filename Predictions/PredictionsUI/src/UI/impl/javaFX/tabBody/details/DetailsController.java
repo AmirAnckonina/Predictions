@@ -270,5 +270,9 @@ public class DetailsController {
     }
 
     public void reset() {
+        environmentDetailsLeftListLV.getItems().clear();
+        entitiesDetailsLeftListLV.getItems().clear();
+        rulesDetailsLeftListLV.getItems().clear();
+        rightDetailsFlowPaneListView.getChildren().clear();
     }
 }

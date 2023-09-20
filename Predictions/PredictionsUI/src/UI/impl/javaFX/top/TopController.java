@@ -55,7 +55,6 @@ public class TopController {
 
     @FXML
     void loadSimulationButtonClicked(ActionEvent event) {
-        insertNewLineToQueueComponent("test");
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select simulation");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML Simulation", "*.xml"));
@@ -63,7 +62,7 @@ public class TopController {
         if(selectedFile == null){
             return;
         }
-
+        mainController.resetGUI();
         this.loadSimulationPath.setText(selectedFile.getAbsolutePath());
         this.predictionsTopModel.onLoadSimulationButtonClicked();
         this.mainController.onLoadSimulationButtonClicked(selectedFile.getAbsolutePath());
@@ -122,6 +121,8 @@ public class TopController {
     }
 
     public void reset() {
-        mainController.resetGUI();
+//        this.finishedValue.set(0);
+//        this.waitingValue.set(0);
+//        this.runningValue.set(0);
     }
 }
