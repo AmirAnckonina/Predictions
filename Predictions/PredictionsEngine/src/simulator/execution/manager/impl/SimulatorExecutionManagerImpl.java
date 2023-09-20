@@ -18,9 +18,7 @@ public class SimulatorExecutionManagerImpl implements SimulatorExecutionManager 
     public SimulatorExecutionManagerImpl() { }
     @Override
     public void runSimulator(SimulationDocument simulationDocument) {
-
         this.simulationExecutorService.execute(new SimulationRunnerImpl(simulationDocument));
-        //this.simulationExecutorService.
     }
 
     @Override

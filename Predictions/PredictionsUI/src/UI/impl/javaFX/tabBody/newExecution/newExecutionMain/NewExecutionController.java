@@ -43,10 +43,12 @@ public class NewExecutionController {
     private Map<String, KeyValueProperty> environmentPropertyControllerMap;
     private PredictionsMainController predictionsMainController;
     private Stage primaryStage;
+    private boolean firstSimulationStartedFlag;
 
     public NewExecutionController() {
         this.entityPopulationControllerMap = new HashMap<>();
         this.environmentPropertyControllerMap = new HashMap<>();
+        firstSimulationStartedFlag = false;
     }
 
     @FXML
@@ -67,12 +69,23 @@ public class NewExecutionController {
     @FXML
     void onStartButtonClicked() {
         loadingProgressIndicator.setVisible(true);
-        SimulationDocumentInfoDto simulationDocumentInfoDto = this.simulatorManager.runSimulator();
-        predictionsMainController.moveToResultTab();
-        this.simulatorManager.resetAllManualSetup();
-        //reset newExecTab?
-        this.predictionsMainController.onNewSimulationStart(simulationDocumentInfoDto.getSimulationGuid());
-        loadingProgressIndicator.setVisible(false);
+        try {
+            SimulationDocumentInfoDto simulationDocumentInfoDto = this.simulatorManager.runSimulator();
+            if (!firstSimulationStartedFlag) {
+                firstSimulationStartedFlag = true;
+                this.predictionsMainController.onFirstSimulationStarted();
+            }
+            this.predictionsMainController.onNewSimulationStart(simulationDocumentInfoDto.getSimulationGuid());
+            predictionsMainController.moveToResultTab();
+            loadingProgressIndicator.setVisible(false);
+
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+
+        } finally {
+            this.simulatorManager.resetAllManualSetup();
+            initializeNewExecutionTab();
+        }
     }
 
     public void initializeNewExecutionTab() {

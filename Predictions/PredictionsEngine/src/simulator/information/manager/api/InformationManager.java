@@ -1,6 +1,7 @@
 package simulator.information.manager.api;
 
 import dto.SimulationDocumentInfoDto;
+import dto.SimulationsStatusesOverviewDto;
 import simulator.definition.world.WorldDefinition;
 import simulator.execution.instance.world.api.WorldInstance;
 import simulator.information.simulationDocument.api.SimulationDocument;
@@ -14,8 +15,7 @@ public interface InformationManager {
     SimulationDocumentFacade createSimulationDocumentFacade(SimulationDocument simulationDocument);
     SimulationDocumentInfoDto getLatestSimulationDocumentInfoDto(String guid);
     Map<String, Integer> getMappedPropertiesToNumOfEntitiesWithSameValues(String propertyName, String simulationGuid);
-
     SimulationDocumentInfoDto getInitialSimulationDocumentInfoDto(String simulationGuid);
-
     SimulationDocument getSimulationDocumentByGuid(String guid);
+    SimulationsStatusesOverviewDto collectAllSimulationsStatusesDto();
 }

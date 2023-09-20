@@ -258,4 +258,9 @@ public class ResultsController {
             e.printStackTrace(System.out);
         }
     }
+
+    public void startUIPolling() {
+        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+        scheduledExecutorService.scheduleAtFixedRate(this::pollUpdatedSimulationDocumentDto, 0, 200, TimeUnit.MILLISECONDS);
+    }
 }

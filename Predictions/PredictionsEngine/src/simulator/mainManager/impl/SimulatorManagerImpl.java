@@ -19,7 +19,6 @@ import simulator.runner.utils.exceptions.SimulatorRunnerException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class SimulatorManagerImpl implements SimulatorManager {
 
@@ -81,7 +80,6 @@ public class SimulatorManagerImpl implements SimulatorManager {
         );
 
         simulatorExecutionManager.runSimulator(simulationDocument);
-
         return this.infoManager.getInitialSimulationDocumentInfoDto(simulationDocument.getSimulationGuid());
     }
 
@@ -175,4 +173,8 @@ public class SimulatorManagerImpl implements SimulatorManager {
         return mappedProperties;
     }
 
+    @Override
+    public SimulationsStatusesOverviewDto collectAllSimulationsStatuses() {
+        return this.infoManager.collectAllSimulationsStatusesDto();
+    }
 }
