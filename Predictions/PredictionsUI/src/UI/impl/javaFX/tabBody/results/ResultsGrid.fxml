@@ -40,7 +40,7 @@
                                     <Insets />
                                  </opaqueInsets>
                               </HBox>
-                              <fx:include fx:id="executionDetails" source="detailsComponent/DetailsComponent.fxml" />
+                              <fx:include fx:id="detailsResult" source="detailsComponent/DetailsComponent.fxml" />
                            </children>
                         </VBox>
                      </content>

@@ -11,32 +11,55 @@ import java.util.List;
 public class ExecutionResultByPropertyController {
 
     @FXML
-    private ListView<Label> executionDetailsEntitiesListView;
+    private ListView<Label> executionDetailsLeftEntitiesListView;
+    @FXML
+    private ListView<Label> executionDetailsRightEntitiesListView;
 
     @FXML
     private ListView<Label> executionDetailsPropertiesListView;
 
     private ResultsController mainController;
 
+
     @FXML
-    void entityNameClicked(MouseEvent event) {
-        String entityChosen = this.executionDetailsPropertiesListView.
+    void propertyNameClicked(MouseEvent event) {
+        this.executionDetailsRightEntitiesListView.getItems().clear();
+        String entityChosen = this.executionDetailsLeftEntitiesListView.
                 getSelectionModel().getSelectedItem().getText();
-        mainController.propertyChosenInHistogramByProperty(entityChosen);
+        String propertyChosen = this.executionDetailsPropertiesListView.
+                getSelectionModel().getSelectedItem().getText();
+        mainController.propertyChosenInHistogramByProperty(propertyChosen, entityChosen);
+    }
+
+    @FXML
+    void entityNameClickedLeftList(MouseEvent event) {
+        this.executionDetailsPropertiesListView.getItems().clear();
+        String entityChosen = this.executionDetailsLeftEntitiesListView.
+                getSelectionModel().getSelectedItem().getText();
+        mainController.entityChosenInHistogramByProperty(entityChosen);
     }
 
     public void setMainController(ResultsController mainController) {
         this.mainController = mainController;
     }
 
-    public void setEntitiesList(List<String> entities){
+    public void setLeftEntitiesList(List<String> entities){
         for(String entity:entities){
-            executionDetailsEntitiesListView.getItems().add(new Label(entity));
+            executionDetailsLeftEntitiesListView.getItems().add(new Label(entity));
         }
     }
 
-    public void clearEntityList(){
-        executionDetailsEntitiesListView.getItems().clear();
+    public void setRightEntitiesList(List<String> entities){
+        for(String entity:entities){
+            executionDetailsRightEntitiesListView.getItems().add(new Label(entity));
+        }
+    }
+
+    public void clearRightEntityList(){
+        executionDetailsRightEntitiesListView.getItems().clear();
+    }
+    public void clearLeftEntityList(){
+        executionDetailsLeftEntitiesListView.getItems().clear();
     }
 
     public void setPropertiesList(List<String> properties){

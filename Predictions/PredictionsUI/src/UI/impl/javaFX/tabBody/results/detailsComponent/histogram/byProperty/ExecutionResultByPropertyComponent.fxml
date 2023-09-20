@@ -21,12 +21,17 @@
                <children>
                   <ScrollPane>
                      <content>
-                        <ListView fx:id="executionDetailsPropertiesListView" minHeight="200.0" minWidth="300.0" onMouseClicked="#entityNameClicked" />
+                        <ListView fx:id="executionDetailsLeftEntitiesListView" onMouseClicked="#entityNameClickedLeftList" />
                      </content>
                   </ScrollPane>
                   <ScrollPane>
                      <content>
-                        <ListView fx:id="executionDetailsEntitiesListView" />
+                        <ListView fx:id="executionDetailsPropertiesListView" minHeight="200.0" minWidth="300.0" onMouseClicked="#propertyNameClicked" />
+                     </content>
+                  </ScrollPane>
+                  <ScrollPane>
+                     <content>
+                        <ListView fx:id="executionDetailsRightEntitiesListView" />
                      </content>
                   </ScrollPane>
                </children>

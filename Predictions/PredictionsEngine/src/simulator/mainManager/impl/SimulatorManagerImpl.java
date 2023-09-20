@@ -110,12 +110,20 @@ public class SimulatorManagerImpl implements SimulatorManager {
         List<String> propertiesList = new ArrayList<>();
 
         this.worldBuilderManager.getWorldDefinition().getEntities().keySet().forEach(
-                entity -> insertEntityPropertiesToMap(propertiesMap, entity));
+                entity -> insertEntityPropertiesToMapByEntityName(propertiesMap, entity));
         propertiesList.addAll(propertiesMap.keySet());
         return propertiesList;
     }
 
-    private void insertEntityPropertiesToMap(Map<String, String> propertiesMap, String entity) {
+    @Override
+    public List<String> getPropertiesByEntity(String entityName) {
+        List<String> properties = new ArrayList<>();
+        properties.addAll(this.worldBuilderManager.getWorldDefinition().getEntities().get(entityName).getProperties().keySet());
+
+        return properties;
+    }
+
+    private void insertEntityPropertiesToMapByEntityName(Map<String, String> propertiesMap, String entity) {
         this.worldBuilderManager.getWorldDefinition().getEntities().get(entity).getProperties().keySet().forEach(property->propertiesMap.put(property, property));
     }
 
@@ -184,9 +192,9 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
-    public SimulationResultMappedProperties getMappedPropertiesToNumOfEntitiesWithSameValues(String propertyName, String guid) {
+    public SimulationResultMappedProperties getMappedPropertiesToNumOfEntitiesWithSameValues(String propertyName, String entityName, String guid) {
         SimulationResultMappedProperties mappedProperties = new SimulationResultMappedProperties(
-                infoManager.getMappedPropertiesToNumOfEntitiesWithSameValues(propertyName, guid),
+                infoManager.getMappedPropertiesToNumOfEntitiesWithSameValues(propertyName, entityName, guid),
                 guid);
         return mappedProperties;
     }

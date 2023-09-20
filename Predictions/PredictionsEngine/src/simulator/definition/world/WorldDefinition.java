@@ -13,7 +13,7 @@ public class WorldDefinition {
     private ThreadCountDefinition threadCountDefinition;
     private SpaceGridDefinition spaceGridDefinition;
     private EnvironmentDefinition environmentDefinition;
-    private Map<String, EntityDefinition> entities;
+    private Map<String,EntityDefinition> entities;
     private List<Rule> rules;
     private Termination termination;
 

@@ -85,6 +85,7 @@ public class DetailsResultController extends DetailsResultModel {
         this.timeCounter.set(timeCounter);
         this.runningSimulationButtons.setDisable(false);
 
+        entitiesContainerLV.getItems().clear();
         mappedEntityToNumOfInstances.forEach((entityName, numOfEntity) -> createEntityComponent(entityName,
                 mappedEntityToNumOfInstancesInitialized.get(entityName), numOfEntity));
     }
@@ -98,7 +99,7 @@ public class DetailsResultController extends DetailsResultModel {
             GridPane gpComponent = loader.load();
 
             EntityComponentController controller = loader.getController();
-            controller.setValues(entityName, originNumOfInstance.toString(), currNumOfEntities.toString());
+            controller.setValues(entityName + ": ", currNumOfEntities.toString(), originNumOfInstance.toString());
             entitiesContainerLV.getItems().add(gpComponent);
         } catch (Exception e) {
             e.getMessage();

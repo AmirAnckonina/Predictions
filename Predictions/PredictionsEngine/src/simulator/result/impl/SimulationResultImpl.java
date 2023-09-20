@@ -17,12 +17,15 @@ public class SimulationResultImpl implements SimulationResult {
     private Long simulatorStartingTime;
     private TerminationReason terminationReason;
 
-    public SimulationResultImpl(SimulationInitialInfo simulationInitialInfo) {
-        this.simulationUuid = simulationInitialInfo.getSimulationGuid();
-        this.initEntitiesPopulationStatus = new HashMap<>();
-        setInitializedEntityPopulation();
-        this.entitiesPropertiesNames = simulationInitialInfo.getEntitiesPropertiesNames();
-        this.worldInstance = simulationInitialInfo.getWorldInstnce();
+    public SimulationResultImpl(String simulationUuid, WorldInstance worldInstance, Map<String, Integer> initEntitiesPopulationStatus,
+                                Long simulatorStartingTime) {
+        this.simulationUuid = simulationUuid;
+        this.worldInstance = worldInstance;
+        this.initEntitiesPopulationStatus = initEntitiesPopulationStatus;
+        this.simulatorStartingTime = simulatorStartingTime;
+        entitiesPropertiesNames = new HashMap<>();
+        worldInstance.getEntityDefinitionMap().forEach((entity,entityDefinition) ->
+                entitiesPropertiesNames.put(entity, entityDefinition.getProperties().keySet()));
     }
 
     public TerminationReason getTerminationReason() {

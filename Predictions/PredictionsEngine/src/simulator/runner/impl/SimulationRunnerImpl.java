@@ -23,6 +23,7 @@ import simulator.execution.context.impl.ExecutionContextImpl;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.environment.api.EnvironmentInstance;
 import simulator.execution.instance.world.api.WorldInstance;
+import simulator.runner.utils.exceptions.TerminationReason;
 
 import java.util.*;
 
@@ -81,10 +82,16 @@ public class SimulationRunnerImpl implements Runnable {
             simulationDocument.addTickDocument(currTickDocument);
             currTick += 1;
             currTimeInMilliSec = System.currentTimeMillis() - startTimeInMilliSec;
-
             handleSimulationRunInterruptions(termination);
         }
 
+        if(termination.reasonForTerminate() == TerminationReason.USER){
+            this.simulationDocument.setSimulationStatus(SimulationStatus.PAUSED);
+        }else {
+            this.simulationDocument.setSimulationStatus(SimulationStatus.COMPLETED);
+        }
+
+        this.simulationDocument.finishSimulationSession(startTimeInMilliSec);
         this.simulationDocument.getSimulationResult().setTerminationReason(worldInstance.getTermination().reasonForTerminate());
     }
 
