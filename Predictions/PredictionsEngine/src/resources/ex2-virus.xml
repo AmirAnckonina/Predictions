@@ -7,7 +7,7 @@
 			<PRD-range from="1" to="5"/>			
 		</PRD-env-property>
 	</PRD-environment>
-	<PRD-grid rows="10" columns="12"/>
+	<PRD-grid rows="90" columns="90"/>
 	<PRD-entities>
 		<PRD-entity name="Healthy">
 			<PRD-properties>
@@ -43,20 +43,20 @@
 					</PRD-actions>	
 				</PRD-action>
 			</PRD-actions>
-			<PRD-activation probability="0.7"/>
+			<PRD-activation probability="0.01"/>
 		</PRD-rule>
 		<PRD-rule name="give vacine">
 			<PRD-actions>
 				<PRD-action type="set" entity="Sick" property="vacinated" value="true"></PRD-action>
 			</PRD-actions>
-			<PRD-activation ticks="5" probability="0.5"/>
+			<PRD-activation ticks="5" probability="0.01"/>
 		</PRD-rule>
 		<PRD-rule name="heal">
 			<PRD-actions>
 				<PRD-action type="condition" entity="Sick">
 					<PRD-condition singularity="multiple" logical="and">
 						<PRD-condition singularity="single" entity="Sick" property="vacinated" operator="=" value="true"/>
-						<PRD-condition singularity="single" entity="Sick" property="ticks(Sick.vacinated)" operator="bt" value="30"/>
+						<PRD-condition singularity="single" entity="Sick" property="ticks(Sick.vacinated)" operator="bt" value="2000"/>
 					</PRD-condition>
 					<PRD-then>
 						<PRD-action type="replace" kill="Sick" create="Healthy" mode="derived"/>

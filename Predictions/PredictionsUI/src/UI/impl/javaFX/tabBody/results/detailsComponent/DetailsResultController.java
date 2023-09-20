@@ -95,7 +95,6 @@ public class DetailsResultController extends DetailsResultModel {
                     ((Button) node).setDisable(true);
                 }
             }
-            this.runningSimulationButtons.setDisable(true);
 
 
         }else {
@@ -104,7 +103,6 @@ public class DetailsResultController extends DetailsResultModel {
                     ((Button) node).setDisable(false);
                 }
             }
-            this.runningSimulationButtons.setDisable(false);
 
 
         }
