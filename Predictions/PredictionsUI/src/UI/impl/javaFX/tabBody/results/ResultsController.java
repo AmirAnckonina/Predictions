@@ -66,7 +66,6 @@ public class ResultsController {
 
     public ResultsController() {
         scheduledExecutorService = Executors.newScheduledThreadPool(1);
-
     }
     @FXML
     public void reRunButtonClicked(ActionEvent event) {
@@ -271,7 +270,7 @@ public class ResultsController {
     }
 
     public void reset() {
-        executionListView.getItems().clear();
+//        executionListView.getItems().clear();
         resultComponentHolderGP.getChildren().clear();
         detailsResultController.reset();
     }
