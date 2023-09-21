@@ -1,12 +1,12 @@
 package simulator.information.manager.impl;
 
 import dto.SimulationDocumentInfoDto;
+import dto.SimulationManualParamsDto;
 import dto.SimulationsStatusesOverviewDto;
 import enums.OverviewSimulationStatus;
 import enums.SimulationStatus;
 import simulator.definition.world.WorldDefinition;
 import simulator.execution.instance.entity.api.EntityInstance;
-import simulator.execution.instance.entity.impl.EntitiesResult;
 import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.execution.instance.world.api.WorldInstance;
 import simulator.information.manager.exception.SimulationInformationException;
@@ -22,7 +22,6 @@ import simulator.information.manager.api.InformationManager;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 public class InformationManagerImpl implements InformationManager {
     private ResultManager simulatorResultManager;
@@ -118,6 +117,11 @@ public class InformationManagerImpl implements InformationManager {
     @Override
     public SimulationResult getSimulationResultByGuid(String guid) {
         return simulationDocumentMap.get(guid).getSimulationResult();
+    }
+
+    @Override
+    public SimulationManualParamsDto getSimulationManualParamsByGuid(String simulationGuid) {
+        return this.simulationDocumentMap.get(simulationGuid).getSimulationManualParamsDto();
     }
 
     @Override

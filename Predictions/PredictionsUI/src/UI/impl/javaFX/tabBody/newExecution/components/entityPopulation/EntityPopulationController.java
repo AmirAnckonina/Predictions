@@ -64,6 +64,13 @@ public class EntityPopulationController extends KeyToIntegerData implements KeyV
         this.onSetCheckbox();
     }
 
+    @Override
+    public <T> void setPropertyValueByManualParamProcedure(T value) {
+        this.checkboxProperty.set(true);
+        onSetCheckbox();
+        this.integerValuePropertyAsString.set(value.toString());
+    }
+
     public void initSetupForEntityPopulation(String entityName) {
         this.keyNameProperty.set(entityName);
         this.checkboxProperty.set(false);
@@ -75,4 +82,5 @@ public class EntityPopulationController extends KeyToIntegerData implements KeyV
     public void setNewExecutionController(NewExecutionController newExecutionController) {
         this.newExecutionController = newExecutionController;
     }
+
 }

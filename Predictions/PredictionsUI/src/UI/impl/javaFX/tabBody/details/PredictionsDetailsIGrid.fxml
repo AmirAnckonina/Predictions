@@ -7,78 +7,64 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.impl.javaFX.tabBody.details.DetailsController">
+<VBox prefHeight="486.0" prefWidth="1045.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.impl.javaFX.tabBody.details.DetailsController">
    <children>
-      <HBox id="main_info_hbox_id" alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300.0" minWidth="300.0" spacing="10.0" VBox.vgrow="ALWAYS">
+      <HBox id="main_info_hbox_id" alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300.0" minWidth="300.0" prefHeight="455.0" prefWidth="1040.0" spacing="10.0" VBox.vgrow="ALWAYS">
          <children>
-            <ScrollPane hbarPolicy="ALWAYS" vbarPolicy="ALWAYS" HBox.hgrow="ALWAYS">
-               <content>
-                  <VBox maxHeight="400.0" minHeight="400.0" prefHeight="400.0">
-                     <children>
-                        <Label text="Environment varibels:" />
-                        <ScrollPane fitToHeight="true" maxHeight="-Infinity" minViewportHeight="100.0" minViewportWidth="200.0" prefHeight="150.0" prefViewportHeight="150.0" prefViewportWidth="350.0" prefWidth="200.0">
-                           <padding>
-                              <Insets bottom="2.0" right="10.0" top="2.0" />
-                           </padding>
-                           <content>
-                              <ListView fx:id="environmentDetailsLeftListLV" maxHeight="-Infinity" minHeight="100.0" minWidth="200.0" onMouseClicked="#environmentListViewLineClicked" prefHeight="100.0">
-                                 <opaqueInsets>
-                                    <Insets />
-                                 </opaqueInsets>
-                                 <padding>
-                                    <Insets right="10.0" top="5.0" />
-                                 </padding>
-                              </ListView>
-                           </content>
-                        </ScrollPane>
-                        <Label maxHeight="20.0" text="Entities:">
-                           <padding>
-                              <Insets bottom="1.0" top="1.0" />
-                           </padding>
-                        </Label>
-                        <ScrollPane fitToHeight="true" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" minViewportHeight="100.0" minViewportWidth="200.0" prefHeight="150.0" prefViewportHeight="150.0" prefViewportWidth="350.0" prefWidth="200.0">
-                           <padding>
-                              <Insets bottom="2.0" right="10.0" top="2.0" />
-                           </padding>
-                           <content>
-                              <ListView fx:id="entitiesDetailsLeftListLV" maxHeight="-Infinity" minHeight="100.0" minWidth="200.0" onMouseClicked="#entitiesListViewLineClicked" prefHeight="100.0">
-                                 <opaqueInsets>
-                                    <Insets />
-                                 </opaqueInsets>
-                                 <padding>
-                                    <Insets right="10.0" top="5.0" />
-                                 </padding>
-                              </ListView>
-                           </content>
-                        </ScrollPane>
-                        <Label maxHeight="20.0" text="Rules:">
-                           <VBox.margin>
-                              <Insets bottom="1.0" top="1.0" />
-                           </VBox.margin>
-                        </Label>
-                        <ScrollPane fitToHeight="true" layoutX="10.0" layoutY="223.0" maxHeight="-Infinity" minViewportHeight="200.0" minViewportWidth="100.0" prefHeight="150.0" prefViewportHeight="150.0" prefViewportWidth="350.0" prefWidth="200.0">
-                           <padding>
-                              <Insets bottom="2.0" right="10.0" top="2.0" />
-                           </padding>
-                           <content>
-                              <ListView fx:id="rulesDetailsLeftListLV" maxHeight="-Infinity" minHeight="100.0" minWidth="200.0" onMouseClicked="#rulesListViewLineClicked" prefHeight="100.0">
-                                 <opaqueInsets>
-                                    <Insets />
-                                 </opaqueInsets>
-                                 <padding>
-                                    <Insets right="10.0" top="5.0" />
-                                 </padding>
-                              </ListView>
-                           </content>
-                        </ScrollPane>
-                     </children>
-                  </VBox>
-               </content>
-            </ScrollPane>
+            <VBox maxHeight="450.0" minHeight="379.0" prefHeight="450.0" prefWidth="313.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="331.0" text="Environment Variables:">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <ListView fx:id="environmentDetailsLeftListLV" maxHeight="-Infinity" minHeight="100.0" minWidth="198.0" onMouseClicked="#environmentListViewLineClicked" prefHeight="146.0" prefWidth="313.0">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets right="10.0" top="5.0" />
+                     </padding>
+                  </ListView>
+                  <Label alignment="CENTER" maxHeight="20.0" prefHeight="19.0" prefWidth="334.0" text="Entities:">
+                     <padding>
+                        <Insets bottom="1.0" top="1.0" />
+                     </padding>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <ListView fx:id="entitiesDetailsLeftListLV" maxHeight="-Infinity" minHeight="68.0" minWidth="198.0" onMouseClicked="#entitiesListViewLineClicked" prefHeight="68.0" prefWidth="313.0">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets right="10.0" top="5.0" />
+                     </padding>
+                  </ListView>
+                  <Label alignment="CENTER" maxHeight="20.0" prefHeight="17.0" prefWidth="327.0" text="Rules:" textAlignment="CENTER">
+                     <VBox.margin>
+                        <Insets bottom="1.0" top="1.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <ListView fx:id="rulesDetailsLeftListLV" maxHeight="-Infinity" minHeight="27.0" minWidth="196.0" onMouseClicked="#rulesListViewLineClicked" prefHeight="179.0" prefWidth="313.0">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets right="10.0" top="5.0" />
+                     </padding>
+                  </ListView>
+               </children>
+            </VBox>
             <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="415.0" prefWidth="700.0">
                <content>
-                  <FlowPane fx:id="rightDetailsFlowPaneListView">
+                  <FlowPane fx:id="rightDetailsFlowPaneListView" prefHeight="405.0" prefWidth="589.0">
                      <opaqueInsets>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </opaqueInsets>
@@ -98,10 +84,13 @@
       </HBox>
       <HBox prefHeight="25.0">
          <children>
-            <Label text="Termination:">
+            <Label alignment="CENTER" prefHeight="17.0" prefWidth="96.0" text="Termination:">
                <HBox.margin>
                   <Insets bottom="5.0" right="20.0" top="5.0" />
                </HBox.margin>
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
             </Label>
             <Label fx:id="terminationDetailsLabel">
                <HBox.margin>

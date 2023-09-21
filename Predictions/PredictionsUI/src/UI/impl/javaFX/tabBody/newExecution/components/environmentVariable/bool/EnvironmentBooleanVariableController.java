@@ -74,4 +74,11 @@ public class EnvironmentBooleanVariableController extends KeyToBooleanData imple
         this.checkboxProperty.set(false);
         onSetCheckbox();
     }
+
+    @Override
+    public <T> void setPropertyValueByManualParamProcedure(T value) {
+        this.checkboxProperty.set(true);
+        onSetCheckbox();
+        this.booleanValueProperty.set((Boolean) value);
+    }
 }

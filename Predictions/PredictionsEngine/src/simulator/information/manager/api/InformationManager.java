@@ -1,6 +1,7 @@
 package simulator.information.manager.api;
 
 import dto.SimulationDocumentInfoDto;
+import dto.SimulationManualParamsDto;
 import dto.SimulationsStatusesOverviewDto;
 import simulator.definition.world.WorldDefinition;
 import simulator.execution.instance.world.api.WorldInstance;
@@ -19,4 +20,5 @@ public interface InformationManager {
     SimulationDocument getSimulationDocumentByGuid(String guid);
     SimulationsStatusesOverviewDto collectAllSimulationsStatusesDto();
     SimulationResult getSimulationResultByGuid(String guid);
+    SimulationManualParamsDto getSimulationManualParamsByGuid(String simulationGuid);
 }

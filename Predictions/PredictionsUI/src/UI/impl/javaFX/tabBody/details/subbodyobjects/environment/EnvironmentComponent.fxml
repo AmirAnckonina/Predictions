@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane styleClass="singleComponent" stylesheets="@../../../../style/singleComponent.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.impl.javaFX.tabBody.details.subbodyobjects.environment.EnvironmentController">
+<GridPane prefHeight="121.0" prefWidth="526.0" styleClass="singleComponent" stylesheets="@../../../../style/singleComponent.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.impl.javaFX.tabBody.details.subbodyobjects.environment.EnvironmentController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
    </columnConstraints>
@@ -15,7 +15,7 @@
       <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <ScrollPane prefWidth="200.0">
+      <ScrollPane prefHeight="125.0" prefWidth="233.0">
          <content>
             <GridPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="100.0">
                <columnConstraints>

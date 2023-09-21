@@ -29,4 +29,5 @@ public interface SimulatorManager {
     SimulationsStatusesOverviewDto collectAllSimulationsStatuses();
     SimulationResultMappedProperties getMappedPropertiesToNumOfEntitiesWithSameValues(String propertyName, String entityName, String guid);
 
+    SimulationManualParamsDto getSimulationManualParamsByGuid(String simulationGuid);
 }

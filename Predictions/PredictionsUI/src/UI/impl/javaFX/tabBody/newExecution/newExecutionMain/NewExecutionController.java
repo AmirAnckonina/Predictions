@@ -9,6 +9,7 @@ import UI.impl.javaFX.tabBody.newExecution.components.environmentVariable.string
 import UI.impl.javaFX.utils.exception.PredictionsUIComponentException;
 import dto.EnvironmentPropertyDto;
 import dto.SimulationDocumentInfoDto;
+import dto.SimulationManualParamsDto;
 import enums.SetPropertyStatus;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -68,7 +69,6 @@ public class NewExecutionController {
     @FXML
     void onStartButtonClicked() {
 
-       // loadingProgressIndicator.setVisible(true);
         try {
             SimulationDocumentInfoDto simulationDocumentInfoDto = this.simulatorManager.runSimulator();
             if (!firstSimulationStartedFlag) {
@@ -77,7 +77,6 @@ public class NewExecutionController {
             }
             this.predictionsMainController.onNewSimulationStart(simulationDocumentInfoDto.getSimulationGuid());
             predictionsMainController.moveToResultTab();
-           // loadingProgressIndicator.setVisible(false);
 
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -254,5 +253,27 @@ public class NewExecutionController {
     }
 
     public void reset() {
+    }
+
+    public void setNewExecutionTabToRerunSimulation(String simulationGuid) {
+        try {
+            SimulationManualParamsDto simulationManualParamsDto = this.simulatorManager.getSimulationManualParamsByGuid(simulationGuid);
+            this.initializeNewExecutionTab();
+            this.entityPopulationControllerMap
+                    .forEach(
+                            (entityName, controller) ->
+                                    controller.setPropertyValueByManualParamProcedure(
+                                            simulationManualParamsDto.getEntityDefinitionPopulationMap().get(entityName)));
+
+
+            this.environmentPropertyControllerMap
+                    .forEach(
+                            (envPropName, controller) ->
+                                    controller.setPropertyValueByManualParamProcedure(
+                                            simulationManualParamsDto.getEnvironmentPropertyMap().get(envPropName)));
+
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
     }
 }

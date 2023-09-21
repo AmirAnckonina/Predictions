@@ -34,7 +34,7 @@ public class JavaFxGUI extends Application{
         PredictionsMainController appController = fxmlLoader.getController();
         appController.setPrimaryStage(primaryStage);
 
-        Scene scene = new Scene(root, 1200, 600);
+        Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

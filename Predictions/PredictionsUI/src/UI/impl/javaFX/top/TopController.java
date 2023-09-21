@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import javafx.stage.FileChooser;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import simulator.mainManager.api.SimulatorManager;
@@ -144,8 +145,8 @@ public class TopController {
         collectSimulationsStatuses();
     }
 
-    public void showUserBuilderException(String massage) {
-        this.loadSimulationPath.setText(massage);
+    public void showUserBuilderException(String errorMessage) {
+        this.loadSimulationPath.setText(errorMessage);
     }
 
     public void reset() {

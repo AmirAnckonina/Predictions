@@ -85,4 +85,11 @@ public class EnvironmentFloatVariableController extends KeyToFloatData implement
         this.checkboxProperty.set(false);
         onSetCheckbox();
     }
+
+    @Override
+    public <T> void setPropertyValueByManualParamProcedure(T value) {
+        this.checkboxProperty.set(true);
+        onSetCheckbox();
+        this.floatValuePropertyAsString.set(value.toString());
+    }
 }
