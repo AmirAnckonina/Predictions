@@ -89,7 +89,7 @@ public class DetailsResultController extends DetailsResultModel {
         this.numOfTicks.set(numOfTicks);
         this.timeCounter.set(timeCounter);
         this.status.set(status);
-        if(status.toLowerCase().equals("completed") || status.toLowerCase().equals("paused")){
+        if(status.toLowerCase().equals("completed") || status.toLowerCase().equals("stop")){
             for (Node node : runningSimulationButtons.getChildren()) {
                 if (node instanceof Button) {
                     ((Button) node).setDisable(true);
@@ -129,7 +129,7 @@ public class DetailsResultController extends DetailsResultModel {
     }
 
     public void setSimulationInfoByGuid(String simulationID, SimulationDocumentInfoDto simulationDocumentInfoDto) {
-        throw new PredictionsUIComponentException("Not impl setSimulationInfoByGuid under detailsREsultontroller");
+        //Amir
     }
 
     public void reset() {

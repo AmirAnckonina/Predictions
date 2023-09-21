@@ -26,6 +26,9 @@ import simulator.execution.instance.world.api.WorldInstance;
 import simulator.runner.utils.exceptions.TerminationReason;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class SimulationRunnerImpl implements Runnable {
 
@@ -47,8 +50,9 @@ public class SimulationRunnerImpl implements Runnable {
     public void run() {
 
         int currTick = 0;
-        long currTimeInMilliSec = 0;
-        long startTimeInMilliSec;
+        AtomicLong currTimeInMilliSec = new AtomicLong(0);
+        AtomicLong startTimeInMilliSec = new AtomicLong();
+        AtomicLong deltaTime = new AtomicLong();
 
 
         Termination termination = this.worldInstance.getTermination();
@@ -57,11 +61,11 @@ public class SimulationRunnerImpl implements Runnable {
         SpaceGridInstanceWrapper spaceGridInstanceWrapper = this.crossedExecutionContext.getSpaceGridInstanceWrapper();
         this.simulationDocument.setSimulationStatus(SimulationStatus.RUNNING);
 
-        startTimeInMilliSec = System.currentTimeMillis();
+        startTimeInMilliSec.set(System.currentTimeMillis());
 
-        while (!termination.shouldTerminate(currTick, currTimeInMilliSec)) {
+        while (!termination.shouldTerminate(currTick, currTimeInMilliSec.get())) {
 
-            TickDocument currTickDocument =  new TickDocumentImpl(currTick, currTimeInMilliSec, entitiesInstances);
+            TickDocument currTickDocument =  new TickDocumentImpl(currTick, currTimeInMilliSec.get(), entitiesInstances);
 
             // 1. Entities movement
             entitiesMovementProcedure();
@@ -81,8 +85,9 @@ public class SimulationRunnerImpl implements Runnable {
             // 5. ticks + time procedures
             simulationDocument.addTickDocument(currTickDocument);
             currTick += 1;
-            currTimeInMilliSec = System.currentTimeMillis() - startTimeInMilliSec;
-            handleSimulationRunInterruptions(termination);
+            handleSimulationRunInterruptions(termination, deltaTime);
+            currTimeInMilliSec.set(System.currentTimeMillis() - startTimeInMilliSec.get() - deltaTime.get());
+
         }
 
         if(termination.reasonForTerminate() == TerminationReason.USER){
@@ -91,20 +96,28 @@ public class SimulationRunnerImpl implements Runnable {
             this.simulationDocument.setSimulationStatus(SimulationStatus.COMPLETED);
         }
 
-        this.simulationDocument.finishSimulationSession(startTimeInMilliSec);
+        this.simulationDocument.finishSimulationSession(startTimeInMilliSec.get());
         this.simulationDocument.getSimulationResult().setTerminationReason(worldInstance.getTermination().reasonForTerminate());
     }
 
-    private void handleSimulationRunInterruptions(Termination termination) {
-
-        SimulationStatus status = this.simulationDocument.getSimulationStatus();
-        while (status == SimulationStatus.PAUSED) {
+    private void handleSimulationRunInterruptions(Termination termination, AtomicLong deltaTime) {
+        AtomicLong stoppingTime = new AtomicLong(System.currentTimeMillis());
+        while (this.simulationDocument.getSimulationStatus() == SimulationStatus.PAUSED) {
+            if(deltaTime == null) {
+                deltaTime = new AtomicLong(System.currentTimeMillis());
+            }
             try {
-                this.wait();
-            } catch (InterruptedException e) { }
+                Thread.sleep(300);
+                System.out.println("In While");
+            } catch (InterruptedException e) {
+                System.out.println(e);
+            }
+        }
+        if(deltaTime != null) {
+            deltaTime.set(deltaTime.get() + (System.currentTimeMillis() - stoppingTime.get()));
         }
 
-        if (status == SimulationStatus.STOPPED) {
+        if (this.simulationDocument.getSimulationStatus() == SimulationStatus.STOPPED) {
             termination.terminateInTheNextTick();
         }
 
