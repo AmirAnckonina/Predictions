@@ -17,7 +17,7 @@ public class EntityComponentController extends EntityModule {
         entityCountLbl.textProperty().bind(numOfEntitiesInstance);
     }
 
-    public void setValues(String entityName, String numOfOriginalEntities, String numOfCurrEntities){
+    public void setValues(String entityName, String numOfCurrEntities, String numOfOriginalEntities){
         this.name.set(entityName);
         this.numOfEntitiesInstance.set(numOfCurrEntities);
     }
