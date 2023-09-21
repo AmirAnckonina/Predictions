@@ -81,7 +81,7 @@ public class ResultsController {
     void resultByEntityClicked(MouseEvent event) {
         try {
             this.executionListView.getSelectionModel().getSelectedItem().getText();
-                simulationIDListClicked(null);
+            simulationIDListClicked(null);
 
         }catch (Exception e){
             //Means that no simulation ID was selected while clicking on the radio button
@@ -265,6 +265,7 @@ public class ResultsController {
         try {
             SimulationDocumentInfoDto simulationDocumentInfoDto = this.simulatorManager.stopSimulationByGuid(simulationID);
             this.detailsResultController.setSimulationInfoByGuid(simulationID, simulationDocumentInfoDto);
+            simulationIDListClicked(null);
         } catch (Exception e) {
             e.printStackTrace(System.out);
         }

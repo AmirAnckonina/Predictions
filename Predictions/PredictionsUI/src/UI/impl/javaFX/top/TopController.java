@@ -36,7 +36,6 @@ public class TopController {
 
     @FXML private Button loadSimulationButton;
     @FXML private Label loadSimulationPath;
-    @FXML private ComboBox<?> chooseSkinCB;
     @FXML private RadioButton enableAnimationRB;
     @FXML private Label waitingValueLabel;
 

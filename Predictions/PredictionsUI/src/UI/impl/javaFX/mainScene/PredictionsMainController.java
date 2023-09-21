@@ -174,6 +174,11 @@ public class PredictionsMainController {
         mainTabPane.getSelectionModel().select(2);
     }
 
+    public void moveToNewExecutionTab() {
+        System.out.println("Moved to results");
+        mainTabPane.getSelectionModel().select(1);
+    }
+
     public void onFirstSimulationStarted() {
         this.topComponentController.startUIPolling();
         this.resultsComponentController.startUIPollingThread();
@@ -184,6 +189,7 @@ public class PredictionsMainController {
 
             this.newExecutionComponentController.setNewExecutionTabToRerunSimulation(guid);
             this.executionTabClicked();
+            moveToNewExecutionTab();
 
         } catch (Exception e) {
             e.printStackTrace(System.out);
