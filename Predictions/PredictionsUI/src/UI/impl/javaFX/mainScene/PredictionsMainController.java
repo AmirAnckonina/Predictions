@@ -117,11 +117,11 @@ public class PredictionsMainController {
     }
 
     public void detailsTabClicked(){
-        if(currentScreen == eCurrentScreen.DETAILS && !newSimulationLoadedFlag){return;}
+        if(currentScreen == eCurrentScreen.RESULTS && !newSimulationLoadedFlag){ return; }
         if(newSimulationLoadedFlag) {
             currentScreen = eCurrentScreen.DETAILS;
-            newSimulationLoadedFlag = false;
-
+//            newSimulationLoadedFlag = false;
+            detailsComponentController.reset();
             SimulationDetailsDto simulationDetailsDto = simulatorManager.getSimulationWorldDetails();
             EnvironmentPropertiesDto environmentPropertiesDto = simulatorManager.getEnvironmentPropertiesDefinition();
 
@@ -146,7 +146,7 @@ public class PredictionsMainController {
         if(currentScreen == eCurrentScreen.EXECUTION && !newSimulationLoadedFlag){return;}
 
         currentScreen = eCurrentScreen.EXECUTION;
-        newSimulationLoadedFlag = false;
+//        newSimulationLoadedFlag = false;
 
 
 
@@ -157,7 +157,7 @@ public class PredictionsMainController {
         if (currentScreen == eCurrentScreen.RESULTS && !newSimulationLoadedFlag){ return; }
 
         currentScreen = eCurrentScreen.RESULTS;
-        newSimulationLoadedFlag = false;
+//        newSimulationLoadedFlag = false;
         resultsComponentController.simulationTabClicked();
 
         System.out.println("resultsTabClicked");
