@@ -189,6 +189,7 @@ public class PredictionsMainController {
 
             this.newExecutionComponentController.setNewExecutionTabToRerunSimulation(guid);
             this.executionTabClicked();
+            moveToNewExecutionTab();
 
         } catch (Exception e) {
             e.printStackTrace(System.out);

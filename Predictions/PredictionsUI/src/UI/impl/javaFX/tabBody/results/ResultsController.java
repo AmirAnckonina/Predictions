@@ -72,7 +72,6 @@ public class ResultsController {
         try {
             String guid = this.executionListView.getSelectionModel().getSelectedItem().getText();
             this.mainController.onRerunSimulation(guid);
-            mainController.moveToNewExecutionTab();
         } catch (Exception e) {
             e.printStackTrace(System.out);
         }
