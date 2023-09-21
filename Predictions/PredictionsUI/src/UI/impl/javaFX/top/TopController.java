@@ -98,9 +98,7 @@ public class TopController {
 
 
     @FXML
-    void onSkinSelected(ActionEvent event) {
-
-        System.out.println("onSkinSelected");
+    void onSkinSelected() {
     }
 
     public void collectSimulationsStatuses() {

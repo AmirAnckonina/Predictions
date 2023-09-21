@@ -40,9 +40,6 @@ public class EqualityConditionExpression extends AbstractSingleConditionExpressi
                     "can't complete equality test");
         }
 
-        if (propType != PropertyType.BOOLEAN || compType != PropertyType.BOOLEAN) {
-            System.out.println("debug");
-        }
         Boolean returnValue = false;
         returnValue
                 = propType.convert(
