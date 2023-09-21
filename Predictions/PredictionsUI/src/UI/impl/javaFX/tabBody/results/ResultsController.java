@@ -68,8 +68,13 @@ public class ResultsController {
         scheduledExecutorService = Executors.newScheduledThreadPool(1);
     }
     @FXML
-    public void reRunButtonClicked(ActionEvent event) {
-
+    public void reRunButtonClicked() {
+        try {
+            String guid = this.executionListView.getSelectionModel().getSelectedItem().getText();
+            this.mainController.onRerunSimulation(guid);
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
     }
 
     @FXML
@@ -111,13 +116,14 @@ public class ResultsController {
 
     private void pollUpdatedSimulationDocumentDto() {
         try {
-
-            // get the current simulation Guid - according to what currently choosed under lost view
-            String guid = this.executionListView.getSelectionModel().getSelectedItem().getText();
-            SimulationDocumentInfoDto simulationDocumentDto = this.simulatorManager.getLatestSimulationDocumentInfo(guid);
-            Platform.runLater(() -> {
-                updateSimulationInfoUI(simulationDocumentDto);
-            });
+            if (this.executionListView.getSelectionModel().getSelectedItem() != null) {
+                // get the current simulation Guid - according to what currently choosed under lost view
+                String guid = this.executionListView.getSelectionModel().getSelectedItem().getText();
+                SimulationDocumentInfoDto simulationDocumentDto = this.simulatorManager.getLatestSimulationDocumentInfo(guid);
+                Platform.runLater(() -> {
+                    updateSimulationInfoUI(simulationDocumentDto);
+                });
+            }
         } catch (Exception e) {
             e.printStackTrace(System.out);
         }
@@ -279,7 +285,10 @@ public class ResultsController {
         detailsResultController.reset();
     }
     public void startUIPollingThread() {
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-        scheduledExecutorService.scheduleAtFixedRate(this::pollUpdatedSimulationDocumentDto, 0, 200, TimeUnit.MILLISECONDS);
+        if (!executionListView.getItems().isEmpty()) {
+
+            this.scheduledExecutorService = Executors.newScheduledThreadPool(1);
+            this.scheduledExecutorService.scheduleAtFixedRate(this::pollUpdatedSimulationDocumentDto, 0, 200, TimeUnit.MILLISECONDS);
+        }
     }
 }

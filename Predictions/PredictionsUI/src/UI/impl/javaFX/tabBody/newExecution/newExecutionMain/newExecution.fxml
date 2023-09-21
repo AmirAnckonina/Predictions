@@ -17,18 +17,23 @@
             <Insets right="10.0" />
          </padding>
          <content>
-            <FlowPane prefHeight="347.0" prefWidth="303.0">
+            <FlowPane prefHeight="357.0" prefWidth="453.0">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="31.0" prefWidth="196.0" text="Entities Population Setup" textAlignment="RIGHT" textFill="#a33333">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <ListView id="ent-pop-listview" fx:id="entPopulationListView" prefHeight="283.0" prefWidth="453.0" />
+                  <ListView id="ent-pop-listview" fx:id="entPopulationListView" prefHeight="282.0" prefWidth="453.0" />
                   <Label id="max-pop-label" fx:id="maxPopLabel" contentDisplay="CENTER" prefHeight="21.0" prefWidth="232.0" text="   MAX POPULATION: " textFill="#139c59" wrapText="true">
                      <font>
                         <Font name="System Bold Italic" size="14.0" />
                      </font></Label>
+                  <Label prefHeight="17.0" prefWidth="396.0" text="  Attention! &quot;Set&quot; button must be clicked in order to set the value!" textFill="#dd1212">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
                </children>
             </FlowPane>
          </content>

@@ -1,18 +1,20 @@
 package simulator.information.simulationDocument.impl;
 
 import dto.SimulationDocumentInfoDto;
+import dto.SimulationManualParamsDto;
 import enums.SimulationStatus;
+import simulator.definition.entity.EntityDefinition;
+import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.execution.instance.world.api.WorldInstance;
 import simulator.information.manager.exception.SimulationInformationException;
 import simulator.information.simulationDocument.api.SimulationDocument;
 import simulator.information.tickDocument.api.TickDocument;
-import simulator.information.tickDocument.impl.TickDocumentImpl;
 import simulator.result.api.SimulationResult;
 import simulator.result.impl.SimulationResultImpl;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Collectors;
 
 public class SimulationDocumentImpl implements SimulationDocument {
     private static final Integer INIT_TICK = -1;
@@ -22,6 +24,7 @@ public class SimulationDocumentImpl implements SimulationDocument {
     private SimulationResult simulationResult;
     private SimulationStatus simulationStatus;
     private SimulationDocumentInfoDto initialSimulationDocumentInfoDto;
+    private SimulationManualParamsDto simulationManualParamsDto;
 //private Map<SimulationStatus, SimulationDocumentInfoDto> statusInfoMap;
 
     public SimulationDocumentImpl(String simulationGuid, WorldInstance worldInstance) {
@@ -31,12 +34,44 @@ public class SimulationDocumentImpl implements SimulationDocument {
             this.simulationStatus = SimulationStatus.READY;
             this.tickDocumentMap = new ConcurrentHashMap<>();
         }
+        this.simulationManualParamsDto = simulationManualParamsDto;
         this.createInitialSimulationDocumentInfoDto();
-        //this.createInitialTickDocument();
+        this.createSimulationManualParamsDto();
+    }
+
+    private void createSimulationManualParamsDto() {
+        Map<String, Integer> entityPopulationParamsMap =
+                this.worldInstance
+                        .getEntityDefinitionMap()
+                        .values()
+                        .stream()
+                        .collect(Collectors.toMap(EntityDefinition::getName, EntityDefinition::getPopulation));
+
+        Map<String, ?> envPropertiesParamsMap =
+                this.worldInstance
+                        .getEnvironmentInstance()
+                        .getAllEnvironmentPropertiesInstances()
+                        .values()
+                        .stream()
+                        .collect(Collectors.toMap(
+                                propertyInstance -> propertyInstance.getPropertyDefinition().getName(),
+                                PropertyInstance::getValue)
+                        );
+
+        this.simulationManualParamsDto = new SimulationManualParamsDto(entityPopulationParamsMap, envPropertiesParamsMap);
     }
 
     @Override
-    public void createInitialSimulationDocumentInfoDto() {
+    public void SetSimulationManualParams(SimulationManualParamsDto simulationManualParamsDto) {
+        this.simulationManualParamsDto = simulationManualParamsDto;
+    }
+
+    @Override
+    public SimulationManualParamsDto getSimulationManualParamsDto() {
+        return this.simulationManualParamsDto;
+    }
+
+    private void createInitialSimulationDocumentInfoDto() {
         Map<String, Integer> initEntityPopulationMap = new HashMap<>();
 
         synchronized (this) {
@@ -57,11 +92,6 @@ public class SimulationDocumentImpl implements SimulationDocument {
                         initEntityPopulationMap
                 );
     }
-
- /*   @Override
-    public void createInitialTickDocument() {
-        this.addTickDocument(new TickDocumentImpl(INIT_TICK, 0, this.worldInstance.getEntitiesInstances()));
-    }*/
 
     @Override
     public SimulationDocumentInfoDto getInitialSimulationDocumentInfoDto() {

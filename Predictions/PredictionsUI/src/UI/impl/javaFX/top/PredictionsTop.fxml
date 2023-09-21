@@ -14,18 +14,18 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="122.0" minHeight="120.0" prefHeight="122.0" prefWidth="1094.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.impl.javaFX.top.TopController">
+<AnchorPane maxHeight="125.0" minHeight="120.0" prefHeight="125.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.impl.javaFX.top.TopController">
    <children>
-      <HBox maxHeight="121.0" prefHeight="121.0" prefWidth="1109.0">
+      <HBox layoutY="2.0" maxHeight="121.0" prefHeight="119.0" prefWidth="1170.0">
          <children>
-            <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="120.0" prefHeight="120.0" prefWidth="1035.0" HBox.hgrow="SOMETIMES">
+            <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="120.0" prefHeight="120.0" prefWidth="1107.0" HBox.hgrow="SOMETIMES">
                <columnConstraints>
                   <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" maxWidth="128.0" minWidth="0.0" prefWidth="0.0" />
                   <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="163.0" minWidth="12.0" prefWidth="14.0" />
                   <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="333.0" minWidth="10.0" prefWidth="150.0" />
                   <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="208.0" minWidth="20.0" prefWidth="22.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="586.0" minWidth="20.0" prefWidth="586.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="20.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="673.0" minWidth="20.0" prefWidth="673.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="81.0" minWidth="0.0" prefWidth="0.0" />
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints minHeight="10.0" prefHeight="15.0" vgrow="NEVER" />
@@ -36,7 +36,10 @@
                </rowConstraints>
                <children>
                   <Button fx:id="loadSimulationButton" mnemonicParsing="false" onAction="#loadSimulationButtonClicked" prefWidth="150.0" text="Load Simulation" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-                  <Label fx:id="loadSimulationPath" prefHeight="28.0" prefWidth="383.0" text="-" textFill="#252323" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
+                  <Label fx:id="loadSimulationPath" maxWidth="1.7976931348623157E308" prefHeight="28.0" prefWidth="671.0" style="-fx-wrap-text: true;" text="-" textFill="#252323" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="11.0" />
+                     </font></Label>
                   <ComboBox fx:id="chooseSkinCB" onAction="#onSkinSelected" prefWidth="150.0" promptText="Choose skin" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
                   <RadioButton fx:id="enableAnimationRB" mnemonicParsing="false" text="Enable animation" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                </children>

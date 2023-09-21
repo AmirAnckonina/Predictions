@@ -9,6 +9,7 @@ import UI.impl.javaFX.top.TopController;
 import UI.impl.javaFX.top.PredictionsTopModel;
 import dto.EnvironmentPropertiesDto;
 import dto.SimulationDetailsDto;
+import dto.SimulationManualParamsDto;
 import javafx.fxml.FXML;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
@@ -73,6 +74,8 @@ public class PredictionsMainController {
             resultsComponentController.setSimulatorManager(simulatorManager);
             resultsModel.setResultsController(resultsComponentController);
         }
+
+
     }
 
     public void setPrimaryStage(Stage primaryStage) {
@@ -143,24 +146,18 @@ public class PredictionsMainController {
     }
 
     public void executionTabClicked() {
-        if(currentScreen == eCurrentScreen.EXECUTION && !newSimulationLoadedFlag){return;}
+        if(currentScreen == eCurrentScreen.EXECUTION && !newSimulationLoadedFlag){ return; }
 
         currentScreen = eCurrentScreen.EXECUTION;
         newSimulationLoadedFlag = false;
 
-
-
-        System.out.println("executionTabClicked");
     }
 
     public void resultsTabClicked(){
-        if (currentScreen == eCurrentScreen.RESULTS && !newSimulationLoadedFlag){ return; }
+        if (currentScreen == eCurrentScreen.RESULTS && !newSimulationLoadedFlag) { return; }
 
         currentScreen = eCurrentScreen.RESULTS;
         newSimulationLoadedFlag = false;
-        resultsComponentController.simulationTabClicked();
-
-        System.out.println("resultsTabClicked");
     }
 
     public void onNewSimulationStart(String simulationGuid) {
@@ -180,5 +177,17 @@ public class PredictionsMainController {
     public void onFirstSimulationStarted() {
         this.topComponentController.startUIPolling();
         this.resultsComponentController.startUIPollingThread();
+    }
+
+    public void onRerunSimulation(String guid) {
+        try {
+
+            this.newExecutionComponentController.setNewExecutionTabToRerunSimulation(guid);
+            this.executionTabClicked();
+
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+
     }
 }

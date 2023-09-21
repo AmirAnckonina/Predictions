@@ -71,4 +71,11 @@ public class EnvironmentStringVariableController extends KeyToStringData impleme
         this.checkboxProperty.set(false);
         onSetCheckbox();
     }
+
+    @Override
+    public <T> void setPropertyValueByManualParamProcedure(T value) {
+        this.checkboxProperty.set(true);
+        onSetCheckbox();
+        this.stringValueProperty.set((String) value);
+    }
 }

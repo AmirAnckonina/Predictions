@@ -1,6 +1,7 @@
 package simulator.information.simulationDocument.api;
 
 import dto.SimulationDocumentInfoDto;
+import dto.SimulationManualParamsDto;
 import enums.SimulationStatus;
 import simulator.execution.instance.world.api.WorldInstance;
 import simulator.information.tickDocument.api.TickDocument;
@@ -10,7 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface SimulationDocument {
-     void createInitialSimulationDocumentInfoDto();
+     void SetSimulationManualParams(SimulationManualParamsDto simulationManualParamsDto);
+     SimulationManualParamsDto getSimulationManualParamsDto();
      SimulationDocumentInfoDto getInitialSimulationDocumentInfoDto();
      String getSimulationGuid();
      WorldInstance getWorldInstance();
@@ -21,7 +23,6 @@ public interface SimulationDocument {
      void addTickDocument(TickDocument tickDocument);
      void setSimulationStatus(SimulationStatus simulationStatus);
      TickDocument getLatestTickDocument();
-
-    void finishSimulationSession(Long simulationStartingTime);
+     void finishSimulationSession(Long simulationStartingTime);
 
 }

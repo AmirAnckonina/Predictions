@@ -76,10 +76,8 @@ public class SimulatorManagerImpl implements SimulatorManager {
     public SimulationDocumentInfoDto runSimulator() {
 
         establishmentManager.establishSimulation(this.worldBuilderManager.getWorldDefinition());
-        SimulationDocument simulationDocument
-                 = infoManager.createNewSimulationDocument(
-                         worldBuilderManager.getWorldDefinition(), establishmentManager.getEstablishedWorldInstance()
-        );
+        SimulationDocument simulationDocument = infoManager.createNewSimulationDocument(
+                worldBuilderManager.getWorldDefinition(), establishmentManager.getEstablishedWorldInstance());
 
         simulatorExecutionManager.runSimulator(simulationDocument);
         return this.infoManager.getInitialSimulationDocumentInfoDto(simulationDocument.getSimulationGuid());
@@ -196,6 +194,11 @@ public class SimulatorManagerImpl implements SimulatorManager {
                 infoManager.getMappedPropertiesToNumOfEntitiesWithSameValues(propertyName, entityName, guid),
                 guid);
         return mappedProperties;
+    }
+
+    @Override
+    public SimulationManualParamsDto getSimulationManualParamsByGuid(String simulationGuid) {
+        return this.infoManager.getSimulationManualParamsByGuid(simulationGuid);
     }
 
     @Override
