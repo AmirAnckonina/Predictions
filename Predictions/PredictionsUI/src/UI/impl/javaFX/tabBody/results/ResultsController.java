@@ -68,7 +68,7 @@ public class ResultsController {
         scheduledExecutorService = Executors.newScheduledThreadPool(1);
     }
     @FXML
-    public void reRunButtonClicked() {
+    public void reRunButtonClicked(ActionEvent event) {
         try {
             String guid = this.executionListView.getSelectionModel().getSelectedItem().getText();
             this.mainController.onRerunSimulation(guid);

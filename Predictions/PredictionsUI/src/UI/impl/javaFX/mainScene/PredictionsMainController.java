@@ -134,8 +134,6 @@ public class PredictionsMainController {
             detailsComponentController.setTerminationDto(simulationDetailsDto.getTerminationInfo());
             detailsComponentController.showCurrPropertyDtoList();
         }
-
-        System.out.println("detailsTabClicked");
     }
 
     public void resetGUI(){
@@ -147,17 +145,12 @@ public class PredictionsMainController {
 
     public void executionTabClicked() {
         if(currentScreen == eCurrentScreen.EXECUTION && !newSimulationLoadedFlag){ return; }
-
         currentScreen = eCurrentScreen.EXECUTION;
-//        newSimulationLoadedFlag = false;
-
     }
 
     public void resultsTabClicked(){
         if (currentScreen == eCurrentScreen.RESULTS && !newSimulationLoadedFlag) { return; }
-
         currentScreen = eCurrentScreen.RESULTS;
-        //newSimulationLoadedFlag = false;
     }
 
     public void onNewSimulationStart(String simulationGuid) {
@@ -170,7 +163,6 @@ public class PredictionsMainController {
     }
 
     public void moveToResultTab() {
-        System.out.println("Moved to results");
         mainTabPane.getSelectionModel().select(2);
     }
 

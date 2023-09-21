@@ -108,9 +108,7 @@ public class SimulationRunnerImpl implements Runnable {
             }
             try {
                 Thread.sleep(300);
-                System.out.println("In While");
             } catch (InterruptedException e) {
-                System.out.println(e);
             }
         }
         if(deltaTime != null) {
