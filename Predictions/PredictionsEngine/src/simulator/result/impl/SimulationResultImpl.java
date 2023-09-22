@@ -61,6 +61,11 @@ public class SimulationResultImpl implements SimulationResult {
     }
 
     @Override
+    public Map<String, Map<String, Double>> getEntityNumericPropertyAverageMap() {
+        return entityNumericPropertyAverageMap;
+    }
+
+    @Override
     public Map<String, Map<String, Double>> getEntitiesPropertiesConsistencyMap() {
         return entitiesPropertiesConsistencyMap;
 
