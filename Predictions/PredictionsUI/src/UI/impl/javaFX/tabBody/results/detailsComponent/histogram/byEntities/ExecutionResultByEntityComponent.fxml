@@ -16,7 +16,7 @@
    <children>
       <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="170.0">
          <content>
-            <ListView fx:id="entitiesListLV" prefWidth="200.0" />
+            <ListView fx:id="entitiesListLV" prefHeight="166.0" prefWidth="200.0" />
          </content>
       </ScrollPane>
    </children>

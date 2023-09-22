@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.impl.javaFX.tabBody.results.detailsComponent.DetailsResultController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="202.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.impl.javaFX.tabBody.results.detailsComponent.DetailsResultController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" />
   </columnConstraints>
@@ -23,7 +23,7 @@
          <content>
             <HBox>
                <children>
-                  <VBox>
+                  <VBox prefHeight="200.0" prefWidth="282.0">
                      <children>
                         <ScrollPane>
                            <content>
@@ -70,9 +70,9 @@
                         </HBox>
                      </children>
                   </VBox>
-                  <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                  <ScrollPane prefHeight="200.0" prefWidth="261.0">
                      <content>
-                        <ListView fx:id="entitiesContainerLV" prefHeight="200.0" prefWidth="200.0" />
+                        <ListView fx:id="entitiesContainerLV" prefHeight="195.0" prefWidth="253.0" />
                      </content>
                   </ScrollPane>
                </children>
