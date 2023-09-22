@@ -1,7 +1,9 @@
 package simulator.result.manager.api;
+import dto.SimulationDocumentInfoDto;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.entity.impl.EntitiesResult;
 
+import simulator.information.tickDocument.api.TickDocument;
 import simulator.result.api.SimulationResult;
 
 
@@ -23,4 +25,9 @@ public interface ResultManager {
             String entityName, String uuid, String propertyName);
     List<String> getAllPropertiesOfEntityBySimulationIndex(String entityName, Integer simulationIndex);
     SimulationResult getSimulationResultBySimulationId(String simulationID);
+
+    Map<Integer, Map<String, Integer>> createEntitiesPopulationOvertimeMap(Map<Integer, TickDocument> tickDocumentMap);
+    Map<String, Integer> createInitialEntityPopulationMap(SimulationDocumentInfoDto initialSimulationDocumentInfoDto);
+    Map<String, Map<String, Double>> createEntitiesPropertiesConsistencyMap(Map<String, List<EntityInstance>> entitiesInstances, Integer totalTicksCount);
+    Map<String, Double> createPropertiesConsistencyMapForSingleEntity(List<EntityInstance> entityInstancesList, Integer totalTicksCount);
 }

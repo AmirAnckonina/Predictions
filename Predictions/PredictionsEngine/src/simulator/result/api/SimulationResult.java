@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface SimulationResult {
-
-    String getSimulationUuid();
+    String getSimulationGuid();
     Long getSimulationStartingTime();
     PropertyInstance getEntityPropertyInstanceByPropertyName(String entityName, String entityID, String propertyName);
     Integer getNumOfInstancesOfEntityInitialized();
@@ -20,6 +19,17 @@ public interface SimulationResult {
     void setInitializedEntityPopulation();
     void setStartingTime(long startTimeInMilliSec);
     void setTerminationReason(TerminationReason terminationReason);
+
+    void setInitialEntitiesPopulationStatus(Map<String, Integer> initEntitiesPopulationStatus);
+
+    void setEntitiesPopulationOvertimeMap(Map<Integer, Map<String, Integer>> entitiesPopulationOvertimeMap);
+
+    void setEntitiesPropertiesConsistencyMap(Map<String, Map<String, Double>> entitiesPropertiesConsistencyMap);
+
     TerminationReason getTerminationReason();
+
+    Map<Integer, Map<String, Integer>> getEntitiesPopulationOvertimeMap();
+
     List<String> getAllPropertiesOfAllEntities();
+    Integer getTotalTicksCount();
 }

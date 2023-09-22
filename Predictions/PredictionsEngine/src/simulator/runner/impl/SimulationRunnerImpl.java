@@ -49,23 +49,23 @@ public class SimulationRunnerImpl implements Runnable {
     @Override
     public void run() {
 
-        int currTick = 0;
-        AtomicLong currTimeInMilliSec = new AtomicLong(0);
-        AtomicLong startTimeInMilliSec = new AtomicLong();
-        AtomicLong deltaTime = new AtomicLong();
-
-
         Termination termination = this.worldInstance.getTermination();
         List<Rule> rules = this.worldInstance.getRules();
         Map<String, List<EntityInstance>> entitiesInstances = this.worldInstance.getEntitiesInstances();
         SpaceGridInstanceWrapper spaceGridInstanceWrapper = this.crossedExecutionContext.getSpaceGridInstanceWrapper();
         this.simulationDocument.setSimulationStatus(SimulationStatus.RUNNING);
 
+
+        AtomicLong currTimeInMilliSec = new AtomicLong(0);
+        AtomicLong startTimeInMilliSec = new AtomicLong();
+        AtomicLong deltaTime = new AtomicLong();
         startTimeInMilliSec.set(System.currentTimeMillis());
+        int currTick = 1;
 
         while (!termination.shouldTerminate(currTick, currTimeInMilliSec.get())) {
 
             TickDocument currTickDocument =  new TickDocumentImpl(currTick, currTimeInMilliSec.get(), entitiesInstances);
+            currTickDocument.startingTickUpdate();
 
             // 1. Entities movement
             entitiesMovementProcedure();
@@ -87,17 +87,23 @@ public class SimulationRunnerImpl implements Runnable {
             currTick += 1;
             handleSimulationRunInterruptions(termination, deltaTime);
             currTimeInMilliSec.set(System.currentTimeMillis() - startTimeInMilliSec.get() - deltaTime.get());
-
         }
 
-        if(termination.reasonForTerminate() == TerminationReason.USER){
+        finishSimulationProcedure(termination, startTimeInMilliSec, currTick, currTimeInMilliSec.get());
+    }
+
+    private void finishSimulationProcedure(Termination termination, AtomicLong startTimeInMilliSec, Integer totalTicksCount, Long totalTimeInSeconds) {
+
+        if (termination.reasonForTerminate() == TerminationReason.USER) {
             this.simulationDocument.setSimulationStatus(SimulationStatus.PAUSED);
         }else {
             this.simulationDocument.setSimulationStatus(SimulationStatus.COMPLETED);
         }
 
-        this.simulationDocument.finishSimulationSession(startTimeInMilliSec.get());
-        this.simulationDocument.getSimulationResult().setTerminationReason(worldInstance.getTermination().reasonForTerminate());
+        this.simulationDocument.finishSimulationSession(startTimeInMilliSec.get(), totalTicksCount ,totalTimeInSeconds);
+        this.simulationDocument
+                .getSimulationResult()
+                .setTerminationReason(worldInstance.getTermination().reasonForTerminate());
     }
 
     private void handleSimulationRunInterruptions(Termination termination, AtomicLong deltaTime) {

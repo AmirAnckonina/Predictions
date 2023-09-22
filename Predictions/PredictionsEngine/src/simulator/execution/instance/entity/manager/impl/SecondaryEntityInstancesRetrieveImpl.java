@@ -84,11 +84,15 @@ public class SecondaryEntityInstancesRetrieveImpl implements SecondaryEntityInst
                             .findFirst();
 
             // if it exist, so check if it met the condition
-            potentialEntityInstance.ifPresent((entIns) ->
-                    conditionToBeAddedIsTrue[0]
-                            = testConditionForEntityInstanceProcedure(
-                                    entIns, secondaryEntityDef.getConditionExpression()
-                    ));
+            potentialEntityInstance.ifPresent((entIns) -> {
+                        conditionToBeAddedIsTrue[0] = true;
+                        secondaryEntityDef.getConditionExpression().ifPresent((condExpression) -> {
+
+                            conditionToBeAddedIsTrue[0] =
+                                    testConditionForEntityInstanceProcedure(entIns, condExpression);
+
+                        });
+            });
 
             if (potentialEntityInstance.isPresent() && conditionToBeAddedIsTrue[0]) {
                 selectedEntityInstances.add(potentialEntityInstance.get());

@@ -7,4 +7,6 @@ public interface PropertyInstance {
     Object getValue();
     void updateValue(Object val, int currTick);
     Integer getLastTickUpdate();
+
+    Integer getNumOfUpdates();
 }

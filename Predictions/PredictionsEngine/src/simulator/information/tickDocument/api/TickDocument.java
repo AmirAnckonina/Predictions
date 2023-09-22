@@ -7,7 +7,10 @@ import java.util.Map;
 
 public interface TickDocument {
     int getTickNumber();
+
+    Map<String, Integer> getEntitiesPopulationStatusMap();
+
     long getTimePassedInSeconds();
     Map<String, List<EntityInstance>> getEntitiesInstancesMap();
-
+    void startingTickUpdate();
 }

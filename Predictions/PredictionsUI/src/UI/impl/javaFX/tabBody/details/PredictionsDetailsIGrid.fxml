@@ -82,7 +82,7 @@
             <Insets top="5.0" />
          </padding>
       </HBox>
-      <HBox prefHeight="25.0">
+      <HBox prefHeight="42.0" prefWidth="1045.0">
          <children>
             <Label alignment="CENTER" prefHeight="17.0" prefWidth="96.0" text="Termination:">
                <HBox.margin>
