@@ -40,6 +40,6 @@ public class PropertyInstanceImpl implements PropertyInstance {
 
     @Override
     public Integer getNumOfUpdates() {
-        return numOfUpdates;
+        return this.numOfUpdates;
     }
 }

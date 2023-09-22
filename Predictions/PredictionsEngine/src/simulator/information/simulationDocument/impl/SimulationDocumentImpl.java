@@ -162,7 +162,8 @@ public class SimulationDocumentImpl implements SimulationDocument {
     }
 
     @Override
-    public void finishSimulationSession(Long simulationStartingTime, Integer totalTicksCount, Long totalTimeInSeconds) {
+    public void finishSimulationSession(Long simulationStartingTime, Integer totalTicksCount, Long totalTimeInSeconds,
+                                        Map<String, Double> entityInstanceAvrgMap) {
 
         // Should be managed by newResultManager / export the function to infoManager.
         ResultManager resultManager = new ResultManagerImpl();
@@ -179,7 +180,8 @@ public class SimulationDocumentImpl implements SimulationDocument {
         Map<String, Map<String,Double>> entitiesPropertiesConsistencyMap =
                 resultManager.createEntitiesPropertiesConsistencyMap(
                         this.worldInstance.getEntitiesInstances(),
-                        this.simulationResult.getTotalTicksCount());
+                        this.simulationResult.getTotalTicksCount(),
+                        entityInstanceAvrgMap);
 
         Map<String, Map<String, Double>> entitiesNumericPropertyAverageMap =
                 resultManager.createEntitiesNumericPropertyAverageMap(this.worldInstance.getEntitiesInstances());
