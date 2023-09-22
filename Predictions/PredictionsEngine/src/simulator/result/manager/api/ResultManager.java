@@ -30,4 +30,7 @@ public interface ResultManager {
     Map<String, Integer> createInitialEntityPopulationMap(SimulationDocumentInfoDto initialSimulationDocumentInfoDto);
     Map<String, Map<String, Double>> createEntitiesPropertiesConsistencyMap(Map<String, List<EntityInstance>> entitiesInstances, Integer totalTicksCount);
     Map<String, Double> createPropertiesConsistencyMapForSingleEntity(List<EntityInstance> entityInstancesList, Integer totalTicksCount);
+    Map<String, Map<String, Double>> createEntitiesNumericPropertyAverageMap(Map<String, List<EntityInstance>> entitiesInstances);
+
+    Map<String, Double> createPropertiesNumericAverageMapForSingleEntity(List<EntityInstance> entityInstancesList);
 }

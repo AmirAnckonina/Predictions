@@ -1,6 +1,7 @@
 package simulator.result.manager.impl;
 
 import dto.SimulationDocumentInfoDto;
+import enums.PropertyType;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.information.manager.exception.SimulationInformationException;
@@ -15,12 +16,9 @@ import java.util.stream.Collectors;
 
 public class ResultManagerImpl implements ResultManager {
 
-
-
     private Integer lastSimulationResultIndex = 0;
     private Map<Integer,String> mapSimulationIndexToSimulationId;
     private Map<String,SimulationResult> simulationResults;
-
 
     public ResultManagerImpl() {
         simulationResults = new HashMap<>();
@@ -259,6 +257,55 @@ public class ResultManagerImpl implements ResultManager {
 
 
         return unitePropertiesConsistencyMapOfAllInstances;
+    }
+
+    @Override
+    public Map<String, Map<String, Double>> createEntitiesNumericPropertyAverageMap(Map<String, List<EntityInstance>> entitiesInstances) {
+
+        Map<String, Map<String, Double>> entitiesNumericPropertyAverageMap = new HashMap<>();
+
+        entitiesInstances.forEach((entityName, entityInstancesList) -> {
+            if (entityInstancesList.isEmpty()) {
+                entitiesNumericPropertyAverageMap.put(entityName, new HashMap<>());
+            } else {
+                entitiesNumericPropertyAverageMap.put(
+                        entityName,
+                        createPropertiesNumericAverageMapForSingleEntity(entityInstancesList));
+            }
+        });
+
+        return entitiesNumericPropertyAverageMap;
+    }
+
+    @Override
+    public Map<String, Double> createPropertiesNumericAverageMapForSingleEntity(List<EntityInstance> entityInstancesList) {
+
+            Map<String, Double> numericPropertiesAverageValueMap = new HashMap<>();
+
+            Map<String, Double> numericPropertySumOverAllInstancesMap = new HashMap<>();
+
+            entityInstancesList
+                    .forEach((entityInstance -> {
+                        entityInstance
+                                .getPropertiesMap()
+                                .forEach((propertyName, propertyInstance) -> {
+                                    if (propertyInstance.getPropertyDefinition().getType() == PropertyType.FLOAT) {
+                                        numericPropertySumOverAllInstancesMap.put(
+                                                propertyName,
+                                                numericPropertySumOverAllInstancesMap.getOrDefault(propertyName, 0.0) +
+                                                        Double.parseDouble(propertyInstance.getValue().toString()));
+                                    }
+                                });
+                    }));
+
+            numericPropertySumOverAllInstancesMap
+                    .forEach((propertyName, propertySum) -> {
+                        numericPropertiesAverageValueMap.put(
+                                propertyName,
+                                propertySum / entityInstancesList.size());
+                    });
+
+            return numericPropertiesAverageValueMap;
     }
 
 }

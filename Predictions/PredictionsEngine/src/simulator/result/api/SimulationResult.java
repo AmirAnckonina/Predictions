@@ -26,6 +26,8 @@ public interface SimulationResult {
 
     void setEntitiesPropertiesConsistencyMap(Map<String, Map<String, Double>> entitiesPropertiesConsistencyMap);
 
+    void setEntityNumericPropertyAverageMap(Map<String, Map<String, Double>> entityNumericPropertyAverageMap);
+
     TerminationReason getTerminationReason();
 
     Map<Integer, Map<String, Integer>> getEntitiesPopulationOvertimeMap();

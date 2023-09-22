@@ -181,9 +181,13 @@ public class SimulationDocumentImpl implements SimulationDocument {
                         this.worldInstance.getEntitiesInstances(),
                         this.simulationResult.getTotalTicksCount());
 
+        Map<String, Map<String, Double>> entitiesNumericPropertyAverageMap =
+                resultManager.createEntitiesNumericPropertyAverageMap(this.worldInstance.getEntitiesInstances());
+
         this.simulationResult.setInitialEntitiesPopulationStatus(initialEntityPopulationMap);
         this.simulationResult.setEntitiesPopulationOvertimeMap(entitiesPopulationOvertimeMap);
         this.simulationResult.setEntitiesPropertiesConsistencyMap(entitiesPropertiesConsistencyMap);
+        this.simulationResult.setEntityNumericPropertyAverageMap(entitiesNumericPropertyAverageMap);
 
         simulationStatus = SimulationStatus.COMPLETED;
     }

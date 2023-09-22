@@ -16,6 +16,7 @@ public class SimulationResultImpl implements SimulationResult {
     private Map<String, Set<String>> entitiesPropertiesNames;
     private Map<Integer, Map<String, Integer>> entitiesPopulationOvertimeMap;
     private Map<String, Map<String, Double>> entitiesPropertiesConsistencyMap;
+    private Map<String, Map<String, Double>> entityNumericPropertyAverageMap;
     private Long simulatorStartingTime;
     private Integer totalTicksCount;
     private Integer totalTimeInSeconds;
@@ -51,6 +52,11 @@ public class SimulationResultImpl implements SimulationResult {
     @Override
     public void setEntitiesPropertiesConsistencyMap(Map<String, Map<String, Double>> entitiesPropertiesConsistencyMap) {
         this.entitiesPropertiesConsistencyMap = entitiesPropertiesConsistencyMap;
+    }
+
+    @Override
+    public void setEntityNumericPropertyAverageMap(Map<String, Map<String, Double>> entityNumericPropertyAverageMap) {
+        this.entityNumericPropertyAverageMap = entityNumericPropertyAverageMap;
     }
 
     public TerminationReason getTerminationReason() {
