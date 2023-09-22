@@ -286,10 +286,15 @@ public class ResultsController {
         detailsResultController.reset();
     }
     public void startUIPollingThread() {
-        if (!executionListView.getItems().isEmpty()) {
 
-            this.scheduledExecutorService = Executors.newScheduledThreadPool(1);
-            this.scheduledExecutorService.scheduleAtFixedRate(this::pollUpdatedSimulationDocumentDto, 0, 200, TimeUnit.MILLISECONDS);
-        }
+            try {
+                if (!executionListView.getItems().isEmpty()) {
+                    this.scheduledExecutorService = Executors.newScheduledThreadPool(1);
+                    Thread.sleep(200);
+                    this.scheduledExecutorService.scheduleAtFixedRate(this::pollUpdatedSimulationDocumentDto, 0, 200, TimeUnit.MILLISECONDS);
+                }
+
+            } catch (InterruptedException e) {
+            }
     }
 }

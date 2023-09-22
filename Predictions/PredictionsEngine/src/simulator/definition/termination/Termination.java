@@ -23,7 +23,6 @@ public class Termination {
     }
 
     public Optional<Integer> getSecondsTermination() {
-
         return Optional.ofNullable(secondsTermination);
     }
 
@@ -40,6 +39,7 @@ public class Termination {
 
         if (terminateFlagUp) {
             shouldTerminateResult = true;
+            terminateFlagUp = false;
             this.terminationReason = TerminationReason.USER;
         } else if (terminationWillBeDoneByUser) {
             shouldTerminateResult = false;
