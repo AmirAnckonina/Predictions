@@ -1,5 +1,7 @@
 package simulator.result.impl;
 
+import dto.PropertiesAvgConsistencyDto;
+import dto.PropertiesConsistencyDto;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.execution.instance.world.api.WorldInstance;
@@ -54,8 +56,14 @@ public class SimulationResultImpl implements SimulationResult {
     }
 
     @Override
-    public Map<String, Map<String, Double>> getEntitiesPropertiesConsistencyMap() {
-        return entitiesPropertiesConsistencyMap;
+    public PropertiesConsistencyDto getEntitiesPropertiesConsistencyMap() {
+        PropertiesConsistencyDto res = new PropertiesConsistencyDto(entitiesPropertiesConsistencyMap);
+        return res;
+    }
+
+    @Override
+    public PropertiesAvgConsistencyDto getEntitiesPopulationOvertimeDto() {
+        return null;
     }
 
     public TerminationReason getTerminationReason() {
