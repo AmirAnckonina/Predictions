@@ -161,7 +161,6 @@ public class ResultsController {
             resultComponentHolderGP.getChildren().clear();
             resultComponentHolderGP.getChildren().add(gpComponent);
         } catch (Exception e) {
-            e.getMessage();
             e.printStackTrace(System.out);
         }
     }
