@@ -16,9 +16,10 @@ public class SimulationResultImpl implements SimulationResult {
     private Map<String, Set<String>> entitiesPropertiesNames;
     private Map<Integer, Map<String, Integer>> entitiesPopulationOvertimeMap;
     private Map<String, Map<String, Double>> entitiesPropertiesConsistencyMap;
+    private Map<String, Map<String, Double>> entityNumericPropertyAverageMap;
     private Long simulatorStartingTime;
     private Integer totalTicksCount;
-    private Integer totalTimeInSeconds;
+    private Long totalTimeInSeconds;
     private TerminationReason terminationReason;
 
     public SimulationResultImpl(
@@ -30,9 +31,10 @@ public class SimulationResultImpl implements SimulationResult {
 
         this.simulationGuid = simulationGuid;
         this.worldInstance = worldInstance;
-        this.initEntitiesPopulationStatus = initEntitiesPopulationStatus;
         this.simulatorStartingTime = simulatorStartingTime;
-        this.entitiesPopulationOvertimeMap = entitiesPopulationOvertimeMap;
+        this.totalTicksCount = totalTicksCount;
+        this.totalTimeInSeconds = totalTimeInSeconds;
+
         entitiesPropertiesNames = new HashMap<>();
         worldInstance.getEntityDefinitionMap().forEach((entity,entityDefinition) ->
                 entitiesPropertiesNames.put(entity, entityDefinition.getProperties().keySet()));
@@ -54,10 +56,17 @@ public class SimulationResultImpl implements SimulationResult {
     }
 
     @Override
-    public Map<String, Map<String, Double>> getEntitiesPropertiesConsistencyMap() {
-        return entitiesPropertiesConsistencyMap;
+    public void setEntityNumericPropertyAverageMap(Map<String, Map<String, Double>> entityNumericPropertyAverageMap) {
+        this.entityNumericPropertyAverageMap = entityNumericPropertyAverageMap;
     }
 
+    @Override
+    public Map<String, Map<String, Double>> getEntitiesPropertiesConsistencyMap() {
+        return entitiesPropertiesConsistencyMap;
+
+    }
+
+    @Override
     public TerminationReason getTerminationReason() {
         return terminationReason;
     }
@@ -79,10 +88,12 @@ public class SimulationResultImpl implements SimulationResult {
         return this.totalTicksCount;
     }
 
+    @Override
     public void setTerminationReason(TerminationReason terminationReason) {
         this.terminationReason = terminationReason;
     }
 
+    @Override
     public void setInitializedEntityPopulation() {
 
         Map<String, List<EntityInstance>> entitiesInstances = this.worldInstance.getEntitiesInstances();
