@@ -6,6 +6,7 @@ import UI.impl.javaFX.tabBody.results.detailsComponent.ResultsModel;
 import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byEntities.ExecutionResultByEntityController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byProperty.ExecutionResultByPropertyController;
 import UI.impl.javaFX.top.PredictionsTopModel;
+import dto.PropertiesConsistencyDto;
 import dto.SimulationDocumentInfoDto;
 import dto.SimulationResultMappedProperties;
 import enums.SimulationStatus;
@@ -192,6 +193,12 @@ public class ResultsController {
 //        executionResultByPropertyController.setPropertiesList(resMapped);
         List<String> resList = simulatorManager.getPropertiesByEntity(entityName);
         executionResultByPropertyController.setPropertiesList(resList);
+    }
+
+    public void entityChosenInHistogramByPropertyStatistic(String entityName){
+
+//        PropertiesConsistencyDto = simulatorManager.getSim (entityName);
+//        executionResultByPropertyController.setPropertiesList(resList);
     }
 
     public void propertyChosenInHistogramByProperty(String propertyName, String entityName){
