@@ -52,9 +52,11 @@ public class SimulationRunnerImpl implements Runnable {
         Termination termination = this.worldInstance.getTermination();
         List<Rule> rules = this.worldInstance.getRules();
         Map<String, List<EntityInstance>> entitiesInstances = this.worldInstance.getEntitiesInstances();
+        Map<String, Double> entityInstanceAvrgMap = new HashMap<>();
         SpaceGridInstanceWrapper spaceGridInstanceWrapper = this.crossedExecutionContext.getSpaceGridInstanceWrapper();
         this.simulationDocument.setSimulationStatus(SimulationStatus.RUNNING);
-
+        entitiesInstances.forEach((entityName, numInstances) ->
+                entityInstanceAvrgMap.put(entityName, Double.valueOf(numInstances.size())));
 
         AtomicLong currTimeInMilliSec = new AtomicLong(0);
         AtomicLong startTimeInMilliSec = new AtomicLong();
@@ -87,12 +89,15 @@ public class SimulationRunnerImpl implements Runnable {
             currTick += 1;
             handleSimulationRunInterruptions(termination, deltaTime);
             currTimeInMilliSec.set(System.currentTimeMillis() - startTimeInMilliSec.get() - deltaTime.get());
+            entitiesInstances.forEach((entityName,numOfInstances) ->
+                    entityInstanceAvrgMap.put(entityName, entityInstanceAvrgMap.get(entityName) + Double.valueOf(numOfInstances.size())));
         }
-
-        finishSimulationProcedure(termination, startTimeInMilliSec, currTick, currTimeInMilliSec.get());
+        Double currTickCopy = new Double(currTick);
+        entityInstanceAvrgMap.forEach((entity, num) -> entityInstanceAvrgMap.put(entity, entityInstanceAvrgMap.get(entity) / currTickCopy));
+        finishSimulationProcedure(termination, startTimeInMilliSec, currTick, currTimeInMilliSec.get(), entityInstanceAvrgMap);
     }
 
-    private void finishSimulationProcedure(Termination termination, AtomicLong startTimeInMilliSec, Integer totalTicksCount, Long totalTimeInSeconds) {
+    private void finishSimulationProcedure(Termination termination, AtomicLong startTimeInMilliSec, Integer totalTicksCount, Long totalTimeInSeconds, Map<String, Double> entityInstanceAvrgMap) {
 
         if (termination.reasonForTerminate() == TerminationReason.USER) {
             this.simulationDocument.setSimulationStatus(SimulationStatus.PAUSED);
@@ -100,7 +105,7 @@ public class SimulationRunnerImpl implements Runnable {
             this.simulationDocument.setSimulationStatus(SimulationStatus.COMPLETED);
         }
 
-        this.simulationDocument.finishSimulationSession(startTimeInMilliSec.get(), totalTicksCount ,totalTimeInSeconds);
+        this.simulationDocument.finishSimulationSession(startTimeInMilliSec.get(), totalTicksCount ,totalTimeInSeconds, entityInstanceAvrgMap);
         this.simulationDocument
                 .getSimulationResult()
                 .setTerminationReason(worldInstance.getTermination().reasonForTerminate());

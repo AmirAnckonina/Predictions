@@ -188,7 +188,8 @@ public class ResultManagerImpl implements ResultManager {
     }
 
     @Override
-    public Map<String, Map<String, Double>> createEntitiesPropertiesConsistencyMap(Map<String, List<EntityInstance>> entitiesInstances, Integer totalTicksCount) {
+    public Map<String, Map<String, Double>> createEntitiesPropertiesConsistencyMap(Map<String, List<EntityInstance>> entitiesInstances, Integer totalTicksCount,
+                                                                                   Map<String, Double> entityInstanceAvrgMap) {
 
         Map<String, Map<String, Double>> entitiesPropertiesConsistencyMap = new HashMap<>();
 
@@ -196,7 +197,8 @@ public class ResultManagerImpl implements ResultManager {
             System.out.println();
             entitiesPropertiesConsistencyMap.put(
                     entityName,
-                    createPropertiesConsistencyMapForSingleEntity(entityInstancesList, totalTicksCount)
+                    createPropertiesConsistencyMapForSingleEntity(entityInstancesList, totalTicksCount, entityInstanceAvrgMap,
+                            entityName)
             );
         });
 
@@ -204,7 +206,8 @@ public class ResultManagerImpl implements ResultManager {
     }
 
     @Override
-    public Map<String, Double> createPropertiesConsistencyMapForSingleEntity(List<EntityInstance> entityInstancesList, Integer totalTicksCount) {
+    public Map<String, Double> createPropertiesConsistencyMapForSingleEntity(List<EntityInstance> entityInstancesList, Integer totalTicksCount,
+                                                                             Map<String, Double> entityInstanceAvrgMap, String entityName) {
 
         //Map<String,Double> unitePropertiesConsistencyMapOfAllInstances = new HashMap<>();
         List<Map<String, Double>> singleInstancePropertyConsistencyMapList = new ArrayList<>();
@@ -254,7 +257,7 @@ public class ResultManagerImpl implements ResultManager {
                 .forEach((propertyName, propertyConsistencySum) -> {
                     unitePropertiesConsistencyMapOfAllInstances.put(
                             propertyName,
-                            propertyConsistencySum / entityInstancesList.size());
+                            propertyConsistencySum / entityInstanceAvrgMap.get(entityName));
                 });
 
 
