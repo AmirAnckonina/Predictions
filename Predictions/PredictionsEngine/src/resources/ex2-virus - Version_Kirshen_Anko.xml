@@ -7,7 +7,7 @@
 			<PRD-range from="1" to="5"/>			
 		</PRD-env-property>
 	</PRD-environment>
-	<PRD-grid rows="50" columns="100"/>
+	<PRD-grid rows="100" columns="100"/>
 	<PRD-entities>
 		<PRD-entity name="Healthy">
 			<PRD-properties>
@@ -27,7 +27,7 @@
 				</PRD-property>
 				<PRD-property type="boolean">
 					<PRD-name>vacinated</PRD-name>
-					<PRD-value random-initialize="false" init="false"></PRD-value>
+					<PRD-value random-initialize="false" init="false"/>
 				</PRD-property>
 			</PRD-properties>
 		</PRD-entity>
@@ -43,13 +43,13 @@
 					</PRD-actions>	
 				</PRD-action>
 			</PRD-actions>
-			<PRD-activation probability="0.7"/>
+			<PRD-activation probability="0.3"/>
 		</PRD-rule>
 		<PRD-rule name="give vacine">
 			<PRD-actions>
-				<PRD-action type="set" entity="Sick" property="vacinated" value="true"></PRD-action>
+				<PRD-action type="set" entity="Sick" property="vacinated" value="true"/>
 			</PRD-actions>
-			<PRD-activation ticks="5" probability="0.5"/>
+			<PRD-activation ticks="5" probability="0.1"/>
 		</PRD-rule>
 		<PRD-rule name="heal">
 			<PRD-actions>

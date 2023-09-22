@@ -30,6 +30,8 @@ public interface SimulationResult {
     PropertiesConsistencyDto getEntitiesPropertiesConsistencyMap();
     PropertiesAvgConsistencyDto getEntitiesPopulationOvertimeDto();
 
+    void setEntityNumericPropertyAverageMap(Map<String, Map<String, Double>> entityNumericPropertyAverageMap);
+
     TerminationReason getTerminationReason();
 
     Map<Integer, Map<String, Integer>> getEntitiesPopulationOvertimeMap();

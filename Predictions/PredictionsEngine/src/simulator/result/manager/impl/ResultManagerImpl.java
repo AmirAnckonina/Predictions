@@ -1,6 +1,7 @@
 package simulator.result.manager.impl;
 
 import dto.SimulationDocumentInfoDto;
+import enums.PropertyType;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.information.manager.exception.SimulationInformationException;
@@ -15,12 +16,9 @@ import java.util.stream.Collectors;
 
 public class ResultManagerImpl implements ResultManager {
 
-
-
     private Integer lastSimulationResultIndex = 0;
     private Map<Integer,String> mapSimulationIndexToSimulationId;
     private Map<String,SimulationResult> simulationResults;
-
 
     public ResultManagerImpl() {
         simulationResults = new HashMap<>();
@@ -194,11 +192,10 @@ public class ResultManagerImpl implements ResultManager {
         Map<String, Map<String, Double>> entitiesPropertiesConsistencyMap = new HashMap<>();
 
         entitiesInstances.forEach((entityName, entityInstancesList) -> {
-            System.out.println();
             entitiesPropertiesConsistencyMap.put(
                     entityName,
-                    createPropertiesConsistencyMapForSingleEntity(entityInstancesList, totalTicksCount, entityInstanceAvrgMap,
-                            entityName)
+                    createPropertiesConsistencyMapForSingleEntity(
+                            entityInstancesList, totalTicksCount, entityInstanceAvrgMap, entityName)
             );
         });
 
@@ -206,62 +203,106 @@ public class ResultManagerImpl implements ResultManager {
     }
 
     @Override
-    public Map<String, Double> createPropertiesConsistencyMapForSingleEntity(List<EntityInstance> entityInstancesList, Integer totalTicksCount,
-                                                                             Map<String, Double> entityInstanceAvrgMap, String entityName) {
+    public Map<String, Double> createPropertiesConsistencyMapForSingleEntity(
+            List<EntityInstance> entityInstancesList,
+            Integer totalTicksCount,
+            Map<String, Double> entityInstanceAvrgMap,
+            String entityName) {
 
-        //Map<String,Double> unitePropertiesConsistencyMapOfAllInstances = new HashMap<>();
+        Map<String,Double> unitePropertiesConsistencyMapOfAllInstances =  new HashMap<>();
         List<Map<String, Double>> singleInstancePropertyConsistencyMapList = new ArrayList<>();
+        if (!entityInstancesList.isEmpty()) {
+            entityInstancesList
+                    .forEach(entityInstance -> {
+                        Map<String,Double> singlePropertyConsistencyMap = new HashMap<>();
 
-        entityInstancesList
-                .forEach(entityInstance -> {
-                    Map<String,Double> singlePropertyConsistencyMap =
-                            entityInstance
-                                    .getPropertiesMap()
-                                    .values()
-                                    .stream()
-                                    .collect(Collectors.toMap(
-                                            propertyInstance -> propertyInstance.getPropertyDefinition().getName(),
-                                            propertyInstance -> Double.valueOf(totalTicksCount) / propertyInstance.getNumOfUpdates()));
+                        entityInstance
+                                .getPropertiesMap()
+                                .forEach((propertyName, propertyInstance) -> {
+                                    singlePropertyConsistencyMap.put(
+                                            propertyName,
+                                            totalTicksCount.doubleValue() / propertyInstance.getNumOfUpdates().doubleValue());
+                                });
 
-                    singleInstancePropertyConsistencyMapList.add(singlePropertyConsistencyMap);
-                });
-
-        Map<String,Double> unitePropertiesConsistencyMapOfAllInstances = new HashMap<>();
+                        singleInstancePropertyConsistencyMapList.add(singlePropertyConsistencyMap);
+                    });
 
 
-        if (singleInstancePropertyConsistencyMapList.isEmpty()) {
+            singleInstancePropertyConsistencyMapList
+                    .get(0)
+                    .keySet()
+                    .forEach((propertyName) -> unitePropertiesConsistencyMapOfAllInstances.put(propertyName, 0.0));
 
-            throw new SimulationInformationException("No instances from the current entity, couldn't create properties consistency map");
-        } else {
+            singleInstancePropertyConsistencyMapList
+                    .forEach((singleInstancePropertyConsistencyMap) -> {
+                        singleInstancePropertyConsistencyMap
+                                .keySet()
+                                .forEach((propertyName) -> {
+                                    unitePropertiesConsistencyMapOfAllInstances.put(
+                                            propertyName,
+                                            unitePropertiesConsistencyMapOfAllInstances.get(propertyName) +
+                                                    singleInstancePropertyConsistencyMap.get(propertyName));
+                                });
+                    });
 
+            unitePropertiesConsistencyMapOfAllInstances
+                    .forEach((propertyName, propertyConsistencySum) -> {
+                        unitePropertiesConsistencyMapOfAllInstances.put(
+                                propertyName,
+                                propertyConsistencySum / entityInstanceAvrgMap.get(entityName));
+                    });
         }
 
-        singleInstancePropertyConsistencyMapList
-                .get(0)
-                .keySet()
-                .forEach((propertyName) -> unitePropertiesConsistencyMapOfAllInstances.put(propertyName, 0.0));
-
-        singleInstancePropertyConsistencyMapList
-                .forEach((singleInstancePropertyConsistencyMap) -> {
-                    singleInstancePropertyConsistencyMap
-                            .keySet()
-                            .forEach((propertyName) -> {
-                                unitePropertiesConsistencyMapOfAllInstances.put(
-                                        propertyName,
-                                        unitePropertiesConsistencyMapOfAllInstances.get(propertyName) +
-                                                singleInstancePropertyConsistencyMap.get(propertyName));
-                            });
-                });
-
-        unitePropertiesConsistencyMapOfAllInstances
-                .forEach((propertyName, propertyConsistencySum) -> {
-                    unitePropertiesConsistencyMapOfAllInstances.put(
-                            propertyName,
-                            propertyConsistencySum / entityInstanceAvrgMap.get(entityName));
-                });
-
-
         return unitePropertiesConsistencyMapOfAllInstances;
+    }
+
+    @Override
+    public Map<String, Map<String, Double>> createEntitiesNumericPropertyAverageMap(Map<String, List<EntityInstance>> entitiesInstances) {
+
+        Map<String, Map<String, Double>> entitiesNumericPropertyAverageMap = new HashMap<>();
+
+        entitiesInstances.forEach((entityName, entityInstancesList) -> {
+            if (entityInstancesList.isEmpty()) {
+                entitiesNumericPropertyAverageMap.put(entityName, new HashMap<>());
+            } else {
+                entitiesNumericPropertyAverageMap.put(
+                        entityName,
+                        createPropertiesNumericAverageMapForSingleEntity(entityInstancesList));
+            }
+        });
+
+        return entitiesNumericPropertyAverageMap;
+    }
+
+    @Override
+    public Map<String, Double> createPropertiesNumericAverageMapForSingleEntity(List<EntityInstance> entityInstancesList) {
+
+            Map<String, Double> numericPropertiesAverageValueMap = new HashMap<>();
+
+            Map<String, Double> numericPropertySumOverAllInstancesMap = new HashMap<>();
+
+            entityInstancesList
+                    .forEach((entityInstance -> {
+                        entityInstance
+                                .getPropertiesMap()
+                                .forEach((propertyName, propertyInstance) -> {
+                                    if (propertyInstance.getPropertyDefinition().getType() == PropertyType.FLOAT) {
+                                        numericPropertySumOverAllInstancesMap.put(
+                                                propertyName,
+                                                numericPropertySumOverAllInstancesMap.getOrDefault(propertyName, 0.0) +
+                                                        Double.parseDouble(propertyInstance.getValue().toString()));
+                                    }
+                                });
+                    }));
+
+            numericPropertySumOverAllInstancesMap
+                    .forEach((propertyName, propertySum) -> {
+                        numericPropertiesAverageValueMap.put(
+                                propertyName,
+                                propertySum / entityInstancesList.size());
+                    });
+
+            return numericPropertiesAverageValueMap;
     }
 
 }
