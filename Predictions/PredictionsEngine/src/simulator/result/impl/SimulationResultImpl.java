@@ -10,22 +10,47 @@ import java.util.*;
 import java.util.Map.Entry;
 
 public class SimulationResultImpl implements SimulationResult {
-    private String simulationUuid;
+    private String simulationGuid;
     private WorldInstance worldInstance;
     private Map<String, Integer> initEntitiesPopulationStatus;
     private Map<String, Set<String>> entitiesPropertiesNames;
+    private Map<Integer, Map<String, Integer>> entitiesPopulationOvertimeMap;
+    private Map<String, Map<String, Double>> entitiesPropertiesConsistencyMap;
     private Long simulatorStartingTime;
+    private Integer totalTicksCount;
+    private Integer totalTimeInSeconds;
     private TerminationReason terminationReason;
 
-    public SimulationResultImpl(String simulationUuid, WorldInstance worldInstance, Map<String, Integer> initEntitiesPopulationStatus,
-                                Long simulatorStartingTime) {
-        this.simulationUuid = simulationUuid;
+    public SimulationResultImpl(
+            String simulationGuid,
+            WorldInstance worldInstance,
+            Long simulatorStartingTime,
+            Integer totalTicksCount,
+            Long totalTimeInSeconds) {
+
+        this.simulationGuid = simulationGuid;
         this.worldInstance = worldInstance;
         this.initEntitiesPopulationStatus = initEntitiesPopulationStatus;
         this.simulatorStartingTime = simulatorStartingTime;
+        this.entitiesPopulationOvertimeMap = entitiesPopulationOvertimeMap;
         entitiesPropertiesNames = new HashMap<>();
         worldInstance.getEntityDefinitionMap().forEach((entity,entityDefinition) ->
                 entitiesPropertiesNames.put(entity, entityDefinition.getProperties().keySet()));
+    }
+
+    @Override
+    public void setInitialEntitiesPopulationStatus(Map<String, Integer> initEntitiesPopulationStatus) {
+        this.initEntitiesPopulationStatus = initEntitiesPopulationStatus;
+    }
+
+    @Override
+    public void setEntitiesPopulationOvertimeMap(Map<Integer, Map<String, Integer>> entitiesPopulationOvertimeMap) {
+        this.entitiesPopulationOvertimeMap = entitiesPopulationOvertimeMap;
+    }
+
+    @Override
+    public void setEntitiesPropertiesConsistencyMap(Map<String, Map<String, Double>> entitiesPropertiesConsistencyMap) {
+        this.entitiesPropertiesConsistencyMap = entitiesPropertiesConsistencyMap;
     }
 
     public TerminationReason getTerminationReason() {
@@ -33,10 +58,20 @@ public class SimulationResultImpl implements SimulationResult {
     }
 
     @Override
+    public Map<Integer, Map<String, Integer>> getEntitiesPopulationOvertimeMap() {
+        return entitiesPopulationOvertimeMap;
+    }
+
+    @Override
     public List<String> getAllPropertiesOfAllEntities() {
         List<String> res = new ArrayList<>();
         this.entitiesPropertiesNames.keySet().forEach(entityName -> res.addAll(getEntityPropertiesNames(entityName)));
         return res;
+    }
+
+    @Override
+    public Integer getTotalTicksCount() {
+        return this.totalTicksCount;
     }
 
     public void setTerminationReason(TerminationReason terminationReason) {
@@ -58,8 +93,8 @@ public class SimulationResultImpl implements SimulationResult {
     }
 
     @Override
-    public String getSimulationUuid() {
-        return this.simulationUuid;
+    public String getSimulationGuid() {
+        return this.simulationGuid;
     }
 
     @Override

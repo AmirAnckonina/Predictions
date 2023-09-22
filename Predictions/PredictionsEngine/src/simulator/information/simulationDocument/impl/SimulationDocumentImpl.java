@@ -12,13 +12,15 @@ import simulator.information.tickDocument.api.TickDocument;
 import simulator.information.tickDocument.impl.TickDocumentImpl;
 import simulator.result.api.SimulationResult;
 import simulator.result.impl.SimulationResultImpl;
+import simulator.result.manager.api.ResultManager;
+import simulator.result.manager.impl.ResultManagerImpl;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public class SimulationDocumentImpl implements SimulationDocument {
-    private static final Integer INIT_TICK = -1;
+    private static final Integer INIT_TICK = 0;
     private String SimulationGuid;
     private WorldInstance worldInstance;
     private Map<Integer, TickDocument> tickDocumentMap;
@@ -160,10 +162,29 @@ public class SimulationDocumentImpl implements SimulationDocument {
     }
 
     @Override
-    public void finishSimulationSession(Long simulationStartingTime) {
-        this.simulationResult = new SimulationResultImpl(this.SimulationGuid, this.worldInstance,
-                this.getInitialSimulationDocumentInfoDto().getInitialEntityPopulationMap(),
-                simulationStartingTime);
+    public void finishSimulationSession(Long simulationStartingTime, Integer totalTicksCount, Long totalTimeInSeconds) {
+
+        // Should be managed by newResultManager / export the function to infoManager.
+        ResultManager resultManager = new ResultManagerImpl();
+
+        this.simulationResult =
+                new SimulationResultImpl(this.SimulationGuid, this.worldInstance, simulationStartingTime, totalTicksCount, totalTimeInSeconds);
+
+        Map<String, Integer> initialEntityPopulationMap
+                = resultManager.createInitialEntityPopulationMap(this.getInitialSimulationDocumentInfoDto());
+
+        Map<Integer, Map<String,Integer>> entitiesPopulationOvertimeMap =
+                resultManager.createEntitiesPopulationOvertimeMap(this.tickDocumentMap);
+
+        Map<String, Map<String,Double>> entitiesPropertiesConsistencyMap =
+                resultManager.createEntitiesPropertiesConsistencyMap(
+                        this.worldInstance.getEntitiesInstances(),
+                        this.simulationResult.getTotalTicksCount());
+
+        this.simulationResult.setInitialEntitiesPopulationStatus(initialEntityPopulationMap);
+        this.simulationResult.setEntitiesPopulationOvertimeMap(entitiesPopulationOvertimeMap);
+        this.simulationResult.setEntitiesPropertiesConsistencyMap(entitiesPropertiesConsistencyMap);
+
         simulationStatus = SimulationStatus.COMPLETED;
     }
 }

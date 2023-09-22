@@ -54,7 +54,7 @@ public class ActionSecondaryEntityDefinitionImpl implements ActionSecondaryEntit
     }
 
     @Override
-    public ConditionExpression getConditionExpression() {
-        return this.conditionExpression;
+    public Optional<ConditionExpression> getConditionExpression() {
+        return Optional.ofNullable(this.conditionExpression);
     }
 }

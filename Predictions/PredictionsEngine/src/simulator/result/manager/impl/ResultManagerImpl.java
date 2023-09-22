@@ -1,13 +1,17 @@
 package simulator.result.manager.impl;
 
+import dto.SimulationDocumentInfoDto;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
+import simulator.information.manager.exception.SimulationInformationException;
+import simulator.information.tickDocument.api.TickDocument;
 import simulator.result.api.SimulationResult;
 import simulator.result.manager.api.ResultManager;
 import simulator.execution.instance.entity.impl.EntitiesResult;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ResultManagerImpl implements ResultManager {
 
@@ -162,6 +166,99 @@ public class ResultManagerImpl implements ResultManager {
 
     public SimulationResult getSimulationResultBySimulationId(String simulationID){
         return this.simulationResults.get(simulationID);
+    }
+
+    @Override
+    public Map<Integer, Map<String, Integer>> createEntitiesPopulationOvertimeMap(Map<Integer, TickDocument> tickDocumentMap) {
+        Map<Integer, Map<String,Integer>> entitiesPopulationOvertimeMap =
+                tickDocumentMap
+                        .values()
+                        .stream()
+                        .collect(Collectors.toMap(
+                                TickDocument::getTickNumber,
+                                TickDocument::getEntitiesPopulationStatusMap
+                        ));
+
+        return entitiesPopulationOvertimeMap;
+    }
+
+    @Override
+    public Map<String, Integer> createInitialEntityPopulationMap(SimulationDocumentInfoDto initialSimulationDocumentInfoDto) {
+        return initialSimulationDocumentInfoDto.getInitialEntityPopulationMap();
+    }
+
+    @Override
+    public Map<String, Map<String, Double>> createEntitiesPropertiesConsistencyMap(Map<String, List<EntityInstance>> entitiesInstances, Integer totalTicksCount) {
+
+        Map<String, Map<String, Double>> entitiesPropertiesConsistencyMap = new HashMap<>();
+
+        entitiesInstances.forEach((entityName, entityInstancesList) -> {
+            System.out.println();
+            entitiesPropertiesConsistencyMap.put(
+                    entityName,
+                    createPropertiesConsistencyMapForSingleEntity(entityInstancesList, totalTicksCount)
+            );
+        });
+
+        return entitiesPropertiesConsistencyMap;
+    }
+
+    @Override
+    public Map<String, Double> createPropertiesConsistencyMapForSingleEntity(List<EntityInstance> entityInstancesList, Integer totalTicksCount) {
+
+        //Map<String,Double> unitePropertiesConsistencyMapOfAllInstances = new HashMap<>();
+        List<Map<String, Double>> singleInstancePropertyConsistencyMapList = new ArrayList<>();
+
+        entityInstancesList
+                .forEach(entityInstance -> {
+                    Map<String,Double> singlePropertyConsistencyMap =
+                            entityInstance
+                                    .getPropertiesMap()
+                                    .values()
+                                    .stream()
+                                    .collect(Collectors.toMap(
+                                            propertyInstance -> propertyInstance.getPropertyDefinition().getName(),
+                                            propertyInstance -> Double.valueOf(totalTicksCount) / propertyInstance.getNumOfUpdates()));
+
+                    singleInstancePropertyConsistencyMapList.add(singlePropertyConsistencyMap);
+                });
+
+        Map<String,Double> unitePropertiesConsistencyMapOfAllInstances = new HashMap<>();
+
+
+        if (singleInstancePropertyConsistencyMapList.isEmpty()) {
+
+            throw new SimulationInformationException("No instances from the current entity, couldn't create properties consistency map");
+        } else {
+
+        }
+
+        singleInstancePropertyConsistencyMapList
+                .get(0)
+                .keySet()
+                .forEach((propertyName) -> unitePropertiesConsistencyMapOfAllInstances.put(propertyName, 0.0));
+
+        singleInstancePropertyConsistencyMapList
+                .forEach((singleInstancePropertyConsistencyMap) -> {
+                    singleInstancePropertyConsistencyMap
+                            .keySet()
+                            .forEach((propertyName) -> {
+                                unitePropertiesConsistencyMapOfAllInstances.put(
+                                        propertyName,
+                                        unitePropertiesConsistencyMapOfAllInstances.get(propertyName) +
+                                                singleInstancePropertyConsistencyMap.get(propertyName));
+                            });
+                });
+
+        unitePropertiesConsistencyMapOfAllInstances
+                .forEach((propertyName, propertyConsistencySum) -> {
+                    unitePropertiesConsistencyMapOfAllInstances.put(
+                            propertyName,
+                            propertyConsistencySum / entityInstancesList.size());
+                });
+
+
+        return unitePropertiesConsistencyMapOfAllInstances;
     }
 
 }

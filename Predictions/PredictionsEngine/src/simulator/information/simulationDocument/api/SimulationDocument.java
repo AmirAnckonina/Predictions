@@ -23,6 +23,6 @@ public interface SimulationDocument {
      void addTickDocument(TickDocument tickDocument);
      void setSimulationStatus(SimulationStatus simulationStatus);
      TickDocument getLatestTickDocument();
-     void finishSimulationSession(Long simulationStartingTime);
+     void finishSimulationSession(Long simulationStartingTime, Integer totalTicksCount, Long totalTimeInSeconds);
 
 }

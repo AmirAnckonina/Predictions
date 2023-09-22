@@ -10,6 +10,6 @@ public interface ActionSecondaryEntityDefinition {
     String getSecondaryEntityName();
     Optional<Integer> getSelectionCount();
     SecondaryEntitySelectionType getSecondaryEntitySelectionType();
-    ConditionExpression getConditionExpression();
+    Optional<ConditionExpression> getConditionExpression();
 
 }

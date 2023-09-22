@@ -34,13 +34,16 @@ public class XmlActionSecondaryEntityBuilder
             throw new WorldBuilderException("Secondary entity context is invalid.");
         }
 
+        ConditionExpression conditionExpression = null;
+        if (generatedSecondaryEntity.getPRDSelection().getPRDCondition() != null) {
+            conditionExpression =
+                    new XmlConditionExpressionBuilder(
+                            generatedSecondaryEntity.getPRDSelection().getPRDCondition(), contextValidator
+                    ).buildConditionExpression();
+        }
+
         Integer selectionCount = null;
         SecondaryEntitySelectionType secondaryEntitySelectionType;
-
-        ConditionExpression conditionExpression =
-                new XmlConditionExpressionBuilder(
-                        generatedSecondaryEntity.getPRDSelection().getPRDCondition(), contextValidator
-                ).buildConditionExpression();
 
         String rawSelectionCount = generatedSecondaryEntity.getPRDSelection().getCount();
         if (rawSelectionCount.equalsIgnoreCase("ALL")) {

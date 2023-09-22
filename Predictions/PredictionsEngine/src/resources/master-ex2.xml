@@ -75,7 +75,7 @@
 				<PRD-action type="condition" entity="ent-1">
 					<PRD-secondary-entity entity="ent-2">
 						<PRD-selection count="4">
-							<PRD-condition singularity="single" entity="ent-2" property="p1" operator="bt" value="4"/>
+							<PRD-condition singularity="single" entity="ent-2" property="p1" operator="bt" value="50"/>
 						</PRD-selection>
 					</PRD-secondary-entity>
 					<PRD-condition singularity="multiple" logical="or">
