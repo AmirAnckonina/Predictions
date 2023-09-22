@@ -1,5 +1,7 @@
 package simulator.result.impl;
 
+import dto.PropertiesAvgConsistencyDto;
+import dto.PropertiesConsistencyDto;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.execution.instance.world.api.WorldInstance;
@@ -62,8 +64,14 @@ public class SimulationResultImpl implements SimulationResult {
     }
 
     @Override
-    public PropertiesAvgConsistencyDto getEntitiesPopulationOvertimeDto() {
+    public PropertiesAvgConsistencyDto getEntitiesPropertiesAvgDto() {
+        PropertiesConsistencyDto res = new PropertiesConsistencyDto(this.entityNumericPropertyAverageMap);
         return null;
+    }
+
+    @Override
+    public void setEntityNumericPropertyAverageMap(Map<String, Map<String, Double>> entityNumericPropertyAverageMap) {
+        this.entityNumericPropertyAverageMap = entityNumericPropertyAverageMap;
     }
 
     @Override

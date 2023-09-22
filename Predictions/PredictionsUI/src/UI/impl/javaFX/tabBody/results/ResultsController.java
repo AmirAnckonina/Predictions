@@ -7,6 +7,7 @@ import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byEntities.Exec
 import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byProperty.ExecutionResultByPropertyController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byStatistic.ExecutionResultStatisticByPropertyController;
 import UI.impl.javaFX.top.PredictionsTopModel;
+import dto.PropertiesAvgConsistencyDto;
 import dto.PropertiesConsistencyDto;
 import dto.SimulationDocumentInfoDto;
 import dto.SimulationResultMappedProperties;
@@ -161,6 +162,9 @@ public class ResultsController {
             executionResultStatisticByPropertyController = loader.getController();
             executionResultStatisticByPropertyController.setMainController(this);
             executionResultStatisticByPropertyController.setLeftEntitiesList(entitiesList);
+            //executionResultStatisticByPropertyController.setPropertiesAvgConsistencyDto();
+            //executionResultStatisticByPropertyController.setPropertiesConsistencyDto();
+
             resultComponentHolderGP.getChildren().clear();
             resultComponentHolderGP.getChildren().add(gpComponent);
         } catch (Exception e) {
@@ -222,6 +226,8 @@ public class ResultsController {
                 String guid = this.executionListView.getSelectionModel().getSelectedItem().getText();
                 PropertiesConsistencyDto simulationDocumentDto = this.simulatorResultManager
                         .getSimulationResultBySimulationId(guid).getEntitiesPropertiesConsistencyMap();
+                PropertiesAvgConsistencyDto propertiesAvgConsistencyDto = this.simulatorResultManager
+                        .getSimulationResultBySimulationId(guid).getEntitiesPropertiesAvgDto();
 
             }
         } catch (Exception e) {

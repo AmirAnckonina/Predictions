@@ -1,6 +1,7 @@
 package UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byStatistic;
 
 import UI.impl.javaFX.tabBody.results.ResultsController;
+import dto.PropertiesAvgConsistencyDto;
 import dto.PropertiesConsistencyDto;
 import dto.SimulationDetailsDto;
 import javafx.fxml.FXML;
@@ -30,7 +31,9 @@ public class ExecutionResultStatisticByPropertyController {
 
     private PropertiesConsistencyDto propertiesConsistencyDto;
 
-    private SimulationDetailsDto
+    private PropertiesAvgConsistencyDto propertiesAvgConsistencyDto;
+
+    private SimulationDetailsDto simulationDetailsDto;
 
     private ResultsController mainController;
 
@@ -42,11 +45,12 @@ public class ExecutionResultStatisticByPropertyController {
                 getSelectionModel().getSelectedItem().getText();
         String propertyChosen = this.executionDetailsPropertiesListView.
                 getSelectionModel().getSelectedItem().getText();
-        Double res = propertiesConsistencyDto.getPropertiesConsistencyMap().get(entityChosen).get(propertyChosen);
+        Double propertiesConsistency = propertiesConsistencyDto.getPropertiesConsistencyMap().get(entityChosen).get(propertyChosen);
+        Double propertiesAvgConsistency = propertiesAvgConsistencyDto.getPropertiesConsistencyMap().get(entityChosen).get(propertyChosen);
         List<String> info = new ArrayList<>();
 
-        info.add(propertyChosen + ": " + res.toString());
-        info.add(propertyChosen + ": " + res.toString());
+        info.add(propertyChosen + "'s consistency: " + propertiesConsistency.toString());
+        info.add(propertyChosen + "'s avg: " + propertiesAvgConsistency.toString());
     }
 
     @FXML
@@ -69,6 +73,10 @@ public class ExecutionResultStatisticByPropertyController {
         for(String entity:entities){
             executionDetailsLeftEntitiesListView.getItems().add(new Label(entity));
         }
+    }
+
+    public void setPropertiesAvgConsistencyDto(PropertiesAvgConsistencyDto propertiesAvgConsistencyDto) {
+        this.propertiesAvgConsistencyDto = propertiesAvgConsistencyDto;
     }
 
     public void setRightEntitiesList(List<String> entities){
