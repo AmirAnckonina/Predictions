@@ -2,10 +2,10 @@
   <artifact type="jar" name="Predictions:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/Predictions_jar</output-path>
     <root id="archive" name="Predictions.jar">
-      <element id="module-output" name="Predictions" />
-      <element id="module-output" name="Shared" />
       <element id="module-output" name="PredictionsEngine" />
+      <element id="module-output" name="Shared" />
       <element id="module-output" name="PredictionsUI" />
+      <element id="module-output" name="Predictions" />
     </root>
   </artifact>
 </component>
