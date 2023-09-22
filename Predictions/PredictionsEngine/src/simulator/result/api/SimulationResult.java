@@ -1,5 +1,7 @@
 package simulator.result.api;
 
+import dto.PropertiesAvgConsistencyDto;
+import dto.PropertiesConsistencyDto;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.runner.utils.exceptions.TerminationReason;
@@ -25,10 +27,8 @@ public interface SimulationResult {
     void setEntitiesPopulationOvertimeMap(Map<Integer, Map<String, Integer>> entitiesPopulationOvertimeMap);
 
     void setEntitiesPropertiesConsistencyMap(Map<String, Map<String, Double>> entitiesPropertiesConsistencyMap);
-
-    Map<String, Map<String, Double>> getEntityNumericPropertyAverageMap();
-
-    Map<String, Map<String, Double>> getEntitiesPropertiesConsistencyMap();
+    PropertiesConsistencyDto getEntitiesPropertiesConsistencyMap();
+    PropertiesAvgConsistencyDto getEntitiesPropertiesAvgDto();
 
     void setEntityNumericPropertyAverageMap(Map<String, Map<String, Double>> entityNumericPropertyAverageMap);
 

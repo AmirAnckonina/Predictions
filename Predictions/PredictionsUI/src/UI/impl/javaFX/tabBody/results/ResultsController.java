@@ -5,7 +5,9 @@ import UI.impl.javaFX.tabBody.results.detailsComponent.DetailsResultController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.ResultsModel;
 import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byEntities.ExecutionResultByEntityController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byProperty.ExecutionResultByPropertyController;
+import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byStatistic.ExecutionResultStatisticByPropertyController;
 import UI.impl.javaFX.top.PredictionsTopModel;
+import dto.PropertiesAvgConsistencyDto;
 import dto.PropertiesConsistencyDto;
 import dto.SimulationDocumentInfoDto;
 import dto.SimulationResultMappedProperties;
@@ -42,6 +44,7 @@ public class ResultsController {
     private PredictionsMainController mainController;
     private PredictionsTopModel predictionsTopModel;
     private ExecutionResultByPropertyController executionResultByPropertyController;
+    private ExecutionResultStatisticByPropertyController executionResultStatisticByPropertyController;
     private Stage primaryStage;
     private SimulatorManager simulatorManager;
     private SimulationDocumentFacade simulationDocumentFacade;
@@ -148,6 +151,27 @@ public class ResultsController {
                 simulationDocumentInfoDto.getInitialEntityPopulationMap());
     }
 
+    private void createStatisticByPropertyComponent(List<String> entitiesList){
+        try
+        {
+            FXMLLoader loader = new FXMLLoader();
+            URL fxmlUrl = getClass().getResource(RESULT_SIMULATION_PROPERTY_DETAILS_HISTOGRAM_FXML_RESOURCE);
+            loader.setLocation(fxmlUrl);
+            GridPane gpComponent = loader.load();
+
+            executionResultStatisticByPropertyController = loader.getController();
+            executionResultStatisticByPropertyController.setMainController(this);
+            executionResultStatisticByPropertyController.setLeftEntitiesList(entitiesList);
+            //executionResultStatisticByPropertyController.setPropertiesAvgConsistencyDto();
+            //executionResultStatisticByPropertyController.setPropertiesConsistencyDto();
+
+            resultComponentHolderGP.getChildren().clear();
+            resultComponentHolderGP.getChildren().add(gpComponent);
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+    }
+
     private void createHistogramByPropertyComponent(List<String> entitiesList){
         try
         {
@@ -196,9 +220,19 @@ public class ResultsController {
     }
 
     public void entityChosenInHistogramByPropertyStatistic(String entityName){
+        try {
+            if (this.executionListView.getSelectionModel().getSelectedItem() != null) {
+                // get the current simulation Guid - according to what currently choosed under lost view
+                String guid = this.executionListView.getSelectionModel().getSelectedItem().getText();
+                PropertiesConsistencyDto simulationDocumentDto = this.simulatorResultManager
+                        .getSimulationResultBySimulationId(guid).getEntitiesPropertiesConsistencyMap();
+                PropertiesAvgConsistencyDto propertiesAvgConsistencyDto = this.simulatorResultManager
+                        .getSimulationResultBySimulationId(guid).getEntitiesPropertiesAvgDto();
 
-//        PropertiesConsistencyDto = simulatorManager.getSim (entityName);
-//        executionResultByPropertyController.setPropertiesList(resList);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
     }
 
     public void propertyChosenInHistogramByProperty(String propertyName, String entityName){
