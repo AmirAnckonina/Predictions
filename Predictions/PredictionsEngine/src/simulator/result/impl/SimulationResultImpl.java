@@ -53,6 +53,11 @@ public class SimulationResultImpl implements SimulationResult {
         this.entitiesPropertiesConsistencyMap = entitiesPropertiesConsistencyMap;
     }
 
+    @Override
+    public Map<String, Map<String, Double>> getEntitiesPropertiesConsistencyMap() {
+        return entitiesPropertiesConsistencyMap;
+    }
+
     public TerminationReason getTerminationReason() {
         return terminationReason;
     }
