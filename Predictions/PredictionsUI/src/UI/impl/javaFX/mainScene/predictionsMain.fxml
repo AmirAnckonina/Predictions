@@ -8,7 +8,7 @@
 
 <ScrollPane prefHeight="655.0" prefWidth="1174.0" style="-fx-fit-to-height: true; -fx-fit-to-width: true;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.impl.javaFX.mainScene.PredictionsMainController">
    <content>
-      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="650.0" minWidth="800.0" prefHeight="780.0" prefWidth="1270.0">
+      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="650.0" minWidth="1173.0" prefHeight="780.0" prefWidth="1270.0">
          <center>
             <TabPane fx:id="mainTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
               <tabs>

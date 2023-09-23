@@ -54,7 +54,7 @@ public class EntityPopulationGraphController {
                         }
                     }
 
-                    this.entityPopulationLineChart.getData().add(series);
+                    //this.entityPopulationLineChart.getData().add(series);
                 });
     }
 //           Platform.runLater(() -> {
