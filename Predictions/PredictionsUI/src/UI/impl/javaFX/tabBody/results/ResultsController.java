@@ -256,9 +256,9 @@ public class ResultsController {
 
             entityPopulationGraphController = loader.getController();
             entityPopulationGraphController.setPrimaryStage(this.primaryStage);
-            entityPopulationGraphController.initEntityPopulationLineChart(entityPopulationOvertimeDto);
             resultComponentHolderGP.getChildren().clear();
             resultComponentHolderGP.getChildren().add(gpComponent);
+            entityPopulationGraphController.initEntityPopulationLineChart(entityPopulationOvertimeDto);
         } catch (Exception e) {
             e.printStackTrace(System.out);
         }
