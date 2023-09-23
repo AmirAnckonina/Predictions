@@ -10,6 +10,8 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.stage.Stage;
 
+import java.util.Map;
+
 public class EntityPopulationGraphController {
 
     @FXML private LineChart<Number, Number> entityPopulationLineChart;
@@ -41,19 +43,22 @@ public class EntityPopulationGraphController {
                 .forEach((entityName, tickEntityPopulationMap) -> {
                     XYChart.Series<Number, Number> series = new XYChart.Series<>();
                     series.setName(entityName);
-                    tickEntityPopulationMap.forEach((tickNo, populationInTick) -> {
+                    for (Map.Entry<Integer, Integer> entry : tickEntityPopulationMap.entrySet()) {
+                        Integer tickNo = entry.getKey();
+                        Integer populationInTick = entry.getValue();
                         series.getData().add(new XYChart.Data<>(tickNo, populationInTick));
-                    });
+                        if (tickNo == 2000) {
+                            break;
+                        }
+                    }
 
                     this.entityPopulationLineChart.getData().add(series);
                 });
     }
-
-           Platform.runLater(() -> {
-                Scene scene  = new Scene(entityPopulationLineChart,800,600);
-                this.primaryStage.setScene(scene);
-                this.primaryStage.show();
-           });
-    }
-
+//
+//           Platform.runLater(() -> {
+//                Scene scene  = new Scene(entityPopulationLineChart,800,600);
+//                this.primaryStage.setScene(scene);
+//                this.primaryStage.show();
+//           });
 }
