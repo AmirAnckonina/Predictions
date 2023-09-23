@@ -1,5 +1,6 @@
 package simulator.result.api;
 
+import dto.EntityPopulationOvertimeDto;
 import dto.PropertiesAvgConsistencyDto;
 import dto.PropertiesConsistencyDto;
 import simulator.execution.instance.entity.api.EntityInstance;
@@ -34,7 +35,7 @@ public interface SimulationResult {
 
     TerminationReason getTerminationReason();
 
-    Map<Integer, Map<String, Integer>> getEntitiesPopulationOvertimeMap();
+    EntityPopulationOvertimeDto getEntitiesPopulationOvertimeMap();
 
     List<String> getAllPropertiesOfAllEntities();
     Integer getTotalTicksCount();

@@ -148,6 +148,7 @@ public class ResultManagerImpl implements ResultManager {
         return this.mapSimulationIndexToSimulationId.get(simulationIndex);
     }
 
+    @Override
     public boolean addSimulationResult(String simulationID, SimulationResult simulationResult) {
         boolean isSucceeded = true;
 

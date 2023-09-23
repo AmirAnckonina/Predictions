@@ -205,4 +205,9 @@ public class SimulatorManagerImpl implements SimulatorManager {
     public SimulationsStatusesOverviewDto collectAllSimulationsStatuses() {
         return this.infoManager.collectAllSimulationsStatusesDto();
     }
+
+    @Override
+    public ResultManager getSimulatorResultManager() {
+        return simulatorResultManager;
+    }
 }

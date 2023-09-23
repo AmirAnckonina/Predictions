@@ -34,5 +34,6 @@ public interface ResultManager {
             Map<String, List<EntityInstance>> entitiesInstances, Integer totalTicksCount, Map<String, Double> entityInstanceAvrgMap);
     Map<String, Double> createPropertiesConsistencyMapForSingleEntity(
             List<EntityInstance> entityInstancesList, Integer totalTicksCount, Map<String, Double> entityInstanceAvrgMap, String entityName);
+    boolean addSimulationResult(String simulationID, SimulationResult simulationResult);
 
 }

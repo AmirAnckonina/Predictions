@@ -33,10 +33,14 @@ public class ExecutionResultByPropertyController {
 
     @FXML
     void entityNameClickedLeftList(MouseEvent event) {
-        this.executionDetailsPropertiesListView.getItems().clear();
-        String entityChosen = this.executionDetailsLeftEntitiesListView.
-                getSelectionModel().getSelectedItem().getText();
-        mainController.entityChosenInHistogramByProperty(entityChosen);
+        try {
+            this.executionDetailsPropertiesListView.getItems().clear();
+            String entityChosen = this.executionDetailsLeftEntitiesListView.
+                    getSelectionModel().getSelectedItem().getText();
+            mainController.entityChosenInHistogramByProperty(entityChosen);
+        }catch (Exception e){
+            //name was not selected
+        }
     }
 
     public void setMainController(ResultsController mainController) {
