@@ -1,5 +1,6 @@
 package simulator.mainManager.api;
 import dto.*;
+import simulator.result.manager.api.ResultManager;
 
 import java.util.List;
 
@@ -30,4 +31,5 @@ public interface SimulatorManager {
     SimulationResultMappedProperties getMappedPropertiesToNumOfEntitiesWithSameValues(String propertyName, String entityName, String guid);
 
     SimulationManualParamsDto getSimulationManualParamsByGuid(String simulationGuid);
+    public ResultManager getSimulatorResultManager();
 }

@@ -191,6 +191,8 @@ public class SimulationDocumentImpl implements SimulationDocument {
         this.simulationResult.setEntitiesPropertiesConsistencyMap(entitiesPropertiesConsistencyMap);
         this.simulationResult.setEntityNumericPropertyAverageMap(entitiesNumericPropertyAverageMap);
 
+        resultManager.addSimulationResult(SimulationGuid, simulationResult);
+
         simulationStatus = SimulationStatus.COMPLETED;
     }
 }

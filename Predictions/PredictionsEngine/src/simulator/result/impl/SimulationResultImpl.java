@@ -1,5 +1,6 @@
 package simulator.result.impl;
 
+import dto.EntityPopulationOvertimeDto;
 import dto.PropertiesAvgConsistencyDto;
 import dto.PropertiesConsistencyDto;
 import simulator.execution.instance.entity.api.EntityInstance;
@@ -80,8 +81,8 @@ public class SimulationResultImpl implements SimulationResult {
     }
 
     @Override
-    public Map<Integer, Map<String, Integer>> getEntitiesPopulationOvertimeMap() {
-        return entitiesPopulationOvertimeMap;
+    public EntityPopulationOvertimeDto getEntitiesPopulationOvertimeMap() {
+        return new EntityPopulationOvertimeDto(entitiesPopulationOvertimeMap);
     }
 
     @Override

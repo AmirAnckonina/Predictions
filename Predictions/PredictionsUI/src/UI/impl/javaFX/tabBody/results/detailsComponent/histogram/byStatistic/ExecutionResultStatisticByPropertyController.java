@@ -65,6 +65,11 @@ public class ExecutionResultStatisticByPropertyController {
         this.propertiesConsistencyDto = propertiesConsistencyDto;
     }
 
+    public void setPropertiesAvgConsistencyDto(PropertiesAvgConsistencyDto propertiesAvgConsistencyDto) {
+        this.propertiesAvgConsistencyDto = propertiesAvgConsistencyDto;
+    }
+
+
     public void setMainController(ResultsController mainController) {
         this.mainController = mainController;
     }
@@ -75,9 +80,6 @@ public class ExecutionResultStatisticByPropertyController {
         }
     }
 
-    public void setPropertiesAvgConsistencyDto(PropertiesAvgConsistencyDto propertiesAvgConsistencyDto) {
-        this.propertiesAvgConsistencyDto = propertiesAvgConsistencyDto;
-    }
 
     public void setRightEntitiesList(List<String> entities){
         for(String entity:entities){
