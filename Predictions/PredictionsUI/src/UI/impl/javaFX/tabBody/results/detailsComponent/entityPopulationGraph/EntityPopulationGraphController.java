@@ -14,7 +14,7 @@ public class EntityPopulationGraphController {
 
     }
 
-    public void createEntityPopulationLineChart(EntityPopulationOvertimeDto entityPopulationOvertimeDto) {
+    public void initEntityPopulationLineChart(EntityPopulationOvertimeDto entityPopulationOvertimeDto) {
 
         entityPopulationOvertimeDto
                 .getEntityPopulationOvertimeMap()

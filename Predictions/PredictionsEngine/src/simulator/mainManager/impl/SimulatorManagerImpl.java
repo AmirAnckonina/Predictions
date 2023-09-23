@@ -210,4 +210,19 @@ public class SimulatorManagerImpl implements SimulatorManager {
     public ResultManager getSimulatorResultManager() {
         return simulatorResultManager;
     }
+
+    @Override
+    public EntityPopulationOvertimeDto getEntityPopulationOvertimeByGuid(String guid) {
+        return this.infoManager.getSimulationDocumentByGuid(guid).getSimulationResult().getEntitiesPopulationOvertimeMap();
+    }
+
+    @Override
+    public PropertiesConsistencyDto getEntitiesPropertiesConsistencyMapByGuid(String guid) {
+        return this.infoManager.getSimulationDocumentByGuid(guid).getSimulationResult().getEntitiesPropertiesConsistencyMap();
+    }
+
+    @Override
+    public PropertiesAvgConsistencyDto geEntitiesNumericPropertiesAverageByGuid(String guid) {
+        return this.infoManager.getSimulationDocumentByGuid(guid).getSimulationResult().getEntitiesNumericPropertiesAvg();
+    }
 }

@@ -46,7 +46,6 @@ public class ResultsController {
     private SimulationDocumentFacade simulationDocumentFacade;
     private ResultsModel resultsModel;
     private Map<String, SimulationResult> simulationResultMap;
-    private ResultManager simulatorResultManager;
     private ScheduledExecutorService scheduledExecutorService;
     private ExecutionResultByEntityController executionResultByEntityController = null;
     @FXML private DetailsResultController detailsResultController;
@@ -154,18 +153,13 @@ public class ResultsController {
                     else if(simulationStatisticsRadioButton.isSelected()) {
                         createStatisticByPropertyComponent(simulatorManager.getAllEntities());
                     } else if (entityGraphPopulationRadioButton.isSelected()) {
-                        createEntityGraphComponent();
+                        createEntityPopulationGraphComponent();
                     }
                 }
             }
         } catch (Exception e){
             e.printStackTrace(System.out);
         }
-    }
-
-
-    public void setSimulatorResultManager(ResultManager simulatorResultManager) {
-        this.simulatorResultManager = simulatorResultManager;
     }
 
     private void pollUpdatedSimulationDocumentDto() {
@@ -206,10 +200,10 @@ public class ResultsController {
             if (this.executionListView.getSelectionModel().getSelectedItem() != null) {
                 // get the current simulation Guid - according to what currently choosed under lost view
                 String guid = this.executionListView.getSelectionModel().getSelectedItem().getText();
-                PropertiesConsistencyDto simulationDocumentDto = this.simulatorResultManager
-                        .getSimulationResultBySimulationId(guid).getEntitiesPropertiesConsistencyMap();
-                PropertiesAvgConsistencyDto propertiesAvgConsistencyDto = this.simulatorResultManager
-                        .getSimulationResultBySimulationId(guid).getEntitiesPropertiesAvgDto();
+                PropertiesConsistencyDto simulationDocumentDto =
+                        this.simulatorManager.getEntitiesPropertiesConsistencyMapByGuid(guid);
+                PropertiesAvgConsistencyDto propertiesAvgConsistencyDto =
+                        this.simulatorManager.geEntitiesNumericPropertiesAverageByGuid(guid);
 
                 FXMLLoader loader = new FXMLLoader();
                 URL fxmlUrl = getClass().getResource(RESULT_SIMULATION_PROPERTY_DETAILS_HISTOGRAM_FXML_RESOURCE);
@@ -249,19 +243,20 @@ public class ResultsController {
         }
     }
 
-    private void createEntityGraphComponent(){
+    private void createEntityPopulationGraphComponent(){
         try
         {
             FXMLLoader loader = new FXMLLoader();
             URL fxmlUrl = getClass().getResource(RESULT_SIMULATION_ENTITIES_GRAPH_HISTOGRAM_FXML_RESOURCE);
             loader.setLocation(fxmlUrl);
             GridPane gpComponent = loader.load();
+
             String guid = this.executionListView.getSelectionModel().getSelectedItem().getText();
-            EntityPopulationOvertimeDto entityPopulationOvertimeDto = simulatorResultManager.
-                    getSimulationResultBySimulationId(guid).getEntitiesPopulationOvertimeMap();
+            EntityPopulationOvertimeDto entityPopulationOvertimeDto =
+                    this.simulatorManager.getEntityPopulationOvertimeByGuid(guid);
 
             entityPopulationGraphController = loader.getController();
-            entityPopulationGraphController.createEntityPopulationLineChart(entityPopulationOvertimeDto);
+            entityPopulationGraphController.initEntityPopulationLineChart(entityPopulationOvertimeDto);
             resultComponentHolderGP.getChildren().clear();
             resultComponentHolderGP.getChildren().add(gpComponent);
         } catch (Exception e) {
@@ -371,7 +366,6 @@ public class ResultsController {
     }
     public void setSimulatorManager(SimulatorManager simulatorManager) {
         this.simulatorManager = simulatorManager;
-        simulatorResultManager = simulatorManager.getSimulatorResultManager();
     }
 
     private String getSimulatorStartingTimeInString(SimulationResult simulationResults){

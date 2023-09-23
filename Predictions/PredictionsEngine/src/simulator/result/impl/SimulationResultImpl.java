@@ -65,7 +65,7 @@ public class SimulationResultImpl implements SimulationResult {
     }
 
     @Override
-    public PropertiesAvgConsistencyDto getEntitiesPropertiesAvgDto() {
+    public PropertiesAvgConsistencyDto getEntitiesNumericPropertiesAvg() {
         PropertiesConsistencyDto res = new PropertiesConsistencyDto(this.entityNumericPropertyAverageMap);
         return null;
     }
