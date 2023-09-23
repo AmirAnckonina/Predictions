@@ -4,8 +4,8 @@ import UI.impl.javaFX.mainScene.PredictionsMainController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.DetailsResultController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.ResultsModel;
 import UI.impl.javaFX.tabBody.results.detailsComponent.entityPopulationGraph.EntityPopulationGraphController;
+import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.ExecutionResultController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byEntities.ExecutionResultByEntityController;
-import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byProperty.ExecutionResultByPropertyController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byStatistic.ExecutionResultStatisticByPropertyController;
 import UI.impl.javaFX.top.PredictionsTopModel;
 import dto.*;
@@ -21,7 +21,6 @@ import javafx.stage.Stage;
 import simulator.information.simulationDocument.api.SimulationDocumentFacade;
 import simulator.mainManager.api.SimulatorManager;
 import simulator.result.api.SimulationResult;
-import simulator.result.manager.api.ResultManager;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -38,7 +37,7 @@ import static UI.impl.javaFX.common.CommonResourcesPaths.*;
 public class ResultsController {
     private PredictionsMainController mainController;
     private PredictionsTopModel predictionsTopModel;
-    private ExecutionResultByPropertyController executionResultByPropertyController;
+    private ExecutionResultController executionResultController;
     private ExecutionResultStatisticByPropertyController executionResultStatisticByPropertyController;
     private EntityPopulationGraphController entityPopulationGraphController;
     private Stage primaryStage;
@@ -206,15 +205,15 @@ public class ResultsController {
                         this.simulatorManager.geEntitiesNumericPropertiesAverageByGuid(guid);
 
                 FXMLLoader loader = new FXMLLoader();
-                URL fxmlUrl = getClass().getResource(RESULT_SIMULATION_PROPERTY_DETAILS_HISTOGRAM_FXML_RESOURCE);
+                URL fxmlUrl = getClass().getResource(RESULT_SIMULATION_PROPERTY_STATIC_HISTOGRAM_FXML_RESOURCE);
                 loader.setLocation(fxmlUrl);
                 GridPane gpComponent = loader.load();
 
-                executionResultStatisticByPropertyController = loader.getController();
-                executionResultStatisticByPropertyController.setMainController(this);
-                executionResultStatisticByPropertyController.setLeftEntitiesList(entitiesList);
-                executionResultStatisticByPropertyController.setPropertiesAvgConsistencyDto(propertiesAvgConsistencyDto);
-                executionResultStatisticByPropertyController.setPropertiesConsistencyDto(simulationDocumentDto);
+                executionResultController = loader.getController();
+                executionResultController.setMainController(this);
+                executionResultController.setLeftEntitiesList(entitiesList);
+                executionResultController.setPropertiesAvgConsistencyDto(propertiesAvgConsistencyDto);
+                executionResultController.setPropertiesConsistencyDto(simulationDocumentDto);
 
                 resultComponentHolderGP.getChildren().clear();
                 resultComponentHolderGP.getChildren().add(gpComponent);
@@ -233,9 +232,9 @@ public class ResultsController {
             loader.setLocation(fxmlUrl);
             GridPane gpComponent = loader.load();
 
-            executionResultByPropertyController = loader.getController();
-            executionResultByPropertyController.setMainController(this);
-            executionResultByPropertyController.setLeftEntitiesList(entitiesList);
+            executionResultController = loader.getController();
+            executionResultController.setMainController(this);
+            executionResultController.setLeftEntitiesList(entitiesList);
             resultComponentHolderGP.getChildren().clear();
             resultComponentHolderGP.getChildren().add(gpComponent);
         } catch (Exception e) {
@@ -290,7 +289,7 @@ public class ResultsController {
 //                .forEach((propName, numOfEntities) -> resMapped.add(propName + ": " + numOfEntities));
 //        executionResultByPropertyController.setPropertiesList(resMapped);
         List<String> resList = simulatorManager.getPropertiesByEntity(entityName);
-        executionResultByPropertyController.setPropertiesList(resList);
+        executionResultController.setPropertiesList(resList);
     }
 
 //    public void entityChosenInHistogramByPropertyStatistic(List<String> entitiesList){
@@ -332,7 +331,7 @@ public class ResultsController {
         mappedProperties.getMappedPropertiesToNumOfEntitiesByValues().forEach(
                 (value, numOfEntities) -> mappedPropertiesList.add(value + ": " + numOfEntities));
 
-        executionResultByPropertyController.setRightEntitiesList(mappedPropertiesList);
+        executionResultController.setRightEntitiesList(mappedPropertiesList);
     }
 
     public void simulationTabClicked() {
