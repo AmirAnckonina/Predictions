@@ -25,4 +25,5 @@ public class CommonResourcesPaths {
     public static final String RESULT_SIMULATION_PROPERTY_DETAILS_HISTOGRAM_FXML_RESOURCE = "/UI/impl/javaFX/tabBody/results/detailsComponent/histogram/byProperty/ExecutionResultByPropertyComponent.fxml";
     public static final String RESULT_SIMULATION_PROPERTY_STATIC_HISTOGRAM_FXML_RESOURCE = "/UI/impl/javaFX/tabBody/results/detailsComponent/histogram/byStatistic/statisticComponent.fxml";
     public static final String RESULT_SIMULATION_ENTITIES_GRAPH_HISTOGRAM_FXML_RESOURCE = "/UI/impl/javaFX/tabBody/results/detailsComponent/entityPopulationGraph/EntityPopulationGraph.fxml";
+    public static final String RESULT_SIMULATION_ENTITIES_POPULATION_LV_FXML_RESOURCE = "/UI/impl/javaFX/tabBody/results/detailsComponent/entityPopulationListView/EntityPopulationListView.fxml";
 }
