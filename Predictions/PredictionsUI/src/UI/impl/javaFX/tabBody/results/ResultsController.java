@@ -255,6 +255,7 @@ public class ResultsController {
                     this.simulatorManager.getEntityPopulationOvertimeByGuid(guid);
 
             entityPopulationGraphController = loader.getController();
+            entityPopulationGraphController.setPrimaryStage(this.primaryStage);
             entityPopulationGraphController.initEntityPopulationLineChart(entityPopulationOvertimeDto);
             resultComponentHolderGP.getChildren().clear();
             resultComponentHolderGP.getChildren().add(gpComponent);

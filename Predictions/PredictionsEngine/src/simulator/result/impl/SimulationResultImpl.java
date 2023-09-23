@@ -17,7 +17,7 @@ public class SimulationResultImpl implements SimulationResult {
     private WorldInstance worldInstance;
     private Map<String, Integer> initEntitiesPopulationStatus;
     private Map<String, Set<String>> entitiesPropertiesNames;
-    private Map<Integer, Map<String, Integer>> entitiesPopulationOvertimeMap;
+    private Map<String, Map<Integer, Integer>> entitiesPopulationOvertimeMap;
     private Map<String, Map<String, Double>> entitiesPropertiesConsistencyMap;
     private Map<String, Map<String, Double>> entityNumericPropertyAverageMap;
     private Long simulatorStartingTime;
@@ -49,7 +49,7 @@ public class SimulationResultImpl implements SimulationResult {
     }
 
     @Override
-    public void setEntitiesPopulationOvertimeMap(Map<Integer, Map<String, Integer>> entitiesPopulationOvertimeMap) {
+    public void setEntitiesPopulationOvertimeMap(Map<String, Map<Integer, Integer>> entitiesPopulationOvertimeMap) {
         this.entitiesPopulationOvertimeMap = entitiesPopulationOvertimeMap;
     }
 
