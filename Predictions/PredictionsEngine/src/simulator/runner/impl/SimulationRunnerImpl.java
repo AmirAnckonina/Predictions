@@ -92,6 +92,9 @@ public class SimulationRunnerImpl implements Runnable {
             entitiesInstances.forEach((entityName,numOfInstances) ->
                     entityInstanceAvrgMap.put(entityName, entityInstanceAvrgMap.get(entityName) + Double.valueOf(numOfInstances.size())));
         }
+        TickDocument currTickDocument =  new TickDocumentImpl(currTick, currTimeInMilliSec.get(), entitiesInstances);
+        currTickDocument.startingTickUpdate();
+        simulationDocument.addTickDocument(currTickDocument);
         Double currTickCopy = new Double(currTick);
         entityInstanceAvrgMap.forEach((entity, num) -> entityInstanceAvrgMap.put(entity, entityInstanceAvrgMap.get(entity) / currTickCopy));
         finishSimulationProcedure(termination, startTimeInMilliSec, currTick, currTimeInMilliSec.get(), entityInstanceAvrgMap);

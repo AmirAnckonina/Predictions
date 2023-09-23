@@ -4,6 +4,7 @@ import UI.impl.javaFX.mainScene.PredictionsMainController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.DetailsResultController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.ResultsModel;
 import UI.impl.javaFX.tabBody.results.detailsComponent.entityPopulationGraph.EntityPopulationGraphController;
+import UI.impl.javaFX.tabBody.results.detailsComponent.entityPopulationListView.EntityPopulationListViewController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.ExecutionResultController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byEntities.ExecutionResultByEntityController;
 import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byStatistic.ExecutionResultStatisticByPropertyController;
@@ -40,6 +41,7 @@ public class ResultsController {
     private ExecutionResultController executionResultController;
     private ExecutionResultStatisticByPropertyController executionResultStatisticByPropertyController;
     private EntityPopulationGraphController entityPopulationGraphController;
+    private EntityPopulationListViewController entityPopulationListViewController;
     private Stage primaryStage;
     private SimulatorManager simulatorManager;
     private SimulationDocumentFacade simulationDocumentFacade;
@@ -246,7 +248,8 @@ public class ResultsController {
         try
         {
             FXMLLoader loader = new FXMLLoader();
-            URL fxmlUrl = getClass().getResource(RESULT_SIMULATION_ENTITIES_GRAPH_HISTOGRAM_FXML_RESOURCE);
+            //URL fxmlUrl = getClass().getResource(RESULT_SIMULATION_ENTITIES_GRAPH_HISTOGRAM_FXML_RESOURCE);
+            URL fxmlUrl = getClass().getResource(RESULT_SIMULATION_ENTITIES_POPULATION_LV_FXML_RESOURCE);
             loader.setLocation(fxmlUrl);
             GridPane gpComponent = loader.load();
 
@@ -254,11 +257,15 @@ public class ResultsController {
             EntityPopulationOvertimeDto entityPopulationOvertimeDto =
                     this.simulatorManager.getEntityPopulationOvertimeByGuid(guid);
 
-            entityPopulationGraphController = loader.getController();
-            entityPopulationGraphController.setPrimaryStage(this.primaryStage);
+            //entityPopulationGraphController = loader.getController();
+            entityPopulationListViewController = loader.getController();
+           // entityPopulationGraphController.setPrimaryStage(this.primaryStage);
+            //entityPopulationGraphController.setPrimaryStage(this.primaryStage);
+           // resultComponentHolderGP.getChildren().clear();
             resultComponentHolderGP.getChildren().clear();
             resultComponentHolderGP.getChildren().add(gpComponent);
-            entityPopulationGraphController.initEntityPopulationLineChart(entityPopulationOvertimeDto);
+           // entityPopulationGraphController.initEntityPopulationLineChart(entityPopulationOvertimeDto);
+            entityPopulationListViewController.initEntityPopulationListView(entityPopulationOvertimeDto);
         } catch (Exception e) {
             e.printStackTrace(System.out);
         }
