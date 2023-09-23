@@ -32,4 +32,10 @@ public interface SimulatorManager {
 
     SimulationManualParamsDto getSimulationManualParamsByGuid(String simulationGuid);
     public ResultManager getSimulatorResultManager();
+
+    EntityPopulationOvertimeDto getEntityPopulationOvertimeByGuid(String guid);
+
+    PropertiesConsistencyDto getEntitiesPropertiesConsistencyMapByGuid(String guid);
+
+    PropertiesAvgConsistencyDto geEntitiesNumericPropertiesAverageByGuid(String guid);
 }
