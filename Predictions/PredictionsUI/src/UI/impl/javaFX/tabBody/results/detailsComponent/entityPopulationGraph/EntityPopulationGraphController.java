@@ -17,17 +17,19 @@ public class EntityPopulationGraphController {
 
     @FXML
     private void initialize() {
-        NumberAxis xAxis = new NumberAxis();
-        NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Tick");
-        yAxis.setLabel("Population");
-        this.entityPopulationLineChart = new LineChart<>(xAxis, yAxis);
+        //NumberAxis xAxis = new NumberAxis();
+       // NumberAxis yAxis = new NumberAxis();
+        //xAxis.setLabel("Tick");
+       // yAxis.setLabel("Population");
+        //this.entityPopulationLineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
+        //this.entityPopulationLineChart.getData().
+       // this.entityPopulationLineChart = new LineChart<>(xAxis, yAxis);
         // Configure the existing entityPopulationLineChart
-        entityPopulationLineChart.setCreateSymbols(true); // To display data points as symbols
-        entityPopulationLineChart.setLegendVisible(true); // To display the legend
+       // entityPopulationLineChart.setCreateSymbols(true); // To display data points as symbols
+       // entityPopulationLineChart.setLegendVisible(true); // To display the legend
         // Set the axes to the chart
-        entityPopulationLineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
-        entityPopulationLineChart.setAnimated(false);
+      //  entityPopulationLineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
+      //  entityPopulationLineChart.setAnimated(false);
     }
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -49,11 +51,10 @@ public class EntityPopulationGraphController {
                 });
     }
 
-           Platform.runLater(() -> {
-                Scene scene  = new Scene(entityPopulationLineChart,800,600);
-                this.primaryStage.setScene(scene);
-                this.primaryStage.show();
-           });
-    }
-
+//           Platform.runLater(() -> {
+//                Scene scene  = new Scene(entityPopulationLineChart,800,600);
+//                this.primaryStage.setScene(scene);
+//                this.primaryStage.show();
+//           });
 }
+
