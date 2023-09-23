@@ -22,11 +22,9 @@ public class EntityPopulationGraphController {
         xAxis.setLabel("Tick");
         yAxis.setLabel("Population");
         this.entityPopulationLineChart = new LineChart<>(xAxis, yAxis);
-
         // Configure the existing entityPopulationLineChart
         entityPopulationLineChart.setCreateSymbols(true); // To display data points as symbols
         entityPopulationLineChart.setLegendVisible(true); // To display the legend
-
         // Set the axes to the chart
         entityPopulationLineChart.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
         entityPopulationLineChart.setAnimated(false);
@@ -40,22 +38,22 @@ public class EntityPopulationGraphController {
 
         entityPopulationOvertimeDto
                 .getEntityPopulationOvertimeMap()
-                        .forEach((entityName, tickEntityPopulationMap) -> {
-                            XYChart.Series<Number, Number> series = new XYChart.Series<>();
-                            series.setName(entityName);
+                .forEach((entityName, tickEntityPopulationMap) -> {
+                    XYChart.Series<Number, Number> series = new XYChart.Series<>();
+                    series.setName(entityName);
+                    tickEntityPopulationMap.forEach((tickNo, populationInTick) -> {
+                        series.getData().add(new XYChart.Data<>(tickNo, populationInTick));
+                    });
 
-                            tickEntityPopulationMap.forEach((tickNo, populationInTick) -> {
-                                series.getData().add(new XYChart.Data<>(tickNo, populationInTick));
-                            });
+                    this.entityPopulationLineChart.getData().add(series);
+                });
+    }
 
-                            this.entityPopulationLineChart.getData().add(series);
-                        });
-
-        Platform.runLater(() -> {
-            Scene scene  = new Scene(entityPopulationLineChart,800,600);
-            primaryStage.setScene(scene);
-            this.primaryStage.show();
-        });
+           Platform.runLater(() -> {
+                Scene scene  = new Scene(entityPopulationLineChart,800,600);
+                this.primaryStage.setScene(scene);
+                this.primaryStage.show();
+           });
     }
 
 }
