@@ -9,6 +9,7 @@ import simulator.result.api.SimulationResult;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface ResultManager {
 
@@ -26,7 +27,11 @@ public interface ResultManager {
     List<String> getAllPropertiesOfEntityBySimulationIndex(String entityName, Integer simulationIndex);
     SimulationResult getSimulationResultBySimulationId(String simulationID);
 
-    Map<Integer, Map<String, Integer>> createEntitiesPopulationOvertimeMap(Map<Integer, TickDocument> tickDocumentMap);
+    Map<String, Map<Integer,Integer>> createEntitiesPopulationOvertimeMap(
+            Set<String> entitiesNames, Map<Integer, TickDocument> tickDocumentMap);
+
+    Map<Integer, Integer> createTickEntityPopulationMapForSingleEntity(String entityName, Map<Integer, TickDocument> tickDocumentMap);
+
     Map<String, Integer> createInitialEntityPopulationMap(SimulationDocumentInfoDto initialSimulationDocumentInfoDto);
     Map<String, Map<String, Double>> createEntitiesNumericPropertyAverageMap(Map<String, List<EntityInstance>> entitiesInstances);
     Map<String, Double> createPropertiesNumericAverageMapForSingleEntity(List<EntityInstance> entityInstancesList);

@@ -25,7 +25,7 @@ public interface SimulationResult {
 
     void setInitialEntitiesPopulationStatus(Map<String, Integer> initEntitiesPopulationStatus);
 
-    void setEntitiesPopulationOvertimeMap(Map<Integer, Map<String, Integer>> entitiesPopulationOvertimeMap);
+    void setEntitiesPopulationOvertimeMap(Map<String, Map<Integer, Integer>> entitiesPopulationOvertimeMap);
 
     void setEntitiesPropertiesConsistencyMap(Map<String, Map<String, Double>> entitiesPropertiesConsistencyMap);
     PropertiesConsistencyDto getEntitiesPropertiesConsistencyMap();

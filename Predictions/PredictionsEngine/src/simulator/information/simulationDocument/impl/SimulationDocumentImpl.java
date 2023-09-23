@@ -174,8 +174,9 @@ public class SimulationDocumentImpl implements SimulationDocument {
         Map<String, Integer> initialEntityPopulationMap
                 = resultManager.createInitialEntityPopulationMap(this.getInitialSimulationDocumentInfoDto());
 
-        Map<Integer, Map<String,Integer>> entitiesPopulationOvertimeMap =
-                resultManager.createEntitiesPopulationOvertimeMap(this.tickDocumentMap);
+        Map<String, Map<Integer,Integer>> entitiesPopulationOvertimeMap =
+                resultManager.createEntitiesPopulationOvertimeMap(
+                        this.worldInstance.getEntityDefinitionMap().keySet(), this.tickDocumentMap);
 
         Map<String, Map<String,Double>> entitiesPropertiesConsistencyMap =
                 resultManager.createEntitiesPropertiesConsistencyMap(

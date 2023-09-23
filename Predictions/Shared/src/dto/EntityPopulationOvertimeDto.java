@@ -4,13 +4,13 @@ import java.util.Map;
 
 public class EntityPopulationOvertimeDto {
 
-    private Map<Integer, Map<String, Integer>> entityPopulationOvertimeMap;
+    private Map<String, Map<Integer, Integer>> entityPopulationOvertimeMap;
 
-    public EntityPopulationOvertimeDto(Map<Integer, Map<String, Integer>> entityPopulationOvertimeMap) {
+    public EntityPopulationOvertimeDto(Map<String, Map<Integer, Integer>> entityPopulationOvertimeMap) {
         this.entityPopulationOvertimeMap = entityPopulationOvertimeMap;
     }
 
-    public Map<Integer, Map<String, Integer>> getEntityPopulationOvertimeMap() {
+    public Map<String, Map<Integer, Integer>> getEntityPopulationOvertimeMap() {
         return entityPopulationOvertimeMap;
     }
 }

@@ -4,7 +4,6 @@ import dto.SimulationDocumentInfoDto;
 import enums.PropertyType;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
-import simulator.information.manager.exception.SimulationInformationException;
 import simulator.information.tickDocument.api.TickDocument;
 import simulator.result.api.SimulationResult;
 import simulator.result.manager.api.ResultManager;
@@ -168,17 +167,42 @@ public class ResultManagerImpl implements ResultManager {
     }
 
     @Override
-    public Map<Integer, Map<String, Integer>> createEntitiesPopulationOvertimeMap(Map<Integer, TickDocument> tickDocumentMap) {
-        Map<Integer, Map<String,Integer>> entitiesPopulationOvertimeMap =
+    public Map<String, Map<Integer, Integer>> createEntitiesPopulationOvertimeMap(Set<String> entitiesNames,Map<Integer, TickDocument> tickDocumentMap) {
+
+        Map<String, Map<Integer, Integer>> entitiesPopulationOvertimeMap =
+                entitiesNames
+                        .stream()
+                        .collect(Collectors.toMap(
+                                entityName -> entityName,
+                                entityName -> createTickEntityPopulationMapForSingleEntity(entityName, tickDocumentMap)
+                        ));
+
+        return entitiesPopulationOvertimeMap;
+
+        /*Map<String, Map<Integer, Integer>> entitiesPopulationOvertimeMap =
                 tickDocumentMap
                         .values()
                         .stream()
                         .collect(Collectors.toMap(
                                 TickDocument::getTickNumber,
                                 TickDocument::getEntitiesPopulationStatusMap
-                        ));
+                        ));*/
+    }
 
-        return entitiesPopulationOvertimeMap;
+    @Override
+    public Map<Integer, Integer> createTickEntityPopulationMapForSingleEntity(String entityName, Map<Integer, TickDocument> tickDocumentMap) {
+
+            Map<Integer, Integer> tickEntityPopulationMap = new HashMap<>();
+
+            tickDocumentMap
+                    .values()
+                    .forEach(tickDocument -> {
+                        tickEntityPopulationMap.put(
+                                tickDocument.getTickNumber(),
+                                tickDocument.getEntitiesPopulationStatusMap().get(entityName));
+                    });
+
+            return tickEntityPopulationMap;
     }
 
     @Override
