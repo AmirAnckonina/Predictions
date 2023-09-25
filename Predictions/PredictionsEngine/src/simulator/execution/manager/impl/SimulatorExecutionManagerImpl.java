@@ -14,9 +14,7 @@ import java.util.concurrent.*;
 public class SimulatorExecutionManagerImpl implements SimulatorExecutionManager {
     private ThreadPoolExecutor simulationExecutorService;
 
-    public SimulatorExecutionManagerImpl() {
-
-    }
+    public SimulatorExecutionManagerImpl() { }
     @Override
     public void runSimulator(SimulationDocument simulationDocument) {
         this.simulationExecutorService.execute(new SimulationRunnerImpl(simulationDocument));
