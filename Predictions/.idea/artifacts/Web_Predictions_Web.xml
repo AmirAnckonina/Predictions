@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Web-Predictions:Web">
+    <output-path>$PROJECT_DIR$/out/artifacts/Web_Predictions_Web</output-path>
+    <root id="archive" name="Web-Predictions.war">
+      <element id="artifact" artifact-name="Web-Predictions:Web exploded" />
+    </root>
+  </artifact>
+</component>
