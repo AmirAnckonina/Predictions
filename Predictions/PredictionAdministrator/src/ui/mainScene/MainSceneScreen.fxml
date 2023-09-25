@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.mainScene.MainController">
+   <content>
+      <GridPane>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="25.0" valignment="CENTER" vgrow="NEVER" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <TabPane tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="1">
+              <tabs>
+                <Tab onSelectionChanged="#managementTabSelected" text="Management">
+                     <content>
+                        <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                           <content>
+                              <fx:include source="../management/Management.fxml" />
+                           </content>
+                        </ScrollPane>
+                     </content>
+                  </Tab>
+                <Tab onSelectionChanged="#allocationsTabClicked" text="Allocations">
+                     <content>
+                        <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                           <content>
+                              <fx:include source="../allocations/Allocations.fxml" />
+                           </content>
+                        </ScrollPane>
+                     </content>
+                  </Tab>
+                  <Tab onSelectionChanged="#executionsHistoryTabClicked" text="Executions History">
+                     <content>
+                        <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                           <content>
+                              <fx:include source="../executionsHistory/ExecutionsHistory.fxml" />
+                           </content>
+                        </ScrollPane>
+                     </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+            <Label text="Prediction - Administrator" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+         </children>
+      </GridPane>
+   </content>
+</ScrollPane>
