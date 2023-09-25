@@ -11,7 +11,6 @@ import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.execution.instance.world.api.WorldInstance;
 import simulator.information.manager.exception.SimulationInformationException;
 import simulator.information.simulationDocument.api.SimulationDocument;
-import simulator.information.simulationDocument.api.SimulationDocumentFacade;
 import simulator.information.simulationDocument.impl.SimulationDocumentImpl;
 import simulator.information.tickDocument.api.TickDocument;
 import simulator.mainManager.utils.SimulatorUtils;
@@ -40,13 +39,6 @@ public class InformationManagerImpl implements InformationManager {
         this.simulationDocumentMap.put(guid, simulationDocument);
         return simulationDocument;
     }
-
-    @Override
-    public SimulationDocumentFacade createSimulationDocumentFacade(SimulationDocument simulationDocument) {
-//        SimulationDocumentFacadeImpl simulationDocumentFacade = new SimulationDocumentFacadeImpl(simulationDocument);
-        throw new SimulationInformationException("not impl creayeSimulationDocument");
-    }
-
     @Override
     public SimulationDocumentInfoDto getLatestSimulationDocumentInfoDto(String guid) {
         // Why latest? this return SimulationDocumentInfoDto by guid which might not be the latest @ AmirAnko

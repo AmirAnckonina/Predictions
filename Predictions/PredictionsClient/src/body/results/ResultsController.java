@@ -1,14 +1,12 @@
-package UI.impl.javaFX.tabBody.results;
+package body.results;
 
-import UI.impl.javaFX.mainScene.PredictionsMainController;
-import UI.impl.javaFX.tabBody.results.detailsComponent.DetailsResultController;
-import UI.impl.javaFX.tabBody.results.detailsComponent.ResultsModel;
-import UI.impl.javaFX.tabBody.results.detailsComponent.entityPopulationGraph.EntityPopulationGraphController;
-import UI.impl.javaFX.tabBody.results.detailsComponent.entityPopulationListView.EntityPopulationListViewController;
-import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.ExecutionResultController;
-import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byEntities.ExecutionResultByEntityController;
-import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.byStatistic.ExecutionResultStatisticByPropertyController;
-import UI.impl.javaFX.top.PredictionsTopModel;
+
+import body.results.detailsComponent.DetailsResultController;
+import body.results.detailsComponent.entityPopulationGraph.EntityPopulationGraphController;
+import body.results.detailsComponent.entityPopulationListView.EntityPopulationListViewController;
+import body.results.detailsComponent.histogram.ExecutionResultController;
+import body.results.detailsComponent.histogram.byEntities.ExecutionResultByEntityController;
+import body.results.detailsComponent.histogram.byStatistic.ExecutionResultStatisticByPropertyController;
 import dto.*;
 import enums.SimulationStatus;
 import javafx.application.Platform;
@@ -19,20 +17,22 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import main.PredictionsMainController;
 import simulator.mainManager.api.SimulatorManager;
 import simulator.result.api.SimulationResult;
+import top.PredictionsTopModel;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
 import java.util.List;
-import java.util.Map;
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static UI.impl.javaFX.common.CommonResourcesPaths.*;
+import static common.CommonResourcesPaths.*;
+
 
 public class ResultsController {
     private PredictionsMainController mainController;
@@ -43,16 +43,11 @@ public class ResultsController {
     private EntityPopulationListViewController entityPopulationListViewController;
     private Stage primaryStage;
     private SimulatorManager simulatorManager;
-    private ResultsModel resultsModel;
-    private Map<String, SimulationResult> simulationResultMap;
     private ScheduledExecutorService scheduledExecutorService;
-    private ExecutionResultByEntityController executionResultByEntityController = null;
+    private ExecutionResultByEntityController executionResultByEntityController;
     @FXML private DetailsResultController detailsResultController;
-
     @FXML private ListView<Label> executionListView;
-
     @FXML private Button reRunButton;
-
     @FXML private RadioButton resultByEntity;
     @FXML private RadioButton entityStatisticsRadioButton;
     @FXML private RadioButton simulationStatisticsRadioButton;
@@ -62,8 +57,8 @@ public class ResultsController {
 
     @FXML
     public void initialize() {
-        ToggleGroup toggleGroup = new ToggleGroup();
         detailsResultController.setMainController(this);
+        ToggleGroup toggleGroup = new ToggleGroup();
         entityStatisticsRadioButton.setToggleGroup(toggleGroup);
         simulationStatisticsRadioButton.setToggleGroup(toggleGroup);
         entityGraphPopulationRadioButton.setToggleGroup(toggleGroup);
@@ -365,9 +360,6 @@ public class ResultsController {
     }
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
-    }
-    public void setResultsModel(ResultsModel resultsModel) {
-        this.resultsModel = resultsModel;
     }
     public void setSimulatorManager(SimulatorManager simulatorManager) {
         this.simulatorManager = simulatorManager;
