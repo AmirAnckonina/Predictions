@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox id="main_info_hbox_id" alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="200.0" minWidth="200.0" prefHeight="362.0" prefWidth="1156.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="body.newExecution.newExecutionMain.NewExecutionController">
+   <children>
+      <ScrollPane minViewportHeight="200.0" minViewportWidth="200.0" prefHeight="332.0" prefViewportHeight="400.0" prefViewportWidth="350.0" prefWidth="468.0" HBox.hgrow="NEVER">
+         <padding>
+            <Insets right="10.0" />
+         </padding>
+         <content>
+            <FlowPane prefHeight="357.0" prefWidth="453.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="31.0" prefWidth="196.0" text="Entities Population Setup" textAlignment="RIGHT" textFill="#a33333">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <ListView id="ent-pop-listview" fx:id="entPopulationListView" prefHeight="282.0" prefWidth="453.0" />
+                  <Label id="max-pop-label" fx:id="maxPopLabel" contentDisplay="CENTER" prefHeight="21.0" prefWidth="232.0" text="   MAX POPULATION: " textFill="#139c59" wrapText="true">
+                     <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                     </font></Label>
+                  <Label prefHeight="17.0" prefWidth="396.0" text="  Attention! &quot;Set&quot; button must be clicked in order to set the value!" textFill="#dd1212">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </FlowPane>
+         </content>
+      </ScrollPane>
+      <ScrollPane minViewportHeight="250.0" minViewportWidth="200.0" prefHeight="357.0" prefViewportHeight="500.0" prefViewportWidth="400.0" prefWidth="595.0" HBox.hgrow="ALWAYS">
+         <content>
+            <FlowPane prefHeight="353.0" prefWidth="663.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="31.0" prefWidth="233.0" text="Environment Variables Setup" textAlignment="RIGHT" textFill="#a33333">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <ListView id="env-prop-listview" fx:id="envPropListView" prefHeight="279.0" prefWidth="657.0" />
+                  <ButtonBar prefHeight="43.0" prefWidth="658.0">
+                     <buttons>
+                        <Button id="clear-var-button" fx:id="clearVarButton" mnemonicParsing="false" onAction="#onClearVarClicked" prefHeight="25.0" prefWidth="47.0" text="Clear" />
+                        <Button id="start-button" fx:id="startButton" mnemonicParsing="false" onAction="#onStartButtonClicked" text="Start" />
+                     </buttons>
+                  </ButtonBar>
+               </children>
+            </FlowPane>
+         </content>
+      </ScrollPane>
+   </children>
+   <padding>
+      <Insets top="5.0" />
+   </padding>
+</HBox>
