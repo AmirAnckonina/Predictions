@@ -31,7 +31,6 @@ public interface SimulatorManager {
     SimulationResultMappedProperties getMappedPropertiesToNumOfEntitiesWithSameValues(String propertyName, String entityName, String guid);
 
     SimulationManualParamsDto getSimulationManualParamsByGuid(String simulationGuid);
-    public ResultManager getSimulatorResultManager();
 
     EntityPopulationOvertimeDto getEntityPopulationOvertimeByGuid(String guid);
 

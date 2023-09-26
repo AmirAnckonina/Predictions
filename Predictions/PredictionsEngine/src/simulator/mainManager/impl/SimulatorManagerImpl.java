@@ -8,8 +8,8 @@ import simulator.manualSetup.manager.api.ManualSimulationSetupManager;
 import simulator.establishment.manager.api.EstablishmentManager;
 import simulator.manualSetup.manager.impl.ManualSimulationSetupManagerImpl;
 import simulator.establishment.manager.impl.EstablishmentManagerImpl;
-import simulator.execution.manager.api.SimulatorExecutionManager;
-import simulator.execution.manager.impl.SimulatorExecutionManagerImpl;
+import simulator.execution.manager.api.ExecutionManager;
+import simulator.execution.manager.impl.ExecutionManagerImpl;
 import simulator.information.manager.api.InformationManager;
 import simulator.information.manager.impl.InformationManagerImpl;
 import simulator.mainManager.api.SimulatorManager;
@@ -27,23 +27,29 @@ public class SimulatorManagerImpl implements SimulatorManager {
     private EstablishmentManager establishmentManager;
     private ManualSimulationSetupManager manualSimulationSetupManager;
     private WorldBuilderManager worldBuilderManager;
-    private SimulatorExecutionManager simulatorExecutionManager;
+    private ExecutionManager executionManager;
     private InformationManager infoManager;
-    private ResultManager simulatorResultManager;
 
     public SimulatorManagerImpl() {
         this.worldBuilderManager = new WorldBuilderManagerImpl();
-        this.simulatorExecutionManager = new SimulatorExecutionManagerImpl();
+        this.executionManager = new ExecutionManagerImpl();
         this.infoManager = new InformationManagerImpl();
         this.establishmentManager = new EstablishmentManagerImpl();
         this.manualSimulationSetupManager = new ManualSimulationSetupManagerImpl();
-        this.simulatorResultManager = new ResultManagerImpl();
+    }
+
+    public SimulatorManagerImpl(EstablishmentManager establishmentManager, ManualSimulationSetupManager manualSimulationSetupManager, WorldBuilderManager worldBuilderManager, ExecutionManager executionManager, InformationManager infoManager) {
+        this.establishmentManager = establishmentManager;
+        this.manualSimulationSetupManager = manualSimulationSetupManager;
+        this.worldBuilderManager = worldBuilderManager;
+        this.executionManager = executionManager;
+        this.infoManager = infoManager;
     }
 
     @Override
     public void buildSimulationWorld(String filePath) {
         this.worldBuilderManager.buildSimulationWorld(filePath);
-        this.simulatorExecutionManager
+        this.executionManager
                 .initThreadPoolService(
                         this.worldBuilderManager
                                 .getWorldDefinition()
@@ -79,7 +85,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
         SimulationDocument simulationDocument = infoManager.createNewSimulationDocument(
                 worldBuilderManager.getWorldDefinition(), establishmentManager.getEstablishedWorldInstance());
 
-        simulatorExecutionManager.runSimulator(simulationDocument);
+        executionManager.runSimulator(simulationDocument);
         return this.infoManager.getInitialSimulationDocumentInfoDto(simulationDocument.getSimulationGuid());
     }
 
@@ -167,19 +173,19 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
     @Override
     public SimulationDocumentInfoDto stopSimulationByGuid(String guid) {
-        this.simulatorExecutionManager.stopSimulation(this.infoManager.getSimulationDocumentByGuid(guid));
+        this.executionManager.stopSimulation(this.infoManager.getSimulationDocumentByGuid(guid));
         return this.infoManager.getLatestSimulationDocumentInfoDto(guid);
     }
 
     @Override
     public SimulationDocumentInfoDto pauseSimulationByGuid(String guid) {
-        this.simulatorExecutionManager.pauseSimulation(this.infoManager.getSimulationDocumentByGuid(guid));
+        this.executionManager.pauseSimulation(this.infoManager.getSimulationDocumentByGuid(guid));
         return this.infoManager.getLatestSimulationDocumentInfoDto(guid);
     }
 
     @Override
     public SimulationDocumentInfoDto resumeSimulationByGuid(String guid) {
-        this.simulatorExecutionManager.resumeSimulation(this.infoManager.getSimulationDocumentByGuid(guid));
+        this.executionManager.resumeSimulation(this.infoManager.getSimulationDocumentByGuid(guid));
         return this.infoManager.getLatestSimulationDocumentInfoDto(guid);
     }
 
@@ -206,10 +212,6 @@ public class SimulatorManagerImpl implements SimulatorManager {
         return this.infoManager.collectAllSimulationsStatusesDto();
     }
 
-    @Override
-    public ResultManager getSimulatorResultManager() {
-        return simulatorResultManager;
-    }
 
     @Override
     public EntityPopulationOvertimeDto getEntityPopulationOvertimeByGuid(String guid) {
