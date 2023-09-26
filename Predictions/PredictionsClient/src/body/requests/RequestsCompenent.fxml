@@ -16,7 +16,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="466.0" prefWidth="1192.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="body.requests.RequestsTabController">
    <children>
       <Separator layoutX="6.0" layoutY="166.0" prefHeight="17.0" prefWidth="1176.0" />
@@ -108,7 +107,7 @@
                   <RowConstraints maxHeight="116.0" minHeight="10.0" prefHeight="116.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <ListView id="templates-list-view" fx:id="templatesListView" prefHeight="124.0" prefWidth="416.0" GridPane.rowIndex="1" />
+                  <ListView id="templates-list-view" fx:id="templatesListView" onMouseClicked="#simulationInListViewClicked" prefHeight="124.0" prefWidth="416.0" GridPane.rowIndex="1" />
                   <Label alignment="CENTER" prefHeight="17.0" prefWidth="409.0" text="Available Simulation Templates">
                      <font>
                         <Font name="System Bold Italic" size="14.0" />
@@ -128,7 +127,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button fx:id="sendRequestButton" mnemonicParsing="false" prefHeight="61.0" prefWidth="62.0" text="Send" GridPane.columnIndex="1" />
+                        <Button fx:id="sendRequestButton" mnemonicParsing="false" onAction="#onSendReqBtnClicked" prefHeight="61.0" prefWidth="62.0" text="Send" GridPane.columnIndex="1" />
                      </children>
                   </GridPane>
                </buttons>

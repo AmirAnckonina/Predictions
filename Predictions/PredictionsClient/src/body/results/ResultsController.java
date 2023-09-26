@@ -52,7 +52,6 @@ public class ResultsController {
     @FXML private RadioButton entityStatisticsRadioButton;
     @FXML private RadioButton simulationStatisticsRadioButton;
     @FXML private RadioButton entityGraphPopulationRadioButton;
-
     @FXML private GridPane resultComponentHolderGP;
 
     @FXML

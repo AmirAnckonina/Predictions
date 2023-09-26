@@ -9,7 +9,6 @@ import simulator.definition.world.WorldDefinition;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.execution.instance.world.api.WorldInstance;
-import simulator.information.manager.exception.SimulationInformationException;
 import simulator.information.simulationDocument.api.SimulationDocument;
 import simulator.information.simulationDocument.impl.SimulationDocumentImpl;
 import simulator.information.tickDocument.api.TickDocument;
@@ -23,12 +22,10 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class InformationManagerImpl implements InformationManager {
-    private ResultManager simulatorResultManager;
     private Map<String, SimulationDocument> simulationDocumentMap;
 
     public InformationManagerImpl() {
         this.simulationDocumentMap = new ConcurrentHashMap<>();
-        this.simulatorResultManager = new ResultManagerImpl();
     }
 
     @Override
