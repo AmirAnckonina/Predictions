@@ -2,7 +2,7 @@ package simulator.execution.manager.api;
 
 import simulator.information.simulationDocument.api.SimulationDocument;
 
-public interface SimulatorExecutionManager {
+public interface ExecutionManager {
 
     void runSimulator(SimulationDocument simulationDocument);
     void initThreadPoolService(Integer threadCount);

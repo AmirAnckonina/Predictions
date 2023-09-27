@@ -28,16 +28,14 @@ public class SimulationDocumentImpl implements SimulationDocument {
     private SimulationStatus simulationStatus;
     private SimulationDocumentInfoDto initialSimulationDocumentInfoDto;
     private SimulationManualParamsDto simulationManualParamsDto;
-//private Map<SimulationStatus, SimulationDocumentInfoDto> statusInfoMap;
+
 
     public SimulationDocumentImpl(String simulationGuid, WorldInstance worldInstance) {
-        synchronized (this) {
-            this.SimulationGuid = simulationGuid;
-            this.worldInstance = worldInstance;
-            this.simulationStatus = SimulationStatus.READY;
-            this.tickDocumentMap = new ConcurrentHashMap<>();
-        }
-        this.simulationManualParamsDto = simulationManualParamsDto;
+
+        this.SimulationGuid = simulationGuid;
+        this.worldInstance = worldInstance;
+        this.simulationStatus = SimulationStatus.READY;
+        this.tickDocumentMap = new ConcurrentHashMap<>();
         this.createInitialSimulationDocumentInfoDto();
         this.createSimulationManualParamsDto();
         this.tickDocumentMap.put(INIT_TICK, new TickDocumentImpl(INIT_TICK, 0, this.worldInstance.getEntitiesInstances()));

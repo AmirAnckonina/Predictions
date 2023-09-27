@@ -1,20 +1,16 @@
 package simulator.execution.manager.impl;
 
-import dto.SimulationEndDto;
 import enums.SimulationStatus;
-import simulator.establishment.manager.api.EstablishmentManager;
-import simulator.execution.instance.world.api.WorldInstance;
-import simulator.execution.manager.api.SimulatorExecutionManager;
+import simulator.execution.manager.api.ExecutionManager;
 import simulator.information.simulationDocument.api.SimulationDocument;
-import simulator.runner.api.SimulationRunner;
 import simulator.runner.impl.SimulationRunnerImpl;
 
 import java.util.concurrent.*;
 
-public class SimulatorExecutionManagerImpl implements SimulatorExecutionManager {
+public class ExecutionManagerImpl implements ExecutionManager {
     private ThreadPoolExecutor simulationExecutorService;
 
-    public SimulatorExecutionManagerImpl() { }
+    public ExecutionManagerImpl() { }
     @Override
     public void runSimulator(SimulationDocument simulationDocument) {
         this.simulationExecutorService.execute(new SimulationRunnerImpl(simulationDocument));
