@@ -1,7 +1,5 @@
 package ui.executionsHistory.detailsComponent.histogram.byStatistic;
 
-import UI.impl.javaFX.tabBody.results.ResultsController;
-import UI.impl.javaFX.tabBody.results.detailsComponent.histogram.ExecutionResultController;
 import dto.PropertiesAvgConsistencyDto;
 import dto.PropertiesConsistencyDto;
 import dto.SimulationDetailsDto;
@@ -9,11 +7,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
+import ui.executionsHistory.ExecutionsHistoryController;
+import ui.executionsHistory.detailsComponent.histogram.ExecutionHistogramController;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExecutionResultStatisticByPropertyController implements ExecutionResultController {
+public class ExecutionResultStatisticByPropertyController implements ExecutionHistogramController {
 
     @FXML
     private ListView<Label> executionDetailsLeftEntitiesListView;
@@ -29,7 +29,7 @@ public class ExecutionResultStatisticByPropertyController implements ExecutionRe
 
     private SimulationDetailsDto simulationDetailsDto;
 
-    private ResultsController mainController;
+    private ExecutionsHistoryController mainController;
 
 
     @Override
@@ -77,7 +77,7 @@ public class ExecutionResultStatisticByPropertyController implements ExecutionRe
 
 
     @Override
-    public void setMainController(ResultsController mainController) {
+    public void setMainController(ExecutionsHistoryController mainController) {
         this.mainController = mainController;
     }
 

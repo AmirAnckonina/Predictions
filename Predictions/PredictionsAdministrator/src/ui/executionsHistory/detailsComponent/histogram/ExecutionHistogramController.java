@@ -1,17 +1,17 @@
 package ui.executionsHistory.detailsComponent.histogram;
 
-import UI.impl.javaFX.tabBody.results.ResultsController;
 import dto.PropertiesAvgConsistencyDto;
 import dto.PropertiesConsistencyDto;
 import javafx.scene.input.MouseEvent;
+import ui.executionsHistory.ExecutionsHistoryController;
 
 import java.util.List;
 
-public interface ExecutionResultController {
+public interface ExecutionHistogramController {
     void setPropertiesList(List<String> properties);
     void propertyNameClicked(MouseEvent event);
     void entityNameClickedLeftList(MouseEvent event);
-    void setMainController(ResultsController mainController);
+    void setMainController(ExecutionsHistoryController mainController);
     void setLeftEntitiesList(List<String> entities);
     void setRightEntitiesList(List<String> entities);
     void clearRightEntityList();

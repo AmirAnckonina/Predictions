@@ -3,15 +3,15 @@ package ui.executionsHistory;
 
 
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import dto.*;
+import enums.SimulationStatus;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,20 +20,21 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import ui.executionsHistory.detailsComponent.DetailsResultController;
+import ui.executionsHistory.detailsComponent.DetailsResultControllerImpl;
 import ui.executionsHistory.detailsComponent.entityPopulationGraph.EntityPopulationGraphController;
 import ui.executionsHistory.detailsComponent.entityPopulationListView.EntityPopulationListViewController;
-import ui.executionsHistory.detailsComponent.histogram.ExecutionResultController;
+import ui.executionsHistory.detailsComponent.histogram.ExecutionHistogramController;
 import ui.executionsHistory.detailsComponent.histogram.byEntities.ExecutionResultByEntityController;
 import ui.executionsHistory.detailsComponent.histogram.byStatistic.ExecutionResultStatisticByPropertyController;
 import ui.mainScene.MainController;
+import simulator.mainManager.api.SimulatorManager;
 
 import static ui.common.CommonResourcesPaths.*;
 
 
 public class ExecutionsHistoryController {
     private MainController mainController;
-    private ExecutionResultController executionResultController;
+    private ExecutionHistogramController executionHistoryController;
     private ExecutionResultStatisticByPropertyController executionResultStatisticByPropertyController;
     private EntityPopulationGraphController entityPopulationGraphController;
     private EntityPopulationListViewController entityPopulationListViewController;
@@ -41,7 +42,7 @@ public class ExecutionsHistoryController {
     private ScheduledExecutorService scheduledExecutorService;
     private ExecutionResultByEntityController executionResultByEntityController = null;
     @FXML
-    private DetailsResultController detailsResultController;
+    private DetailsResultControllerImpl detailsResultController;
 
     @FXML private ListView<Label> executionListView;
 
@@ -53,6 +54,9 @@ public class ExecutionsHistoryController {
     @FXML private RadioButton entityGraphPopulationRadioButton;
 
     @FXML private GridPane resultComponentHolderGP;
+    private SimulatorManager simulatorManager;
+
+    private String simulatorResultManager;
 
     @FXML
     public void initialize() {
@@ -127,30 +131,29 @@ public class ExecutionsHistoryController {
 
         try {
             String guid = this.executionListView.getSelectionModel().getSelectedItem().getText();
-//            SimulationDocumentInfoDto simulationDocumentInfoDto;
-//            //SimulationDocumentInfoDto simulationDocumentInfoDto = this.simulatorManager.getLatestSimulationDocumentInfo(guid);
-//
-//            updateSimulationResultComponent(simulationDocumentInfoDto); //info component
-//            startUIPollingThread();
+            SimulationDocumentInfoDto simulationDocumentInfoDto = this.simulatorManager.getLatestSimulationDocumentInfo(guid);
 
-//            if(simulationDocumentInfoDto.getSimulationStatus() == SimulationStatus.STOPPED||
-//                    simulationDocumentInfoDto.getSimulationStatus() == SimulationStatus.COMPLETED) {
-//                if (resultByEntity.isSelected()) {
-//                    List<String> simulationEntities = new ArrayList<>();
-//                    simulationDocumentInfoDto.getCurrentEntityPopulationMap().forEach(
-//                            (entityName, numOfEntities) ->simulationEntities.add(entityName + ": " + numOfEntities));
-//                    createHistogramByEntityComponent(simulationEntities);
-//                } else {
-//                    if(entityStatisticsRadioButton.isSelected()) {
-//                        createHistogramByPropertyComponent(simulatorManager.getAllEntities());
-//                    }
-//                    else if(simulationStatisticsRadioButton.isSelected()) {
-//                        createStatisticByPropertyComponent(simulatorManager.getAllEntities());
-//                    } else if (entityGraphPopulationRadioButton.isSelected()) {
-//                        createEntityPopulationGraphComponent();
-//                    }
-//                }
-//            }
+            updateSimulationResultComponent(simulationDocumentInfoDto); //info component
+            startUIPollingThread();
+
+            if(simulationDocumentInfoDto.getSimulationStatus() == SimulationStatus.STOPPED||
+                    simulationDocumentInfoDto.getSimulationStatus() == SimulationStatus.COMPLETED) {
+                if (resultByEntity.isSelected()) {
+                    List<String> simulationEntities = new ArrayList<>();
+                    simulationDocumentInfoDto.getCurrentEntityPopulationMap().forEach(
+                            (entityName, numOfEntities) ->simulationEntities.add(entityName + ": " + numOfEntities));
+                    createHistogramByEntityComponent(simulationEntities);
+                } else {
+                    if(entityStatisticsRadioButton.isSelected()) {
+                        createHistogramByPropertyComponent(simulatorManager.getAllEntities());
+                    }
+                    else if(simulationStatisticsRadioButton.isSelected()) {
+                        createStatisticByPropertyComponent(simulatorManager.getAllEntities());
+                    } else if (entityGraphPopulationRadioButton.isSelected()) {
+                        createEntityPopulationGraphComponent();
+                    }
+                }
+            }
         } catch (Exception e){
             e.printStackTrace(System.out);
         }
@@ -161,10 +164,10 @@ public class ExecutionsHistoryController {
             if (this.executionListView.getSelectionModel().getSelectedItem() != null) {
                 // get the current simulation Guid - according to what currently choosed under lost view
                 String guid = this.executionListView.getSelectionModel().getSelectedItem().getText();
-//                SimulationDocumentInfoDto simulationDocumentDto = this.simulatorManager.getLatestSimulationDocumentInfo(guid);
-//                Platform.runLater(() -> {
-//                    updateSimulationInfoUI(simulationDocumentDto);
-//                });
+                SimulationDocumentInfoDto simulationDocumentDto = this.simulatorManager.getLatestSimulationDocumentInfo(guid);
+                Platform.runLater(() -> {
+                    updateSimulationInfoUI(simulationDocumentDto);
+                });
             }
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -172,21 +175,21 @@ public class ExecutionsHistoryController {
     }
 
     private void updateSimulationInfoUI(SimulationDocumentInfoDto simulationDocumentInfoDto) {
-//        detailsResultController.setValues(simulationDocumentInfoDto.getSimulationGuid(),
-//                (new Integer(simulationDocumentInfoDto.getTickNo() + 1)).toString(),
-//                simulationDocumentInfoDto.getTimePassedInSeconds().toString(),
-//                simulationDocumentInfoDto.getSimulationStatus().toString(),
-//                simulationDocumentInfoDto.getCurrentEntityPopulationMap(),
-//                simulationDocumentInfoDto.getInitialEntityPopulationMap());
+        detailsResultController.setValues(simulationDocumentInfoDto.getSimulationGuid(),
+                (new Integer(simulationDocumentInfoDto.getTickNo() + 1)).toString(),
+                simulationDocumentInfoDto.getTimePassedInSeconds().toString(),
+                simulationDocumentInfoDto.getSimulationStatus().toString(),
+                simulationDocumentInfoDto.getCurrentEntityPopulationMap(),
+                simulationDocumentInfoDto.getInitialEntityPopulationMap());
     }
 
     private void updateSimulationResultComponent(SimulationDocumentInfoDto simulationDocumentInfoDto) {
-//        detailsResultController.setValues(simulationDocumentInfoDto.getSimulationGuid(),
-//                (new Integer(simulationDocumentInfoDto.getTickNo() + 1)).toString(),
-//                simulationDocumentInfoDto.getTimePassedInSeconds().toString(),
-//                simulationDocumentInfoDto.getSimulationStatus().toString(),
-//                simulationDocumentInfoDto.getCurrentEntityPopulationMap(),
-//                simulationDocumentInfoDto.getInitialEntityPopulationMap());
+        detailsResultController.setValues(simulationDocumentInfoDto.getSimulationGuid(),
+                (new Integer(simulationDocumentInfoDto.getTickNo() + 1)).toString(),
+                simulationDocumentInfoDto.getTimePassedInSeconds().toString(),
+                simulationDocumentInfoDto.getSimulationStatus().toString(),
+                simulationDocumentInfoDto.getCurrentEntityPopulationMap(),
+                simulationDocumentInfoDto.getInitialEntityPopulationMap());
     }
 
     private void createStatisticByPropertyComponent(List<String> entitiesList){
@@ -204,11 +207,11 @@ public class ExecutionsHistoryController {
                 loader.setLocation(fxmlUrl);
                 GridPane gpComponent = loader.load();
 
-                executionResultController = loader.getController();
-                executionResultController.setMainController(this);
-                executionResultController.setLeftEntitiesList(entitiesList);
-                executionResultController.setPropertiesAvgConsistencyDto(propertiesAvgConsistencyDto);
-                executionResultController.setPropertiesConsistencyDto(simulationDocumentDto);
+                executionHistoryController = loader.getController();
+                executionHistoryController.setMainController(this);
+                executionHistoryController.setLeftEntitiesList(entitiesList);
+                executionHistoryController.setPropertiesAvgConsistencyDto(propertiesAvgConsistencyDto);
+                executionHistoryController.setPropertiesConsistencyDto(simulationDocumentDto);
 
                 resultComponentHolderGP.getChildren().clear();
                 resultComponentHolderGP.getChildren().add(gpComponent);
@@ -227,9 +230,9 @@ public class ExecutionsHistoryController {
             loader.setLocation(fxmlUrl);
             GridPane gpComponent = loader.load();
 
-            executionResultController = loader.getController();
-            executionResultController.setMainController(this);
-            executionResultController.setLeftEntitiesList(entitiesList);
+            executionHistoryController = loader.getController();
+            executionHistoryController.setMainController(this);
+            executionHistoryController.setLeftEntitiesList(entitiesList);
             resultComponentHolderGP.getChildren().clear();
             resultComponentHolderGP.getChildren().add(gpComponent);
         } catch (Exception e) {
@@ -290,7 +293,7 @@ public class ExecutionsHistoryController {
 //                .forEach((propName, numOfEntities) -> resMapped.add(propName + ": " + numOfEntities));
 //        executionResultByPropertyController.setPropertiesList(resMapped);
         List<String> resList = simulatorManager.getPropertiesByEntity(entityName);
-        executionResultController.setPropertiesList(resList);
+        executionHistoryController.setPropertiesList(resList);
     }
 
 //    public void entityChosenInHistogramByPropertyStatistic(List<String> entitiesList){
@@ -332,12 +335,12 @@ public class ExecutionsHistoryController {
         mappedProperties.getMappedPropertiesToNumOfEntitiesByValues().forEach(
                 (value, numOfEntities) -> mappedPropertiesList.add(value + ": " + numOfEntities));
 
-        executionResultController.setRightEntitiesList(mappedPropertiesList);
+        executionHistoryController.setRightEntitiesList(mappedPropertiesList);
     }
 
     public void simulationTabClicked() {
 
-        //Consider use it under bottom component that responsible to show result (histogram ... )
+//        //Consider use it under bottom component that responsible to show result (histogram ... )
 //        this.executionListView.getItems().clear();
 //        this.simulatorResultManager = this.simulatorManager.getSimulatorResultManagerImpl();
 //

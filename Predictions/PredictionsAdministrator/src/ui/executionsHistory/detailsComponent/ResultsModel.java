@@ -1,13 +1,17 @@
 package ui.executionsHistory.detailsComponent;
 
-import UI.impl.javaFX.tabBody.results.ResultsController;
+import javafx.beans.property.SimpleStringProperty;
 
 public class ResultsModel {
-    private ResultsController resultsController;
+    protected SimpleStringProperty simulationID;
+    protected SimpleStringProperty numOfTicks;
+    protected SimpleStringProperty timeCounter;
+    protected SimpleStringProperty status;
 
-
-
-    public void setResultsController(ResultsController resultsController) {
-        this.resultsController = resultsController;
+    public ResultsModel() {
+        this.simulationID = new SimpleStringProperty();
+        this.numOfTicks = new SimpleStringProperty();
+        this.timeCounter = new SimpleStringProperty();
+        this.status = new SimpleStringProperty();
     }
 }

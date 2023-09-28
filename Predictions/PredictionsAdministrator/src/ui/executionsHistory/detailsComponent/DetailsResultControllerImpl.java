@@ -1,8 +1,5 @@
 package ui.executionsHistory.detailsComponent;
 
-import UI.impl.javaFX.tabBody.results.DetailsResultModel;
-import UI.impl.javaFX.tabBody.results.ResultsController;
-import UI.impl.javaFX.tabBody.results.detailsComponent.entity.EntityComponentController;
 import dto.SimulationDocumentInfoDto;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,16 +10,18 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import ui.executionsHistory.ExecutionsHistoryController;
+import ui.executionsHistory.detailsComponent.entity.EntityComponentController;
 
 import java.net.URL;
 import java.util.Map;
 
-import static UI.impl.javaFX.common.CommonResourcesPaths.*;
+import static ui.common.CommonResourcesPaths.RESULT_SIMULATION_ENTITY_DETAILS_FXML_RESOURCE;
 
 
-public class DetailsResultController extends DetailsResultModel {
+public class DetailsResultControllerImpl extends ResultsModel {
 
-    private ResultsController mainController;
+    private ExecutionsHistoryController mainController;
 
     @FXML
     private Label simulationIDLbl;
@@ -52,11 +51,13 @@ public class DetailsResultController extends DetailsResultModel {
     private HBox runningSimulationButtons;
 
     @FXML
-    public void initialize(){
-        simulationIDLbl.textProperty().bind(simulationID);
-        ticksLbl.textProperty().bind(numOfTicks);
-        timeCounterLbl.textProperty().bind(timeCounter);
-        statusLbl.textProperty().bind(status);
+    public void initialize() {
+//        ToggleGroup toggleGroup = new ToggleGroup();
+//        detailsResultController.setMainController(this);
+//        entityStatisticsRadioButton.setToggleGroup(toggleGroup);
+//        simulationStatisticsRadioButton.setToggleGroup(toggleGroup);
+//        entityGraphPopulationRadioButton.setToggleGroup(toggleGroup);
+//        resultByEntity.setToggleGroup(toggleGroup);
     }
 
     @FXML
@@ -74,7 +75,7 @@ public class DetailsResultController extends DetailsResultModel {
         this.mainController.onStopSimulation(this.simulationID.get());
     }
 
-    public void setMainController(ResultsController mainController) {
+    public void setMainController(ExecutionsHistoryController mainController) {
         this.mainController = mainController;
     }
 

@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 
 public class ManagementController {
@@ -19,7 +20,7 @@ public class ManagementController {
     private GridPane availableSimulationDetailsGrid;
 
     @FXML
-    private ListView<?> availableSimulationListView;
+    private ListView<Label> availableSimulationListView;
 
     @FXML
     private GridPane threadPoolManagementGrid;
@@ -43,6 +44,12 @@ public class ManagementController {
     private Label setThreadMassageLbl;
 
     @FXML
+    public void initialize() {
+        ToggleGroup toggleGroup = new ToggleGroup();
+    }
+
+
+    @FXML
     void loadFileButtonClicked(ActionEvent event) {
 
     }
@@ -56,5 +63,4 @@ public class ManagementController {
     void setThreadsCountButtonClicked(ActionEvent event) {
 
     }
-
 }

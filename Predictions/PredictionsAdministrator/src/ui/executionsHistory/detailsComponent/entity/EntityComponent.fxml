@@ -4,7 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="23.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.impl.javaFX.tabBody.results.detailsComponent.entity.EntityComponentController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="23.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.executionsHistory.detailsComponent.entity.EntityComponentController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
@@ -20,8 +20,4 @@
       </Label>
       <Label fx:id="entityCountLbl" text="-" GridPane.columnIndex="1" />
    </children>
-   <stylesheets>
-      <URL value="@../../../details/subbodyobjects/environment/singleComponent.css" />
-      <URL value="@../../../details/subbodyobjects/ruleComponent/actionsComponent/generic/singleComponent.css" />
-   </stylesheets>
 </GridPane>
