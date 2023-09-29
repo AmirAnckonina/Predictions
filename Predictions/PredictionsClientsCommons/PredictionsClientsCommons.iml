@@ -7,21 +7,21 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="Shared" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/OneDrive - The Academic College of Tel-Aviv Jaffa - MTA/Java Course/3rdpartylib/annotations-13.0.jar!/" />
-          <root url="jar://$USER_HOME$/OneDrive - The Academic College of Tel-Aviv Jaffa - MTA/Java Course/3rdpartylib/gson-2.8.8.jar!/" />
-          <root url="jar://$USER_HOME$/OneDrive - The Academic College of Tel-Aviv Jaffa - MTA/Java Course/3rdpartylib/kotlin-stdlib-1.4.10.jar!/" />
-          <root url="jar://$USER_HOME$/OneDrive - The Academic College of Tel-Aviv Jaffa - MTA/Java Course/3rdpartylib/okhttp-4.9.1.jar!/" />
-          <root url="jar://$USER_HOME$/OneDrive - The Academic College of Tel-Aviv Jaffa - MTA/Java Course/3rdpartylib/okio-2.8.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/src/resources/annotations-13.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/src/resources/gson-2.8.8.jar!/" />
+          <root url="jar://$MODULE_DIR$/src/resources/kotlin-stdlib-1.4.10.jar!/" />
+          <root url="jar://$MODULE_DIR$/src/resources/okhttp-4.9.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/src/resources/okio-2.8.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/OneDrive - The Academic College of Tel-Aviv Jaffa - MTA/Java Course/3rdpartylib/gson-2.8.8-sources.jar!/" />
+          <root url="jar://$MODULE_DIR$/src/resources/gson-2.8.8-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="Shared" />
   </component>
 </module>
