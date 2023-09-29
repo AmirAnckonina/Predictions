@@ -36,7 +36,7 @@ public class DetailsController {
     private Map<String, StringEntityDto> entitiesDtoMap;
     private Map<String, StringRuleDto> ruleMap;
     private Map<String, String> envPropertiesInfo;
-    private SimulationDetailsDto simulationDetailsDto;
+    private SimulationWorldDetailsDto simulationDetailsDto;
 
     @FXML
     private ListView<simulationTitle> rulesDetailsLeftListLV;
@@ -63,7 +63,7 @@ public class DetailsController {
         this.primaryStage = primaryStage;
     }
 
-    public void setSimulationDetailsDto(SimulationDetailsDto simulationDetailsDto) {
+    public void setSimulationDetailsDto(SimulationWorldDetailsDto simulationDetailsDto) {
         this.simulationDetailsDto = simulationDetailsDto;
     }
 
