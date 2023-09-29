@@ -22,7 +22,7 @@
          <children>
             <TabPane fx:id="mainTabPane" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="1">
               <tabs>
-                <Tab text="Management">
+                <Tab onSelectionChanged="#managementTabSelected" text="Management">
                      <content>
                         <ScrollPane prefHeight="200.0" prefWidth="200.0">
                            <content>
@@ -44,7 +44,7 @@
                         </ScrollPane>
                      </content>
                   </Tab>
-                  <Tab text="Executions History">
+                  <Tab onSelectionChanged="#executionsHistoryTabClicked" text="Executions History">
                      <content>
                         <ScrollPane prefHeight="200.0" prefWidth="200.0">
                            <content>
