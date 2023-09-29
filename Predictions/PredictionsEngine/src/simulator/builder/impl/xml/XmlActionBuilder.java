@@ -4,7 +4,7 @@ import resources.jaxb.schema.generated.PRDAction;
 import simulator.builder.api.interfaces.ActionBuilder;
 import simulator.builder.impl.baseImpl.BaseArgumentExpressionBuilder;
 import simulator.builder.utils.ArgExpressionContextDemands;
-import simulator.builder.utils.exception.WorldBuilderException;
+import simulator.builder.utils.exception.WorldBuilderManagerException;
 import simulator.builder.api.abstracts.AbstractComponentBuilder;
 import simulator.builder.validator.api.WorldBuilderContextValidator;
 import enums.PropertyType;
@@ -50,7 +50,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
         }
 
         if (!actionContextIsValid) {
-            throw new WorldBuilderException("For Action " + generatedAction.getType() +
+            throw new WorldBuilderManagerException("For Action " + generatedAction.getType() +
                     ", the entity " + generatedAction.getEntity() + ", context doesn't matched");
         }
 
@@ -98,7 +98,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
                 break;
 
             default:
-                throw new WorldBuilderException("Unsupported action type.");
+                throw new WorldBuilderManagerException("Unsupported action type.");
 
         }
 
@@ -157,7 +157,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
             return buildDivideAction();
 
         } else {
-            throw new WorldBuilderException("Unsupported calculation action type.");
+            throw new WorldBuilderManagerException("Unsupported calculation action type.");
         }
     }
 
@@ -302,7 +302,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
         boolean targetValid = contextValidator.validateActionEntityContext(targetEntity);
 
         if (!srcValid || !targetValid) {
-            throw new WorldBuilderException("the given source or target entity under proximity action is invalid.");
+            throw new WorldBuilderManagerException("the given source or target entity under proximity action is invalid.");
         }
 
         String rawEnvDepth = generatedAction.getPRDEnvDepth().getOf();
@@ -333,7 +333,7 @@ public class XmlActionBuilder extends AbstractComponentBuilder implements Action
         boolean createEntityValid = contextValidator.validateActionEntityContext(createEntity);
 
         if (!killEntityValid || !createEntityValid) {
-            throw new WorldBuilderException("the given kill or create entity under replace action is invalid.");
+            throw new WorldBuilderManagerException("the given kill or create entity under replace action is invalid.");
         }
 
         ReplaceActionCreationMode creationMode

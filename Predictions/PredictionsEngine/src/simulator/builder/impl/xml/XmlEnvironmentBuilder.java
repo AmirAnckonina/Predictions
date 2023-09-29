@@ -3,7 +3,7 @@ package simulator.builder.impl.xml;
 import resources.jaxb.schema.generated.PRDEnvProperty;
 import resources.jaxb.schema.generated.PRDEnvironment;
 import simulator.builder.api.interfaces.EnvironmentBuilder;
-import simulator.builder.utils.exception.WorldBuilderException;
+import simulator.builder.utils.exception.WorldBuilderManagerException;
 import simulator.builder.api.abstracts.AbstractComponentBuilder;
 import simulator.builder.validator.api.WorldBuilderContextValidator;
 import simulator.definition.environment.EnvironmentDefinition;
@@ -42,7 +42,7 @@ public class XmlEnvironmentBuilder extends AbstractComponentBuilder implements E
                 envProperties.put(newEnvPropName, newEnvProperty);
                 contextValidator.addEnvironmentProperty(newEnvPropName, newEnvProperty.getType());
             } else {
-                throw new WorldBuilderException(
+                throw new WorldBuilderManagerException(
                         "Environment property build failed. The following env property name already exists: " + newEnvProperty.getName());
             }
         }

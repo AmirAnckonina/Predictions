@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 
 <ScrollPane prefHeight="655.0" prefWidth="1174.0" style="-fx-fit-to-height: true; -fx-fit-to-width: true;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.PredictionsMainController">
    <content>
@@ -13,20 +16,22 @@
          <center>
             <TabPane fx:id="mainTabPane" prefHeight="453.0" prefWidth="1170.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
               <tabs>
-                <Tab onCloseRequest="#executionTabClicked" onClosed="#resultsTabClicked" onSelectionChanged="#detailsTabClicked" text="Details">
+                <Tab onSelectionChanged="#detailsTabClicked" text="Details">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="1200.0">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="411.0" prefWidth="1033.0">
                            <children>
+                              <HBox prefHeight="480.0" prefWidth="1168.0" />
                               <fx:include fx:id="detailsComponent" source="../body/details/PredictionsDetailsIGrid.fxml" />
                            </children>
                         </AnchorPane>
                   </content>
                 </Tab>
-                  <Tab text="Requests">
+                  <Tab onSelectionChanged="#requestsTabClicked" text="Requests">
                      <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <fx:include source="../body/requests/RequestsCompenent.fxml" />
+                              <HBox prefHeight="477.0" prefWidth="1165.0" />
+                              <fx:include fx:id="requestsTabComponent" source="../body/requests/RequestsComponent.fxml" />
                            </children>
                         </AnchorPane>
                      </content>
@@ -35,6 +40,7 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
+                              <HBox prefHeight="480.0" prefWidth="1168.0" />
                               <fx:include fx:id="newExecutionComponent" source="../body/newExecution/newExecutionMain/newExecution.fxml" />
                            </children>
                         </AnchorPane>
@@ -42,11 +48,12 @@
                 </Tab>
                   <Tab onSelectionChanged="#resultsTabClicked" text="Results">
                      <content>
-                        <HBox prefHeight="383.0" prefWidth="1170.0">
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
                            <children>
+                              <HBox prefHeight="480.0" prefWidth="1168.0" />
                               <fx:include fx:id="resultsComponent" source="../body/results/ResultsGrid.fxml" />
                            </children>
-                        </HBox>
+                        </AnchorPane>
                      </content>
                   </Tab>
               </tabs>
@@ -56,7 +63,15 @@
             <AnchorPane maxHeight="30.0" minHeight="28.0" prefHeight="29.0" prefWidth="1173.0" BorderPane.alignment="CENTER" />
          </bottom>
          <top>
-            <fx:include fx:id="topComponent" source="../top/PredictionsTop.fxml" />
+            <FlowPane prefHeight="109.0" prefWidth="1170.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" prefHeight="110.0" prefWidth="1168.0" text="Predictions - Client" textAlignment="CENTER" textFill="#652828">
+                     <font>
+                        <Font name="System Bold Italic" size="46.0" />
+                     </font>
+                  </Label>
+               </children>
+            </FlowPane>
          </top>
       </BorderPane>
    </content>

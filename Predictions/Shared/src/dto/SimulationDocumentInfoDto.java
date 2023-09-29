@@ -1,20 +1,20 @@
 package dto;
 
-import enums.SimulationStatus;
+import enums.SimulationExecutionStatus;
 
 import java.util.Map;
 
 public class SimulationDocumentInfoDto {
     private String simulationGuid;
-    private SimulationStatus simulationStatus;
+    private SimulationExecutionStatus simulationExecutionStatus;
     private Integer tickNo;
     private Long timePassedInSeconds;
     private Map<String, Integer> currentEntityPopulationMap;
     private Map<String, Integer> initialEntityPopulationMap;
 
-    public SimulationDocumentInfoDto(String simulationGuid, SimulationStatus simulationStatus, Integer tickNo, Long timePassedInSeconds, Map<String, Integer> currentEntityPopulationMap, Map<String, Integer> initialEntityPopulationMap) {
+    public SimulationDocumentInfoDto(String simulationGuid, SimulationExecutionStatus simulationExecutionStatus, Integer tickNo, Long timePassedInSeconds, Map<String, Integer> currentEntityPopulationMap, Map<String, Integer> initialEntityPopulationMap) {
         this.simulationGuid = simulationGuid;
-        this.simulationStatus = simulationStatus;
+        this.simulationExecutionStatus = simulationExecutionStatus;
         this.tickNo = tickNo;
         this.timePassedInSeconds = timePassedInSeconds;
         this.currentEntityPopulationMap = currentEntityPopulationMap;
@@ -25,8 +25,8 @@ public class SimulationDocumentInfoDto {
         return simulationGuid;
     }
 
-    public SimulationStatus getSimulationStatus() {
-        return simulationStatus;
+    public SimulationExecutionStatus getSimulationStatus() {
+        return simulationExecutionStatus;
     }
 
     public Integer getTickNo() {

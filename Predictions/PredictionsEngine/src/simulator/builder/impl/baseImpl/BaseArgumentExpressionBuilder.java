@@ -4,7 +4,7 @@ import simulator.builder.api.interfaces.ArgumentExpressionBuilder;
 import simulator.builder.utils.ArgExpressionContextDemands;
 import simulator.builder.utils.MandatoryTypeDemanding;
 import simulator.builder.utils.ExtractedParenthesesPart;
-import simulator.builder.utils.exception.WorldBuilderException;
+import simulator.builder.utils.exception.WorldBuilderManagerException;
 import simulator.builder.api.abstracts.AbstractComponentBuilder;
 import enums.PropertyType;
 import simulator.definition.rule.action.expression.argumentExpression.api.abstracts.AbstractMethodArgumentExpression;
@@ -83,7 +83,7 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
                 break;
 
             default:
-                throw new WorldBuilderException("Unrecognized method expression, can't build");
+                throw new WorldBuilderManagerException("Unrecognized method expression, can't build");
         }
 
         return methodArgExpression;
@@ -102,7 +102,7 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
         boolean envPropertyValid = contextValidator.isEnvironmentProperty(rawEnvPropString);
 
         if (!envPropertyValid || !typeValid) {
-            throw new WorldBuilderException("Cannot build Environemnt method Expression");
+            throw new WorldBuilderManagerException("Cannot build Environemnt method Expression");
         }
 
        environmentMethodArgumentExpression = new EnvironmentMethodArgumentExpression(
@@ -148,7 +148,7 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
 
 
         if (!entityAndPropertyContextValid || !propTypeAsExpected) {
-            throw new WorldBuilderException(
+            throw new WorldBuilderManagerException(
                     "evaluate Method couldn't be build because entity or property context is incorrect.");
         }
 
@@ -179,7 +179,7 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
         } else { propTypeAsExpected = true; }
 
         if (!entityAndPropertyValid || !propTypeAsExpected) {
-            throw new WorldBuilderException(
+            throw new WorldBuilderManagerException(
                     "ticks Method couldn't be build because entity or property context is incorrect.");
         }
 
@@ -241,7 +241,7 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
                     parenthesesStringValue.length());
 
         } else {
-            throw new WorldBuilderException(
+            throw new WorldBuilderManagerException(
                     "failed to extract parenthesesPart under buildArgExpression");
         }
 
@@ -256,12 +256,12 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
         if (expressionContextDemands.getEntityName().isPresent()) {
             entityName = expressionContextDemands.getEntityName().get();
         } else {
-            throw new WorldBuilderException("entityName doesn't provided in the context of property arg expression build.");
+            throw new WorldBuilderManagerException("entityName doesn't provided in the context of property arg expression build.");
         }
 
         boolean entityAndPropertyValid = contextValidator.validateActionContextProcedure(entityName, entityPropertyName);
         if (!entityAndPropertyValid) {
-            throw new WorldBuilderException("entity name - property name context is invalid. can't build property arg expression");
+            throw new WorldBuilderManagerException("entity name - property name context is invalid. can't build property arg expression");
         }
 
         return new EntityPropertyArgumentExpression(
@@ -299,7 +299,7 @@ public class BaseArgumentExpressionBuilder extends AbstractComponentBuilder impl
                 simpleValueExpression = new SimpleValueArgumentExpression(intValue, PropertyType.DECIMAL);
                 break;
             default:
-                throw new WorldBuilderException("The raw expression" + rawExpression + "can't be recognized");
+                throw new WorldBuilderManagerException("The raw expression" + rawExpression + "can't be recognized");
         }
 
         return simpleValueExpression;

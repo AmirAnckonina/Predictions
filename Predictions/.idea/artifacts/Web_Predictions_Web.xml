@@ -3,6 +3,16 @@
     <output-path>$PROJECT_DIR$/out/artifacts/Web_Predictions_Web</output-path>
     <root id="archive" name="Web-Predictions.war">
       <element id="artifact" artifact-name="Web-Predictions:Web exploded" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="PredictionsEngine" />
+          <element id="module-output" name="Shared" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="file-copy" path="$PROJECT_DIR$/Web-Predictions/web/WEB-INF/lib/annotations-13.0.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/Web-Predictions/web/WEB-INF/lib/gson-2.8.8.jar" />
+        </element>
+      </element>
     </root>
   </artifact>
 </component>

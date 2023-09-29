@@ -3,7 +3,7 @@ package simulator.builder.impl.xml;
 import resources.jaxb.schema.generated.PRDEntity;
 import resources.jaxb.schema.generated.PRDProperty;
 import simulator.builder.api.interfaces.EntityBuilder;
-import simulator.builder.utils.exception.WorldBuilderException;
+import simulator.builder.utils.exception.WorldBuilderManagerException;
 import simulator.builder.api.abstracts.AbstractComponentBuilder;
 import simulator.builder.validator.api.WorldBuilderContextValidator;
 import simulator.definition.entity.EntityDefinition;
@@ -49,7 +49,7 @@ public class XmlEntityBuilder extends AbstractComponentBuilder implements Entity
                 contextValidator.addEntityProperty(
                         generatedEntityDefinition.getName(), newProp.getName(), newProp.getType());
             } else {
-                throw new WorldBuilderException(
+                throw new WorldBuilderManagerException(
                         "Entity property build failed. The following entity property name already exists: " + newProp.getName());
             }
         }

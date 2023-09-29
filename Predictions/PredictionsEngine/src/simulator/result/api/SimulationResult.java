@@ -5,7 +5,7 @@ import dto.PropertiesAvgConsistencyDto;
 import dto.PropertiesConsistencyDto;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
-import simulator.runner.utils.exceptions.TerminationReason;
+import enums.TerminationType;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +21,7 @@ public interface SimulationResult {
     public Map<String, List<EntityInstance>> getEntities();
     void setInitializedEntityPopulation();
     void setStartingTime(long startTimeInMilliSec);
-    void setTerminationReason(TerminationReason terminationReason);
+    void setTerminationReason(TerminationType terminationReason);
 
     void setInitialEntitiesPopulationStatus(Map<String, Integer> initEntitiesPopulationStatus);
 
@@ -33,7 +33,7 @@ public interface SimulationResult {
 
     void setEntityNumericPropertyAverageMap(Map<String, Map<String, Double>> entityNumericPropertyAverageMap);
 
-    TerminationReason getTerminationReason();
+    TerminationType getTerminationReason();
 
     EntityPopulationOvertimeDto getEntitiesPopulationOvertimeMap();
 

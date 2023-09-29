@@ -13,11 +13,17 @@ import java.util.Map;
 
 public interface WorldBuilder {
     WorldDefinition buildWorld();
-    ThreadCountDefinition buildThreadCount();
+
+    Integer buildSleep();
+
+    //ThreadCountDefinition buildThreadCount();
     SpaceGridDefinition buildSpaceGrid();
     EnvironmentDefinition buildEnvironment();
     Map<String, EntityDefinition> buildEntities();
     List<Rule> buildRules();
-    Termination buildTermination();
+
+    //Termination buildTermination();
+    String getSimulationWorldName();
+    void setSimulationWorldName(String simulationWorldName);
 
 }

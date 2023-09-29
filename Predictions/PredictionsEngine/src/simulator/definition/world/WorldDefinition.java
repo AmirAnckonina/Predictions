@@ -15,22 +15,21 @@ public class WorldDefinition {
     private EnvironmentDefinition environmentDefinition;
     private Map<String,EntityDefinition> entities;
     private List<Rule> rules;
+    private Integer sleepTimeBeforeTick;
     private Termination termination;
 
     public WorldDefinition(
-            ThreadCountDefinition threadCountDefinition,
             SpaceGridDefinition spaceGridDefinition,
             EnvironmentDefinition environmentDefinition,
             Map<String, EntityDefinition> entities,
             List<Rule> rules,
-            Termination termination) {
+            Integer sleepTimeBeforeTick) {
 
-        this.threadCountDefinition = threadCountDefinition;
         this.spaceGridDefinition = spaceGridDefinition;
         this.environmentDefinition = environmentDefinition;
         this.entities = entities;
         this.rules = rules;
-        this.termination = termination;
+        this.sleepTimeBeforeTick = sleepTimeBeforeTick;
     }
 
     public EnvironmentDefinition getEnvironment() {
@@ -49,6 +48,14 @@ public class WorldDefinition {
 
     public List<Rule> getRules() {
         return rules;
+    }
+
+    public void setTermination(Termination termination) {
+        this.termination = termination;
+    }
+
+    public void setThreadCountDefinition(ThreadCountDefinition threadCountDefinition) {
+        this.threadCountDefinition = threadCountDefinition;
     }
 
     public Termination getTermination() {
