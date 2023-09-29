@@ -8,7 +8,7 @@ import body.results.detailsComponent.histogram.ExecutionResultController;
 import body.results.detailsComponent.histogram.byEntities.ExecutionResultByEntityController;
 import body.results.detailsComponent.histogram.byStatistic.ExecutionResultStatisticByPropertyController;
 import dto.*;
-import enums.SimulationStatus;
+import enums.SimulationExecutionStatus;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,7 +20,6 @@ import javafx.stage.Stage;
 import main.PredictionsMainController;
 import simulator.mainManager.api.SimulatorManager;
 import simulator.result.api.SimulationResult;
-import top.PredictionsTopModel;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -36,7 +35,6 @@ import static common.CommonResourcesPaths.*;
 
 public class ResultsController {
     private PredictionsMainController mainController;
-    private PredictionsTopModel predictionsTopModel;
     private ExecutionResultController executionResultController;
     private ExecutionResultStatisticByPropertyController executionResultStatisticByPropertyController;
     private EntityPopulationGraphController entityPopulationGraphController;
@@ -132,8 +130,8 @@ public class ResultsController {
             updateSimulationResultComponent(simulationDocumentInfoDto); //info component
             startUIPollingThread();
 
-            if(simulationDocumentInfoDto.getSimulationStatus() == SimulationStatus.STOPPED||
-                simulationDocumentInfoDto.getSimulationStatus() == SimulationStatus.COMPLETED) {
+            if(simulationDocumentInfoDto.getSimulationStatus() == SimulationExecutionStatus.STOPPED||
+                simulationDocumentInfoDto.getSimulationStatus() == SimulationExecutionStatus.COMPLETED) {
                 if (resultByEntity.isSelected()) {
                     List<String> simulationEntities = new ArrayList<>();
                     simulationDocumentInfoDto.getCurrentEntityPopulationMap().forEach(
@@ -141,10 +139,10 @@ public class ResultsController {
                     createHistogramByEntityComponent(simulationEntities);
                 } else {
                     if(entityStatisticsRadioButton.isSelected()) {
-                        createHistogramByPropertyComponent(simulatorManager.getAllEntities());
+                        createHistogramByPropertyComponent(simulatorManager.getAllEntities(""));
                     }
                     else if(simulationStatisticsRadioButton.isSelected()) {
-                        createStatisticByPropertyComponent(simulatorManager.getAllEntities());
+                        createStatisticByPropertyComponent(simulatorManager.getAllEntities(""));
                     } else if (entityGraphPopulationRadioButton.isSelected()) {
                         createEntityPopulationGraphComponent();
                     }
@@ -196,7 +194,7 @@ public class ResultsController {
                 PropertiesConsistencyDto simulationDocumentDto =
                         this.simulatorManager.getEntitiesPropertiesConsistencyMapByGuid(guid);
                 PropertiesAvgConsistencyDto propertiesAvgConsistencyDto =
-                        this.simulatorManager.geEntitiesNumericPropertiesAverageByGuid(guid);
+                        this.simulatorManager.getEntitiesNumericPropertiesAverageByGuid(guid);
 
                 FXMLLoader loader = new FXMLLoader();
                 URL fxmlUrl = getClass().getResource(RESULT_SIMULATION_PROPERTY_STATIC_HISTOGRAM_FXML_RESOURCE);
@@ -288,7 +286,7 @@ public class ResultsController {
 //        mappedPropertiesValuesToNumOfEntitiesWithSameValue.getMappedPropertiesToNumOfEntitiesByValues()
 //                .forEach((propName, numOfEntities) -> resMapped.add(propName + ": " + numOfEntities));
 //        executionResultByPropertyController.setPropertiesList(resMapped);
-        List<String> resList = simulatorManager.getPropertiesByEntity(entityName);
+        List<String> resList = simulatorManager.getPropertiesByEntity("", entityName);
         executionResultController.setPropertiesList(resList);
     }
 

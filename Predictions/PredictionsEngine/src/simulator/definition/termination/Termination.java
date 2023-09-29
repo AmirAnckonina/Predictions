@@ -1,6 +1,6 @@
 package simulator.definition.termination;
 
-import simulator.runner.utils.exceptions.TerminationReason;
+import enums.TerminationType;
 
 import java.util.Optional;
 
@@ -8,7 +8,7 @@ public class Termination {
     private final Integer ticksTermination;
     private final Integer secondsTermination;
     private Boolean terminationWillBeDoneByUser;
-    private TerminationReason terminationReason;
+    private TerminationType terminationReason;
     private Boolean terminateFlagUp;
 
     public Termination(Integer ticksTermination, Integer secondsTermination, Boolean terminationWillBeDoneByUser) {
@@ -40,10 +40,10 @@ public class Termination {
         if (terminateFlagUp) {
             shouldTerminateResult = true;
             terminateFlagUp = false;
-            this.terminationReason = TerminationReason.USER;
+            this.terminationReason = TerminationType.USER;
         } else if (terminationWillBeDoneByUser) {
             shouldTerminateResult = false;
-            this.terminationReason = TerminationReason.USER;
+            this.terminationReason = TerminationType.USER;
         } else {
             shouldTerminateResult = checkTerminationByTicksOrSeconds(currTick, currTimeInMilliSec);
         }
@@ -66,11 +66,11 @@ public class Termination {
         }
 
         if (shouldTerminateBySeconds && !shouldTerminateByTicks){
-            terminationReason = TerminationReason.Time;
+            terminationReason = TerminationType.Seconds;
         } else if (shouldTerminateByTicks && !shouldTerminateBySeconds) {
-            terminationReason = TerminationReason.Ticks;
+            terminationReason = TerminationType.Ticks;
         } else {
-            terminationReason = TerminationReason.TicksAndTime;
+            terminationReason = TerminationType.TicksAndSeconds;
         }
 
         return shouldTerminateBySeconds || shouldTerminateByTicks;
@@ -84,7 +84,7 @@ public class Termination {
                 '}';
     }
 
-    public TerminationReason reasonForTerminate(){
+    public TerminationType reasonForTerminate(){
         return terminationReason;
     }
 }

@@ -8,6 +8,22 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="Shared" />
+    <orderEntry type="module" module-name="PredictionsClientsCommons" />
     <orderEntry type="module" module-name="PredictionsEngine" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../PredictionsClientsCommons/src/resources/annotations-13.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/../PredictionsClientsCommons/src/resources/gson-2.8.8.jar!/" />
+          <root url="jar://$MODULE_DIR$/../PredictionsClientsCommons/src/resources/kotlin-stdlib-1.4.10.jar!/" />
+          <root url="jar://$MODULE_DIR$/../PredictionsClientsCommons/src/resources/okhttp-4.9.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/../PredictionsClientsCommons/src/resources/okio-2.8.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/../PredictionsClientsCommons/src/resources/gson-2.8.8-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>

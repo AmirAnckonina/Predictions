@@ -1,7 +1,7 @@
 package simulator.builder.impl.baseImpl;
 
 import simulator.builder.api.interfaces.PropertyBuilder;
-import simulator.builder.utils.exception.WorldBuilderException;
+import simulator.builder.utils.exception.WorldBuilderManagerException;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
 import enums.PropertyType;
 import simulator.definition.property.impl.*;
@@ -32,10 +32,10 @@ public class BasePropertyBuilder implements PropertyBuilder {
                     return buildFloatProperty(name, propertyType, doubledRange, rawInitValue);
 
                 default:
-                    throw new WorldBuilderException("Unsupported property type");
+                    throw new WorldBuilderManagerException("Unsupported property type");
             }
         } catch (Exception e) {
-            throw new WorldBuilderException(
+            throw new WorldBuilderManagerException(
                     "An error detected while trying to build property definition: " + e.getMessage());
         }
 

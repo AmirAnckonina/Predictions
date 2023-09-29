@@ -6,7 +6,7 @@ import dto.PropertiesConsistencyDto;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.execution.instance.world.api.WorldInstance;
-import simulator.runner.utils.exceptions.TerminationReason;
+import enums.TerminationType;
 import simulator.result.api.SimulationResult;
 
 import java.util.*;
@@ -23,7 +23,7 @@ public class SimulationResultImpl implements SimulationResult {
     private Long simulatorStartingTime;
     private Integer totalTicksCount;
     private Long totalTimeInSeconds;
-    private TerminationReason terminationReason;
+    private TerminationType terminationReason;
 
     public SimulationResultImpl(
             String simulationGuid,
@@ -76,7 +76,7 @@ public class SimulationResultImpl implements SimulationResult {
     }
 
     @Override
-    public TerminationReason getTerminationReason() {
+    public TerminationType getTerminationReason() {
         return terminationReason;
     }
 
@@ -98,7 +98,7 @@ public class SimulationResultImpl implements SimulationResult {
     }
 
     @Override
-    public void setTerminationReason(TerminationReason terminationReason) {
+    public void setTerminationReason(TerminationType terminationReason) {
         this.terminationReason = terminationReason;
     }
 

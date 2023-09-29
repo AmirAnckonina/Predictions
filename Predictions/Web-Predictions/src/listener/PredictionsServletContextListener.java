@@ -43,7 +43,6 @@ public class PredictionsServletContextListener implements ServletContextListener
         predictionsServletContext.setAttribute(Constants.MANUAL_SETUP_MANAGER_ATTRIBUTE_NAME, manualSimulationSetupManager);
         predictionsServletContext.setAttribute(Constants.EXECUTION_MANAGER_ATTRIBUTE_NAME, executionManager);
         predictionsServletContext.setAttribute(Constants.SIMULATOR_MANAGER_ATTRIBUTE_NAME, simulatorManager);
-
     }
 
     @Override

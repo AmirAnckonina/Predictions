@@ -1,6 +1,6 @@
 package simulator.execution.manager.impl;
 
-import enums.SimulationStatus;
+import enums.SimulationExecutionStatus;
 import simulator.execution.manager.api.ExecutionManager;
 import simulator.information.simulationDocument.api.SimulationDocument;
 import simulator.runner.impl.SimulationRunnerImpl;
@@ -24,17 +24,17 @@ public class ExecutionManagerImpl implements ExecutionManager {
 
     @Override
     public void stopSimulation(SimulationDocument simulationDocument) {
-        simulationDocument.setSimulationStatus(SimulationStatus.STOPPED);
+        simulationDocument.setSimulationStatus(SimulationExecutionStatus.STOPPED);
     }
 
     @Override
     public void pauseSimulation(SimulationDocument simulationDocument) {
-        simulationDocument.setSimulationStatus(SimulationStatus.PAUSED);
+        simulationDocument.setSimulationStatus(SimulationExecutionStatus.PAUSED);
     }
 
     @Override
     public void resumeSimulation(SimulationDocument simulationDocument) {
-        simulationDocument.setSimulationStatus(SimulationStatus.RUNNING);
+        simulationDocument.setSimulationStatus(SimulationExecutionStatus.RUNNING);
     }
 
 

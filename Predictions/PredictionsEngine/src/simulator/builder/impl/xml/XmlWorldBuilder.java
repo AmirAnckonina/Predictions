@@ -3,7 +3,7 @@ package simulator.builder.impl.xml;
 import resources.jaxb.schema.generated.*;
 import simulator.builder.api.abstracts.AbstractFileComponentBuilder;
 import simulator.builder.api.interfaces.WorldBuilder;
-import simulator.builder.utils.exception.WorldBuilderException;
+import simulator.builder.utils.exception.WorldBuilderManagerException;
 import simulator.builder.utils.file.XmlBuilderUtils;
 import simulator.builder.validator.api.WorldBuilderContextValidator;
 import simulator.builder.utils.file.WorldBuilderFileUtils;
@@ -12,8 +12,6 @@ import simulator.definition.entity.EntityDefinition;
 import simulator.definition.environment.EnvironmentDefinition;
 import simulator.definition.rule.Rule;
 import simulator.definition.spaceGrid.SpaceGridDefinition;
-import simulator.definition.termination.Termination;
-import simulator.definition.threadCount.ThreadCountDefinition;
 import simulator.definition.world.WorldDefinition;
 
 import java.io.File;
@@ -41,15 +39,26 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
                 try {
                     File dataFile = WorldBuilderFileUtils.getFileByPath(filePath);
                     generatedWorldDefinition = XmlBuilderUtils.getGeneratedClassFromFile(dataFile, JAXB_PACKAGE_NAME);
+                    setSimulationWorldName(generatedWorldDefinition.getName());
                 }
                 catch (Exception ex) {
-                    throw new WorldBuilderException("An issue detected while accessing the generated world class.");
+                    throw new WorldBuilderManagerException("An issue detected while accessing the generated world class.");
                 }
 
             } else {
-                throw new WorldBuilderException("The data source file is invalid.");
+                throw new WorldBuilderManagerException("The data source file is invalid.");
             }
 
+    }
+
+    @Override
+    public String getSimulationWorldName() {
+        return this.componentName;
+    }
+
+    @Override
+    public void setSimulationWorldName(String simulationWorldName) {
+        this.componentName = simulationWorldName;
     }
 
     /**
@@ -58,30 +67,35 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
      */
     @Override
     public WorldDefinition buildWorld() {
-        ThreadCountDefinition threadCountDefinition = buildThreadCount();
+
         SpaceGridDefinition spaceGrid = buildSpaceGrid();
         EnvironmentDefinition environmentDefinition = buildEnvironment();
         Map<String, EntityDefinition> entities = buildEntities();
         List<Rule> rules = buildRules();
-        Termination termination = buildTermination();
+        Integer sleepTimeBeforeTick = buildSleep();
 
-        return new WorldDefinition(threadCountDefinition, spaceGrid, environmentDefinition, entities, rules, termination);
+        return new WorldDefinition(spaceGrid, environmentDefinition, entities, rules, sleepTimeBeforeTick);
     }
 
     @Override
-    public ThreadCountDefinition buildThreadCount() {
-        return new ThreadCountDefinition(generatedWorldDefinition.getPRDThreadCount());
+    public Integer buildSleep() {
+        return generatedWorldDefinition.getSleep();
     }
+
+//    @Override
+//    public ThreadCountDefinition buildThreadCount() {
+//        return new ThreadCountDefinition(generatedWorldDefinition.getPRDThreadCount());
+//    }
 
     @Override
     public SpaceGridDefinition buildSpaceGrid() {
 
         PRDWorld.PRDGrid generatedGrid = generatedWorldDefinition.getPRDGrid();
-        boolean dimenstionsValid = contextValidator.validateSpaceGridDimensions(generatedGrid.getRows(), generatedGrid.getColumns());
-        if (dimenstionsValid) {
+        boolean dimensionsValid = contextValidator.validateSpaceGridDimensions(generatedGrid.getRows(), generatedGrid.getColumns());
+        if (dimensionsValid) {
             return new SpaceGridDefinition(generatedGrid.getRows(), generatedGrid.getColumns());
         } else {
-            throw new WorldBuilderException("Space grid dimensions are invalid. value of rows and cols must be from 10 to 100");
+            throw new WorldBuilderManagerException("Space grid dimensions are invalid. value of rows and cols must be from 10 to 100");
         }
     }
 
@@ -118,10 +132,12 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
         return rules;
     }
 
-    @Override
-    public Termination buildTermination() {
-        PRDTermination generatedTermination = generatedWorldDefinition.getPRDTermination();
-        return new XmlTerminationBuilder(generatedTermination).buildTermination();
-    }
+//    @Override
+//    public Termination buildTermination() {
+//        PRDTermination generatedTermination = generatedWorldDefinition.getPRDTermination();
+//        return new XmlTerminationBuilder(generatedTermination).buildTermination();
+//    }
+
+
 
 }

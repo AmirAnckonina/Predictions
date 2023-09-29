@@ -9,7 +9,6 @@ import body.newExecution.components.environmentVariable.string.EnvironmentString
 import dto.EnvironmentPropertyDto;
 import dto.SimulationDocumentInfoDto;
 import dto.SimulationManualParamsDto;
-import enums.PropertyType;
 import enums.SetPropertyStatus;
 import exception.PredictionsUIComponentException;
 import javafx.fxml.FXML;
@@ -40,13 +39,13 @@ public class NewExecutionController {
     @FXML private Button startButton;
     @FXML private Label maxPopLabel;
     @FXML private ProgressIndicator loadingProgressIndicator;
-
-    private SimulatorManager simulatorManager;
     private Map<String, EntityPopulationController> entityPopulationControllerMap;
     private Map<String, KeyValueProperty> environmentPropertyControllerMap;
     private PredictionsMainController predictionsMainController;
     private Stage primaryStage;
     private boolean firstSimulationStartedFlag;
+
+    private SimulatorManager simulatorManager;
 
     public NewExecutionController() {
         this.entityPopulationControllerMap = new HashMap<>();
@@ -72,19 +71,19 @@ public class NewExecutionController {
     void onStartButtonClicked() {
 
         try {
-            SimulationDocumentInfoDto simulationDocumentInfoDto = this.simulatorManager.runSimulator();
+            SimulationDocumentInfoDto simulationDocumentInfoDto = this.simulatorManager.runSimulator("");
             if (!firstSimulationStartedFlag) {
                 firstSimulationStartedFlag = true;
                 this.predictionsMainController.onFirstSimulationStarted();
             }
             this.predictionsMainController.onNewSimulationStart(simulationDocumentInfoDto.getSimulationGuid());
-            predictionsMainController.moveToResultTab();
+            predictionsMainController.resultsTabClicked();
 
         } catch (Exception e) {
             e.printStackTrace(System.out);
 
         } finally {
-            this.simulatorManager.resetAllManualSetup();
+            this.simulatorManager.resetAllManualSetup("");
             initializeNewExecutionTab();
         }
 
@@ -94,12 +93,12 @@ public class NewExecutionController {
 
         try {
             resetController();
-            this.maxPopLabel.textProperty().set("   MAX POPULATION: " + " " + this.simulatorManager.getMaxPopulationSize());
+            this.maxPopLabel.textProperty().set("   MAX POPULATION: " + " " + this.simulatorManager.getMaxPopulationSize(""));
 
-            List<String> entities = this.simulatorManager.getAllEntities();
+            List<String> entities = this.simulatorManager.getAllEntities("");
             entities.forEach(this::createEntityPopulationComponent);
 
-            List<EnvironmentPropertyDto> envPropsDtoList = this.simulatorManager.getAllEnvironmentProperties();
+            List<EnvironmentPropertyDto> envPropsDtoList = this.simulatorManager.getAllEnvironmentProperties("");
             envPropsDtoList.forEach(this::createEnvironmentPropertyComponent);
 
         } catch (Exception e) {
@@ -220,7 +219,7 @@ public class NewExecutionController {
     public void setSingleEntityPopulation(String entityName, Integer population) {
 
         try {
-             this.simulatorManager.setEntityDefinitionPopulation(entityName, population);
+             this.simulatorManager.setEntityDefinitionPopulation("",entityName, population);
              this.entityPopulationControllerMap.get(entityName).setStatus(SetPropertyStatus.SUCCEEDED);
         } catch (Exception e) {
             this.entityPopulationControllerMap.get(entityName).setStatus(SetPropertyStatus.FAILED);
@@ -229,7 +228,7 @@ public class NewExecutionController {
 
     public <T> void setEnvironmentProperty(String envPropertyName, T envPropertyValue) {
         try {
-            this.simulatorManager.setEnvironmentPropertyValue(envPropertyName, envPropertyValue);
+            this.simulatorManager.setEnvironmentPropertyValue("", envPropertyName, envPropertyValue);
             this.environmentPropertyControllerMap.get(envPropertyName).setStatus(SetPropertyStatus.SUCCEEDED);
         } catch (Exception e) {
             this.environmentPropertyControllerMap.get(envPropertyName).setStatus(SetPropertyStatus.FAILED);
@@ -245,12 +244,12 @@ public class NewExecutionController {
     }
 
     public void rollbackSingleEntityPopulation(String entityName) {
-        this.simulatorManager.resetSingleEntityPopulation(entityName);
+        this.simulatorManager.resetSingleEntityPopulation("", entityName);
         this.entityPopulationControllerMap.get(entityName).setStatus(SetPropertyStatus.NONE);
     }
 
     public void rollbackSingleEnvironmentVariable(String envVarName) {
-        this.simulatorManager.resetSingleEnvironmentVariable(envVarName);
+        this.simulatorManager.resetSingleEnvironmentVariable("", envVarName);
         this.environmentPropertyControllerMap.get(envVarName).setStatus(SetPropertyStatus.NONE);
     }
 

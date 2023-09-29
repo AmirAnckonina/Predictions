@@ -1,6 +1,6 @@
 package simulator.runner.impl;
 
-import enums.SimulationStatus;
+import enums.SimulationExecutionStatus;
 import simulator.definition.entity.EntityDefinition;
 import simulator.execution.context.api.CrossedExecutionContext;
 import simulator.execution.context.impl.CrossedExecutionContextImpl;
@@ -23,11 +23,9 @@ import simulator.execution.context.impl.ExecutionContextImpl;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.environment.api.EnvironmentInstance;
 import simulator.execution.instance.world.api.WorldInstance;
-import simulator.runner.utils.exceptions.TerminationReason;
+import enums.TerminationType;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class SimulationRunnerImpl implements Runnable {
@@ -54,7 +52,7 @@ public class SimulationRunnerImpl implements Runnable {
         Map<String, List<EntityInstance>> entitiesInstances = this.worldInstance.getEntitiesInstances();
         Map<String, Double> entityInstanceAvrgMap = new HashMap<>();
         SpaceGridInstanceWrapper spaceGridInstanceWrapper = this.crossedExecutionContext.getSpaceGridInstanceWrapper();
-        this.simulationDocument.setSimulationStatus(SimulationStatus.RUNNING);
+        this.simulationDocument.setSimulationStatus(SimulationExecutionStatus.RUNNING);
         entitiesInstances.forEach((entityName, numInstances) ->
                 entityInstanceAvrgMap.put(entityName, Double.valueOf(numInstances.size())));
 
@@ -102,10 +100,10 @@ public class SimulationRunnerImpl implements Runnable {
 
     private void finishSimulationProcedure(Termination termination, AtomicLong startTimeInMilliSec, Integer totalTicksCount, Long totalTimeInSeconds, Map<String, Double> entityInstanceAvrgMap) {
 
-        if (termination.reasonForTerminate() == TerminationReason.USER) {
-            this.simulationDocument.setSimulationStatus(SimulationStatus.PAUSED);
+        if (termination.reasonForTerminate() == TerminationType.USER) {
+            this.simulationDocument.setSimulationStatus(SimulationExecutionStatus.PAUSED);
         }else {
-            this.simulationDocument.setSimulationStatus(SimulationStatus.COMPLETED);
+            this.simulationDocument.setSimulationStatus(SimulationExecutionStatus.COMPLETED);
         }
 
         this.simulationDocument.finishSimulationSession(startTimeInMilliSec.get(), totalTicksCount ,totalTimeInSeconds, entityInstanceAvrgMap);
@@ -116,7 +114,7 @@ public class SimulationRunnerImpl implements Runnable {
 
     private void handleSimulationRunInterruptions(Termination termination, AtomicLong deltaTime) {
         AtomicLong stoppingTime = new AtomicLong(System.currentTimeMillis());
-        while (this.simulationDocument.getSimulationStatus() == SimulationStatus.PAUSED) {
+        while (this.simulationDocument.getSimulationStatus() == SimulationExecutionStatus.PAUSED) {
             if(deltaTime == null) {
                 deltaTime = new AtomicLong(System.currentTimeMillis());
             }
@@ -129,7 +127,7 @@ public class SimulationRunnerImpl implements Runnable {
             deltaTime.set(deltaTime.get() + (System.currentTimeMillis() - stoppingTime.get()));
         }
 
-        if (this.simulationDocument.getSimulationStatus() == SimulationStatus.STOPPED) {
+        if (this.simulationDocument.getSimulationStatus() == SimulationExecutionStatus.STOPPED) {
             termination.terminateInTheNextTick();
         }
 

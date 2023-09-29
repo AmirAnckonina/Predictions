@@ -3,9 +3,10 @@ package simulator.builder.manager.impl;
 import dto.BasePropertyDto;
 import dto.EnvironmentPropertiesDto;
 import dto.EnvironmentPropertyDto;
-import dto.SimulationDetailsDto;
+import dto.SimulationWorldDetailsDto;
 import simulator.builder.api.interfaces.WorldBuilder;
 import simulator.builder.manager.api.WorldBuilderManager;
+import simulator.builder.utils.exception.WorldBuilderManagerException;
 import simulator.builder.utils.factory.WorldBuilderFactory;
 import simulator.builder.utils.file.WorldBuilderFileUtils;
 import simulator.builder.utils.file.enums.DataFileType;
@@ -19,20 +20,25 @@ import simulator.definition.world.WorldDefinition;
 import java.util.*;
 
 public class WorldBuilderManagerImpl implements WorldBuilderManager {
-    private WorldDefinition worldDefinition;
+    private Map<String, WorldDefinition> worldDefinitionMap;
     private WorldBuilder worldBuilder;
 
-    @Override
-    public WorldDefinition getWorldDefinition() {
-        return worldDefinition;
+    public WorldBuilderManagerImpl() {
+        this.worldDefinitionMap = new HashMap<>();
     }
 
     @Override
-    public List<EnvironmentPropertyDto> getAllEnvironmentProperties() {
+    public WorldDefinition getWorldDefinition(String simulationWorldName) {
+        return worldDefinitionMap.get(simulationWorldName);
+    }
+
+    @Override
+    public List<EnvironmentPropertyDto> getAllEnvironmentProperties(String simulationWorldName) {
 
         List<EnvironmentPropertyDto> envPropDtoList = new ArrayList<>();
 
-       this.worldDefinition
+       this.worldDefinitionMap
+               .get(simulationWorldName)
                .getEnvironment()
                .getEnvironmentProperties()
                .forEach((envPropName, envPropDef) ->
@@ -43,8 +49,8 @@ public class WorldBuilderManagerImpl implements WorldBuilderManager {
     }
 
     @Override
-    public Integer getMaxPopulationSize() {
-        return this.worldDefinition.getSpaceGridDefinition().getTotalSpace();
+    public Integer getMaxPopulationSize(String simulationWorldName) {
+        return this.worldDefinitionMap.get(simulationWorldName).getSpaceGridDefinition().getTotalSpace();
     }
 
     private EnvironmentPropertyDto arrangeSingleEnvironmentPropertyDto(String envPropName, AbstractPropertyDefinition envPropDef) {
@@ -67,37 +73,44 @@ public class WorldBuilderManagerImpl implements WorldBuilderManager {
     @Override
     public void buildSimulationWorld(String filePath) {
             DataFileType dataSrcType = WorldBuilderFileUtils.getDataFileTypeByFileExtension(filePath);
-            worldBuilder = WorldBuilderFactory.createSimulationBuilder(dataSrcType, filePath);
-            worldDefinition = worldBuilder.buildWorld();
+            this.worldBuilder = WorldBuilderFactory.createSimulationBuilder(dataSrcType, filePath);
+            String newSimulationWorldName = this.worldBuilder.getSimulationWorldName();
+            if (this.worldDefinitionMap.containsKey(newSimulationWorldName)) {
+                throw new WorldBuilderManagerException("The simulation world name already exists.");
+            }
+
+            WorldDefinition newWorldDefinition = worldBuilder.buildWorld();
     }
 
     @Override
-    public SimulationDetailsDto getSimulationWorldDetails() {
+    public SimulationWorldDetailsDto getSimulationWorldDetailsByName(String simulationWorldName) {
+
+            EnvironmentPropertiesDto environmentPropertiesDto = getEnvironmentPropertiesDefinition(simulationWorldName);
 
             StringBuilder entitiesSb = new StringBuilder();
-            for (Map.Entry<String, EntityDefinition> entityDef : this.worldDefinition.getEntities().entrySet()) {
+            for (Map.Entry<String, EntityDefinition> entityDef : this.worldDefinitionMap.get(simulationWorldName).getEntities().entrySet()) {
                 entitiesSb.append(entityDef.getValue().toString()).append(System.lineSeparator());
             }
             String entitiesInfo = entitiesSb.toString();
 
             List<String> rulesInfo = new LinkedList<>();
-            for (Rule rule : worldDefinition.getRules()) {
+            for (Rule rule : worldDefinitionMap.get(simulationWorldName).getRules()) {
                 rulesInfo.add(rule.toString() + System.lineSeparator());
             }
 
-            String terminationInfo = worldDefinition.getTermination().toString();
+            String terminationInfo = worldDefinitionMap.get(simulationWorldName).getTermination().toString();
 
-            return new SimulationDetailsDto(entitiesInfo, rulesInfo, terminationInfo);
+            return new SimulationWorldDetailsDto(environmentPropertiesDto,entitiesInfo, rulesInfo, terminationInfo);
     }
 
     @Override
-    public EnvironmentPropertiesDto getEnvironmentPropertiesDefinition() {
+    public EnvironmentPropertiesDto getEnvironmentPropertiesDefinition(String simulationWorldName) {
 
             Map<String  ,BasePropertyDto> propertyDtoMap = new HashMap();
             List<BasePropertyDto> propertyDtoList = new ArrayList<>();
-            for (String propertyName : this.worldDefinition.getEnvironment().getPropertiesNames()) {
+            for (String propertyName : this.worldDefinitionMap.get(simulationWorldName).getEnvironment().getPropertiesNames()) {
 
-                AbstractPropertyDefinition property = this.worldDefinition.getEnvironment().getPropertyByName(propertyName);
+                AbstractPropertyDefinition property = this.worldDefinitionMap.get(simulationWorldName).getEnvironment().getPropertyByName(propertyName);
                 if (property instanceof AbstractNumericPropertyDefinition) {
                     Range range = (Range) ((AbstractNumericPropertyDefinition) property).getRange().orElse(null);
                     if (range != null) {
