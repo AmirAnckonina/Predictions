@@ -18,6 +18,7 @@ import java.net.URL;
 import static common.CommonResourcesPaths.*;
 
 
+
 public class MainActionController extends RuleModel {
 
 
