@@ -22,11 +22,11 @@
          <children>
             <TabPane fx:id="mainTabPane" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="1">
               <tabs>
-                <Tab text="Management">
+                <Tab onSelectionChanged="#managementTabClicked" text="Management">
                      <content>
                         <ScrollPane prefHeight="200.0" prefWidth="200.0">
                            <content>
-                              <fx:include fx:id="managementTab" source="../management/Management.fxml" />
+                              <fx:include fx:id="managementTab" source="../tabs/management/Management.fxml" />
                            </content>
                         </ScrollPane>
                      </content>
@@ -37,18 +37,18 @@
                            <content>
                               <AnchorPane>
                                  <children>
-                                    <fx:include fx:id="allocationsTab" source="../allocations/Allocations.fxml" />
+                                    <fx:include fx:id="allocationsTab" source="../tabs/allocations/Allocations.fxml" />
                                  </children>
                               </AnchorPane>
                            </content>
                         </ScrollPane>
                      </content>
                   </Tab>
-                  <Tab text="Executions History">
+                  <Tab onSelectionChanged="#executionsHistoryTabClicked" text="Executions History">
                      <content>
                         <ScrollPane prefHeight="200.0" prefWidth="200.0">
                            <content>
-                              <fx:include fx:id="executionHistoryTab" source="../executionsHistory/ExecutionHistory.fxml" />
+                              <fx:include fx:id="executionHistoryTab" source="../tabs/executionsHistory/ExecutionHistory.fxml" />
                            </content>
                         </ScrollPane>
                      </content>

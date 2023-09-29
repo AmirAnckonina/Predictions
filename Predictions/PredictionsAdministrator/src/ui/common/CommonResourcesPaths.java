@@ -19,7 +19,7 @@ public class CommonResourcesPaths {
     public static final String RULE_PROXIMITY_DETAILS_FXML_RESOURCE = "/UI/impl/javaFX/tabBody/details/subbodyobjects/ruleComponent/actionsComponent/proximity/ProximityActionComponent.fxml";
     public static final String RULE_GENERIC_DETAILS_FXML_RESOURCE = "/UI/impl/javaFX/tabBody/details/subbodyobjects/ruleComponent/actionsComponent/generic/GenericActionComponent.fxml";
     public static final String RESULT_SIMULATION_DETAILS_FXML_RESOURCE = "/UI/impl/javaFX/tabBody/results/detailsComponent/DetailsComponent.fxml";
-    public static final String RESULT_SIMULATION_ENTITY_DETAILS_FXML_RESOURCE = "/ui/executionsHistory/detailsComponent/DetailsComponent.fxml";
+    public static final String RESULT_SIMULATION_ENTITY_DETAILS_FXML_RESOURCE = "/ui/tabs/executionsHistory/detailsComponent/DetailsComponent.fxml";
 
     public static final String RESULT_SIMULATION_ENTITY_DETAILS_HISTOGRAM_FXML_RESOURCE = "/UI/impl/javaFX/tabBody/results/detailsComponent/histogram/byEntities/ExecutionResultByEntityComponent.fxml";
     public static final String RESULT_SIMULATION_PROPERTY_DETAILS_HISTOGRAM_FXML_RESOURCE = "/UI/impl/javaFX/tabBody/results/detailsComponent/histogram/byProperty/ExecutionResultByPropertyComponent.fxml";
