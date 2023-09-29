@@ -2,7 +2,8 @@ package ui.executionsHistory.detailsComponent.histogram.byStatistic;
 
 import dto.PropertiesAvgConsistencyDto;
 import dto.PropertiesConsistencyDto;
-import dto.SimulationDetailsDto;
+import dto.SimulationWorldDetailsDto;
+import dto.SimulationWorldDetailsDto;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -27,7 +28,7 @@ public class ExecutionResultStatisticByPropertyController implements ExecutionHi
 
     private PropertiesAvgConsistencyDto propertiesAvgConsistencyDto;
 
-    private SimulationDetailsDto simulationDetailsDto;
+    private SimulationWorldDetailsDto simulationDetailsDto;
 
     private ExecutionsHistoryController mainController;
 

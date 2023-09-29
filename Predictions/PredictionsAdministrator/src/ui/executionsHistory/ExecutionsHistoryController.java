@@ -11,7 +11,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import dto.*;
-import enums.SimulationStatus;
+import enums.SimulationExecutionStatus;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -136,8 +136,8 @@ public class ExecutionsHistoryController {
             updateSimulationResultComponent(simulationDocumentInfoDto); //info component
             startUIPollingThread();
 
-            if(simulationDocumentInfoDto.getSimulationStatus() == SimulationStatus.STOPPED||
-                    simulationDocumentInfoDto.getSimulationStatus() == SimulationStatus.COMPLETED) {
+            if(simulationDocumentInfoDto.getSimulationStatus() == SimulationExecutionStatus.STOPPED||
+                    simulationDocumentInfoDto.getSimulationStatus() == SimulationExecutionStatus.COMPLETED) {
                 if (resultByEntity.isSelected()) {
                     List<String> simulationEntities = new ArrayList<>();
                     simulationDocumentInfoDto.getCurrentEntityPopulationMap().forEach(
@@ -145,10 +145,10 @@ public class ExecutionsHistoryController {
                     createHistogramByEntityComponent(simulationEntities);
                 } else {
                     if(entityStatisticsRadioButton.isSelected()) {
-                        createHistogramByPropertyComponent(simulatorManager.getAllEntities());
+                        createHistogramByPropertyComponent(simulatorManager.getAllEntities(""));
                     }
                     else if(simulationStatisticsRadioButton.isSelected()) {
-                        createStatisticByPropertyComponent(simulatorManager.getAllEntities());
+                        createStatisticByPropertyComponent(simulatorManager.getAllEntities(""));
                     } else if (entityGraphPopulationRadioButton.isSelected()) {
                         createEntityPopulationGraphComponent();
                     }
@@ -200,7 +200,7 @@ public class ExecutionsHistoryController {
                 PropertiesConsistencyDto simulationDocumentDto =
                         this.simulatorManager.getEntitiesPropertiesConsistencyMapByGuid(guid);
                 PropertiesAvgConsistencyDto propertiesAvgConsistencyDto =
-                        this.simulatorManager.geEntitiesNumericPropertiesAverageByGuid(guid);
+                        this.simulatorManager.getEntitiesNumericPropertiesAverageByGuid(guid);
 
                 FXMLLoader loader = new FXMLLoader();
                 URL fxmlUrl = getClass().getResource(RESULT_SIMULATION_PROPERTY_STATIC_HISTOGRAM_FXML_RESOURCE);
@@ -292,7 +292,7 @@ public class ExecutionsHistoryController {
 //        mappedPropertiesValuesToNumOfEntitiesWithSameValue.getMappedPropertiesToNumOfEntitiesByValues()
 //                .forEach((propName, numOfEntities) -> resMapped.add(propName + ": " + numOfEntities));
 //        executionResultByPropertyController.setPropertiesList(resMapped);
-        List<String> resList = simulatorManager.getPropertiesByEntity(entityName);
+        List<String> resList = simulatorManager.getPropertiesByEntity("", entityName);
         executionHistoryController.setPropertiesList(resList);
     }
 
