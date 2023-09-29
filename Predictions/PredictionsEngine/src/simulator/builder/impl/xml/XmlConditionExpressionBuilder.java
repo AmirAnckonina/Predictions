@@ -5,7 +5,7 @@ import simulator.builder.api.abstracts.AbstractComponentBuilder;
 import simulator.builder.api.interfaces.ConditionExpressionBuilder;
 import simulator.builder.impl.baseImpl.BaseArgumentExpressionBuilder;
 import simulator.builder.utils.ArgExpressionContextDemands;
-import simulator.builder.utils.exception.WorldBuilderException;
+import simulator.builder.utils.exception.WorldBuilderManagerException;
 import simulator.builder.validator.api.WorldBuilderContextValidator;
 import simulator.builder.utils.file.WorldBuilderUtils;
 import simulator.definition.rule.action.expression.conditionExpression.api.abstracts.AbstractMultipleConditionExpression;
@@ -51,7 +51,7 @@ public class XmlConditionExpressionBuilder extends AbstractComponentBuilder impl
             condExpression = buildMultipleCondition();
 
         } else {
-            throw new WorldBuilderException("Condition singularity doesn't provided");
+            throw new WorldBuilderManagerException("Condition singularity doesn't provided");
         }
 
         return condExpression;
@@ -72,7 +72,7 @@ public class XmlConditionExpressionBuilder extends AbstractComponentBuilder impl
         boolean conditionContextValid = conditionEntityContextValidationProcedure();
 
         if (!conditionContextValid) {
-            throw new WorldBuilderException("Condition context is invalid.");
+            throw new WorldBuilderManagerException("Condition context is invalid.");
         }
 
         String entityName = generatedCondition.getEntity();
@@ -112,7 +112,7 @@ public class XmlConditionExpressionBuilder extends AbstractComponentBuilder impl
             case LOWERTHAN:
                 return new LowerThanConditionExpression(entityName, conditionPropertyArgExpression, conditionComparedValue);
             default:
-                throw new WorldBuilderException("Couldn't determine which SingleConditionExpression to build");
+                throw new WorldBuilderManagerException("Couldn't determine which SingleConditionExpression to build");
         }
     }
 
@@ -135,7 +135,7 @@ public class XmlConditionExpressionBuilder extends AbstractComponentBuilder impl
             case OR:
                 return new OrMultipleConditionExpression(conditionList);
             default:
-                throw new WorldBuilderException("Unsupported logical condition operator");
+                throw new WorldBuilderManagerException("Unsupported logical condition operator");
         }
     }
 }

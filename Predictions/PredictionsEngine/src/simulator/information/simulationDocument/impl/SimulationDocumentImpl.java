@@ -2,7 +2,7 @@ package simulator.information.simulationDocument.impl;
 
 import dto.SimulationDocumentInfoDto;
 import dto.SimulationManualParamsDto;
-import enums.SimulationStatus;
+import enums.SimulationExecutionStatus;
 import simulator.definition.entity.EntityDefinition;
 import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.execution.instance.world.api.WorldInstance;
@@ -25,7 +25,7 @@ public class SimulationDocumentImpl implements SimulationDocument {
     private WorldInstance worldInstance;
     private Map<Integer, TickDocument> tickDocumentMap;
     private SimulationResult simulationResult;
-    private SimulationStatus simulationStatus;
+    private SimulationExecutionStatus simulationExecutionStatus;
     private SimulationDocumentInfoDto initialSimulationDocumentInfoDto;
     private SimulationManualParamsDto simulationManualParamsDto;
 
@@ -34,7 +34,7 @@ public class SimulationDocumentImpl implements SimulationDocument {
 
         this.SimulationGuid = simulationGuid;
         this.worldInstance = worldInstance;
-        this.simulationStatus = SimulationStatus.READY;
+        this.simulationExecutionStatus = SimulationExecutionStatus.READY;
         this.tickDocumentMap = new ConcurrentHashMap<>();
         this.createInitialSimulationDocumentInfoDto();
         this.createSimulationManualParamsDto();
@@ -87,7 +87,7 @@ public class SimulationDocumentImpl implements SimulationDocument {
         this.initialSimulationDocumentInfoDto =
                 new SimulationDocumentInfoDto(
                         this.SimulationGuid,
-                        this.simulationStatus,
+                        this.simulationExecutionStatus,
                         INIT_TICK,
                         new Long(0),
                         initEntityPopulationMap,
@@ -111,8 +111,8 @@ public class SimulationDocumentImpl implements SimulationDocument {
     }
 
     @Override
-    public SimulationStatus getSimulationStatus() {
-        return this.simulationStatus;
+    public SimulationExecutionStatus getSimulationStatus() {
+        return this.simulationExecutionStatus;
     }
 
     @Override
@@ -138,9 +138,9 @@ public class SimulationDocumentImpl implements SimulationDocument {
     }
 
     @Override
-    public void setSimulationStatus(SimulationStatus simulationStatus) {
+    public void setSimulationStatus(SimulationExecutionStatus simulationExecutionStatus) {
         synchronized (this){
-            this.simulationStatus = simulationStatus;
+            this.simulationExecutionStatus = simulationExecutionStatus;
         }
     }
 
@@ -192,6 +192,6 @@ public class SimulationDocumentImpl implements SimulationDocument {
 
         resultManager.addSimulationResult(SimulationGuid, simulationResult);
 
-        simulationStatus = SimulationStatus.COMPLETED;
+        simulationExecutionStatus = SimulationExecutionStatus.COMPLETED;
     }
 }

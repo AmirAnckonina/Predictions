@@ -1,6 +1,6 @@
 package simulator.builder.utils.file;
 
-import simulator.builder.utils.exception.WorldBuilderException;
+import simulator.builder.utils.exception.WorldBuilderManagerException;
 import simulator.definition.rule.action.utils.enums.ConditionCompartorType;
 
 public final class WorldBuilderUtils {
@@ -15,7 +15,7 @@ public final class WorldBuilderUtils {
         } else if (operatorSign.equalsIgnoreCase("lt")) {
             return ConditionCompartorType.LOWERTHAN;
         } else {
-            throw new WorldBuilderException("Unknown condition comparator operator");
+            throw new WorldBuilderManagerException("Unknown condition comparator operator");
         }
     }
 

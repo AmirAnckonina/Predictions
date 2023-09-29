@@ -1,6 +1,6 @@
 package simulator.builder.validator.impl;
 
-import simulator.builder.utils.exception.WorldBuilderException;
+import simulator.builder.utils.exception.WorldBuilderManagerException;
 import simulator.builder.validator.api.WorldBuilderContextValidator;
 import simulator.builder.utils.file.enums.DataFileType;
 import simulator.definition.rule.action.expression.argumentExpression.utils.enums.ExpressionMethodType;
@@ -87,7 +87,7 @@ public class WorldBuilderContextValidatorImpl implements WorldBuilderContextVali
         if (entitiesPropertiesToTypeMapper.containsKey(entityName)) {
             entitiesPropertiesToTypeMapper.get(entityName).put(entityProperty, type);
         } else {
-            throw new WorldBuilderException(
+            throw new WorldBuilderManagerException(
                     "entity name couln't be found for adding new property to contextValidator."
             );
         }
@@ -184,7 +184,7 @@ public class WorldBuilderContextValidatorImpl implements WorldBuilderContextVali
         }
 
         if (propType == null) {
-            throw new WorldBuilderException("couldn't find the type of the property, under getEntityPropertyTypeWithoutEntityNameMentioned.");
+            throw new WorldBuilderManagerException("couldn't find the type of the property, under getEntityPropertyTypeWithoutEntityNameMentioned.");
         }
 
         return propType;

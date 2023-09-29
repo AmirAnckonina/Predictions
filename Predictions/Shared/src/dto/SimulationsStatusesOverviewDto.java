@@ -1,7 +1,6 @@
 package dto;
 
 import enums.OverviewSimulationStatus;
-import enums.SimulationStatus;
 
 import java.util.Map;
 

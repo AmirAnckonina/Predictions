@@ -4,7 +4,7 @@ import body.results.ResultsController;
 import body.results.detailsComponent.histogram.ExecutionResultController;
 import dto.PropertiesAvgConsistencyDto;
 import dto.PropertiesConsistencyDto;
-import dto.SimulationDetailsDto;
+import dto.SimulationWorldDetailsDto;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -27,7 +27,7 @@ public class ExecutionResultStatisticByPropertyController implements ExecutionRe
 
     private PropertiesAvgConsistencyDto propertiesAvgConsistencyDto;
 
-    private SimulationDetailsDto simulationDetailsDto;
+    private SimulationWorldDetailsDto simulationWorldDetailsDto;
 
     private ResultsController mainController;
 

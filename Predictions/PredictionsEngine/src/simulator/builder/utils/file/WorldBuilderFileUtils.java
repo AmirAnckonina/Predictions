@@ -1,6 +1,6 @@
 package simulator.builder.utils.file;
 
-import simulator.builder.utils.exception.WorldBuilderException;
+import simulator.builder.utils.exception.WorldBuilderManagerException;
 import simulator.builder.utils.file.enums.DataFileType;
 
 import java.io.File;
@@ -25,7 +25,7 @@ public final class WorldBuilderFileUtils {
         if (lastDotIndex != -1 && lastDotIndex < filePath.length() - 1) {
             return filePath.substring(lastDotIndex + 1);
         } else {
-            throw new WorldBuilderException("File type could be recognized.");
+            throw new WorldBuilderManagerException("File type could be recognized.");
         }
     }
 }

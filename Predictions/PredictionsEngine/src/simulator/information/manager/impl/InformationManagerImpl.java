@@ -4,7 +4,7 @@ import dto.SimulationDocumentInfoDto;
 import dto.SimulationManualParamsDto;
 import dto.SimulationsStatusesOverviewDto;
 import enums.OverviewSimulationStatus;
-import enums.SimulationStatus;
+import enums.SimulationExecutionStatus;
 import simulator.definition.world.WorldDefinition;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
@@ -14,8 +14,6 @@ import simulator.information.simulationDocument.impl.SimulationDocumentImpl;
 import simulator.information.tickDocument.api.TickDocument;
 import simulator.mainManager.utils.SimulatorUtils;
 import simulator.result.api.SimulationResult;
-import simulator.result.manager.api.ResultManager;
-import simulator.result.manager.impl.ResultManagerImpl;
 import simulator.information.manager.api.InformationManager;
 
 import java.util.*;
@@ -76,7 +74,7 @@ public class InformationManagerImpl implements InformationManager {
                 this.simulationDocumentMap
                         .values()
                         .stream()
-                        .filter((simDoc) -> simDoc.getSimulationStatus() == SimulationStatus.RUNNING)
+                        .filter((simDoc) -> simDoc.getSimulationStatus() == SimulationExecutionStatus.RUNNING)
                         .count();
         simulationsStatusesOverviewMap.put(OverviewSimulationStatus.RUNNING, currentlyRunning.intValue());
 
@@ -85,8 +83,8 @@ public class InformationManagerImpl implements InformationManager {
                         .values()
                         .stream()
                         .filter((simDoc) ->
-                                simDoc.getSimulationStatus() == SimulationStatus.PAUSED
-                                        || simDoc.getSimulationStatus() == SimulationStatus.READY)
+                                simDoc.getSimulationStatus() == SimulationExecutionStatus.PAUSED
+                                        || simDoc.getSimulationStatus() == SimulationExecutionStatus.READY)
                         .count();
         simulationsStatusesOverviewMap.put(OverviewSimulationStatus.WAITING, currentlyWaiting.intValue());
 
@@ -95,8 +93,8 @@ public class InformationManagerImpl implements InformationManager {
                         .values()
                         .stream()
                         .filter((simDoc) ->
-                                simDoc.getSimulationStatus() == SimulationStatus.STOPPED
-                                        || simDoc.getSimulationStatus() == SimulationStatus.COMPLETED)
+                                simDoc.getSimulationStatus() == SimulationExecutionStatus.STOPPED
+                                        || simDoc.getSimulationStatus() == SimulationExecutionStatus.COMPLETED)
                         .count();
         simulationsStatusesOverviewMap.put(OverviewSimulationStatus.FINISHED, finished.intValue());
 

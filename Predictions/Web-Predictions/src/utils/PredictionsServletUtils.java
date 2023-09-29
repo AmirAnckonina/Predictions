@@ -1,5 +1,6 @@
 package utils;
 
+import com.google.gson.Gson;
 import common.Constants;
 import jakarta.servlet.ServletContext;
 import simulator.builder.manager.api.WorldBuilderManager;
@@ -17,19 +18,12 @@ import simulator.manualSetup.manager.impl.ManualSimulationSetupManagerImpl;
 
 public class PredictionsServletUtils {
 
-    private static final Object simulatorManagerLock = new Object();
-    private static final Object worldBuilderManagerLock = new Object();
-    private static final Object infoManagerLock = new Object();
-    private static final Object establishmentManagerLock = new Object();
-    private static final Object manualSetupManagerLock = new Object();
-    private static final Object executionManagerLock = new Object();
-
+    public final static Gson GSON_INSTANCE = new Gson();
     public static SimulatorManager getSimulatorManager(ServletContext servletContext) {
         return (SimulatorManager) servletContext.getAttribute(Constants.SIMULATOR_MANAGER_ATTRIBUTE_NAME);
     }
 
     public static WorldBuilderManager getWorldBuilderManager(ServletContext servletContext) {
-
         return (WorldBuilderManager) servletContext.getAttribute(Constants.WORLD_BUILDER_MANAGER_ATTRIBUTE_NAME);
     }
 

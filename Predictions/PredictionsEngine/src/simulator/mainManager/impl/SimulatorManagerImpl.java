@@ -4,6 +4,7 @@ import dto.*;
 import simulator.builder.manager.api.WorldBuilderManager;
 import simulator.builder.manager.impl.WorldBuilderManagerImpl;
 import simulator.information.simulationDocument.api.SimulationDocument;
+import simulator.mainManager.utils.exception.SimulatorManagerException;
 import simulator.manualSetup.manager.api.ManualSimulationSetupManager;
 import simulator.establishment.manager.api.EstablishmentManager;
 import simulator.manualSetup.manager.impl.ManualSimulationSetupManagerImpl;
@@ -13,8 +14,6 @@ import simulator.execution.manager.impl.ExecutionManagerImpl;
 import simulator.information.manager.api.InformationManager;
 import simulator.information.manager.impl.InformationManagerImpl;
 import simulator.mainManager.api.SimulatorManager;
-import simulator.result.manager.api.ResultManager;
-import simulator.result.manager.impl.ResultManagerImpl;
 import simulator.runner.utils.exceptions.SimulatorRunnerException;
 
 import java.util.ArrayList;
@@ -48,30 +47,27 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
     @Override
     public void buildSimulationWorld(String filePath) {
-        this.worldBuilderManager.buildSimulationWorld(filePath);
-        this.executionManager
-                .initThreadPoolService(
-                        this.worldBuilderManager
-                                .getWorldDefinition()
-                                .getThreadCountDefinition()
-                                .getThreadCount());
+        throw new SimulatorManagerException("Impl of buildSimulationWorld method is now directly from worldBuilderManager");
+        //this.worldBuilderManager.buildSimulationWorld(filePath);
+
     }
 
     @Override
-    public SimulationDetailsDto getSimulationWorldDetails() {
-        return worldBuilderManager.getSimulationWorldDetails();
+    public SimulationWorldDetailsDto getSimulationWorldDetails() {
+        throw new SimulatorManagerException("Impl of getSimulationWorldDetails method is now directly from worldBuilderManager");
+        //return worldBuilderManager.getSimulationWorldDetailsByName(simulationWorldName);
     }
 
     @Override
-    public EnvironmentPropertiesDto getEnvironmentPropertiesDefinition() {
-        return worldBuilderManager.getEnvironmentPropertiesDefinition();
+    public EnvironmentPropertiesDto getEnvironmentPropertiesDefinition(String simulationWorldName) {
+        return worldBuilderManager.getEnvironmentPropertiesDefinition(simulationWorldName);
     }
 
     @Override
-    public void setSelectedEnvironmentPropertiesValue(String propName, String type, String value) {
+    public void setSelectedEnvironmentPropertiesValue(String propName, String type, String value, String simulationWorldName) {
         manualSimulationSetupManager
                 .setSelectedEnvironmentPropertiesValue(
-                        worldBuilderManager.getWorldDefinition(),
+                        worldBuilderManager.getWorldDefinition(simulationWorldName),
                         propName,
                         type,
                         value
@@ -79,11 +75,12 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
-    public SimulationDocumentInfoDto runSimulator() {
+    public SimulationDocumentInfoDto runSimulator(String simulationWorldName) {
 
-        establishmentManager.establishSimulation(this.worldBuilderManager.getWorldDefinition());
-        SimulationDocument simulationDocument = infoManager.createNewSimulationDocument(
-                worldBuilderManager.getWorldDefinition(), establishmentManager.getEstablishedWorldInstance());
+        establishmentManager.establishSimulation(this.worldBuilderManager.getWorldDefinition(simulationWorldName));
+        SimulationDocument simulationDocument =
+                infoManager.createNewSimulationDocument(
+                        worldBuilderManager.getWorldDefinition(simulationWorldName), establishmentManager.getEstablishedWorldInstance());
 
         executionManager.runSimulator(simulationDocument);
         return this.infoManager.getInitialSimulationDocumentInfoDto(simulationDocument.getSimulationGuid());
@@ -100,75 +97,85 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
-    public List<String> getAllEntities() {
+    public List<String> getAllEntities(String simulationWorldName) {
         return new ArrayList<>(this.worldBuilderManager
-                .getWorldDefinition()
+                .getWorldDefinition(simulationWorldName)
                 .getEntities()
                 .keySet());
     }
 
     @Override
-    public List<String> getAllProperties() {
+    public List<String> getAllProperties(String simulationWorldName) {
         Map<String, String> propertiesMap = new HashMap<>();
         List<String> propertiesList = new ArrayList<>();
 
-        this.worldBuilderManager.getWorldDefinition().getEntities().keySet().forEach(
-                entity -> insertEntityPropertiesToMapByEntityName(propertiesMap, entity));
+        this.worldBuilderManager
+                .getWorldDefinition(simulationWorldName)
+                .getEntities()
+                .keySet()
+                .forEach(entity -> insertEntityPropertiesToMapByEntityName(simulationWorldName, propertiesMap, entity));
+
         propertiesList.addAll(propertiesMap.keySet());
         return propertiesList;
     }
 
     @Override
-    public List<String> getPropertiesByEntity(String entityName) {
+    public List<String> getPropertiesByEntity(String simulationWorldName, String entityName) {
         List<String> properties = new ArrayList<>();
-        properties.addAll(this.worldBuilderManager.getWorldDefinition().getEntities().get(entityName).getProperties().keySet());
+        properties.addAll(this.worldBuilderManager.getWorldDefinition(simulationWorldName).getEntities().get(entityName).getProperties().keySet());
 
         return properties;
     }
 
-    private void insertEntityPropertiesToMapByEntityName(Map<String, String> propertiesMap, String entity) {
-        this.worldBuilderManager.getWorldDefinition().getEntities().get(entity).getProperties().keySet().forEach(property->propertiesMap.put(property, property));
+    private void insertEntityPropertiesToMapByEntityName(String simulationWorldName, Map<String, String> propertiesMap, String entity) {
+        this.worldBuilderManager
+                .getWorldDefinition(simulationWorldName)
+                .getEntities()
+                .get(entity)
+                .getProperties()
+                .keySet()
+                .forEach(property -> propertiesMap.put(property, property));
     }
 
     @Override
-    public void setEntityDefinitionPopulation(String entityName, Integer entityPopulation) {
+    public void setEntityDefinitionPopulation(String simulationWorldName, String entityName, Integer entityPopulation) {
         manualSimulationSetupManager
                 .setEntityDefinitionPopulation(
-                        worldBuilderManager.getWorldDefinition(), entityName, entityPopulation);
+                        worldBuilderManager.getWorldDefinition(simulationWorldName), entityName, entityPopulation);
 
     }
 
     @Override
-    public <T> void setEnvironmentPropertyValue(String envPropertyName, T envPropertyValue) {
+    public <T> void setEnvironmentPropertyValue(String simulationWorldName, String envPropertyName, T envPropertyValue) {
         this.manualSimulationSetupManager.setEnvironmentPropertyValue(
-                this.worldBuilderManager.getWorldDefinition(), envPropertyName, envPropertyValue);
+                this.worldBuilderManager.getWorldDefinition(simulationWorldName), envPropertyName, envPropertyValue);
     }
 
     @Override
-    public List<EnvironmentPropertyDto> getAllEnvironmentProperties() {
-        return this.worldBuilderManager.getAllEnvironmentProperties();
+    public List<EnvironmentPropertyDto> getAllEnvironmentProperties(String simulationWorldName) {
+        return this.worldBuilderManager.getAllEnvironmentProperties(simulationWorldName);
     }
 
     @Override
-    public void resetSingleEntityPopulation(String entityName) {
+    public void resetSingleEntityPopulation(String simulationWorldName, String entityName) {
         this.manualSimulationSetupManager
-                .resetSingleEntityPopulation(this.worldBuilderManager.getWorldDefinition(), entityName);
+                .resetSingleEntityPopulation(this.worldBuilderManager.getWorldDefinition(simulationWorldName), entityName);
     }
 
     @Override
-    public void resetSingleEnvironmentVariable(String envVarName) {
+    public void resetSingleEnvironmentVariable(String simulationWorldName, String envVarName) {
         this.manualSimulationSetupManager
-                .resetSingleEnvironmentVariable(this.worldBuilderManager.getWorldDefinition(), envVarName);
+                .resetSingleEnvironmentVariable(this.worldBuilderManager.getWorldDefinition(simulationWorldName), envVarName);
     }
 
     @Override
-    public Integer getMaxPopulationSize() {
-        return this.worldBuilderManager.getMaxPopulationSize();
+    public Integer getMaxPopulationSize(String simulationWorldName) {
+        return this.worldBuilderManager.getMaxPopulationSize(simulationWorldName);
     }
 
     @Override
-    public void resetAllManualSetup() {
-        this.manualSimulationSetupManager.resetAllManualSetup(this.worldBuilderManager.getWorldDefinition());
+    public void resetAllManualSetup(String simulationWorldName) {
+        this.manualSimulationSetupManager.resetAllManualSetup(this.worldBuilderManager.getWorldDefinition(simulationWorldName));
     }
 
     @Override
@@ -224,7 +231,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     @Override
-    public PropertiesAvgConsistencyDto geEntitiesNumericPropertiesAverageByGuid(String guid) {
+    public PropertiesAvgConsistencyDto getEntitiesNumericPropertiesAverageByGuid(String guid) {
         return this.infoManager.getSimulationDocumentByGuid(guid).getSimulationResult().getEntitiesNumericPropertiesAvg();
     }
 }

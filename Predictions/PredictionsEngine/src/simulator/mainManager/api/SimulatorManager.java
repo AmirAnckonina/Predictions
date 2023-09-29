@@ -1,28 +1,29 @@
 package simulator.mainManager.api;
 import dto.*;
-import simulator.result.manager.api.ResultManager;
 
 import java.util.List;
 
 public interface SimulatorManager {
 
     void buildSimulationWorld(String filePath);
-    SimulationDetailsDto getSimulationWorldDetails();
-    EnvironmentPropertiesDto getEnvironmentPropertiesDefinition();
-    void setSelectedEnvironmentPropertiesValue(String propName, String type, String value);
-    void setEntityDefinitionPopulation(String entityName, Integer entityPopulation);
-    SimulationDocumentInfoDto runSimulator();
+    SimulationWorldDetailsDto getSimulationWorldDetails();
+    EnvironmentPropertiesDto getEnvironmentPropertiesDefinition(String simulationWorldName);
+    void setSelectedEnvironmentPropertiesValue(String propName, String type, String value, String simulationWorldName);
+    void setEntityDefinitionPopulation(String simulationWorldName, String entityName, Integer entityPopulation);
+    SimulationDocumentInfoDto runSimulator(String simulationWorldName);
     void exitSimulator();
     EstablishedEnvironmentInfoDto getEstablishedEnvironmentInfo();
-    List<String> getAllEntities();
-    List<String> getAllProperties();
-    List<String> getPropertiesByEntity(String entityName);
-    <T> void setEnvironmentPropertyValue(String envPropertyName, T envPropertyValue);
-    List<EnvironmentPropertyDto> getAllEnvironmentProperties();
-    void resetSingleEntityPopulation(String entityName);
-    void resetSingleEnvironmentVariable(String envVarName);
-    Integer getMaxPopulationSize();
-    void resetAllManualSetup();
+    List<String> getAllEntities(String simulationWorldName);
+
+    List<String> getAllProperties(String simulationWorldName);
+
+    List<String> getPropertiesByEntity(String simulationWorldName, String entityName);
+    <T> void setEnvironmentPropertyValue(String simulationWorldName, String envPropertyName, T envPropertyValue);
+    List<EnvironmentPropertyDto> getAllEnvironmentProperties(String simulationWorldName);
+    void resetSingleEntityPopulation(String simulationWorldName, String entityName);
+    void resetSingleEnvironmentVariable(String simulationWorldName, String envVarName);
+    Integer getMaxPopulationSize(String simulationWorldName);
+    void resetAllManualSetup(String simulationWorldName);
     SimulationDocumentInfoDto stopSimulationByGuid(String guid);
     SimulationDocumentInfoDto pauseSimulationByGuid(String guid);
     SimulationDocumentInfoDto resumeSimulationByGuid(String guid);
@@ -36,5 +37,5 @@ public interface SimulatorManager {
 
     PropertiesConsistencyDto getEntitiesPropertiesConsistencyMapByGuid(String guid);
 
-    PropertiesAvgConsistencyDto geEntitiesNumericPropertiesAverageByGuid(String guid);
+    PropertiesAvgConsistencyDto getEntitiesNumericPropertiesAverageByGuid(String guid);
 }

@@ -4,7 +4,7 @@ import resources.jaxb.schema.generated.PRDBySecond;
 import resources.jaxb.schema.generated.PRDByTicks;
 import resources.jaxb.schema.generated.PRDTermination;
 import simulator.builder.api.interfaces.TerminationBuilder;
-import simulator.builder.utils.exception.WorldBuilderException;
+import simulator.builder.utils.exception.WorldBuilderManagerException;
 import simulator.definition.termination.Termination;
 
 import java.util.List;
@@ -44,7 +44,7 @@ public class XmlTerminationBuilder implements TerminationBuilder {
 
         int numOfTerminationConditions = generatedTerminationConditions.size();
         if (numOfTerminationConditions == 0) {
-            throw new WorldBuilderException("Termination prvoided doesn't contain any condition.");
+            throw new WorldBuilderManagerException("Termination prvoided doesn't contain any condition.");
         }
 
         for (int i = 0; i < numOfTerminationConditions; i++) {
@@ -56,7 +56,7 @@ public class XmlTerminationBuilder implements TerminationBuilder {
                 PRDBySecond generatedSecondsTermination = (PRDBySecond) generatedTerminationConditions.get(i);
                 secondsTermination = generatedSecondsTermination.getCount();
             } else {
-                throw new WorldBuilderException(
+                throw new WorldBuilderManagerException(
                         "Can't build termination definition. PRDTermination structure is invalid");
             }
         }

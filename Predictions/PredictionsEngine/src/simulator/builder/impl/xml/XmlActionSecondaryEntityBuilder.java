@@ -3,7 +3,7 @@ package simulator.builder.impl.xml;
 import resources.jaxb.schema.generated.PRDAction;
 import simulator.builder.api.abstracts.AbstractComponentBuilder;
 import simulator.builder.api.interfaces.ActionSecondaryEntityBuilder;
-import simulator.builder.utils.exception.WorldBuilderException;
+import simulator.builder.utils.exception.WorldBuilderManagerException;
 import simulator.builder.validator.api.WorldBuilderContextValidator;
 import simulator.definition.rule.action.expression.conditionExpression.api.interfaces.ConditionExpression;
 import simulator.definition.rule.action.secondaryEntity.api.ActionSecondaryEntityDefinition;
@@ -31,7 +31,7 @@ public class XmlActionSecondaryEntityBuilder
         String secondaryEntityName = generatedSecondaryEntity.getEntity();
         boolean secondaryEntityContextValid = contextValidator.validateActionEntityContext(secondaryEntityName);
         if (!secondaryEntityContextValid) {
-            throw new WorldBuilderException("Secondary entity context is invalid.");
+            throw new WorldBuilderManagerException("Secondary entity context is invalid.");
         }
 
         ConditionExpression conditionExpression = null;
