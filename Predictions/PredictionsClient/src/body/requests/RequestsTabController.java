@@ -169,7 +169,7 @@ public class RequestsTabController {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (response.code() != 200) {
+                if (response.isSuccessful()) {
                     String responseBody = response.body().string();
                     Type requestDetailsListType = new TypeToken<ArrayList<SimulationRequestDetailsDto>>(){}.getType();
                     ArrayList<SimulationRequestDetailsDto> simulationRequestDetailsDtoList = GSON_INSTANCE.fromJson(responseBody, requestDetailsListType);
@@ -280,7 +280,7 @@ public class RequestsTabController {
     private void startRequestsListRefresher() {
         this.requestsTableRefresher = new SimulationRequestsListRefresher(this::updateRequestsTableUI);
         this.requestsTableTimer = new Timer();
-        this.requestsTableTimer.schedule(avaSimListRefresher, SIMULATION_REQUESTS_LIST_REFRESH_RATE, SIMULATION_REQUESTS_LIST_REFRESH_RATE);
+        this.requestsTableTimer.schedule(requestsTableRefresher, SIMULATION_REQUESTS_LIST_REFRESH_RATE, SIMULATION_REQUESTS_LIST_REFRESH_RATE);
     }
 
     private void startAvailableSimulationListRefresher() {
