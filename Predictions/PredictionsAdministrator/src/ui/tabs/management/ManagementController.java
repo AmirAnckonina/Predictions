@@ -79,12 +79,12 @@ public class ManagementController {
                 return;
             }
             String absolutePath = selectedFile.getAbsolutePath();
-            mainController.resetGUI();
+//            mainController.resetGUI();
             this.currLoadedFilePathLbl.setText(absolutePath);
-            this.mainController.onLoadSimulationButtonClicked(absolutePath);
+//            this.mainController.onLoadSimulationButtonClicked(absolutePath);
             BufferedReader reader = new BufferedReader(new FileReader(absolutePath));
             List<String> lines = new ArrayList<>();
-            reader.lines().forEach(line -> lines.add(line));
+            reader.lines().forEach(line -> lines.add(line + "\n"));
             loadSimulationToServer(parseStreamToStrings(lines));
         }catch (Exception e){
             e.printStackTrace(System.out);

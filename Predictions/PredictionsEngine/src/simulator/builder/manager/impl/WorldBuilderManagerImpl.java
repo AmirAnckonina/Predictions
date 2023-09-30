@@ -14,6 +14,7 @@ import structure.range.Range;
 import simulator.definition.rule.Rule;
 import simulator.definition.world.WorldDefinition;
 
+import java.io.InputStream;
 import java.util.*;
 
 public class WorldBuilderManagerImpl implements WorldBuilderManager {
@@ -76,15 +77,18 @@ public class WorldBuilderManagerImpl implements WorldBuilderManager {
     }
 
     @Override
-    public void buildSimulationWorld(String filePath) {
-            DataFileType dataSrcType = WorldBuilderFileUtils.getDataFileTypeByFileExtension(filePath);
-            this.worldBuilder = WorldBuilderFactory.createSimulationBuilder(dataSrcType, filePath);
+    public SimulationWorldDetailsDto buildSimulationWorld(InputStream xmlFile) {
+//            DataFileType dataSrcType = WorldBuilderFileUtils.getDataFileTypeByFileExtension(doc);
+            this.worldBuilder = WorldBuilderFactory.createSimulationBuilder(xmlFile);
             String newSimulationWorldName = this.worldBuilder.getSimulationWorldName();
             if (this.worldDefinitionMap.containsKey(newSimulationWorldName)) {
                 throw new WorldBuilderManagerException("The simulation world name already exists.");
             }
 
             WorldDefinition newWorldDefinition = worldBuilder.buildWorld();
+            worldDefinitionMap.put(newSimulationWorldName, newWorldDefinition);
+
+            return getSimulationWorldDetailsByName(newSimulationWorldName);
     }
 
     @Override

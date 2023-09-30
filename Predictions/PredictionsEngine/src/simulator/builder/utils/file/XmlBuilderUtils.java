@@ -24,4 +24,9 @@ public final class XmlBuilderUtils {
         return deserializeFrom(xmlInputStream, generatedPkjName);
     }
 
+    public static <T> T getGeneratedClassFromStringFile(InputStream dataSrcFile, String generatedPkjName) throws FileNotFoundException, JAXBException {
+
+        return deserializeFrom(dataSrcFile, generatedPkjName);
+    }
+
 }
