@@ -285,12 +285,11 @@ public class DetailsController {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (response.code() != 200) {
+                if (response.isSuccessful()) {
                     String responseBody = response.body().string();
                     SimulationWorldDetailsDto simulationWorldDetailsDto = GSON_INSTANCE.fromJson(responseBody, SimulationWorldDetailsDto.class);
-                    Platform.runLater(() ->
-                            updateDetailsComponentUI(simulationWorldDetailsDto)
-                    );
+                    updateDetailsComponentUI(simulationWorldDetailsDto);
+
                 } else {
                     System.out.println("error code = " + response.code() + ". Something went wrong with the request getSimulationWorldDetailsProcedure()...:(");
                 }
@@ -304,15 +303,17 @@ public class DetailsController {
     }
 
     private void updateDetailsComponentUI(SimulationWorldDetailsDto simulationWorldDetailsDto) {
-        setPropertyDtoMap(simulationWorldDetailsDto.getEnvironmentPropertiesDto().getPropertiesMap());
-        setRuleMap(simulationWorldDetailsDto.getRuleMap());
-        setEntitiesDtoMap(simulationWorldDetailsDto.getEntityDtoMap());
-        setTerminationDto(simulationWorldDetailsDto.getTerminationInfo());
-        showCurrPropertyDtoList();
+        Platform.runLater(() -> {
+            setPropertyDtoMap(simulationWorldDetailsDto.getEnvironmentPropertiesDto().getPropertiesMap());
+            setRuleMap(simulationWorldDetailsDto.getRuleMap());
+            setEntitiesDtoMap(simulationWorldDetailsDto.getEntityDtoMap());
+            setTerminationDto(simulationWorldDetailsDto.getTerminationInfo());
+            showCurrPropertyDtoList();
+        });
+
     }
 
     public void setActive() {
-
         startSimulationWorldListRefresher();
     }
 

@@ -18,6 +18,7 @@ import simulator.definition.rule.Rule;
 import simulator.definition.world.WorldDefinition;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class WorldBuilderManagerImpl implements WorldBuilderManager {
     private Map<String, WorldDefinition> worldDefinitionMap;
@@ -51,6 +52,11 @@ public class WorldBuilderManagerImpl implements WorldBuilderManager {
     @Override
     public Integer getMaxPopulationSize(String simulationWorldName) {
         return this.worldDefinitionMap.get(simulationWorldName).getSpaceGridDefinition().getTotalSpace();
+    }
+
+    @Override
+    public List<String> getAllLoadedSimulationWorldNames() {
+        return new ArrayList<>(this.worldDefinitionMap.keySet());
     }
 
     private EnvironmentPropertyDto arrangeSingleEnvironmentPropertyDto(String envPropName, AbstractPropertyDefinition envPropDef) {
