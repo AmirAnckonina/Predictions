@@ -67,30 +67,9 @@ public class ManagementController {
             return;
         }
         mainController.resetGUI();
-        this.loadSimulationPath.setText(selectedFile.getAbsolutePath());
+        this.currLoadedFilePathLbl.setText(selectedFile.getAbsolutePath());
         this.predictionsTopModel.onLoadSimulationButtonClicked();
         this.mainController.onLoadSimulationButtonClicked(selectedFile.getAbsolutePath());
-
-        if(enableAnimationRB.isSelected()){
-            FadeTransition ft = new FadeTransition(Duration.millis(800), queueTitle);
-            ft.setFromValue(1);
-            ft.setToValue(0.2);
-            ft.setAutoReverse(true);
-            FadeTransition ftIn = new FadeTransition(Duration.millis(800), queueTitle);
-            ftIn.setFromValue(0.2);
-            ftIn.setToValue(1);
-            ftIn.setAutoReverse(true);
-            ft.setOnFinished(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    ftIn.play(); // Start the fade-in animation
-                }
-            });
-            RotateTransition rt = new RotateTransition(Duration.millis(1200), enableAnimationRB);
-            rt.setByAngle(360);
-            rt.play();
-            ft.play();
-        }
     }
 
     @FXML
