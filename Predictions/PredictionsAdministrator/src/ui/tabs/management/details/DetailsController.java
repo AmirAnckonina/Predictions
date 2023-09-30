@@ -1,6 +1,12 @@
 package ui.tabs.management.details;
 
+import body.details.subbodyobjects.SimulationDetail;
+import body.details.subbodyobjects.entity.property.EntityPropertyController;
+import body.details.subbodyobjects.environment.EnvironmentController;
+import body.details.subbodyobjects.ruleComponent.MainActionController;
+import body.details.subbodyobjects.simulationTitle;
 import dto.*;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,60 +17,62 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import main.PredictionsMainController;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
+import okhttp3.Response;
+import org.jetbrains.annotations.NotNull;
 import simulator.mainManager.api.SimulatorManager;
 import ui.mainScene.MainController;
-import ui.tabs.management.details.subbodyobjects.SimulationDetail;
-import ui.tabs.management.details.subbodyobjects.entity.property.EntityPropertyController;
-import ui.tabs.management.details.subbodyobjects.environment.EnvironmentController;
-import ui.tabs.management.details.subbodyobjects.ruleComponent.MainActionController;
-import ui.tabs.management.details.subbodyobjects.simulationTitle;
+import utils.HttpClientUtil;
+import utils.SimulationWorldListRefresher;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import static common.CommonResourcesPaths.ENT_PROP_DETAILS_FXML_RESOURCE;
+import static common.CommonResourcesPaths.ENV_DETAILS_FXML_RESOURCE;
+import static common.CommonResourcesPaths.RULE_MAIN_FXML_RESOURCE;
 import static ui.common.CommonResourcesPaths.*;
+import static utils.Constants.*;
+import static utils.Constants.SIMULATION_WORLD_LIST_REFRESH_RATE;
 
 
 public class DetailsController {
     private int observableLinesIndex = -1;
-    private MainController mainController;
-    private DetailsModel detailsModel;
+    private PredictionsMainController mainController;
     private Stage primaryStage;
     private SimulatorManager simulatorManager;
     private Map<String, BasePropertyDto> propertyDtoMap;
     private Map<String, StringEntityDto> entitiesDtoMap;
     private Map<String, StringRuleDto> ruleMap;
-    private Map<String, String> envPropertiesInfo;
-    private SimulationWorldDetailsDto simulationDetailsDto;
+    private TimerTask simulationWorldListRefresher;
+    private Timer detailsTimer;
 
-    @FXML
-    private ListView<simulationTitle> rulesDetailsLeftListLV;
-    @FXML
-    private ListView<simulationTitle> entitiesDetailsLeftListLV;
-    @FXML
-    private FlowPane rightDetailsFlowPaneListView;
-    @FXML
-    private ListView<simulationTitle> environmentDetailsLeftListLV;
-    @FXML
-    private Label terminationDetailsLabel;
+    @FXML private ListView<body.details.subbodyobjects.simulationTitle> rulesDetailsLeftListLV;
+    @FXML private ListView<body.details.subbodyobjects.simulationTitle> entitiesDetailsLeftListLV;
+    @FXML private FlowPane rightDetailsFlowPaneListView;
+    @FXML private ListView<body.details.subbodyobjects.simulationTitle> environmentDetailsLeftListLV;
+    @FXML private ListView<String> avaSimListView;
+    @FXML private Label terminationDetailsLabel;
 
 
-    private ObservableList<simulationTitle> environmentListViewLeftLines = FXCollections.observableArrayList();
-    private ObservableList<simulationTitle> entitiesListViewLeftLines = FXCollections.observableArrayList();
-    private ObservableList<simulationTitle> rulesListViewLeftLines = FXCollections.observableArrayList();
+    private ObservableList<body.details.subbodyobjects.simulationTitle> environmentListViewLeftLines = FXCollections.observableArrayList();
+    private ObservableList<body.details.subbodyobjects.simulationTitle> entitiesListViewLeftLines = FXCollections.observableArrayList();
+    private ObservableList<body.details.subbodyobjects.simulationTitle> rulesListViewLeftLines = FXCollections.observableArrayList();
     private ObservableList<SimulationDetail> listViewRightLines = FXCollections.observableArrayList();
 
-    public void setMainController(MainController mainController) {
+    public void setMainController(PredictionsMainController mainController) {
         this.mainController = mainController;
     }
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
-    }
-
-    public void setSimulationDetailsDto(SimulationWorldDetailsDto simulationDetailsDto) {
-        this.simulationDetailsDto = simulationDetailsDto;
     }
 
     public void setEntitiesDtoMap(Map<String, StringEntityDto> entitiesDtoMap) {
@@ -74,22 +82,13 @@ public class DetailsController {
     public void setRuleMap(Map<String, StringRuleDto> ruleMap) {
         this.ruleMap = ruleMap;
     }
-
-    public void setEnvPropertiesInfo(Map<String, String> envPropertiesInfo) {
-        this.envPropertiesInfo = envPropertiesInfo;
-    }
-
-    public void loadFileButtonClicked(){
-        this.environmentDetailsLeftListLV.setItems(this.environmentListViewLeftLines);
-    }
-
-    public boolean insertNewLineToLeftEnvironmentListView(String simulationID){
-        this.environmentListViewLeftLines.add(new simulationTitle(simulationID));
+    public boolean insertNewLineToLeftEnvironmentListView(String simulationID) {
+        this.environmentListViewLeftLines.add(new body.details.subbodyobjects.simulationTitle(simulationID));
         environmentDetailsLeftListLV.setItems(environmentListViewLeftLines);
         return true;
     }
     public boolean insertNewLineToLeftEntitiesListView(String simulationID){
-        this.entitiesListViewLeftLines.add(new simulationTitle(simulationID));
+        this.entitiesListViewLeftLines.add(new body.details.subbodyobjects.simulationTitle(simulationID));
         entitiesDetailsLeftListLV.setItems(entitiesListViewLeftLines);
         return true;
     }
@@ -145,6 +144,12 @@ public class DetailsController {
     }
 
     @FXML
+    void avaSimListViewClicked(MouseEvent event) {
+        reset();
+        getSimulationWorldDetailsProcedure();
+    }
+
+    @FXML
     void environmentListViewLineClicked(MouseEvent event) {
         BasePropertyDto selectedEnvironmentVariable = propertyDtoMap.get(this.environmentDetailsLeftListLV.
                 getSelectionModel().getSelectedItem().toString());
@@ -187,10 +192,6 @@ public class DetailsController {
         rightDetailsFlowPaneListView.getChildren().removeAll();
     }
 
-    public void setDetailsModel(DetailsModel detailsModel) {
-        this.detailsModel = detailsModel;
-    }
-
     public void setSimulatorManager(SimulatorManager simulatorManager) {
         this.simulatorManager = simulatorManager;
     }
@@ -226,7 +227,6 @@ public class DetailsController {
                     selectedProperty.getPropertyRangeTo());
             rightDetailsFlowPaneListView.getChildren().add(gpComponent);
         } catch (Exception e) {
-            e.getMessage();
             e.printStackTrace(System.out);
         }
     }
@@ -265,7 +265,6 @@ public class DetailsController {
         this.terminationDetailsLabel.textProperty().set(firstOption + "   " + secondOption);
 
         //ticksTermination=null
-
         //secondsTermination
     }
 
@@ -274,5 +273,72 @@ public class DetailsController {
         entitiesDetailsLeftListLV.getItems().clear();
         rulesDetailsLeftListLV.getItems().clear();
         rightDetailsFlowPaneListView.getChildren().clear();
+    }
+
+    public void getSimulationWorldDetailsProcedure() {
+
+        String selectedSimulationWorldName = avaSimListView.getSelectionModel().getSelectedItem();
+        String finalUrl =
+                HttpUrl
+                        .parse(GET_SIMULATION_WORLD_DETAILS_ENDPOINT)
+                        .newBuilder()
+                        .addQueryParameter(GET_SIMULATION_WORLD_NAME_PARAM_KEY, selectedSimulationWorldName)
+                        .build()
+                        .toString();
+
+        HttpClientUtil.runAsync(finalUrl, new Callback() {
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.code() != 200) {
+                    String responseBody = response.body().string();
+                    SimulationWorldDetailsDto simulationWorldDetailsDto = GSON_INSTANCE.fromJson(responseBody, SimulationWorldDetailsDto.class);
+                    Platform.runLater(() ->
+                            updateDetailsComponentUI(simulationWorldDetailsDto)
+                    );
+                } else {
+                    System.out.println("error code = " + response.code() + ". Something went wrong with the request getSimulationWorldDetailsProcedure()...:(");
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace(System.out);
+            }
+        });
+    }
+
+    private void updateDetailsComponentUI(SimulationWorldDetailsDto simulationWorldDetailsDto) {
+        setPropertyDtoMap(simulationWorldDetailsDto.getEnvironmentPropertiesDto().getPropertiesMap());
+        setRuleMap(simulationWorldDetailsDto.getRuleMap());
+        setEntitiesDtoMap(simulationWorldDetailsDto.getEntityDtoMap());
+        setTerminationDto(simulationWorldDetailsDto.getTerminationInfo());
+        showCurrPropertyDtoList();
+    }
+
+    public void setActive() {
+
+        startSimulationWorldListRefresher();
+    }
+
+    public void setInactive() {
+        if (this.simulationWorldListRefresher != null && this.detailsTimer != null) {
+            this.simulationWorldListRefresher.cancel();
+            this.detailsTimer.cancel();
+        }
+    }
+
+    private void startSimulationWorldListRefresher() {
+        this.simulationWorldListRefresher = new SimulationWorldListRefresher(this::updateSimulationWorldListViewUI);
+        this.detailsTimer = new Timer();
+        this.detailsTimer.schedule(simulationWorldListRefresher, SIMULATION_WORLD_LIST_REFRESH_RATE, SIMULATION_WORLD_LIST_REFRESH_RATE);
+    }
+
+    private void updateSimulationWorldListViewUI(SimulationWorldNamesDto simulationWorldNamesDto) {
+        Platform.runLater(() -> {
+            ObservableList<String> simulationWorldNamesList = avaSimListView.getItems();
+            simulationWorldNamesList.clear();
+            simulationWorldNamesList.addAll(simulationWorldNamesDto.getSimulationWorldNames());
+        });
     }
 }
