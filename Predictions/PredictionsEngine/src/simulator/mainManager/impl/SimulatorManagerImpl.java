@@ -38,11 +38,11 @@ public class SimulatorManagerImpl implements SimulatorManager {
     }
 
     public SimulatorManagerImpl(EstablishmentManager establishmentManager, ManualSimulationSetupManager manualSimulationSetupManager, WorldBuilderManager worldBuilderManager, ExecutionManager executionManager, InformationManager infoManager) {
-        this.establishmentManager = establishmentManager;
-        this.manualSimulationSetupManager = manualSimulationSetupManager;
         this.worldBuilderManager = worldBuilderManager;
         this.executionManager = executionManager;
         this.infoManager = infoManager;
+        this.establishmentManager = establishmentManager;
+        this.manualSimulationSetupManager = manualSimulationSetupManager;
     }
 
     @Override
