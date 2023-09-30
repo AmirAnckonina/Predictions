@@ -14,4 +14,6 @@ public interface WorldBuilderManager {
     WorldDefinition getWorldDefinition(String simulationWorldName);
     List<EnvironmentPropertyDto> getAllEnvironmentProperties(String simulationWorldName);
     Integer getMaxPopulationSize(String simulationWorldName);
+
+    List<String> getAllLoadedSimulationWorldNames();
 }
