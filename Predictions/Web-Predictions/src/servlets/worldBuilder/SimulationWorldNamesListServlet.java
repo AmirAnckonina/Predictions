@@ -1,5 +1,6 @@
 package servlets.worldBuilder;
 
+import dto.SimulationWorldNamesDto;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -21,8 +22,8 @@ public class SimulationWorldNamesListServlet extends HttpServlet {
         response.setContentType("application/json");
         ServletContext sc = getServletContext();
         WorldBuilderManager wbm = PredictionsServletUtils.getWorldBuilderManager(getServletContext());
-        List<String> allLoadedSimulationWorldNames = wbm.getAllLoadedSimulationWorldNames();
-        String jsonResp = GSON_INSTANCE.toJson(allLoadedSimulationWorldNames);
+        SimulationWorldNamesDto simulationWorldNamesDto = wbm.getAllLoadedSimulationWorldNames();
+        String jsonResp = GSON_INSTANCE.toJson(simulationWorldNamesDto);
 
         try (PrintWriter out = response.getWriter()) {
             out.println(jsonResp);

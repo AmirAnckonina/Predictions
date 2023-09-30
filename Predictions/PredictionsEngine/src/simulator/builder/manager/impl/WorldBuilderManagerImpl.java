@@ -1,9 +1,6 @@
 package simulator.builder.manager.impl;
 
-import dto.BasePropertyDto;
-import dto.EnvironmentPropertiesDto;
-import dto.EnvironmentPropertyDto;
-import dto.SimulationWorldDetailsDto;
+import dto.*;
 import simulator.builder.api.interfaces.WorldBuilder;
 import simulator.builder.manager.api.WorldBuilderManager;
 import simulator.builder.utils.exception.WorldBuilderManagerException;
@@ -18,14 +15,16 @@ import simulator.definition.rule.Rule;
 import simulator.definition.world.WorldDefinition;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class WorldBuilderManagerImpl implements WorldBuilderManager {
-    private Map<String, WorldDefinition> worldDefinitionMap;
+    private final Map<String, WorldDefinition> worldDefinitionMap;
     private WorldBuilder worldBuilder;
 
     public WorldBuilderManagerImpl() {
         this.worldDefinitionMap = new HashMap<>();
+        this.worldDefinitionMap.put("TestSimulationName1", new WorldDefinition());
+        this.worldDefinitionMap.put("TestSimulationName2", new WorldDefinition());
+        this.worldDefinitionMap.put("TestSimulationName3", new WorldDefinition());
     }
 
     @Override
@@ -55,8 +54,8 @@ public class WorldBuilderManagerImpl implements WorldBuilderManager {
     }
 
     @Override
-    public List<String> getAllLoadedSimulationWorldNames() {
-        return new ArrayList<>(this.worldDefinitionMap.keySet());
+    public SimulationWorldNamesDto getAllLoadedSimulationWorldNames() {
+        return new SimulationWorldNamesDto(new ArrayList<>(this.worldDefinitionMap.keySet()));
     }
 
     private EnvironmentPropertyDto arrangeSingleEnvironmentPropertyDto(String envPropName, AbstractPropertyDefinition envPropDef) {

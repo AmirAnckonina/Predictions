@@ -32,8 +32,13 @@ public class SimulationWorldListRefresher extends TimerTask {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String json = response.body().string();
-                SimulationWorldNamesDto simulationWorldNamesDto = GSON_INSTANCE.fromJson(json, SimulationWorldNamesDto.class);
-                simulationWorldNamesDtoConsumer.accept(simulationWorldNamesDto);
+                try {
+                    SimulationWorldNamesDto simulationWorldNamesDto = GSON_INSTANCE.fromJson(json, SimulationWorldNamesDto.class);
+                    simulationWorldNamesDtoConsumer.accept(simulationWorldNamesDto);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
         });
     }
