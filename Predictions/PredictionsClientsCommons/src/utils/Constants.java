@@ -24,6 +24,7 @@ public class Constants {
     //
     public final static String GET_ENVIRONMENT_PROPERTIES_DEFINITION_ENDPOINT = FULL_SERVER_PATH + "/worldBuilder/environmentPropertiesDefinition";
     //
+    public final static String POST_NEW_SIMULATION_LOAD_ENDPOINT = FULL_SERVER_PATH + "/worldBuilder/loadSimulationWorldFile";
     public final static String POST_NEW_SIMULATION_REQUEST_ENDPOINT = FULL_SERVER_PATH + "/simulationRequests/newSimulationRequest";
     public final static String POST_NEW_SIMULATION_REQUEST_PARAM_KEY = "simulationRequestBody";
     //

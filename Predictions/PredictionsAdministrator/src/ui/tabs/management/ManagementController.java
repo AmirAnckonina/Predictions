@@ -1,7 +1,9 @@
 package ui.tabs.management;
 
+import dto.SimulationWorldDetailsDto;
 import javafx.animation.FadeTransition;
 import javafx.animation.RotateTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -13,9 +15,18 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import okhttp3.*;
+import org.jetbrains.annotations.NotNull;
 import ui.mainScene.MainController;
+import utils.HttpClientUtil;
 
-import java.io.File;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+
+import static utils.Constants.GSON_INSTANCE;
+import static utils.Constants.POST_NEW_SIMULATION_LOAD_ENDPOINT;
 
 public class ManagementController {
 
@@ -59,17 +70,28 @@ public class ManagementController {
 
     @FXML
     void loadFileButtonClicked(ActionEvent event) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select simulation");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML Simulation", "*.xml"));
-        File selectedFile = fileChooser.showOpenDialog(primaryStage);
-        if (selectedFile == null) {
-            return;
+        try {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Select simulation");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML Simulation", "*.xml"));
+            File selectedFile = fileChooser.showOpenDialog(primaryStage);
+            if (selectedFile == null) {
+                return;
+            }
+            String absolutePath = selectedFile.getAbsolutePath();
+            mainController.resetGUI();
+            this.currLoadedFilePathLbl.setText(absolutePath);
+            this.mainController.onLoadSimulationButtonClicked(absolutePath);
+            BufferedReader reader = new BufferedReader(new FileReader(absolutePath));
+            List<String> lines = new ArrayList<>();
+            reader.lines().forEach(line -> lines.add(line));
+            loadSimulationToServer(parseStreamToStrings(lines));
+        }catch (Exception e){
+            e.printStackTrace(System.out);
         }
-        mainController.resetGUI();
-        this.currLoadedFilePathLbl.setText(selectedFile.getAbsolutePath());
-        this.mainController.onLoadSimulationButtonClicked(selectedFile.getAbsolutePath());
     }
+
+
 
     @FXML
     void setNumOfThreadBtnClicked(ActionEvent event) {
@@ -87,5 +109,61 @@ public class ManagementController {
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
+    }
+
+    private void loadSimulationToServer(byte[] simulationInBytes){
+        //byte[] b = xmlString.getBytes("UTF-8");
+        RequestBody requestBody = RequestBody.create(simulationInBytes);
+        String finalUrl = HttpUrl
+                .parse(POST_NEW_SIMULATION_LOAD_ENDPOINT)
+                .newBuilder()
+                .build()
+                .toString();
+
+        HttpClientUtil.runAsync(finalUrl, requestBody, new Callback(){
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    System.out.println("onResponse");
+                    String responseBody = response.body().string();
+                    SimulationWorldDetailsDto simulationWorldDetailsDto = GSON_INSTANCE.fromJson(responseBody, SimulationWorldDetailsDto.class);
+//                    Platform.runLater(() ->
+//                            updateDetailsComponentUI(simulationWorldDetailsDto)
+//                    );
+                } else {
+                    System.out.println("onResponse");
+                    System.out.println("error code = " + response.code() + ". Something went wrong with the request getSimulationWorldDetailsProcedure()...:(");
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace(System.out);
+            }
+        });
+//        Platform.runLater(() -> {
+//            chatLineTextArea.clear();
+//        });
+    }
+
+    // Example method to create a sample input stream of strings
+    private static InputStream createSampleInputStream(List<String> stringList) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String str : stringList) {
+            stringBuilder.append(str);
+        }
+        return new java.io.ByteArrayInputStream(stringBuilder.toString().getBytes(StandardCharsets.UTF_8));
+    }
+
+    // Method to parse a stream of strings into a byte array
+    private static byte[] parseStreamToStrings(List<String> stringArray) throws IOException {
+        InputStream inputStream = createSampleInputStream(stringArray);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024]; // You can adjust the buffer size as needed
+        int bytesRead;
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            byteArrayOutputStream.write(buffer, 0, bytesRead);
+        }
+        return byteArrayOutputStream.toByteArray();
     }
 }

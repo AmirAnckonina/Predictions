@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 
 import static utils.PredictionsServletUtils.GSON_INSTANCE;
 
-@WebServlet(name = "LoadSimulationWorldFIleServlet", urlPatterns = "/loadSimulationWorldFile")
+@WebServlet(name = "LoadSimulationWorldFIleServlet", urlPatterns = "/worldBuilder/loadSimulationWorldFile")
 public class LoadSimulationWorldFileServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
