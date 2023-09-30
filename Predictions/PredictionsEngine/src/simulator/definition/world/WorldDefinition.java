@@ -17,7 +17,9 @@ public class WorldDefinition {
     private List<Rule> rules;
     private Integer sleepTimeBeforeTick;
     private Termination termination;
+    public WorldDefinition() {
 
+    }
     public WorldDefinition(
             SpaceGridDefinition spaceGridDefinition,
             EnvironmentDefinition environmentDefinition,
