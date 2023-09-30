@@ -13,6 +13,7 @@ public class MainController {
 
     private Stage primaryStage;
     private eCurrentScreen currentScreen;
+    private boolean newSimulationLoadedFlag;
 
     @FXML private ManagementController managementTabController;
     @FXML private ExecutionsHistoryController executionHistoryTabController;
@@ -59,5 +60,30 @@ public class MainController {
     }
 
     public void resetGUI() {
+    }
+
+    public void onLoadSimulationButtonClicked(String absolutePath) {
+        try {
+            //simulatorManager.buildSimulationWorld(simulationFilePath);
+
+            this.newSimulationLoadedFlag = true;
+
+            // Here we want to activate the tabs.
+            // Details tab - after the workd is built we can collect all the WorldDefinition/SimulationDetails to the view
+            // New Exec tab -
+//            this.newExecutionComponentController.initializeNewExecutionTab();
+
+            switch (currentScreen) {
+                case MANAGEMENT:
+                    managementTabClicked();
+                    break;
+                default:
+                    // an option to add more screens to interact with loaded simulation
+                    break;
+
+            }
+        }catch (Exception e){
+
+        }
     }
 }

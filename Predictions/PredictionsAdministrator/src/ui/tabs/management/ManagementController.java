@@ -68,7 +68,6 @@ public class ManagementController {
         }
         mainController.resetGUI();
         this.currLoadedFilePathLbl.setText(selectedFile.getAbsolutePath());
-        this.predictionsTopModel.onLoadSimulationButtonClicked();
         this.mainController.onLoadSimulationButtonClicked(selectedFile.getAbsolutePath());
     }
 

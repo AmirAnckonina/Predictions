@@ -1,10 +1,6 @@
 package ui.tabs.management.details;
 
-import body.details.subbodyobjects.SimulationDetail;
-import body.details.subbodyobjects.entity.property.EntityPropertyController;
-import body.details.subbodyobjects.environment.EnvironmentController;
-import body.details.subbodyobjects.ruleComponent.MainActionController;
-import body.details.subbodyobjects.simulationTitle;
+
 import dto.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -25,6 +21,11 @@ import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
 import simulator.mainManager.api.SimulatorManager;
 import ui.mainScene.MainController;
+import ui.tabs.management.details.subbodyobjects.SimulationDetail;
+import ui.tabs.management.details.subbodyobjects.entity.property.EntityPropertyController;
+import ui.tabs.management.details.subbodyobjects.environment.EnvironmentController;
+import ui.tabs.management.details.subbodyobjects.ruleComponent.MainActionController;
+import ui.tabs.management.details.subbodyobjects.simulationTitle;
 import utils.HttpClientUtil;
 import utils.SimulationWorldListRefresher;
 
@@ -54,17 +55,17 @@ public class DetailsController {
     private TimerTask simulationWorldListRefresher;
     private Timer detailsTimer;
 
-    @FXML private ListView<body.details.subbodyobjects.simulationTitle> rulesDetailsLeftListLV;
-    @FXML private ListView<body.details.subbodyobjects.simulationTitle> entitiesDetailsLeftListLV;
+    @FXML private ListView<simulationTitle> rulesDetailsLeftListLV;
+    @FXML private ListView<simulationTitle> entitiesDetailsLeftListLV;
     @FXML private FlowPane rightDetailsFlowPaneListView;
-    @FXML private ListView<body.details.subbodyobjects.simulationTitle> environmentDetailsLeftListLV;
+    @FXML private ListView<simulationTitle> environmentDetailsLeftListLV;
     @FXML private ListView<String> avaSimListView;
     @FXML private Label terminationDetailsLabel;
 
 
-    private ObservableList<body.details.subbodyobjects.simulationTitle> environmentListViewLeftLines = FXCollections.observableArrayList();
-    private ObservableList<body.details.subbodyobjects.simulationTitle> entitiesListViewLeftLines = FXCollections.observableArrayList();
-    private ObservableList<body.details.subbodyobjects.simulationTitle> rulesListViewLeftLines = FXCollections.observableArrayList();
+    private ObservableList<simulationTitle> environmentListViewLeftLines = FXCollections.observableArrayList();
+    private ObservableList<simulationTitle> entitiesListViewLeftLines = FXCollections.observableArrayList();
+    private ObservableList<simulationTitle> rulesListViewLeftLines = FXCollections.observableArrayList();
     private ObservableList<SimulationDetail> listViewRightLines = FXCollections.observableArrayList();
 
     public void setMainController(PredictionsMainController mainController) {
@@ -83,12 +84,12 @@ public class DetailsController {
         this.ruleMap = ruleMap;
     }
     public boolean insertNewLineToLeftEnvironmentListView(String simulationID) {
-        this.environmentListViewLeftLines.add(new body.details.subbodyobjects.simulationTitle(simulationID));
+        this.environmentListViewLeftLines.add(new simulationTitle(simulationID));
         environmentDetailsLeftListLV.setItems(environmentListViewLeftLines);
         return true;
     }
     public boolean insertNewLineToLeftEntitiesListView(String simulationID){
-        this.entitiesListViewLeftLines.add(new body.details.subbodyobjects.simulationTitle(simulationID));
+        this.entitiesListViewLeftLines.add(new simulationTitle(simulationID));
         entitiesDetailsLeftListLV.setItems(entitiesListViewLeftLines);
         return true;
     }
