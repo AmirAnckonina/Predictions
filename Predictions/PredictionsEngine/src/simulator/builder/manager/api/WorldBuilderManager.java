@@ -6,10 +6,11 @@ import dto.SimulationWorldDetailsDto;
 import dto.SimulationWorldNamesDto;
 import simulator.definition.world.WorldDefinition;
 
+import java.io.InputStream;
 import java.util.List;
 
 public interface WorldBuilderManager {
-    void buildSimulationWorld(String filePath);
+    SimulationWorldDetailsDto buildSimulationWorld(InputStream xmlFile);
     SimulationWorldDetailsDto getSimulationWorldDetailsByName(String simulationWorldName);
     EnvironmentPropertiesDto getEnvironmentPropertiesDefinition(String simulationWorldName);
     WorldDefinition getWorldDefinition(String simulationWorldName);

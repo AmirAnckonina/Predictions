@@ -40,7 +40,7 @@ public class PredictionsServletContextListener implements ServletContextListener
                         informationManager);
 
         predictionsServletContext.setAttribute(Constants.WORLD_BUILDER_MANAGER_ATTRIBUTE_NAME, worldBuilderManager);
-         predictionsServletContext.setAttribute(Constants.INFO_MANAGER_ATTRIBUTE_NAME, informationManager);
+        predictionsServletContext.setAttribute(Constants.INFO_MANAGER_ATTRIBUTE_NAME, informationManager);
         predictionsServletContext.setAttribute(Constants.ESTABLISHMENT_MANAGER_ATTRIBUTE_NAME, establishmentManager);
         predictionsServletContext.setAttribute(Constants.MANUAL_SETUP_MANAGER_ATTRIBUTE_NAME, manualSimulationSetupManager);
         predictionsServletContext.setAttribute(Constants.EXECUTION_MANAGER_ATTRIBUTE_NAME, executionManager);

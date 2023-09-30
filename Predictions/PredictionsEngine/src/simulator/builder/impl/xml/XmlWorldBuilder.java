@@ -15,6 +15,7 @@ import simulator.definition.spaceGrid.SpaceGridDefinition;
 import simulator.definition.world.WorldDefinition;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,30 +26,22 @@ public class XmlWorldBuilder extends AbstractFileComponentBuilder implements Wor
     private PRDWorld generatedWorldDefinition;
     private final static String JAXB_PACKAGE_NAME = "resources.jaxb.schema.generated";
 
-    public XmlWorldBuilder(String filePath, WorldBuilderContextValidator contextValidator) {
-        super(filePath, contextValidator);
-        worldBuilderFileSetup(filePath);
+    public XmlWorldBuilder(InputStream dataFile, WorldBuilderContextValidator contextValidator) {
+        super(dataFile, contextValidator);
+        worldBuilderFileSetup(dataFile);
     }
 
-    public void worldBuilderFileSetup(String filePath) {
+    public void worldBuilderFileSetup(InputStream dataFile) {
         // The file should be already set in this stage.
-            boolean isExist = contextValidator.validateFileExist(filePath);
-            boolean isXmlFile = contextValidator.validateFileType(
-                     DataFileType.XML, WorldBuilderFileUtils.getDataFileTypeByFileExtension(filePath));
-            if (isExist && isXmlFile) {
-                try {
-                    File dataFile = WorldBuilderFileUtils.getFileByPath(filePath);
-                    generatedWorldDefinition = XmlBuilderUtils.getGeneratedClassFromFile(dataFile, JAXB_PACKAGE_NAME);
-                    setSimulationWorldName(generatedWorldDefinition.getName());
-                }
-                catch (Exception ex) {
-                    throw new WorldBuilderManagerException("An issue detected while accessing the generated world class.");
-                }
-
-            } else {
-                throw new WorldBuilderManagerException("The data source file is invalid.");
-            }
-
+//            boolean isExist = contextValidator.validateFileExist(filePath);
+//            boolean isXmlFile = contextValidator.validateFileType(
+//                     DataFileType.XML, WorldBuilderFileUtils.getDataFileTypeByFileExtension(filePath));
+        try {
+            generatedWorldDefinition = XmlBuilderUtils.getGeneratedClassFromStringFile(dataFile, JAXB_PACKAGE_NAME);
+            setSimulationWorldName(generatedWorldDefinition.getName());
+        } catch (Exception ex) {
+            throw new WorldBuilderManagerException("An issue detected while accessing the generated world class.");
+        }
     }
 
     @Override
