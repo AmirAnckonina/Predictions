@@ -57,4 +57,7 @@ public class MainController {
 
     public void onRerunSimulation(String guid) {
     }
+
+    public void resetGUI() {
+    }
 }
