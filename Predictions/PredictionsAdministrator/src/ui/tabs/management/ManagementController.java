@@ -1,5 +1,6 @@
 package ui.tabs.management;
 
+import body.results.detailsComponent.DetailsResultController;
 import dto.SimulationWorldDetailsDto;
 import javafx.animation.FadeTransition;
 import javafx.animation.RotateTransition;
@@ -59,6 +60,10 @@ public class ManagementController {
 
     @FXML
     private Label setThreadMassageLbl;
+
+    @FXML
+    private DetailsResultController detailsResultController;
+
     private MainController mainController;
     private Stage primaryStage;
 
@@ -124,14 +129,12 @@ public class ManagementController {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    System.out.println("onResponse");
                     String responseBody = response.body().string();
                     SimulationWorldDetailsDto simulationWorldDetailsDto = GSON_INSTANCE.fromJson(responseBody, SimulationWorldDetailsDto.class);
-//                    Platform.runLater(() ->
-//                            updateDetailsComponentUI(simulationWorldDetailsDto)
-//                    );
+                    Platform.runLater(() ->
+                            updateDetailsComponentUI(simulationWorldDetailsDto)
+                    );
                 } else {
-                    System.out.println("onResponse");
                     System.out.println("error code = " + response.code() + ". Something went wrong with the request getSimulationWorldDetailsProcedure()...:(");
                 }
             }
@@ -144,6 +147,10 @@ public class ManagementController {
 //        Platform.runLater(() -> {
 //            chatLineTextArea.clear();
 //        });
+    }
+
+    private void updateDetailsComponentUI(SimulationWorldDetailsDto simulationWorldDetailsDto) {
+
     }
 
     // Example method to create a sample input stream of strings
