@@ -1,24 +1,19 @@
 package ui.tabs.management;
 
-import body.results.detailsComponent.DetailsResultController;
 import dto.SimulationWorldDetailsDto;
-import javafx.animation.FadeTransition;
-import javafx.animation.RotateTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import ui.mainScene.MainController;
+import ui.tabs.management.details.DetailsController;
 import utils.HttpClientUtil;
 
 import java.io.*;
@@ -62,14 +57,13 @@ public class ManagementController {
     private Label setThreadMassageLbl;
 
     @FXML
-    private DetailsResultController detailsResultController;
+    private DetailsController detailsController;
 
     private MainController mainController;
     private Stage primaryStage;
 
     @FXML
     public void initialize() {
-        ToggleGroup toggleGroup = new ToggleGroup();
     }
 
 
@@ -106,6 +100,10 @@ public class ManagementController {
     @FXML
     void setThreadsCountButtonClicked(ActionEvent event) {
 
+    }
+
+    public void setActive(){
+        detailsController.setActive();
     }
 
     public void setMainController(MainController mainController) {
