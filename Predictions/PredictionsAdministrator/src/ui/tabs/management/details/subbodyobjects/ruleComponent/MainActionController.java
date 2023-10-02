@@ -15,8 +15,7 @@ import ui.tabs.management.details.subbodyobjects.ruleComponent.actionsComponent.
 
 import java.net.URL;
 
-import static common.CommonResourcesPaths.*;
-
+import static ui.common.CommonResourcesPaths.*;
 
 
 public class MainActionController extends RuleModel {
