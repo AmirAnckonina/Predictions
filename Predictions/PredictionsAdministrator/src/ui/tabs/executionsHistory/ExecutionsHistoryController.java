@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import dto.*;
+import dto.simulationInfo.*;
 import enums.SimulationExecutionStatus;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;

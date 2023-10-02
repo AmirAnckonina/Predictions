@@ -1,4 +1,4 @@
-package dto;
+package dto.orderRequest;
 
 import enums.TerminationType;
 

@@ -1,7 +1,7 @@
 package simulator.information.simulationDocument.impl;
 
-import dto.SimulationDocumentInfoDto;
-import dto.SimulationManualParamsDto;
+import dto.simulationInfo.SimulationDocumentInfoDto;
+import dto.manualSetup.SimulationManualParamsDto;
 import enums.SimulationExecutionStatus;
 import simulator.definition.entity.EntityDefinition;
 import simulator.execution.instance.property.api.PropertyInstance;

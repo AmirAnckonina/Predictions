@@ -1,8 +1,8 @@
 package simulator.information.manager.api;
 
-import dto.SimulationDocumentInfoDto;
-import dto.SimulationManualParamsDto;
-import dto.SimulationsStatusesOverviewDto;
+import dto.simulationInfo.SimulationDocumentInfoDto;
+import dto.manualSetup.SimulationManualParamsDto;
+import dto.simulationInfo.SimulationsStatusesOverviewDto;
 import simulator.definition.world.WorldDefinition;
 import simulator.execution.instance.world.api.WorldInstance;
 import simulator.information.simulationDocument.api.SimulationDocument;

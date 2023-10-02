@@ -5,7 +5,7 @@ import body.details.subbodyobjects.ruleComponent.actionsComponent.condition.mult
 import body.details.subbodyobjects.ruleComponent.actionsComponent.condition.simpleCondition.SimpleConditionActionController;
 import body.details.subbodyobjects.ruleComponent.actionsComponent.generic.GenericActionController;
 import body.details.subbodyobjects.ruleComponent.actionsComponent.proximity.ProximityActionController;
-import dto.StringActionDto;
+import dto.worldBuilder.simulationComponents.StringActionDto;
 import enums.ActionType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

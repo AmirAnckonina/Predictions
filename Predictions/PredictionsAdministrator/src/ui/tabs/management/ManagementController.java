@@ -1,12 +1,11 @@
 package ui.tabs.management;
 
-import dto.SimulationWorldDetailsDto;
+import dto.worldBuilder.SimulationWorldDetailsDto;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;

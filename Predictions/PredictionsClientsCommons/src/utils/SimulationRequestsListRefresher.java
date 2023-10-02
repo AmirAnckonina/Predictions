@@ -2,7 +2,7 @@ package utils;
 
 
 import com.google.gson.reflect.TypeToken;
-import dto.SimulationRequestDetailsDto;
+import dto.orderRequest.SimulationOrderRequestDetailsDto;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -19,9 +19,9 @@ import static utils.Constants.GET_SIMULATION_REQUESTS_LIST_ENDPOINT;
 import static utils.Constants.GSON_INSTANCE;
 
 public class SimulationRequestsListRefresher extends TimerTask {
-    private final Consumer<List<SimulationRequestDetailsDto>> simulationRequestsListConsumer;
+    private final Consumer<List<SimulationOrderRequestDetailsDto>> simulationRequestsListConsumer;
 
-    public SimulationRequestsListRefresher(Consumer<List<SimulationRequestDetailsDto>> simulationRequestsListConsumer) {
+    public SimulationRequestsListRefresher(Consumer<List<SimulationOrderRequestDetailsDto>> simulationRequestsListConsumer) {
         this.simulationRequestsListConsumer = simulationRequestsListConsumer;
     }
 
@@ -37,9 +37,9 @@ public class SimulationRequestsListRefresher extends TimerTask {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String responseBody = response.body().string();
-                    Type requestDetailsListType = new TypeToken<ArrayList<SimulationRequestDetailsDto>>(){}.getType();
-                    ArrayList<SimulationRequestDetailsDto> simulationRequestDetailsDtoList = GSON_INSTANCE.fromJson(responseBody, requestDetailsListType);
-                    simulationRequestsListConsumer.accept(simulationRequestDetailsDtoList);
+                    Type requestDetailsListType = new TypeToken<ArrayList<SimulationOrderRequestDetailsDto>>(){}.getType();
+                    ArrayList<SimulationOrderRequestDetailsDto> simulationOrderRequestDetailsDtoList = GSON_INSTANCE.fromJson(responseBody, requestDetailsListType);
+                    simulationRequestsListConsumer.accept(simulationOrderRequestDetailsDtoList);
 
                 } else {
                     System.out.println("error code = " + response.code() + ". Something went wrong with the request GET_SIMULATION_REQUESTS_LIST_ENDPOINT...:(");

@@ -1,4 +1,4 @@
-package dto;
+package dto.manualSetup;
 
 import java.util.Map;
 

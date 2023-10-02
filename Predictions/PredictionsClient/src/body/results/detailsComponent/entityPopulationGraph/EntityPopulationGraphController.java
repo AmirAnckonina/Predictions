@@ -1,12 +1,8 @@
 package body.results.detailsComponent.entityPopulationGraph;
 
-import dto.EntityPopulationOvertimeDto;
-import javafx.application.Platform;
+import dto.simulationInfo.EntityPopulationOvertimeDto;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
-import javafx.scene.chart.Axis;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.stage.Stage;
 

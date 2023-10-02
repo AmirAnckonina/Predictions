@@ -1,4 +1,4 @@
-package dto;
+package enums;
 
 public enum SimulationRequestStatus {
     PENDING,

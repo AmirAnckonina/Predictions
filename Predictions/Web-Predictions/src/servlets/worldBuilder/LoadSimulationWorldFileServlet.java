@@ -1,24 +1,16 @@
 package servlets.worldBuilder;
 
-import dto.EnvironmentPropertiesDto;
-import dto.SimulationWorldDetailsDto;
-import dto.TerminationInfoDto;
+import dto.worldBuilder.SimulationWorldDetailsDto;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import simulator.builder.manager.api.WorldBuilderManager;
 import simulator.builder.utils.exception.WorldBuilderManagerException;
-import simulator.definition.entity.EntityDefinition;
-import simulator.definition.rule.Rule;
-import simulator.execution.instance.property.api.PropertyInstance;
 import utils.PredictionsServletUtils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import static utils.PredictionsServletUtils.GSON_INSTANCE;
 

@@ -1,9 +1,9 @@
 package simulator.builder.manager.api;
 
-import dto.EnvironmentPropertiesDto;
-import dto.EnvironmentPropertyDto;
-import dto.SimulationWorldDetailsDto;
-import dto.SimulationWorldNamesDto;
+import dto.worldBuilder.simulationComponents.EnvironmentPropertiesDto;
+import dto.worldBuilder.simulationComponents.EnvironmentPropertyDto;
+import dto.worldBuilder.SimulationWorldDetailsDto;
+import dto.worldBuilder.SimulationWorldNamesDto;
 import simulator.definition.world.WorldDefinition;
 
 import java.io.InputStream;
