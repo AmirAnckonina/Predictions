@@ -1,6 +1,8 @@
-package dto;
+package dto.orderRequest;
 
-public class SimulationRequestDetailsDto {
+import enums.SimulationRequestStatus;
+
+public class SimulationOrderRequestDetailsDto {
     private final String requestGuid;
     private final String simulationWorldName;
     private final Integer numOfExecutionLeft;
@@ -8,7 +10,7 @@ public class SimulationRequestDetailsDto {
     private final Integer running;
     private final Integer done;
 
-    public SimulationRequestDetailsDto(String requestGuid, String simulationWorldName, Integer numOfExecutionLeft, SimulationRequestStatus simulationRequestStatus, Integer running, Integer done) {
+    public SimulationOrderRequestDetailsDto(String requestGuid, String simulationWorldName, Integer numOfExecutionLeft, SimulationRequestStatus simulationRequestStatus, Integer running, Integer done) {
         this.requestGuid = requestGuid;
         this.simulationWorldName = simulationWorldName;
         this.numOfExecutionLeft = numOfExecutionLeft;

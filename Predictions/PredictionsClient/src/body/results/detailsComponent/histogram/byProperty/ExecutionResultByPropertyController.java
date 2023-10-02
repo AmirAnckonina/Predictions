@@ -2,8 +2,8 @@ package body.results.detailsComponent.histogram.byProperty;
 
 import body.results.ResultsController;
 import body.results.detailsComponent.histogram.ExecutionResultController;
-import dto.PropertiesAvgConsistencyDto;
-import dto.PropertiesConsistencyDto;
+import dto.simulationInfo.PropertiesAvgConsistencyDto;
+import dto.simulationInfo.PropertiesConsistencyDto;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;

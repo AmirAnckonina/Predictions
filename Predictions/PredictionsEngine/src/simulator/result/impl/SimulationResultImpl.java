@@ -1,8 +1,8 @@
 package simulator.result.impl;
 
-import dto.EntityPopulationOvertimeDto;
-import dto.PropertiesAvgConsistencyDto;
-import dto.PropertiesConsistencyDto;
+import dto.simulationInfo.EntityPopulationOvertimeDto;
+import dto.simulationInfo.PropertiesAvgConsistencyDto;
+import dto.simulationInfo.PropertiesConsistencyDto;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.property.api.PropertyInstance;
 import simulator.execution.instance.world.api.WorldInstance;

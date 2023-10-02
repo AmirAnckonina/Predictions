@@ -1,4 +1,4 @@
-package dto;
+package dto.worldBuilder;
 
 import java.util.List;
 

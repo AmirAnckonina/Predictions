@@ -7,7 +7,7 @@ import body.results.detailsComponent.entityPopulationListView.EntityPopulationLi
 import body.results.detailsComponent.histogram.ExecutionResultController;
 import body.results.detailsComponent.histogram.byEntities.ExecutionResultByEntityController;
 import body.results.detailsComponent.histogram.byStatistic.ExecutionResultStatisticByPropertyController;
-import dto.*;
+import dto.simulationInfo.*;
 import enums.SimulationExecutionStatus;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;

@@ -1,4 +1,4 @@
-package dto;
+package dto.worldBuilder.simulationComponents;
 
 import enums.PropertyType;
 import structure.range.Range;

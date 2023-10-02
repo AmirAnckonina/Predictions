@@ -1,7 +1,9 @@
 package ui.tabs.management.details;
 
 
-import dto.*;
+import dto.worldBuilder.SimulationWorldDetailsDto;
+import dto.worldBuilder.SimulationWorldNamesDto;
+import dto.worldBuilder.simulationComponents.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,7 +22,6 @@ import okhttp3.HttpUrl;
 import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
 import simulator.mainManager.api.SimulatorManager;
-import ui.mainScene.MainController;
 import ui.tabs.management.details.subbodyobjects.SimulationDetail;
 import ui.tabs.management.details.subbodyobjects.entity.property.EntityPropertyController;
 import ui.tabs.management.details.subbodyobjects.environment.EnvironmentController;

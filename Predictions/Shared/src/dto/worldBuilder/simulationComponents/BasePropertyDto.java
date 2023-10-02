@@ -1,4 +1,4 @@
-package dto;
+package dto.worldBuilder.simulationComponents;
 
 public class BasePropertyDto {
     private String name;

@@ -1,4 +1,6 @@
-package dto;
+package dto.worldBuilder.simulationComponents;
+
+import dto.worldBuilder.simulationComponents.BasePropertyDto;
 
 import java.util.HashMap;
 import java.util.List;

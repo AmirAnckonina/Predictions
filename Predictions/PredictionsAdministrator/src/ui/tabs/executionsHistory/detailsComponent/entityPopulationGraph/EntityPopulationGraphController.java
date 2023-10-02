@@ -1,6 +1,6 @@
 package ui.tabs.executionsHistory.detailsComponent.entityPopulationGraph;
 
-import dto.EntityPopulationOvertimeDto;
+import dto.simulationInfo.EntityPopulationOvertimeDto;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;

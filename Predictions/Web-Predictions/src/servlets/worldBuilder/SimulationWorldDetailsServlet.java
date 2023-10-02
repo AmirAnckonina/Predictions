@@ -1,6 +1,6 @@
 package servlets.worldBuilder;
 
-import dto.SimulationWorldDetailsDto;
+import dto.worldBuilder.SimulationWorldDetailsDto;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;

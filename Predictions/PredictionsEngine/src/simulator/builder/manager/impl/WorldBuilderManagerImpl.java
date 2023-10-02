@@ -1,12 +1,14 @@
 package simulator.builder.manager.impl;
 
-import dto.*;
+import dto.worldBuilder.SimulationWorldDetailsDto;
+import dto.worldBuilder.SimulationWorldNamesDto;
+import dto.worldBuilder.simulationComponents.BasePropertyDto;
+import dto.worldBuilder.simulationComponents.EnvironmentPropertiesDto;
+import dto.worldBuilder.simulationComponents.EnvironmentPropertyDto;
 import simulator.builder.api.interfaces.WorldBuilder;
 import simulator.builder.manager.api.WorldBuilderManager;
 import simulator.builder.utils.exception.WorldBuilderManagerException;
 import simulator.builder.utils.factory.WorldBuilderFactory;
-import simulator.builder.utils.file.WorldBuilderFileUtils;
-import simulator.builder.utils.file.enums.DataFileType;
 import simulator.definition.entity.EntityDefinition;
 import simulator.definition.property.api.abstracts.AbstractNumericPropertyDefinition;
 import simulator.definition.property.api.abstracts.AbstractPropertyDefinition;
@@ -117,7 +119,7 @@ public class WorldBuilderManagerImpl implements WorldBuilderManager {
     @Override
     public EnvironmentPropertiesDto getEnvironmentPropertiesDefinition(String simulationWorldName) {
 
-            Map<String  ,BasePropertyDto> propertyDtoMap = new HashMap();
+            Map<String  , BasePropertyDto> propertyDtoMap = new HashMap();
             List<BasePropertyDto> propertyDtoList = new ArrayList<>();
             for (String propertyName : this.worldDefinitionMap.get(simulationWorldName).getEnvironment().getPropertiesNames()) {
 

@@ -1,4 +1,8 @@
-package dto;
+package dto.worldBuilder;
+
+import dto.worldBuilder.simulationComponents.EnvironmentPropertiesDto;
+import dto.worldBuilder.simulationComponents.StringEntityDto;
+import dto.worldBuilder.simulationComponents.StringRuleDto;
 
 import java.util.HashMap;
 import java.util.List;

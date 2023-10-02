@@ -1,6 +1,6 @@
 package utils;
 
-import dto.SimulationWorldNamesDto;
+import dto.worldBuilder.SimulationWorldNamesDto;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;

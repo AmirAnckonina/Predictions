@@ -5,7 +5,7 @@ import static common.CommonResourcesPaths.RESULT_SIMULATION_ENTITY_DETAILS_FXML_
 import body.results.DetailsResultModel;
 import body.results.ResultsController;
 import body.results.detailsComponent.entity.EntityComponentController;
-import dto.SimulationDocumentInfoDto;
+import dto.simulationInfo.SimulationDocumentInfoDto;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 

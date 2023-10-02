@@ -1,6 +1,11 @@
 package simulator.mainManager.impl;
 
-import dto.*;
+import dto.establishment.EstablishedEnvironmentInfoDto;
+import dto.manualSetup.SimulationManualParamsDto;
+import dto.simulationInfo.*;
+import dto.worldBuilder.SimulationWorldDetailsDto;
+import dto.worldBuilder.simulationComponents.EnvironmentPropertiesDto;
+import dto.worldBuilder.simulationComponents.EnvironmentPropertyDto;
 import simulator.builder.manager.api.WorldBuilderManager;
 import simulator.builder.manager.impl.WorldBuilderManagerImpl;
 import simulator.information.simulationDocument.api.SimulationDocument;
