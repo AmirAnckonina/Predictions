@@ -36,9 +36,6 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static common.CommonResourcesPaths.ENT_PROP_DETAILS_FXML_RESOURCE;
-import static common.CommonResourcesPaths.ENV_DETAILS_FXML_RESOURCE;
-import static common.CommonResourcesPaths.RULE_MAIN_FXML_RESOURCE;
 import static ui.common.CommonResourcesPaths.*;
 import static utils.Constants.*;
 import static utils.Constants.SIMULATION_WORLD_LIST_REFRESH_RATE;
@@ -257,13 +254,17 @@ public class DetailsController {
     }
 
     public void setTerminationDto(String terminationInfo) {
-        String value = terminationInfo.substring(terminationInfo.indexOf("{") + 1, terminationInfo.indexOf("}"));
-        String[] terminationOptions = value.split(",");
-        String firstOption = terminationOptions[0].replaceAll("=",": ").replaceAll("null", "-")
-                .replaceAll("ticksTermination", "Ticks termination");
-        String secondOption = terminationOptions[1].replaceAll("=",": ").replaceAll("null", "-")
-                .replaceAll("secondsTermination", "Time termination");
-        this.terminationDetailsLabel.textProperty().set(firstOption + "   " + secondOption);
+        if(terminationInfo != null) {
+            String value = terminationInfo.substring(terminationInfo.indexOf("{") + 1, terminationInfo.indexOf("}"));
+            String[] terminationOptions = value.split(",");
+            String firstOption = terminationOptions[0].replaceAll("=", ": ").replaceAll("null", "-")
+                    .replaceAll("ticksTermination", "Ticks termination");
+            String secondOption = terminationOptions[1].replaceAll("=", ": ").replaceAll("null", "-")
+                    .replaceAll("secondsTermination", "Time termination");
+            this.terminationDetailsLabel.textProperty().set(firstOption + "   " + secondOption);
+        }else{
+            this.terminationDetailsLabel.textProperty().set(" - ");
+        }
 
         //ticksTermination=null
         //secondsTermination
@@ -291,7 +292,7 @@ public class DetailsController {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (response.code() != 200) {
+                if (response.isSuccessful()) {
                     String responseBody = response.body().string();
                     SimulationWorldDetailsDto simulationWorldDetailsDto = GSON_INSTANCE.fromJson(responseBody, SimulationWorldDetailsDto.class);
                     Platform.runLater(() ->

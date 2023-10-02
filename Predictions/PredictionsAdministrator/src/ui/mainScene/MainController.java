@@ -50,6 +50,8 @@ public class MainController {
         if (currentScreen == eCurrentScreen.MANAGEMENT) { return; }
         currentScreen = eCurrentScreen.MANAGEMENT;
         System.out.println("managementTabClicked");
+
+        managementTabController.setActive();
     }
 
     public void setPrimaryStage(Stage primaryStage) {

@@ -93,7 +93,7 @@ public class WorldBuilderManagerImpl implements WorldBuilderManager {
 
     @Override
     public SimulationWorldDetailsDto getSimulationWorldDetailsByName(String simulationWorldName) {
-
+            String terminationInfo = null;
             EnvironmentPropertiesDto environmentPropertiesDto = getEnvironmentPropertiesDefinition(simulationWorldName);
 
             StringBuilder entitiesSb = new StringBuilder();
@@ -107,7 +107,9 @@ public class WorldBuilderManagerImpl implements WorldBuilderManager {
                 rulesInfo.add(rule.toString() + System.lineSeparator());
             }
 
-            String terminationInfo = worldDefinitionMap.get(simulationWorldName).getTermination().toString();
+            if(worldDefinitionMap.get(simulationWorldName).getTermination() != null) {
+                terminationInfo = worldDefinitionMap.get(simulationWorldName).getTermination().toString();
+            }
 
             return new SimulationWorldDetailsDto(environmentPropertiesDto,entitiesInfo, rulesInfo, terminationInfo);
     }
