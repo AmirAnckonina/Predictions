@@ -20,13 +20,13 @@ public class Constants {
     public final static String GET_SIMULATION_WORLD_NAMES_LIST_ENDPOINT = FULL_SERVER_PATH + "/worldBuilder/simulationWorldNamesList";
     //
     public final static String GET_SIMULATION_WORLD_DETAILS_ENDPOINT = FULL_SERVER_PATH + "/worldBuilder/simulationWorldDetails";
-    public final static String SIMULATION_WORLD_NAME_PARAM_KEY = "simulationWorldName";
+    public final static String GET_SIMULATION_WORLD_NAME_PARAM_KEY = "simulationWorldName";
     //
     public final static String GET_ENVIRONMENT_PROPERTIES_DEFINITION_ENDPOINT = FULL_SERVER_PATH + "/worldBuilder/environmentPropertiesDefinition";
     //
     public final static String POST_NEW_SIMULATION_LOAD_ENDPOINT = FULL_SERVER_PATH + "/worldBuilder/loadSimulationWorldFile";
-    public final static String POST_NEW_SIMULATION_LOAD_V2_ENDPOINT = FULL_SERVER_PATH + "/worldBuilder/loadSimulationWorldFileV2";
-    public final static String POST_NEW_SIMULATION_REQUEST_ENDPOINT = FULL_SERVER_PATH + "/simulationRequest/newSimulationRequest";
+    public final static String POST_NEW_SIMULATION_REQUEST_ENDPOINT = FULL_SERVER_PATH + "/simulationRequests/newSimulationRequest";
+    public final static String POST_UPDATE_SIMULATION_REQUEST_ENDPOINT = FULL_SERVER_PATH + "/simulationRequests/updateSimulationRequest";
     public final static String POST_NEW_SIMULATION_REQUEST_PARAM_KEY = "simulationRequestBody";
     //
     public final static String GET_SIMULATION_REQUESTS_LIST_ENDPOINT = FULL_SERVER_PATH + "/simulationRequest/simulationRequestsList";
