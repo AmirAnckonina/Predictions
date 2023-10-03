@@ -37,7 +37,7 @@
                            <content>
                               <AnchorPane>
                                  <children>
-                                    <fx:include fx:id="allocationsTab" source="../tabs/allocations/Allocations.fxml" />
+                                    <fx:include fx:id="allocationsTab" source="../tabs/allocations/RequestsComponent.fxml" />
                                  </children>
                               </AnchorPane>
                            </content>
