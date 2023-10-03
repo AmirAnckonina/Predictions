@@ -1,10 +1,10 @@
 package ui.tabs.allocations;
 
 import com.google.gson.reflect.TypeToken;
-import dto.NewSimulationRequestDto;
+import dto.SimulationRequestStatus;
+import dto.SimulationRequestUpdateDto;
 import dto.SimulationRequestDetailsDto;
 import dto.SimulationWorldNamesDto;
-import enums.TerminationType;
 import exception.PredictionsUIComponentException;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -22,6 +22,7 @@ import okhttp3.HttpUrl;
 import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
 import simulator.mainManager.api.SimulatorManager;
+import ui.mainScene.MainController;
 import utils.HttpClientUtil;
 import utils.SimulationRequestsListRefresher;
 import utils.SimulationWorldListRefresher;
@@ -39,13 +40,7 @@ import static utils.Constants.*;
 public class AllocationsController {
 
 
-    @FXML private TextField numOfExecTextField;
-    @FXML private RadioButton ticksSecondsRadioButton;
-    @FXML private RadioButton userRadioButton;
     @FXML private TextField secondsTextField;
-    @FXML private CheckBox secondsCheckBox;
-    @FXML private CheckBox ticksCheckBox;
-    @FXML private TextField ticksTextField;
     @FXML private ListView<String> templatesListView;
     @FXML private Button sendRequestButton;
     @FXML private TableView<SimulationRequestDetailsDto> requestsTableView;
@@ -58,13 +53,8 @@ public class AllocationsController {
     @FXML private TableColumn<SimulationRequestDetailsDto, Void> approvementCol;
 
     private SimpleStringProperty numOfExecPropertyAsString;
-    private SimpleStringProperty ticksPropertyAsString;
-    private SimpleStringProperty secondsPropertyAsString;
-    private SimpleBooleanProperty ticksCheckBoxProperty;
-    private SimpleBooleanProperty secondsCheckBoxProperty;
-    private SimpleBooleanProperty userRadioButtonProperty;
     private SimpleBooleanProperty ticksSecondsRadioButtonProperty;
-    private PredictionsMainController mainController;
+    private MainController mainController;
     private SimulatorManager simulatorManager;
     private Stage primaryStage;
     private TimerTask avaSimListRefresher;
@@ -74,27 +64,12 @@ public class AllocationsController {
 
     public AllocationsController() {
         this.numOfExecPropertyAsString = new SimpleStringProperty();
-        this.ticksPropertyAsString = new SimpleStringProperty();
-        this.secondsPropertyAsString = new SimpleStringProperty();
-        this.ticksCheckBoxProperty = new SimpleBooleanProperty(false);
-        this.secondsCheckBoxProperty = new SimpleBooleanProperty(false);
         this.ticksSecondsRadioButtonProperty = new SimpleBooleanProperty(false);
-        this.userRadioButtonProperty = new SimpleBooleanProperty(true);
 
     }
 
     @FXML
     private void initialize() {
-        ToggleGroup toggleGroup = new ToggleGroup();
-        ticksSecondsRadioButton.setToggleGroup(toggleGroup);
-        userRadioButton.setToggleGroup(toggleGroup);
-        this.ticksTextField.textProperty().bindBidirectional(this.ticksPropertyAsString);
-        this.secondsTextField.textProperty().bindBidirectional(this.secondsPropertyAsString);
-        this.numOfExecTextField.textProperty().bindBidirectional(this.numOfExecPropertyAsString);
-        this.ticksCheckBox.selectedProperty().bindBidirectional(this.ticksCheckBoxProperty);
-        this.secondsCheckBox.selectedProperty().bindBidirectional(this.secondsCheckBoxProperty);
-        this.sendRequestButton.setDisable(true);
-        onUserRadioButtonClicked();
         initRequestsTableView();
     }
 
@@ -143,46 +118,11 @@ public class AllocationsController {
     }
 
     private void handleNoButtonAction(SimulationRequestDetailsDto request) {
+        sendNewSimulationResponseProcedure(builSimulationRequestUpdateDto(request, SimulationRequestStatus.REJECTED));
     }
 
     private void handleYesButtonAction(SimulationRequestDetailsDto request) {
-
-    }
-
-    @FXML
-    void onSecondsCheckBoxCheckedChanged() {
-        boolean checked = this.secondsCheckBoxProperty.get();
-        if (!checked) {
-            this.secondsTextField.clear();
-            this.secondsTextField.setDisable(true);
-        } else {
-            this.secondsTextField.setDisable(false);
-        }
-
-    }
-
-    @FXML
-    void onTicksCheckBoxCheckedChanged() {
-        boolean checked = this.ticksCheckBoxProperty.get();
-        if (!checked) {
-            this.ticksTextField.clear();
-            this.ticksTextField.setDisable(true);
-        } else {
-            this.ticksTextField.setDisable(false);
-        }
-    }
-
-    @FXML
-    void onTicksSecondsRadioButtonClicked() {
-        this.sendRequestButton.setDisable(false);
-        enableTicksSecondsElements();
-
-    }
-
-    @FXML
-    void onUserRadioButtonClicked() {
-        this.sendRequestButton.setDisable(false);
-        disableTicksSecondsElements();
+        sendNewSimulationResponseProcedure(builSimulationRequestUpdateDto(request, SimulationRequestStatus.APPROVED));
     }
 
     @FXML
@@ -190,19 +130,11 @@ public class AllocationsController {
         //String guid = this.templatesListView.getSelectionModel().getSelectedItem().getText();
     }
 
-    @FXML
-    void onSendReqBtnClicked() {
-
-        NewSimulationRequestDto newSimulationRequestDto = buildNewSimulationRequestDto();
-        sendNewSimulationRequestProcedure(newSimulationRequestDto);
-
-    }
-
-    private void sendNewSimulationRequestProcedure(NewSimulationRequestDto newSimulationRequestDto) {
+    private void sendNewSimulationResponseProcedure(SimulationRequestUpdateDto newSimulationRequestDto) {
         String selectedSimulationWorldName = templatesListView.getSelectionModel().getSelectedItem();
         String finalUrl =
                 HttpUrl
-                        .parse(POST_NEW_SIMULATION_REQUEST_ENDPOINT)
+                        .parse(POST_UPDATE_SIMULATION_REQUEST_ENDPOINT)
                         .newBuilder()
                         .addQueryParameter(POST_NEW_SIMULATION_REQUEST_PARAM_KEY, GSON_INSTANCE.toJson(newSimulationRequestDto))
                         .build()
@@ -239,60 +171,19 @@ public class AllocationsController {
     }
 
 
-    private NewSimulationRequestDto buildNewSimulationRequestDto() {
-
+    private SimulationRequestUpdateDto builSimulationRequestUpdateDto(SimulationRequestDetailsDto simulationRequestDetailsDto
+            , SimulationRequestStatus simulationRequestStatus) {
         try {
-            String simulationWorldName = this.templatesListView.getSelectionModel().getSelectedItem();
-            Integer numOfExecution = Integer.parseInt(this.numOfExecPropertyAsString.get());
-            TerminationType terminationType;
-            Integer ticks = null;
-            Integer seconds = null;
-
-            if (this.userRadioButtonProperty.get()) {
-                terminationType = TerminationType.USER;
-            } else {
-
-                if (this.ticksCheckBoxProperty.get() && this.secondsCheckBoxProperty.get()) {
-                    terminationType = TerminationType.TicksAndSeconds;
-                    ticks = Integer.parseInt(this.ticksPropertyAsString.get());
-                    seconds = Integer.parseInt(this.secondsPropertyAsString.get());
-                } else if (this.ticksCheckBoxProperty.get() && !this.secondsCheckBoxProperty.get()) {
-                    terminationType = TerminationType.Ticks;
-                    ticks = Integer.parseInt(this.ticksPropertyAsString.get());
-                } else if (!this.ticksCheckBoxProperty.get() && this.secondsCheckBoxProperty.get()) {
-                    terminationType = TerminationType.Seconds;
-                    seconds = Integer.parseInt(this.secondsPropertyAsString.get());
-                } else {
-                    throw new PredictionsUIComponentException("No termination type was chosen");
-                }
-
-            }
-
-            return new NewSimulationRequestDto(simulationWorldName, numOfExecution, terminationType, ticks, seconds);
-
+            return new SimulationRequestUpdateDto(simulationRequestDetailsDto.getRequestGuid(), simulationRequestStatus);
         } catch (Exception e) {
             e.printStackTrace(System.out);
         }
 
-        throw new PredictionsUIComponentException("Failed to build new simulation request dto");
+        throw new PredictionsUIComponentException("Failed to build simulation request update dto");
     }
 
-    private void disableTicksSecondsElements() {
-        this.ticksCheckBox.setDisable(true);
-        this.secondsCheckBox.setDisable(true);
-        this.ticksTextField.setDisable(true);
-        this.secondsTextField.setDisable(true);
-    }
-
-    private void enableTicksSecondsElements() {
-        this.ticksCheckBox.setDisable(false);
-        this.secondsCheckBox.setDisable(false);
-        this.ticksTextField.setDisable(false);
-        this.secondsTextField.setDisable(false);
-    }
-
-    public void setMainController(PredictionsMainController predictionsMainController) {
-        this.mainController = predictionsMainController;
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
     }
 
     public void setSimulatorManager(SimulatorManager simulatorManager) {

@@ -23,7 +23,9 @@ public class MainController {
     @FXML
     public void initialize() {
         try {
-            ToggleGroup toggleGroup = new ToggleGroup();
+            managementTabController.setMainController(this);
+            executionHistoryTabController.setMainController(this);
+            allocationsTabController.setMainController(this);
         }catch (Exception e)
         {
             e.printStackTrace(System.out);
@@ -35,6 +37,8 @@ public class MainController {
         if(currentScreen == eCurrentScreen.ALLOCATIONS){ return; }
         currentScreen = eCurrentScreen.ALLOCATIONS;
         System.out.println("allocationsTabClicked");
+
+        allocationsTabController.setActive();
     }
 
     @FXML
