@@ -15,10 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ManualSimulationSetupManagerImpl implements ManualSimulationSetupManager {
+public class ManualSetupManagerImpl implements ManualSimulationSetupManager {
     private List<String> propertiesUpdatedByUser;
 
-    public ManualSimulationSetupManagerImpl() {
+    public ManualSetupManagerImpl() {
         this.propertiesUpdatedByUser = new ArrayList<>();
     }
 
