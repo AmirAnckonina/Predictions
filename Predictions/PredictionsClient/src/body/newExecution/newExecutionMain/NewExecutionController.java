@@ -6,11 +6,13 @@ import body.newExecution.components.environmentVariable.KeyValueProperty;
 import body.newExecution.components.environmentVariable.bool.EnvironmentBooleanVariableController;
 import body.newExecution.components.environmentVariable.floats.EnvironmentFloatVariableController;
 import body.newExecution.components.environmentVariable.string.EnvironmentStringVariableController;
+import com.google.gson.reflect.TypeToken;
 import dto.worldBuilder.simulationComponents.EnvironmentPropertyDto;
 import dto.simulationInfo.SimulationDocumentInfoDto;
 import dto.manualSetup.SimulationManualParamsDto;
 import enums.SetPropertyStatus;
 import exception.PredictionsUIComponentException;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -21,15 +23,24 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import main.PredictionsMainController;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
+import okhttp3.Response;
+import org.jetbrains.annotations.NotNull;
 import simulator.mainManager.api.SimulatorManager;
+import utils.HttpClientUtil;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static common.CommonResourcesPaths.*;
+import static utils.Constants.*;
 
 public class NewExecutionController {
 
@@ -71,6 +82,7 @@ public class NewExecutionController {
     void onStartButtonClicked() {
 
         try {
+
             SimulationDocumentInfoDto simulationDocumentInfoDto = this.simulatorManager.runSimulator("");
             if (!firstSimulationStartedFlag) {
                 firstSimulationStartedFlag = true;
@@ -84,27 +96,128 @@ public class NewExecutionController {
 
         } finally {
             this.simulatorManager.resetAllManualSetup("");
-            initializeNewExecutionTab();
+            resetController();
         }
 
     }
 
-    public void initializeNewExecutionTab() {
+    public void initializeNewExecutionTab(String simulationWorldNameToLoad) {
 
         try {
             resetController();
-            this.maxPopLabel.textProperty().set("   MAX POPULATION: " + " " + this.simulatorManager.getMaxPopulationSize(""));
-
-            List<String> entities = this.simulatorManager.getAllEntities("");
-            entities.forEach(this::createEntityPopulationComponent);
-
-            List<EnvironmentPropertyDto> envPropsDtoList = this.simulatorManager.getAllEnvironmentProperties("");
-            envPropsDtoList.forEach(this::createEnvironmentPropertyComponent);
-
+            getMaxPopulationSizeProcedure(simulationWorldNameToLoad);
+            getAllEntitiesProcedure(simulationWorldNameToLoad);
+            getAllEnvironmentPropertiesProcedure(simulationWorldNameToLoad);
         } catch (Exception e) {
             e.printStackTrace(System.out);
         }
     }
+
+    private void getAllEnvironmentPropertiesProcedure(String simulationWorldNameToLoad) {
+
+        String finalUrl =
+                HttpUrl
+                        .parse(GET_ALL_ENV_PROPERTIES_ENDPOINT)
+                        .newBuilder()
+                        .addQueryParameter(SIMULATION_WORLD_NAME_PARAM_KEY, simulationWorldNameToLoad)
+                        .build()
+                        .toString();
+
+        HttpClientUtil.runAsync(finalUrl, new Callback() {
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseBody = response.body().string();
+                    Type typeToDeserialize = new TypeToken<ArrayList<EnvironmentPropertyDto>>(){}.getType();
+                    List<EnvironmentPropertyDto> environmentPropertyDtoList = GSON_INSTANCE.fromJson(responseBody, typeToDeserialize);
+                    loadEnvironmentProperitesComponents(environmentPropertyDtoList);
+                } else {
+                    System.out.println("error code = " + response.code() + ". Something went wrong with the request getAllEnvironemtPropertiesProcedure()...:(");
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace(System.out);
+            }
+        });
+    }
+
+    private void loadEnvironmentProperitesComponents(List<EnvironmentPropertyDto> environmentPropertyDtoList) {
+        environmentPropertyDtoList.forEach(this::createEnvironmentPropertyComponent);
+    }
+
+    private void getAllEntitiesProcedure(String simulationWorldNameToLoad) {
+        String finalUrl =
+                HttpUrl
+                        .parse(GET_ALL_ENTITIES_ENDPOINT)
+                        .newBuilder()
+                        .addQueryParameter(SIMULATION_WORLD_NAME_PARAM_KEY, simulationWorldNameToLoad)
+                        .build()
+                        .toString();
+
+        HttpClientUtil.runAsync(finalUrl, new Callback() {
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseBody = response.body().string();
+                    Type typeToDeserialize = new TypeToken<ArrayList<String>>(){}.getType();
+                    List<String> entitiesNames = GSON_INSTANCE.fromJson(responseBody, typeToDeserialize);
+                    loadEntitiesComponents(entitiesNames);
+                } else {
+                    System.out.println("error code = " + response.code() + ". Something went wrong with the request getAllEntitiesProcedure()...:(");
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace(System.out);
+            }
+        });
+
+    }
+
+    private void loadEntitiesComponents(List<String> entitiesNames) {
+        entitiesNames.forEach(this::createEntityPopulationComponent);
+    }
+
+    private void getMaxPopulationSizeProcedure(String simulationWorldNameToLoad) {
+        String finalUrl =
+                HttpUrl
+                        .parse(GET_MAX_POPULATION_ENDPOINT)
+                        .newBuilder()
+                        .addQueryParameter(SIMULATION_WORLD_NAME_PARAM_KEY, simulationWorldNameToLoad)
+                        .build()
+                        .toString();
+
+        HttpClientUtil.runAsync(finalUrl, new Callback() {
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseBody = response.body().string();
+                   Integer maxPopulationValue = GSON_INSTANCE.fromJson(responseBody, Integer.class);
+                   loadMaxPopulationValue(maxPopulationValue);
+                } else {
+                    System.out.println("error code = " + response.code() + ". Something went wrong with the request getAllEntitiesProcedure()...:(");
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace(System.out);
+            }
+        });
+
+    }
+
+    private void loadMaxPopulationValue(Integer maxPopulationValue) {
+        Platform.runLater(() ->  this.maxPopLabel.textProperty().set("   MAX POPULATION: " + " " + maxPopulationValue));
+
+    }
+
 
     private void resetController() {
         this.entPopulationListView.getItems().clear();
@@ -259,7 +372,7 @@ public class NewExecutionController {
     public void setNewExecutionTabToRerunSimulation(String simulationGuid) {
         try {
             SimulationManualParamsDto simulationManualParamsDto = this.simulatorManager.getSimulationManualParamsByGuid(simulationGuid);
-            this.initializeNewExecutionTab();
+            this.initializeNewExecutionTab("fakesimulationname");
             this.entityPopulationControllerMap
                     .forEach(
                             (entityName, controller) ->

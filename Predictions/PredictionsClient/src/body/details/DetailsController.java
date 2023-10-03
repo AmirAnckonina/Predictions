@@ -13,6 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
@@ -44,7 +45,6 @@ public class DetailsController {
     private int observableLinesIndex = -1;
     private PredictionsMainController mainController;
     private Stage primaryStage;
-    private SimulatorManager simulatorManager;
     private Map<String, BasePropertyDto> propertyDtoMap;
     private Map<String, StringEntityDto> entitiesDtoMap;
     private Map<String, StringRuleDto> ruleMap;
@@ -57,7 +57,7 @@ public class DetailsController {
     @FXML private ListView<simulationTitle> environmentDetailsLeftListLV;
     @FXML private ListView<String> avaSimListView;
     @FXML private Label terminationDetailsLabel;
-
+    @FXML private Button newRequestButton;
 
     private ObservableList<simulationTitle> environmentListViewLeftLines = FXCollections.observableArrayList();
     private ObservableList<simulationTitle> entitiesListViewLeftLines = FXCollections.observableArrayList();
@@ -175,6 +175,15 @@ public class DetailsController {
         updateNewRuleDetailsComponentToRightListView(selectedRule);
     }
 
+
+    @FXML
+    void onNewRequestButtonClicked() {
+        try {
+            this.mainController.moveFromDetailsToRequests();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+    }
     private void cleanRightListView() {
         listViewRightLines.clear();
         rightDetailsFlowPaneListView.getChildren().clear();
@@ -189,9 +198,6 @@ public class DetailsController {
         rightDetailsFlowPaneListView.getChildren().removeAll();
     }
 
-    public void setSimulatorManager(SimulatorManager simulatorManager) {
-        this.simulatorManager = simulatorManager;
-    }
 
     private void createEnvironmentComponent(String name, String type, String value, String from, String to) {
         try
@@ -231,7 +237,7 @@ public class DetailsController {
     private void createRuleComponent(String activationTickInterval, String activationProbability,
                                      List<StringActionDto> actions) {
 
-        for(StringActionDto action:actions){
+        for (StringActionDto action : actions){
             try
             {
                 FXMLLoader loader = new FXMLLoader();
@@ -247,22 +253,6 @@ public class DetailsController {
                 e.printStackTrace(System.out);
             }
         }
-
-
-
-    }
-
-    public void setTerminationDto(String terminationInfo) {
-        String value = terminationInfo.substring(terminationInfo.indexOf("{") + 1, terminationInfo.indexOf("}"));
-        String[] terminationOptions = value.split(",");
-        String firstOption = terminationOptions[0].replaceAll("=",": ").replaceAll("null", "-")
-                .replaceAll("ticksTermination", "Ticks termination");
-        String secondOption = terminationOptions[1].replaceAll("=",": ").replaceAll("null", "-")
-                .replaceAll("secondsTermination", "Time termination");
-        this.terminationDetailsLabel.textProperty().set(firstOption + "   " + secondOption);
-
-        //ticksTermination=null
-        //secondsTermination
     }
 
     public void reset() {
@@ -279,7 +269,7 @@ public class DetailsController {
                 HttpUrl
                         .parse(GET_SIMULATION_WORLD_DETAILS_ENDPOINT)
                         .newBuilder()
-                        .addQueryParameter(GET_SIMULATION_WORLD_NAME_PARAM_KEY, selectedSimulationWorldName)
+                        .addQueryParameter(SIMULATION_WORLD_NAME_PARAM_KEY, selectedSimulationWorldName)
                         .build()
                         .toString();
 
@@ -309,7 +299,6 @@ public class DetailsController {
             setPropertyDtoMap(simulationWorldDetailsDto.getEnvironmentPropertiesDto().getPropertiesMap());
             setRuleMap(simulationWorldDetailsDto.getRuleMap());
             setEntitiesDtoMap(simulationWorldDetailsDto.getEntityDtoMap());
-            setTerminationDto(simulationWorldDetailsDto.getTerminationInfo());
             showCurrPropertyDtoList();
         });
 
