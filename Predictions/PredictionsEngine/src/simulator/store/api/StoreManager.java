@@ -8,6 +8,4 @@ public interface StoreManager {
 
     PredictionsEngineResponse addNewSimulationRequest(NewSimulationRequestDto newSimulationRequestDto);
     PredictionsEngineResponse setSimulationRequestStatusByGuid(String requestGuid, SimulationRequestStatus status);
-
-
 }

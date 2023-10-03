@@ -29,7 +29,7 @@ public class StoreManagerImpl implements StoreManager {
         String username = newSimulationRequestDto.getCustomerUsername();
         String simulationWorldName = newSimulationRequestDto.getSimulationWorldName();
         Integer requestedNumOfExecutions = newSimulationRequestDto.getNumOfExecution();
-        Integer numOfExecutionsLeft = newSimulationRequestDto.getNumOfExecution();
+        Integer numOfExecutionsLeft = 0;
         TerminationType terminationType = newSimulationRequestDto.getTerminationType();
         SimulationRequestStatus simulationRequestStatus = SimulationRequestStatus.PENDING;
         List<SimulationDocument> simulationDocumentList = new ArrayList<>();

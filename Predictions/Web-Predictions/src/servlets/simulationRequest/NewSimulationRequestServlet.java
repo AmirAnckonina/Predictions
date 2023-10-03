@@ -16,7 +16,7 @@ import java.io.PrintWriter;
 
 import static utils.PredictionsServletUtils.GSON_INSTANCE;
 
-@WebServlet(name = "NewSimulationRequestServlet", urlPatterns = "/newSimulationRequest")
+@WebServlet(name = "NewSimulationRequestServlet", urlPatterns = "simulationRequest/newSimulationRequest")
 public class NewSimulationRequestServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
