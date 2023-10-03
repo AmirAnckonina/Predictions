@@ -1,6 +1,6 @@
 package ui.tabs.management.details.subbodyobjects.ruleComponent;
 
-import dto.StringActionDto;
+import dto.worldBuilder.simulationComponents.StringActionDto;
 import enums.ActionType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

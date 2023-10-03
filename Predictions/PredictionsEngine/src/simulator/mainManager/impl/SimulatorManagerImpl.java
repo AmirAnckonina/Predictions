@@ -1,13 +1,18 @@
 package simulator.mainManager.impl;
 
-import dto.*;
+import dto.establishment.EstablishedEnvironmentInfoDto;
+import dto.manualSetup.SimulationManualParamsDto;
+import dto.simulationInfo.*;
+import dto.worldBuilder.SimulationWorldDetailsDto;
+import dto.worldBuilder.simulationComponents.EnvironmentPropertiesDto;
+import dto.worldBuilder.simulationComponents.EnvironmentPropertyDto;
 import simulator.builder.manager.api.WorldBuilderManager;
 import simulator.builder.manager.impl.WorldBuilderManagerImpl;
 import simulator.information.simulationDocument.api.SimulationDocument;
 import simulator.mainManager.utils.exception.SimulatorManagerException;
 import simulator.manualSetup.manager.api.ManualSimulationSetupManager;
 import simulator.establishment.manager.api.EstablishmentManager;
-import simulator.manualSetup.manager.impl.ManualSimulationSetupManagerImpl;
+import simulator.manualSetup.manager.impl.ManualSetupManagerImpl;
 import simulator.establishment.manager.impl.EstablishmentManagerImpl;
 import simulator.execution.manager.api.ExecutionManager;
 import simulator.execution.manager.impl.ExecutionManagerImpl;
@@ -15,6 +20,8 @@ import simulator.information.manager.api.InformationManager;
 import simulator.information.manager.impl.InformationManagerImpl;
 import simulator.mainManager.api.SimulatorManager;
 import simulator.runner.utils.exceptions.SimulatorRunnerException;
+import simulator.store.api.StoreManager;
+import simulator.store.impl.StoreManagerImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,25 +31,28 @@ import java.util.Map;
 public class SimulatorManagerImpl implements SimulatorManager {
 
     private EstablishmentManager establishmentManager;
-    private ManualSimulationSetupManager manualSimulationSetupManager;
+    private ManualSimulationSetupManager manualSetupManager;
     private WorldBuilderManager worldBuilderManager;
     private ExecutionManager executionManager;
     private InformationManager infoManager;
+    private StoreManager storeManager;
 
     public SimulatorManagerImpl() {
         this.worldBuilderManager = new WorldBuilderManagerImpl();
         this.executionManager = new ExecutionManagerImpl();
         this.infoManager = new InformationManagerImpl();
         this.establishmentManager = new EstablishmentManagerImpl();
-        this.manualSimulationSetupManager = new ManualSimulationSetupManagerImpl();
+        this.manualSetupManager = new ManualSetupManagerImpl();
+        this.storeManager = new StoreManagerImpl();
     }
 
-    public SimulatorManagerImpl(EstablishmentManager establishmentManager, ManualSimulationSetupManager manualSimulationSetupManager, WorldBuilderManager worldBuilderManager, ExecutionManager executionManager, InformationManager infoManager) {
+    public SimulatorManagerImpl(EstablishmentManager establishmentManager, ManualSimulationSetupManager manualSetupManager, WorldBuilderManager worldBuilderManager, ExecutionManager executionManager, InformationManager infoManager, StoreManager storeManager) {
         this.worldBuilderManager = worldBuilderManager;
         this.executionManager = executionManager;
         this.infoManager = infoManager;
         this.establishmentManager = establishmentManager;
-        this.manualSimulationSetupManager = manualSimulationSetupManager;
+        this.manualSetupManager = manualSetupManager;
+        this.storeManager = storeManager;
     }
 
     @Override
@@ -65,7 +75,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
     @Override
     public void setSelectedEnvironmentPropertiesValue(String propName, String type, String value, String simulationWorldName) {
-        manualSimulationSetupManager
+        manualSetupManager
                 .setSelectedEnvironmentPropertiesValue(
                         worldBuilderManager.getWorldDefinition(simulationWorldName),
                         propName,
@@ -139,7 +149,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
     @Override
     public void setEntityDefinitionPopulation(String simulationWorldName, String entityName, Integer entityPopulation) {
-        manualSimulationSetupManager
+        manualSetupManager
                 .setEntityDefinitionPopulation(
                         worldBuilderManager.getWorldDefinition(simulationWorldName), entityName, entityPopulation);
 
@@ -147,7 +157,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
     @Override
     public <T> void setEnvironmentPropertyValue(String simulationWorldName, String envPropertyName, T envPropertyValue) {
-        this.manualSimulationSetupManager.setEnvironmentPropertyValue(
+        this.manualSetupManager.setEnvironmentPropertyValue(
                 this.worldBuilderManager.getWorldDefinition(simulationWorldName), envPropertyName, envPropertyValue);
     }
 
@@ -158,13 +168,13 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
     @Override
     public void resetSingleEntityPopulation(String simulationWorldName, String entityName) {
-        this.manualSimulationSetupManager
+        this.manualSetupManager
                 .resetSingleEntityPopulation(this.worldBuilderManager.getWorldDefinition(simulationWorldName), entityName);
     }
 
     @Override
     public void resetSingleEnvironmentVariable(String simulationWorldName, String envVarName) {
-        this.manualSimulationSetupManager
+        this.manualSetupManager
                 .resetSingleEnvironmentVariable(this.worldBuilderManager.getWorldDefinition(simulationWorldName), envVarName);
     }
 
@@ -175,7 +185,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
 
     @Override
     public void resetAllManualSetup(String simulationWorldName) {
-        this.manualSimulationSetupManager.resetAllManualSetup(this.worldBuilderManager.getWorldDefinition(simulationWorldName));
+        this.manualSetupManager.resetAllManualSetup(this.worldBuilderManager.getWorldDefinition(simulationWorldName));
     }
 
     @Override

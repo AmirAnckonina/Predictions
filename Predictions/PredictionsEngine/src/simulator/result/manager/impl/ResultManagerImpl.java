@@ -1,6 +1,6 @@
 package simulator.result.manager.impl;
 
-import dto.SimulationDocumentInfoDto;
+import dto.simulationInfo.SimulationDocumentInfoDto;
 import enums.PropertyType;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.property.api.PropertyInstance;

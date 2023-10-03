@@ -1,6 +1,6 @@
 package servlets.worldBuilder;
 
-import dto.SimulationWorldNamesDto;
+import dto.worldBuilder.SimulationWorldNamesDto;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,7 +11,6 @@ import utils.PredictionsServletUtils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 import static utils.PredictionsServletUtils.GSON_INSTANCE;
 

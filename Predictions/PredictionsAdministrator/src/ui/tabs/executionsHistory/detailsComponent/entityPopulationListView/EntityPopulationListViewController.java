@@ -1,6 +1,6 @@
 package ui.tabs.executionsHistory.detailsComponent.entityPopulationListView;
 
-import dto.EntityPopulationOvertimeDto;
+import dto.simulationInfo.EntityPopulationOvertimeDto;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;

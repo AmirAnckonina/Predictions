@@ -34,19 +34,17 @@ public class PredictionsMainController {
 
             //Set details tab component
             detailsComponentController.setMainController(this);
-            detailsComponentController.setSimulatorManager(simulatorManager);
 
             //Set details tab component
             requestsTabComponentController.setMainController(this);
-            requestsTabComponentController.setSimulatorManager(simulatorManager);
 
             //Set execution tab component
             newExecutionComponentController.setPredictionsMainController(this);
-            newExecutionComponentController.setSimulatorManager(simulatorManager);
 
             //Set results tab component
             resultsComponentController.setMainController(this);
-            resultsComponentController.setSimulatorManager(simulatorManager);
+
+            detailsTabClicked();
         }
     }
 
@@ -113,5 +111,20 @@ public class PredictionsMainController {
             e.printStackTrace(System.out);
         }
 
+    }
+
+    public void moveFromDetailsToRequests() {
+        this.mainTabPane.getSelectionModel().select(1);
+        resultsTabClicked();
+    }
+
+    public void loadNewExecutionTab(String simulationWorldNameToLoad) {
+        try {
+
+            this.newExecutionComponentController.initializeNewExecutionTab(simulationWorldNameToLoad);
+
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
     }
 }

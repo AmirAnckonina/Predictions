@@ -1,9 +1,8 @@
 package ui.tabs.executionsHistory.detailsComponent.histogram.byStatistic;
 
-import dto.PropertiesAvgConsistencyDto;
-import dto.PropertiesConsistencyDto;
-import dto.SimulationWorldDetailsDto;
-import dto.SimulationWorldDetailsDto;
+import dto.simulationInfo.PropertiesAvgConsistencyDto;
+import dto.simulationInfo.PropertiesConsistencyDto;
+import dto.worldBuilder.SimulationWorldDetailsDto;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;

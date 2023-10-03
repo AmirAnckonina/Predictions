@@ -1,5 +1,10 @@
 package simulator.mainManager.api;
-import dto.*;
+import dto.establishment.EstablishedEnvironmentInfoDto;
+import dto.manualSetup.SimulationManualParamsDto;
+import dto.simulationInfo.*;
+import dto.worldBuilder.SimulationWorldDetailsDto;
+import dto.worldBuilder.simulationComponents.EnvironmentPropertiesDto;
+import dto.worldBuilder.simulationComponents.EnvironmentPropertyDto;
 
 import java.util.List;
 

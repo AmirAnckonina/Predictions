@@ -1,6 +1,6 @@
 package ui.tabs.executionsHistory.detailsComponent;
 
-import dto.SimulationDocumentInfoDto;
+import dto.simulationInfo.SimulationDocumentInfoDto;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

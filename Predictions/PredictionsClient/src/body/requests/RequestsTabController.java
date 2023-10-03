@@ -1,9 +1,9 @@
 package body.requests;
 
 import com.google.gson.reflect.TypeToken;
-import dto.NewSimulationRequestDto;
-import dto.SimulationRequestDetailsDto;
-import dto.SimulationWorldNamesDto;
+import dto.orderRequest.NewSimulationRequestDto;
+import dto.orderRequest.SimulationOrderRequestDetailsDto;
+import dto.worldBuilder.SimulationWorldNamesDto;
 import enums.TerminationType;
 import exception.PredictionsUIComponentException;
 import javafx.application.Platform;
@@ -47,13 +47,15 @@ public class RequestsTabController {
     @FXML private TextField ticksTextField;
     @FXML private ListView<String> templatesListView;
     @FXML private Button sendRequestButton;
-    @FXML private TableView<SimulationRequestDetailsDto> requestsTableView;
-    @FXML private TableColumn<SimulationRequestDetailsDto, String> requestIdCol;
-    @FXML private TableColumn<SimulationRequestDetailsDto, String> simulationTemplateCol;
-    @FXML private TableColumn<SimulationRequestDetailsDto, Integer> numOfExecCol;
-    @FXML private TableColumn<SimulationRequestDetailsDto, String> requestStatusCol;
-    @FXML private TableColumn<SimulationRequestDetailsDto, Integer> runningCol;
-    @FXML private TableColumn<SimulationRequestDetailsDto, Integer> doneCol;
+    @FXML private Button newExecutionButton;
+    @FXML private TableView<SimulationOrderRequestDetailsDto> requestsTableView;
+    @FXML private TableColumn<SimulationOrderRequestDetailsDto, String> requestIdCol;
+    @FXML private TableColumn<SimulationOrderRequestDetailsDto, String> simulationTemplateCol;
+    @FXML private TableColumn<SimulationOrderRequestDetailsDto, Integer> numOfExecCol;
+    @FXML private TableColumn<SimulationOrderRequestDetailsDto, Integer> terminationCol;
+    @FXML private TableColumn<SimulationOrderRequestDetailsDto, String> requestStatusCol;
+    @FXML private TableColumn<SimulationOrderRequestDetailsDto, Integer> runningCol;
+    @FXML private TableColumn<SimulationOrderRequestDetailsDto, Integer> doneCol;
 
     private SimpleStringProperty numOfExecPropertyAsString;
     private SimpleStringProperty ticksPropertyAsString;
@@ -100,6 +102,7 @@ public class RequestsTabController {
         requestIdCol.setCellValueFactory(new PropertyValueFactory<>("requestGuid"));
         simulationTemplateCol.setCellValueFactory(new PropertyValueFactory<>("simulationWorldName"));
         numOfExecCol.setCellValueFactory(new PropertyValueFactory<>("numOfExecutionLeft"));
+        terminationCol.setCellValueFactory(new PropertyValueFactory<>("terminationType"));
         requestStatusCol.setCellValueFactory(new PropertyValueFactory<>("simulationRequestStatus"));
         runningCol.setCellValueFactory(new PropertyValueFactory<>("running"));
         doneCol.setCellValueFactory(new PropertyValueFactory<>("done"));
@@ -116,6 +119,18 @@ public class RequestsTabController {
             this.secondsTextField.setDisable(false);
         }
 
+    }
+
+
+    @FXML
+    void onNewExecutionButtonClicked() {
+        try {
+
+            String simulationWorldToLoad = this.requestsTableView.getSelectionModel().getSelectedItem().getSimulationWorldName();
+            this.mainController.loadNewExecutionTab(simulationWorldToLoad);
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
     }
 
     @FXML
@@ -171,9 +186,9 @@ public class RequestsTabController {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String responseBody = response.body().string();
-                    Type requestDetailsListType = new TypeToken<ArrayList<SimulationRequestDetailsDto>>(){}.getType();
-                    ArrayList<SimulationRequestDetailsDto> simulationRequestDetailsDtoList = GSON_INSTANCE.fromJson(responseBody, requestDetailsListType);
-                    updateRequestsTableUI(simulationRequestDetailsDtoList);
+                    Type requestDetailsListType = new TypeToken<ArrayList<SimulationOrderRequestDetailsDto>>(){}.getType();
+                    ArrayList<SimulationOrderRequestDetailsDto> simulationOrderRequestDetailsDtoList = GSON_INSTANCE.fromJson(responseBody, requestDetailsListType);
+                    updateRequestsTableUI(simulationOrderRequestDetailsDtoList);
 
                 } else {
                     System.out.println("error code = " + response.code() + ". Something went wrong with the request getSimulationWorldDetailsProcedure()...:(");
@@ -187,11 +202,11 @@ public class RequestsTabController {
         });
     }
 
-    private void updateRequestsTableUI(List<SimulationRequestDetailsDto> simulationRequestDetailsDtoList) {
+    private void updateRequestsTableUI(List<SimulationOrderRequestDetailsDto> simulationOrderRequestDetailsDtoList) {
         Platform.runLater(() -> {
-            ObservableList<SimulationRequestDetailsDto> requestsList = this.requestsTableView.getItems();
+            ObservableList<SimulationOrderRequestDetailsDto> requestsList = this.requestsTableView.getItems();
             requestsList.clear();
-            requestsList.addAll(simulationRequestDetailsDtoList);
+            requestsList.addAll(simulationOrderRequestDetailsDtoList);
         });
     }
 
@@ -225,7 +240,7 @@ public class RequestsTabController {
 
             }
 
-            return new NewSimulationRequestDto(simulationWorldName, numOfExecution, terminationType, ticks, seconds);
+            return new NewSimulationRequestDto("FakeCustomerName",simulationWorldName, numOfExecution, terminationType, ticks, seconds);
 
         } catch (Exception e) {
             e.printStackTrace(System.out);

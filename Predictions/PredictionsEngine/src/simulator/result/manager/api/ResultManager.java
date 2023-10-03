@@ -1,5 +1,5 @@
 package simulator.result.manager.api;
-import dto.SimulationDocumentInfoDto;
+import dto.simulationInfo.SimulationDocumentInfoDto;
 import simulator.execution.instance.entity.api.EntityInstance;
 import simulator.execution.instance.entity.impl.EntitiesResult;
 

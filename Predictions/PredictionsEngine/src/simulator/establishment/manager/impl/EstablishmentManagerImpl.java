@@ -1,6 +1,6 @@
 package simulator.establishment.manager.impl;
 
-import dto.EstablishedEnvironmentInfoDto;
+import dto.establishment.EstablishedEnvironmentInfoDto;
 import simulator.execution.instance.spaceGrid.api.SpaceGridInstanceWrapper;
 import simulator.execution.instance.spaceGrid.impl.SpaceGridInstanceWrapperImpl;
 import simulator.definition.entity.EntityDefinition;

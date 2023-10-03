@@ -1,8 +1,8 @@
 package body.results.detailsComponent.histogram;
 
 import body.results.ResultsController;
-import dto.PropertiesAvgConsistencyDto;
-import dto.PropertiesConsistencyDto;
+import dto.simulationInfo.PropertiesAvgConsistencyDto;
+import dto.simulationInfo.PropertiesConsistencyDto;
 import javafx.scene.input.MouseEvent;
 
 import java.util.List;

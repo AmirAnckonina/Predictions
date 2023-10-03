@@ -2,9 +2,9 @@ package body.results.detailsComponent.histogram.byStatistic;
 
 import body.results.ResultsController;
 import body.results.detailsComponent.histogram.ExecutionResultController;
-import dto.PropertiesAvgConsistencyDto;
-import dto.PropertiesConsistencyDto;
-import dto.SimulationWorldDetailsDto;
+import dto.simulationInfo.PropertiesAvgConsistencyDto;
+import dto.simulationInfo.PropertiesConsistencyDto;
+import dto.worldBuilder.SimulationWorldDetailsDto;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;

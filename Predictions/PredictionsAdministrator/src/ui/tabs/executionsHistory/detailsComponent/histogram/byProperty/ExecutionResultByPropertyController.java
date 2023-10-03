@@ -1,7 +1,7 @@
 package ui.tabs.executionsHistory.detailsComponent.histogram.byProperty;
 
-import dto.PropertiesAvgConsistencyDto;
-import dto.PropertiesConsistencyDto;
+import dto.simulationInfo.PropertiesAvgConsistencyDto;
+import dto.simulationInfo.PropertiesConsistencyDto;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
