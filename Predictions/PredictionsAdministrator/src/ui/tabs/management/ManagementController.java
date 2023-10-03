@@ -1,7 +1,10 @@
 package ui.tabs.management;
 
 import dto.SimulationWorldDetailsDto;
+import dto.SimulationWorldNamesDto;
+import dto.ThreadPullDetailsDto;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -15,14 +18,18 @@ import org.jetbrains.annotations.NotNull;
 import ui.mainScene.MainController;
 import ui.tabs.management.details.DetailsController;
 import utils.HttpClientUtil;
+import utils.SimulationWorldListRefresher;
+import utils.ThreadPullDetailsRefresher;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import static utils.Constants.GSON_INSTANCE;
-import static utils.Constants.POST_NEW_SIMULATION_LOAD_ENDPOINT;
+import static utils.Constants.*;
+import static utils.Constants.SIMULATION_WORLD_LIST_REFRESH_RATE;
 
 public class ManagementController {
 
@@ -61,6 +68,8 @@ public class ManagementController {
 
     private MainController mainController;
     private Stage primaryStage;
+    private TimerTask threadPullDetailsRefresher;
+    private Timer threadPullDetailsTimer;
 
     @FXML
     public void initialize() {
@@ -127,11 +136,11 @@ public class ManagementController {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    String responseBody = response.body().string();
-                    SimulationWorldDetailsDto simulationWorldDetailsDto = GSON_INSTANCE.fromJson(responseBody, SimulationWorldDetailsDto.class);
-                    Platform.runLater(() ->
-                            updateDetailsComponentUI(simulationWorldDetailsDto)
-                    );
+//                    String responseBody = response.body().string();
+//                    SimulationWorldDetailsDto simulationWorldDetailsDto = GSON_INSTANCE.fromJson(responseBody, SimulationWorldDetailsDto.class);
+//                    Platform.runLater(() ->
+//                            updateDetailsComponentUI(simulationWorldDetailsDto)
+//                    );
                 } else {
                     System.out.println("error code = " + response.code() + ". Something went wrong with the request getSimulationWorldDetailsProcedure()...:(");
                 }
@@ -147,8 +156,18 @@ public class ManagementController {
 //        });
     }
 
-    private void updateDetailsComponentUI(SimulationWorldDetailsDto simulationWorldDetailsDto) {
+    private void updateThreadDetailsComponentUI(ThreadPullDetailsDto threadPullDetailsDto) {
+        Platform.runLater(() -> {
+            waitingValueLabel.setText(threadPullDetailsDto.getWaitingSimulations().toString());
+            runningLabel.setText(threadPullDetailsDto.getRunningSimulations().toString());
+            finishedValueLabel.setText(threadPullDetailsDto.getTerminatedSimulations().toString());
+        });
+    }
 
+    private void startSimulationWorldListRefresher() {
+        this.threadPullDetailsRefresher = new ThreadPullDetailsRefresher(this::updateThreadDetailsComponentUI);
+        this.threadPullDetailsTimer = new Timer();
+        this.threadPullDetailsTimer.schedule(threadPullDetailsRefresher, SIMULATION_WORLD_LIST_REFRESH_RATE, SIMULATION_WORLD_LIST_REFRESH_RATE);
     }
 
     // Example method to create a sample input stream of strings
