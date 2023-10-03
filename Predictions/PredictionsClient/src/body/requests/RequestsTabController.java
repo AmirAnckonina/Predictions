@@ -47,6 +47,7 @@ public class RequestsTabController {
     @FXML private TextField ticksTextField;
     @FXML private ListView<String> templatesListView;
     @FXML private Button sendRequestButton;
+    @FXML private Button newExecutionButton;
     @FXML private TableView<SimulationOrderRequestDetailsDto> requestsTableView;
     @FXML private TableColumn<SimulationOrderRequestDetailsDto, String> requestIdCol;
     @FXML private TableColumn<SimulationOrderRequestDetailsDto, String> simulationTemplateCol;
@@ -118,6 +119,18 @@ public class RequestsTabController {
             this.secondsTextField.setDisable(false);
         }
 
+    }
+
+
+    @FXML
+    void onNewExecutionButtonClicked() {
+        try {
+
+            String simulationWorldToLoad = this.requestsTableView.getSelectionModel().getSelectedItem().getSimulationWorldName();
+            this.mainController.loadNewExecutionTab(simulationWorldToLoad);
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
     }
 
     @FXML

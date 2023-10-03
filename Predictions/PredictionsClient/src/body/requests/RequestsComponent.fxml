@@ -140,10 +140,11 @@
          </columnConstraints>
          <rowConstraints>
             <RowConstraints maxHeight="146.0" minHeight="10.0" prefHeight="24.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="276.0" minHeight="10.0" prefHeight="262.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="276.0" minHeight="10.0" prefHeight="224.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="276.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <TableView id="requests-table-view" fx:id="requestsTableView" prefHeight="259.0" prefWidth="1144.0" GridPane.rowIndex="1">
+            <TableView id="requests-table-view" fx:id="requestsTableView" prefHeight="246.0" prefWidth="1146.0" GridPane.rowIndex="1">
                <columns>
                   <TableColumn id="req-id-col" fx:id="requestIdCol" prefWidth="228.0" text="REQUEST ID" />
                   <TableColumn id="sim-temp-col" fx:id="simulationTemplateCol" minWidth="8.0" prefWidth="145.0" text="SIMULATION TEMPLATE" />
@@ -154,6 +155,11 @@
                   <TableColumn id="done-col" fx:id="doneCol" minWidth="0.0" prefWidth="84.0" text="DONE" />
                </columns>
             </TableView>
+            <ButtonBar prefHeight="14.0" prefWidth="1146.0" GridPane.rowIndex="2">
+               <buttons>
+                  <Button id="new-exec-button" fx:id="newExecutionButton" mnemonicParsing="false" onAction="#onNewExecutionButtonClicked" text="New Execution" />
+               </buttons>
+            </ButtonBar>
          </children>
       </GridPane>
    </children>

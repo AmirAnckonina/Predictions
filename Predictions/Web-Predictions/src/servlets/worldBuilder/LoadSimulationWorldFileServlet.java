@@ -31,8 +31,8 @@ public class LoadSimulationWorldFileServlet extends HttpServlet {
         } catch (WorldBuilderManagerException e) {
             jsonResp = GSON_INSTANCE.toJson(e.toString());
             response.sendError(400, e.getMessage());
-
         }
+
         try (PrintWriter out = response.getWriter()) {
             out.println(jsonResp);
             out.flush();

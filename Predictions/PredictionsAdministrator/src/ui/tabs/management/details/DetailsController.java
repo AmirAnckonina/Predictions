@@ -285,7 +285,7 @@ public class DetailsController {
                 HttpUrl
                         .parse(GET_SIMULATION_WORLD_DETAILS_ENDPOINT)
                         .newBuilder()
-                        .addQueryParameter(GET_SIMULATION_WORLD_NAME_PARAM_KEY, selectedSimulationWorldName)
+                        .addQueryParameter(SIMULATION_WORLD_NAME_PARAM_KEY, selectedSimulationWorldName)
                         .build()
                         .toString();
 
