@@ -5,17 +5,12 @@ import common.Constants;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import simulator.builder.manager.api.WorldBuilderManager;
-import simulator.builder.manager.impl.WorldBuilderManagerImpl;
 import simulator.establishment.manager.api.EstablishmentManager;
-import simulator.establishment.manager.impl.EstablishmentManagerImpl;
 import simulator.execution.manager.api.ExecutionManager;
-import simulator.execution.manager.impl.ExecutionManagerImpl;
 import simulator.information.manager.api.InformationManager;
-import simulator.information.manager.impl.InformationManagerImpl;
 import simulator.mainManager.api.SimulatorManager;
-import simulator.mainManager.impl.SimulatorManagerImpl;
 import simulator.manualSetup.manager.api.ManualSimulationSetupManager;
-import simulator.manualSetup.manager.impl.ManualSimulationSetupManagerImpl;
+import simulator.store.api.StoreManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -48,6 +43,11 @@ public class PredictionsServletUtils {
     public static ExecutionManager getExecutionManager(ServletContext servletContext) {
         return (ExecutionManager) servletContext.getAttribute(Constants.EXECUTION_MANAGER_ATTRIBUTE_NAME);
     }
+
+    public static StoreManager getStoreManager(ServletContext servletContext) {
+        return (StoreManager) servletContext.getAttribute(Constants.STORE_MANAGER_ATTRIBUTE_NAME);
+    }
+
 
     public static String getStringBody(HttpServletRequest request) throws IOException {
 
@@ -107,4 +107,6 @@ public class PredictionsServletUtils {
 
         return inputStream;
     }
+
+
 }

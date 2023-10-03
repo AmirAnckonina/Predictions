@@ -20,8 +20,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-import static utils.Constants.GSON_INSTANCE;
-import static utils.Constants.POST_NEW_SIMULATION_LOAD_ENDPOINT;
+import static utils.Constants.*;
 
 public class ManagementController {
 

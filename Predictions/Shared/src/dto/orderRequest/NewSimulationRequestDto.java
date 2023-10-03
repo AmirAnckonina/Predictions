@@ -3,14 +3,15 @@ package dto.orderRequest;
 import enums.TerminationType;
 
 public class NewSimulationRequestDto {
-
+    private final String customerUsername;
     private final String simulationWorldName;
     private final Integer numOfExecution;
     private final TerminationType terminationType;
     private final Integer ticks;
     private final Integer seconds;
 
-    public NewSimulationRequestDto(String simulationWorldName, Integer numOfExecution, TerminationType terminationType, Integer ticks, Integer seconds) {
+    public NewSimulationRequestDto(String customerUsername, String simulationWorldName, Integer numOfExecution, TerminationType terminationType, Integer ticks, Integer seconds) {
+        this.customerUsername = customerUsername;
         this.simulationWorldName = simulationWorldName;
         this.numOfExecution = numOfExecution;
         this.terminationType = terminationType;
@@ -36,5 +37,9 @@ public class NewSimulationRequestDto {
 
     public Integer getSeconds() {
         return seconds;
+    }
+
+    public String getCustomerUsername() {
+        return customerUsername;
     }
 }

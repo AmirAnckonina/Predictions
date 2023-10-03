@@ -51,6 +51,7 @@ public class RequestsTabController {
     @FXML private TableColumn<SimulationOrderRequestDetailsDto, String> requestIdCol;
     @FXML private TableColumn<SimulationOrderRequestDetailsDto, String> simulationTemplateCol;
     @FXML private TableColumn<SimulationOrderRequestDetailsDto, Integer> numOfExecCol;
+    @FXML private TableColumn<SimulationOrderRequestDetailsDto, Integer> terminationCol;
     @FXML private TableColumn<SimulationOrderRequestDetailsDto, String> requestStatusCol;
     @FXML private TableColumn<SimulationOrderRequestDetailsDto, Integer> runningCol;
     @FXML private TableColumn<SimulationOrderRequestDetailsDto, Integer> doneCol;
@@ -100,6 +101,7 @@ public class RequestsTabController {
         requestIdCol.setCellValueFactory(new PropertyValueFactory<>("requestGuid"));
         simulationTemplateCol.setCellValueFactory(new PropertyValueFactory<>("simulationWorldName"));
         numOfExecCol.setCellValueFactory(new PropertyValueFactory<>("numOfExecutionLeft"));
+        terminationCol.setCellValueFactory(new PropertyValueFactory<>("terminationType"));
         requestStatusCol.setCellValueFactory(new PropertyValueFactory<>("simulationRequestStatus"));
         runningCol.setCellValueFactory(new PropertyValueFactory<>("running"));
         doneCol.setCellValueFactory(new PropertyValueFactory<>("done"));
@@ -225,7 +227,7 @@ public class RequestsTabController {
 
             }
 
-            return new NewSimulationRequestDto(simulationWorldName, numOfExecution, terminationType, ticks, seconds);
+            return new NewSimulationRequestDto("FakeCustomerName",simulationWorldName, numOfExecution, terminationType, ticks, seconds);
 
         } catch (Exception e) {
             e.printStackTrace(System.out);

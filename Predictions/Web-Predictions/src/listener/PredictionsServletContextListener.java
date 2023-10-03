@@ -5,7 +5,6 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
-import simulator.builder.api.interfaces.WorldBuilder;
 import simulator.builder.manager.api.WorldBuilderManager;
 import simulator.builder.manager.impl.WorldBuilderManagerImpl;
 import simulator.establishment.manager.api.EstablishmentManager;
@@ -17,7 +16,9 @@ import simulator.information.manager.impl.InformationManagerImpl;
 import simulator.mainManager.api.SimulatorManager;
 import simulator.mainManager.impl.SimulatorManagerImpl;
 import simulator.manualSetup.manager.api.ManualSimulationSetupManager;
-import simulator.manualSetup.manager.impl.ManualSimulationSetupManagerImpl;
+import simulator.manualSetup.manager.impl.ManualSetupManagerImpl;
+import simulator.store.api.StoreManager;
+import simulator.store.impl.StoreManagerImpl;
 
 @WebListener
 public class PredictionsServletContextListener implements ServletContextListener {
@@ -30,20 +31,23 @@ public class PredictionsServletContextListener implements ServletContextListener
         ExecutionManager executionManager = new ExecutionManagerImpl();
         InformationManager informationManager = new InformationManagerImpl();
         EstablishmentManager establishmentManager = new EstablishmentManagerImpl();
-        ManualSimulationSetupManager manualSimulationSetupManager = new ManualSimulationSetupManagerImpl();
+        ManualSimulationSetupManager manualSimulationSetupManager = new ManualSetupManagerImpl();
+        StoreManager storeManager = new StoreManagerImpl();
         SimulatorManager simulatorManager =
                 new SimulatorManagerImpl(
                         establishmentManager,
                         manualSimulationSetupManager,
                         worldBuilderManager,
                         executionManager,
-                        informationManager);
+                        informationManager,
+                        storeManager);
 
         predictionsServletContext.setAttribute(Constants.WORLD_BUILDER_MANAGER_ATTRIBUTE_NAME, worldBuilderManager);
         predictionsServletContext.setAttribute(Constants.INFO_MANAGER_ATTRIBUTE_NAME, informationManager);
         predictionsServletContext.setAttribute(Constants.ESTABLISHMENT_MANAGER_ATTRIBUTE_NAME, establishmentManager);
         predictionsServletContext.setAttribute(Constants.MANUAL_SETUP_MANAGER_ATTRIBUTE_NAME, manualSimulationSetupManager);
         predictionsServletContext.setAttribute(Constants.EXECUTION_MANAGER_ATTRIBUTE_NAME, executionManager);
+        predictionsServletContext.setAttribute(Constants.STORE_MANAGER_ATTRIBUTE_NAME, storeManager);
         predictionsServletContext.setAttribute(Constants.SIMULATOR_MANAGER_ATTRIBUTE_NAME, simulatorManager);
     }
 
