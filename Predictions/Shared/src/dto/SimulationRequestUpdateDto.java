@@ -1,5 +1,7 @@
 package dto;
 
+import enums.SimulationRequestStatus;
+
 public class SimulationRequestUpdateDto {
     private final String requestGuid;
     private final SimulationRequestStatus simulationRequestStatus;

@@ -20,7 +20,7 @@ public class Constants {
     public final static String GET_SIMULATION_WORLD_NAMES_LIST_ENDPOINT = FULL_SERVER_PATH + "/worldBuilder/simulationWorldNamesList";
     //
     public final static String GET_SIMULATION_WORLD_DETAILS_ENDPOINT = FULL_SERVER_PATH + "/worldBuilder/simulationWorldDetails";
-    public final static String GET_SIMULATION_WORLD_NAME_PARAM_KEY = "simulationWorldName";
+    public final static String SIMULATION_WORLD_NAME_PARAM_KEY = "simulationWorldName";
     //
     public final static String GET_ENVIRONMENT_PROPERTIES_DEFINITION_ENDPOINT = FULL_SERVER_PATH + "/worldBuilder/environmentPropertiesDefinition";
     //

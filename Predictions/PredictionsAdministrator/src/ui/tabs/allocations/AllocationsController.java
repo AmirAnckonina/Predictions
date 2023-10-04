@@ -1,10 +1,10 @@
 package ui.tabs.allocations;
 
 import com.google.gson.reflect.TypeToken;
-import dto.SimulationRequestStatus;
 import dto.SimulationRequestUpdateDto;
-import dto.SimulationRequestDetailsDto;
-import dto.SimulationWorldNamesDto;
+import dto.orderRequest.SimulationOrderRequestDetailsDto;
+import dto.worldBuilder.SimulationWorldNamesDto;
+import enums.SimulationRequestStatus;
 import exception.PredictionsUIComponentException;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -43,14 +43,14 @@ public class AllocationsController {
     @FXML private TextField secondsTextField;
     @FXML private ListView<String> templatesListView;
     @FXML private Button sendRequestButton;
-    @FXML private TableView<SimulationRequestDetailsDto> requestsTableView;
-    @FXML private TableColumn<SimulationRequestDetailsDto, String> requestIdCol;
-    @FXML private TableColumn<SimulationRequestDetailsDto, String> simulationTemplateCol;
-    @FXML private TableColumn<SimulationRequestDetailsDto, Integer> numOfExecCol;
-    @FXML private TableColumn<SimulationRequestDetailsDto, String> requestStatusCol;
-    @FXML private TableColumn<SimulationRequestDetailsDto, Integer> runningCol;
-    @FXML private TableColumn<SimulationRequestDetailsDto, Integer> doneCol;
-    @FXML private TableColumn<SimulationRequestDetailsDto, Void> approvementCol;
+    @FXML private TableView<SimulationOrderRequestDetailsDto> requestsTableView;
+    @FXML private TableColumn<SimulationOrderRequestDetailsDto, String> requestIdCol;
+    @FXML private TableColumn<SimulationOrderRequestDetailsDto, String> simulationTemplateCol;
+    @FXML private TableColumn<SimulationOrderRequestDetailsDto, Integer> numOfExecCol;
+    @FXML private TableColumn<SimulationOrderRequestDetailsDto, String> requestStatusCol;
+    @FXML private TableColumn<SimulationOrderRequestDetailsDto, Integer> runningCol;
+    @FXML private TableColumn<SimulationOrderRequestDetailsDto, Integer> doneCol;
+    @FXML private TableColumn<SimulationOrderRequestDetailsDto, Void> approvementCol;
 
     private SimpleStringProperty numOfExecPropertyAsString;
     private SimpleBooleanProperty ticksSecondsRadioButtonProperty;
@@ -80,7 +80,7 @@ public class AllocationsController {
         requestStatusCol.setCellValueFactory(new PropertyValueFactory<>("simulationRequestStatus"));
         runningCol.setCellValueFactory(new PropertyValueFactory<>("running"));
         doneCol.setCellValueFactory(new PropertyValueFactory<>("done"));
-        approvementCol.setCellFactory(column -> new TableCell<SimulationRequestDetailsDto, Void>() {
+        approvementCol.setCellFactory(column -> new TableCell<SimulationOrderRequestDetailsDto, Void>() {
             private final HBox buttonBox = new HBox();
             private final Button yesBtn = new Button("Yes");
             private final Button noBtn = new Button("No");
@@ -88,13 +88,13 @@ public class AllocationsController {
             {
                 // Define actions for Button 1
                 yesBtn.setOnAction(event -> {
-                    SimulationRequestDetailsDto request = getTableView().getItems().get(getIndex());
+                    SimulationOrderRequestDetailsDto request = getTableView().getItems().get(getIndex());
                     handleYesButtonAction(request); // Call your method with the request
                 });
 
                 // Define actions for Button 2
                 noBtn.setOnAction(event -> {
-                    SimulationRequestDetailsDto request = getTableView().getItems().get(getIndex());
+                    SimulationOrderRequestDetailsDto request = getTableView().getItems().get(getIndex());
                     handleNoButtonAction(request); // Call your method with the request
                 });
 
@@ -117,11 +117,11 @@ public class AllocationsController {
         requestsTableView.setPlaceholder(new Label("No requests to display"));
     }
 
-    private void handleNoButtonAction(SimulationRequestDetailsDto request) {
+    private void handleNoButtonAction(SimulationOrderRequestDetailsDto request) {
         sendNewSimulationResponseProcedure(builSimulationRequestUpdateDto(request, SimulationRequestStatus.REJECTED));
     }
 
-    private void handleYesButtonAction(SimulationRequestDetailsDto request) {
+    private void handleYesButtonAction(SimulationOrderRequestDetailsDto request) {
         sendNewSimulationResponseProcedure(builSimulationRequestUpdateDto(request, SimulationRequestStatus.APPROVED));
     }
 
@@ -146,8 +146,8 @@ public class AllocationsController {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String responseBody = response.body().string();
-                    Type requestDetailsListType = new TypeToken<ArrayList<SimulationRequestDetailsDto>>(){}.getType();
-                    ArrayList<SimulationRequestDetailsDto> simulationRequestDetailsDtoList = GSON_INSTANCE.fromJson(responseBody, requestDetailsListType);
+                    Type requestDetailsListType = new TypeToken<ArrayList<SimulationOrderRequestDetailsDto>>(){}.getType();
+                    ArrayList<SimulationOrderRequestDetailsDto> simulationRequestDetailsDtoList = GSON_INSTANCE.fromJson(responseBody, requestDetailsListType);
                     updateRequestsTableUI(simulationRequestDetailsDtoList);
 
                 } else {
@@ -162,16 +162,16 @@ public class AllocationsController {
         });
     }
 
-    private void updateRequestsTableUI(List<SimulationRequestDetailsDto> simulationRequestDetailsDtoList) {
+    private void updateRequestsTableUI(List<SimulationOrderRequestDetailsDto> simulationRequestDetailsDtoList) {
         Platform.runLater(() -> {
-            ObservableList<SimulationRequestDetailsDto> requestsList = this.requestsTableView.getItems();
+            ObservableList<SimulationOrderRequestDetailsDto> requestsList = this.requestsTableView.getItems();
             requestsList.clear();
             requestsList.addAll(simulationRequestDetailsDtoList);
         });
     }
 
 
-    private SimulationRequestUpdateDto builSimulationRequestUpdateDto(SimulationRequestDetailsDto simulationRequestDetailsDto
+    private SimulationRequestUpdateDto builSimulationRequestUpdateDto(SimulationOrderRequestDetailsDto simulationRequestDetailsDto
             , SimulationRequestStatus simulationRequestStatus) {
         try {
             return new SimulationRequestUpdateDto(simulationRequestDetailsDto.getRequestGuid(), simulationRequestStatus);

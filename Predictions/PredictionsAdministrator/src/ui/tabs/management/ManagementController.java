@@ -1,7 +1,5 @@
 package ui.tabs.management;
 
-import dto.SimulationWorldDetailsDto;
-import dto.SimulationWorldNamesDto;
 import dto.ThreadPullDetailsDto;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
