@@ -1,7 +1,7 @@
 package ui.tabs.allocations.approvementButtons;
 
 
-import dto.SimulationRequestDetailsDto;
+import dto.orderRequest.SimulationOrderRequestDetailsDto;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import ui.tabs.allocations.AllocationsController;
@@ -9,9 +9,9 @@ import ui.tabs.allocations.AllocationsController;
 public class ButtonsController {
 
     AllocationsController allocationsController;
-    SimulationRequestDetailsDto simulationRequestDetailsDto;
+    SimulationOrderRequestDetailsDto simulationRequestDetailsDto;
 
-    public ButtonsController(AllocationsController allocationsController, SimulationRequestDetailsDto simulationRequestDetailsDto) {
+    public ButtonsController(AllocationsController allocationsController, SimulationOrderRequestDetailsDto simulationRequestDetailsDto) {
         this.allocationsController = allocationsController;
         this.simulationRequestDetailsDto = simulationRequestDetailsDto;
     }
