@@ -2,12 +2,10 @@ package servlets.simulationRequest;
 
 import dto.PredictionsEngineResponse;
 import dto.orderRequest.NewSimulationRequestDto;
-import dto.worldBuilder.SimulationWorldDetailsDto;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import simulator.builder.manager.api.WorldBuilderManager;
 import simulator.store.api.StoreManager;
 import utils.PredictionsServletUtils;
 
@@ -16,7 +14,7 @@ import java.io.PrintWriter;
 
 import static utils.PredictionsServletUtils.GSON_INSTANCE;
 
-@WebServlet(name = "NewSimulationRequestServlet", urlPatterns = "simulationRequest/newSimulationRequest")
+@WebServlet(name = "NewSimulationRequestServlet", urlPatterns = "/simulationRequest/newSimulationRequest")
 public class NewSimulationRequestServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
