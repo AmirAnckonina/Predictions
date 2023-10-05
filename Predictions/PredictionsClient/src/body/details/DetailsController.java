@@ -9,6 +9,7 @@ import dto.worldBuilder.SimulationWorldDetailsDto;
 import dto.worldBuilder.SimulationWorldNamesDto;
 import dto.worldBuilder.simulationComponents.*;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -26,7 +27,6 @@ import okhttp3.Callback;
 import okhttp3.HttpUrl;
 import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
-import simulator.mainManager.api.SimulatorManager;
 import utils.HttpClientUtil;
 import utils.SimulationWorldListRefresher;
 
@@ -63,7 +63,12 @@ public class DetailsController {
     private ObservableList<simulationTitle> entitiesListViewLeftLines = FXCollections.observableArrayList();
     private ObservableList<simulationTitle> rulesListViewLeftLines = FXCollections.observableArrayList();
     private ObservableList<SimulationDetail> listViewRightLines = FXCollections.observableArrayList();
+    private SimpleBooleanProperty simulationNodeInListViewIsSelected = new SimpleBooleanProperty(false);
 
+    @FXML
+    private void initialize() {
+        this.simulationNodeInListViewIsSelected.bind(new SimpleBooleanProperty(!this.avaSimListView.getSelectionModel().isEmpty()));
+    }
     public void setMainController(PredictionsMainController mainController) {
         this.mainController = mainController;
     }
@@ -145,6 +150,7 @@ public class DetailsController {
         reset();
         getSimulationWorldDetailsProcedure();
     }
+
 
     @FXML
     void environmentListViewLineClicked(MouseEvent event) {
@@ -316,7 +322,7 @@ public class DetailsController {
     }
 
     private void startSimulationWorldListRefresher() {
-        this.simulationWorldListRefresher = new SimulationWorldListRefresher(this::updateSimulationWorldListViewUI);
+        this.simulationWorldListRefresher = new SimulationWorldListRefresher(simulationNodeInListViewIsSelected, this::updateSimulationWorldListViewUI);
         this.detailsTimer = new Timer();
         this.detailsTimer.schedule(simulationWorldListRefresher, SIMULATION_WORLD_LIST_REFRESH_RATE, SIMULATION_WORLD_LIST_REFRESH_RATE);
     }

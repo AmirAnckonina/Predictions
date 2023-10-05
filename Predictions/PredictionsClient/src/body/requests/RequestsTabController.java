@@ -7,6 +7,7 @@ import dto.worldBuilder.SimulationWorldNamesDto;
 import enums.TerminationType;
 import exception.PredictionsUIComponentException;
 import javafx.application.Platform;
+import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
@@ -64,8 +65,9 @@ public class RequestsTabController {
     private SimpleBooleanProperty secondsCheckBoxProperty;
     private SimpleBooleanProperty userRadioButtonProperty;
     private SimpleBooleanProperty ticksSecondsRadioButtonProperty;
+    private SimpleBooleanProperty simulationEntryInListViewIsSelected;
+    private SimpleBooleanProperty requestEntryInTableViewIsSelected;
     private PredictionsMainController mainController;
-    private SimulatorManager simulatorManager;
     private Stage primaryStage;
     private TimerTask avaSimListRefresher;
     private Timer simListTimer;
@@ -80,6 +82,8 @@ public class RequestsTabController {
         this.secondsCheckBoxProperty = new SimpleBooleanProperty(false);
         this.ticksSecondsRadioButtonProperty = new SimpleBooleanProperty(false);
         this.userRadioButtonProperty = new SimpleBooleanProperty(true);
+        this.simulationEntryInListViewIsSelected = new SimpleBooleanProperty(false);
+        this.requestEntryInTableViewIsSelected = new SimpleBooleanProperty(false);
 
     }
 
@@ -93,11 +97,21 @@ public class RequestsTabController {
         this.numOfExecTextField.textProperty().bindBidirectional(this.numOfExecPropertyAsString);
         this.ticksCheckBox.selectedProperty().bindBidirectional(this.ticksCheckBoxProperty);
         this.secondsCheckBox.selectedProperty().bindBidirectional(this.secondsCheckBoxProperty);
+        this.simulationEntryInListViewIsSelected.bindBidirectional(isListViewItemSelected());
+        //this.simulationEntryInListViewIsSelected.addListener();
+        this.requestEntryInTableViewIsSelected.bindBidirectional(isRequestEntryInTableViewSelected());
         this.sendRequestButton.setDisable(true);
         onUserRadioButtonClicked();
         initRequestsTableView();
     }
 
+    private SimpleBooleanProperty isRequestEntryInTableViewSelected() {
+        return new SimpleBooleanProperty(!this.requestsTableView.getSelectionModel().isEmpty());
+    }
+
+    private SimpleBooleanProperty isListViewItemSelected() {
+        return new SimpleBooleanProperty(!this.templatesListView.getSelectionModel().isEmpty());
+    }
     private void initRequestsTableView() {
         requestIdCol.setCellValueFactory(new PropertyValueFactory<>("requestGuid"));
         simulationTemplateCol.setCellValueFactory(new PropertyValueFactory<>("simulationWorldName"));
@@ -159,19 +173,22 @@ public class RequestsTabController {
 
     @FXML
     void simulationInListViewClicked() {
-        //String guid = this.templatesListView.getSelectionModel().getSelectedItem().getText();
+        // Impl
     }
+
 
     @FXML
     void onSendReqBtnClicked() {
 
-        NewSimulationRequestDto newSimulationRequestDto = buildNewSimulationRequestDto();
+       // NewSimulationRequestDto newSimulationRequestDto = buildNewSimulationRequestDto();
+        NewSimulationRequestDto newSimulationRequestDto = new NewSimulationRequestDto("FakeCustomerName", "FakeSimulationWorldName", 1, TerminationType.USER, null, null);
         sendNewSimulationRequestProcedure(newSimulationRequestDto);
 
     }
 
     private void sendNewSimulationRequestProcedure(NewSimulationRequestDto newSimulationRequestDto) {
-        String selectedSimulationWorldName = templatesListView.getSelectionModel().getSelectedItem();
+        //String selectedSimulationWorldName = templatesListView.getSelectionModel().getSelectedItem();
+        String selectedSimulationWorldName = "master" ;
         String finalUrl =
                 HttpUrl
                         .parse(POST_NEW_SIMULATION_REQUEST_ENDPOINT)
@@ -267,9 +284,6 @@ public class RequestsTabController {
         this.mainController = predictionsMainController;
     }
 
-    public void setSimulatorManager(SimulatorManager simulatorManager) {
-        this.simulatorManager = simulatorManager;
-    }
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -293,13 +307,13 @@ public class RequestsTabController {
     }
 
     private void startRequestsListRefresher() {
-        this.requestsTableRefresher = new SimulationRequestsListRefresher(this::updateRequestsTableUI);
+        this.requestsTableRefresher = new SimulationRequestsListRefresher(this.requestEntryInTableViewIsSelected, this::updateRequestsTableUI);
         this.requestsTableTimer = new Timer();
         this.requestsTableTimer.schedule(requestsTableRefresher, SIMULATION_REQUESTS_LIST_REFRESH_RATE, SIMULATION_REQUESTS_LIST_REFRESH_RATE);
     }
 
     private void startAvailableSimulationListRefresher() {
-        this.avaSimListRefresher = new SimulationWorldListRefresher(this::updateAvailableSimulationTemplatesListUI);
+        this.avaSimListRefresher = new SimulationWorldListRefresher(simulationEntryInListViewIsSelected, this::updateAvailableSimulationTemplatesListUI);
         this.simListTimer = new Timer();
         this.simListTimer.schedule(avaSimListRefresher, SIMULATION_WORLD_LIST_REFRESH_RATE, SIMULATION_WORLD_LIST_REFRESH_RATE);
     }
