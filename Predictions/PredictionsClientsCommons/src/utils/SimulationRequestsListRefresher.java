@@ -3,6 +3,7 @@ package utils;
 
 import com.google.gson.reflect.TypeToken;
 import dto.orderRequest.SimulationOrderRequestDetailsDto;
+import javafx.beans.property.SimpleBooleanProperty;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -20,9 +21,11 @@ import static utils.Constants.GSON_INSTANCE;
 
 public class SimulationRequestsListRefresher extends TimerTask {
     private final Consumer<List<SimulationOrderRequestDetailsDto>> simulationRequestsListConsumer;
+    private SimpleBooleanProperty requestEntryInTableViewIsSelected;
 
-    public SimulationRequestsListRefresher(Consumer<List<SimulationOrderRequestDetailsDto>> simulationRequestsListConsumer) {
+    public SimulationRequestsListRefresher(SimpleBooleanProperty requestEntryInTableViewIsSelected, Consumer<List<SimulationOrderRequestDetailsDto>> simulationRequestsListConsumer) {
         this.simulationRequestsListConsumer = simulationRequestsListConsumer;
+        this.requestEntryInTableViewIsSelected = requestEntryInTableViewIsSelected;
     }
 
     @Override
