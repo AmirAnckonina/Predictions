@@ -152,6 +152,8 @@ public class ManagementController {
 //        Platform.runLater(() -> {
 //            chatLineTextArea.clear();
 //        });
+        System.out.println("Something went wrong with the request getSimulationWorldDetailsProcedure()...:(\n" +
+                "Server does not respond");
     }
 
     private void updateThreadDetailsComponentUI(ThreadPullDetailsDto threadPullDetailsDto) {

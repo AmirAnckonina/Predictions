@@ -15,7 +15,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import main.PredictionsMainController;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -118,11 +117,11 @@ public class AllocationsController {
     }
 
     private void handleNoButtonAction(SimulationOrderRequestDetailsDto request) {
-        sendNewSimulationResponseProcedure(builSimulationRequestUpdateDto(request, SimulationRequestStatus.REJECTED));
+        sendUpdateSimulationRequestStatusProcedure(builSimulationRequestUpdateDto(request, SimulationRequestStatus.REJECTED));
     }
 
     private void handleYesButtonAction(SimulationOrderRequestDetailsDto request) {
-        sendNewSimulationResponseProcedure(builSimulationRequestUpdateDto(request, SimulationRequestStatus.APPROVED));
+        sendUpdateSimulationRequestStatusProcedure(builSimulationRequestUpdateDto(request, SimulationRequestStatus.APPROVED));
     }
 
     @FXML
@@ -130,8 +129,7 @@ public class AllocationsController {
         //String guid = this.templatesListView.getSelectionModel().getSelectedItem().getText();
     }
 
-    private void sendNewSimulationResponseProcedure(SimulationRequestUpdateDto newSimulationRequestDto) {
-        String selectedSimulationWorldName = templatesListView.getSelectionModel().getSelectedItem();
+    private void sendUpdateSimulationRequestStatusProcedure(SimulationRequestUpdateDto newSimulationRequestDto) {
         String finalUrl =
                 HttpUrl
                         .parse(POST_UPDATE_SIMULATION_REQUEST_ENDPOINT)
