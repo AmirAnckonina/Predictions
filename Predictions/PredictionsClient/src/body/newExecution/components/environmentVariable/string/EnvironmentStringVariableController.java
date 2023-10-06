@@ -9,6 +9,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+
+import java.util.Optional;
+
 public class EnvironmentStringVariableController extends KeyToStringData implements KeyValueProperty {
 
     private NewExecutionController newExecutionController;
@@ -77,5 +80,10 @@ public class EnvironmentStringVariableController extends KeyToStringData impleme
         this.checkboxProperty.set(true);
         onSetCheckbox();
         this.stringValueProperty.set((String) value);
+    }
+
+    @Override
+    public Optional<String> getValueAsString() {
+        return Optional.empty();
     }
 }

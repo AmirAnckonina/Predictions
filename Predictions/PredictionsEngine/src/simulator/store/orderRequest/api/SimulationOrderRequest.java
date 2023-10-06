@@ -11,13 +11,14 @@ public interface SimulationOrderRequest {
 
     String getSimulationWorldName();
 
-    Integer getRequestedNumOfExecutions();
-
-    Integer getNumOfExecutionsLeft();
+    Integer getNumOfExecutions();
 
     TerminationType getTerminationType();
 
     SimulationRequestStatus getSimulationRequestStatus();
 
     void setSimulationRequestStatus(SimulationRequestStatus status);
+
+    Integer getRunning();
+    Integer getDone();
 }

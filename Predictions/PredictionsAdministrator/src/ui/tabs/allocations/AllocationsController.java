@@ -75,7 +75,7 @@ public class AllocationsController {
     private void initRequestsTableView() {
         requestIdCol.setCellValueFactory(new PropertyValueFactory<>("requestGuid"));
         simulationTemplateCol.setCellValueFactory(new PropertyValueFactory<>("simulationWorldName"));
-        numOfExecCol.setCellValueFactory(new PropertyValueFactory<>("numOfExecutionLeft"));
+        numOfExecCol.setCellValueFactory(new PropertyValueFactory<>("numOfExecutions"));
         requestStatusCol.setCellValueFactory(new PropertyValueFactory<>("simulationRequestStatus"));
         runningCol.setCellValueFactory(new PropertyValueFactory<>("running"));
         doneCol.setCellValueFactory(new PropertyValueFactory<>("done"));
@@ -220,13 +220,13 @@ public class AllocationsController {
     }
 
     private void startRequestsListRefresher() {
-        this.requestsTableRefresher = new SimulationRequestsListRefresher(null, this::updateRequestsTableUI);
+        this.requestsTableRefresher = new SimulationRequestsListRefresher(this::updateRequestsTableUI);
         this.requestsTableTimer = new Timer();
         this.requestsTableTimer.schedule(requestsTableRefresher, SIMULATION_REQUESTS_LIST_REFRESH_RATE, SIMULATION_REQUESTS_LIST_REFRESH_RATE);
     }
 
     private void startAvailableSimulationListRefresher() {
-        this.avaSimListRefresher = new SimulationWorldListRefresher(new SimpleBooleanProperty(false), this::updateAvailableSimulationTemplatesListUI);
+        this.avaSimListRefresher = new SimulationWorldListRefresher(this::updateAvailableSimulationTemplatesListUI);
         this.simListTimer = new Timer();
         this.simListTimer.schedule(avaSimListRefresher, SIMULATION_WORLD_LIST_REFRESH_RATE, SIMULATION_WORLD_LIST_REFRESH_RATE);
     }

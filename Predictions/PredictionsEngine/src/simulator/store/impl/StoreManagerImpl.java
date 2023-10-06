@@ -30,13 +30,12 @@ public class StoreManagerImpl implements StoreManager {
         String username = newSimulationRequestDto.getCustomerUsername();
         String simulationWorldName = newSimulationRequestDto.getSimulationWorldName();
         Integer requestedNumOfExecutions = newSimulationRequestDto.getNumOfExecution();
-        Integer numOfExecutionsLeft = 0;
         TerminationType terminationType = newSimulationRequestDto.getTerminationType();
         SimulationRequestStatus simulationRequestStatus = SimulationRequestStatus.PENDING;
         List<SimulationDocument> simulationDocumentList = new ArrayList<>();
 
         SimulationOrderRequest simulationOrderRequest =
-                new SimulationOrderRequestImpl(requestGuid, username, simulationWorldName, requestedNumOfExecutions, numOfExecutionsLeft, terminationType, simulationRequestStatus, simulationDocumentList);
+                new SimulationOrderRequestImpl(requestGuid, username, simulationWorldName, requestedNumOfExecutions, terminationType, simulationRequestStatus, simulationDocumentList);
 
         this.simulationOrderRequestMap.put(requestGuid, simulationOrderRequest);
 
@@ -53,10 +52,17 @@ public class StoreManagerImpl implements StoreManager {
     public List<SimulationOrderRequestDetailsDto> getAllCurrentRequestsList() {
         List<SimulationOrderRequestDetailsDto> resList = new ArrayList<>();
 
-        simulationOrderRequestMap.forEach((guid, simulationOrderRequestDetailsDto) -> resList.add(new SimulationOrderRequestDetailsDto(
-                guid, simulationOrderRequestDetailsDto.getSimulationWorldName(), simulationOrderRequestDetailsDto.getNumOfExecutionsLeft(),
-                simulationOrderRequestDetailsDto.getTerminationType(), simulationOrderRequestDetailsDto.getSimulationRequestStatus(),
-                simulationOrderRequestDetailsDto.getNumOfExecutionsLeft(), simulationOrderRequestDetailsDto.getRequestedNumOfExecutions()
+        simulationOrderRequestMap.forEach(
+                (guid, simulationOrderRequest) ->
+                        resList.add(
+                                new SimulationOrderRequestDetailsDto(
+                                        simulationOrderRequest.getRequestGuid(),
+                                        simulationOrderRequest.getSimulationWorldName(),
+                                        simulationOrderRequest.getNumOfExecutions(),
+                                        simulationOrderRequest.getTerminationType(),
+                                        simulationOrderRequest.getSimulationRequestStatus(),
+                                        simulationOrderRequest.getRunning(),
+                                        simulationOrderRequest.getDone()
         )));
 
         return resList;

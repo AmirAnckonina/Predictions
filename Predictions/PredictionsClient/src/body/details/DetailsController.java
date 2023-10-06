@@ -15,6 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
@@ -58,16 +59,15 @@ public class DetailsController {
     @FXML private ListView<String> avaSimListView;
     @FXML private Label terminationDetailsLabel;
     @FXML private Button newRequestButton;
+    @FXML private ComboBox<String> avaSimComboBox;
 
     private ObservableList<simulationTitle> environmentListViewLeftLines = FXCollections.observableArrayList();
     private ObservableList<simulationTitle> entitiesListViewLeftLines = FXCollections.observableArrayList();
     private ObservableList<simulationTitle> rulesListViewLeftLines = FXCollections.observableArrayList();
     private ObservableList<SimulationDetail> listViewRightLines = FXCollections.observableArrayList();
-    private SimpleBooleanProperty simulationNodeInListViewIsSelected = new SimpleBooleanProperty(false);
 
     @FXML
     private void initialize() {
-        this.simulationNodeInListViewIsSelected.bind(new SimpleBooleanProperty(!this.avaSimListView.getSelectionModel().isEmpty()));
     }
     public void setMainController(PredictionsMainController mainController) {
         this.mainController = mainController;
@@ -147,8 +147,21 @@ public class DetailsController {
 
     @FXML
     void avaSimListViewClicked(MouseEvent event) {
+
+    }
+
+    @FXML
+    void avaSimEntryComboBoxClicked() {
         reset();
         getSimulationWorldDetailsProcedure();
+    }
+
+    @FXML
+    void onAvaSimComboBoxShowing() {
+        this.avaSimComboBox.getItems().clear();
+        ObservableList<String> items = FXCollections.observableArrayList();
+        this.avaSimListView.getItems().forEach(item -> items.add(item));
+        this.avaSimComboBox.setItems(items);
     }
 
 
@@ -270,7 +283,7 @@ public class DetailsController {
 
     public void getSimulationWorldDetailsProcedure() {
 
-    String selectedSimulationWorldName = avaSimListView.getSelectionModel().getSelectedItem();
+    String selectedSimulationWorldName = avaSimComboBox.getValue();
         String finalUrl =
                 HttpUrl
                         .parse(GET_SIMULATION_WORLD_DETAILS_ENDPOINT)
@@ -322,7 +335,7 @@ public class DetailsController {
     }
 
     private void startSimulationWorldListRefresher() {
-        this.simulationWorldListRefresher = new SimulationWorldListRefresher(simulationNodeInListViewIsSelected, this::updateSimulationWorldListViewUI);
+        this.simulationWorldListRefresher = new SimulationWorldListRefresher(this::updateSimulationWorldListViewUI);
         this.detailsTimer = new Timer();
         this.detailsTimer.schedule(simulationWorldListRefresher, SIMULATION_WORLD_LIST_REFRESH_RATE, SIMULATION_WORLD_LIST_REFRESH_RATE);
     }
