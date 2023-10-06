@@ -30,6 +30,9 @@ public class Constants {
     public final static String POST_NEW_SIMULATION_REQUEST_PARAM_KEY = "simulationRequestBody";
     //
     public final static String GET_SIMULATION_REQUESTS_LIST_ENDPOINT = FULL_SERVER_PATH + "/simulationRequests/simulationRequestsList";
+    public final static String GET_SIMULATION_DOCUMENT_INFO_ENDPOINT = FULL_SERVER_PATH + "/simulationInfo/simulationInfo";
+    public final static String GET_SIMULATION_GUID_LIST_ENDPOINT = FULL_SERVER_PATH + "/simulationInfo/simulationGuidList";
+    public final static String GET_SIMULATION_RESULT_ENDPOINT = FULL_SERVER_PATH + "/simulationInfo/simulationResult";
     //
 
     public final static String GET_ALL_ENV_PROPERTIES_ENDPOINT = FULL_SERVER_PATH + "/manualSetup/allEnvProperties";
