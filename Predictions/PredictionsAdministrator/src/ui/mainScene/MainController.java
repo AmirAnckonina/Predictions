@@ -34,7 +34,10 @@ public class MainController {
 
     @FXML
     void allocationsTabClicked() {
-        if(currentScreen == eCurrentScreen.ALLOCATIONS){ return; }
+        if(currentScreen == eCurrentScreen.ALLOCATIONS){
+            allocationsTabController.setInactive();
+            return;
+        }
         currentScreen = eCurrentScreen.ALLOCATIONS;
         System.out.println("allocationsTabClicked");
 

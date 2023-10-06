@@ -28,8 +28,12 @@ import ui.tabs.executionsHistory.detailsComponent.histogram.ExecutionHistogramCo
 import ui.tabs.executionsHistory.detailsComponent.histogram.byStatistic.ExecutionResultStatisticByPropertyController;
 import ui.mainScene.MainController;
 import simulator.mainManager.api.SimulatorManager;
+import utils.SimulationDocumentRefresher;
+import utils.SimulationGuidListRefresher;
+import utils.SimulationResultRefresher;
 
 import static ui.common.CommonResourcesPaths.*;
+import static utils.Constants.SIMULATION_REQUESTS_LIST_REFRESH_RATE;
 
 
 public class ExecutionsHistoryController {
@@ -57,6 +61,11 @@ public class ExecutionsHistoryController {
     private SimulatorManager simulatorManager;
 
     private String simulatorResultManager;
+    private SimulationDocumentRefresher simulationInfoListRefresher;
+    private SimulationGuidListRefresher simulationGuidListRefresher;
+    private SimulationResultRefresher simulationResultRefresher;
+    private Timer simulationInfoTableTimer;
+    private SimulationDocumentInfoDto currSimulationDocumentInfoDto;
 
     @FXML
     public void initialize() {
@@ -66,6 +75,7 @@ public class ExecutionsHistoryController {
         simulationStatisticsRadioButton.setToggleGroup(toggleGroup);
         entityGraphPopulationRadioButton.setToggleGroup(toggleGroup);
         resultByEntity.setToggleGroup(toggleGroup);
+        startSimulationGuidListRefresher();
     }
 
     public ExecutionsHistoryController() {
@@ -131,26 +141,27 @@ public class ExecutionsHistoryController {
 
         try {
             String guid = this.executionListView.getSelectionModel().getSelectedItem().getText();
-            SimulationDocumentInfoDto simulationDocumentInfoDto = this.simulatorManager.getLatestSimulationDocumentInfo(guid);
-
-            updateSimulationResultComponent(simulationDocumentInfoDto); //info component
-            startUIPollingThread();
-
-            if(simulationDocumentInfoDto.getSimulationStatus() == SimulationExecutionStatus.STOPPED||
-                    simulationDocumentInfoDto.getSimulationStatus() == SimulationExecutionStatus.COMPLETED) {
-                if (resultByEntity.isSelected()) {
-                    List<String> simulationEntities = new ArrayList<>();
-                    simulationDocumentInfoDto.getCurrentEntityPopulationMap().forEach(
-                            (entityName, numOfEntities) ->simulationEntities.add(entityName + ": " + numOfEntities));
-                    createHistogramByEntityComponent(simulationEntities);
-                } else {
-                    if(entityStatisticsRadioButton.isSelected()) {
-                        createHistogramByPropertyComponent(simulatorManager.getAllEntities(""));
-                    }
-                    else if(simulationStatisticsRadioButton.isSelected()) {
-                        createStatisticByPropertyComponent(simulatorManager.getAllEntities(""));
-                    } else if (entityGraphPopulationRadioButton.isSelected()) {
-                        createEntityPopulationGraphComponent();
+            startSimulationDocumentRefresher();
+//            SimulationDocumentInfoDto simulationDocumentInfoDto = this.simulatorManager.getLatestSimulationDocumentInfo(guid);
+            startSimulationResultRefresher();
+//            updateSimulationResultComponent(simulationDocumentInfoDto); //info component
+//            startUIPollingThread();
+            synchronized (this) {
+                if (currSimulationDocumentInfoDto.getSimulationStatus() == SimulationExecutionStatus.STOPPED ||
+                        currSimulationDocumentInfoDto.getSimulationStatus() == SimulationExecutionStatus.COMPLETED) {
+                    if (resultByEntity.isSelected()) {
+                        List<String> simulationEntities = new ArrayList<>();
+                        currSimulationDocumentInfoDto.getCurrentEntityPopulationMap().forEach(
+                                (entityName, numOfEntities) -> simulationEntities.add(entityName + ": " + numOfEntities));
+                        createHistogramByEntityComponent(simulationEntities);
+                    } else {
+                        if (entityStatisticsRadioButton.isSelected()) {
+                            createHistogramByPropertyComponent(simulatorManager.getAllEntities(""));
+                        } else if (simulationStatisticsRadioButton.isSelected()) {
+                            createStatisticByPropertyComponent(simulatorManager.getAllEntities(""));
+                        } else if (entityGraphPopulationRadioButton.isSelected()) {
+                            createEntityPopulationGraphComponent();
+                        }
                     }
                 }
             }
@@ -183,6 +194,32 @@ public class ExecutionsHistoryController {
                 simulationDocumentInfoDto.getInitialEntityPopulationMap());
     }
 
+    private void updateSimulationList(List<String> simulationList){
+        executionListView.getItems().clear();
+        simulationList.forEach(simulationGuid -> executionListView.getItems().add(new Label(simulationGuid)));
+    }
+
+    private void startSimulationDocumentRefresher() {
+        this.simulationInfoListRefresher = new SimulationDocumentRefresher(this::updateSimulationInfoUI,
+                executionListView.getSelectionModel().getSelectedItem().toString());
+        this.simulationInfoTableTimer = new Timer();
+        this.simulationInfoTableTimer.schedule(simulationInfoListRefresher, SIMULATION_REQUESTS_LIST_REFRESH_RATE,
+                SIMULATION_REQUESTS_LIST_REFRESH_RATE);
+    }
+
+    private void startSimulationGuidListRefresher() {
+        this.simulationGuidListRefresher = new SimulationGuidListRefresher(this::updateSimulationList);
+        this.simulationInfoTableTimer = new Timer();
+        this.simulationInfoTableTimer.schedule(simulationGuidListRefresher, SIMULATION_REQUESTS_LIST_REFRESH_RATE, SIMULATION_REQUESTS_LIST_REFRESH_RATE);
+    }
+
+    private void startSimulationResultRefresher() {
+        this.simulationResultRefresher = new SimulationResultRefresher(this::updateSimulationResultComponent,
+                executionListView.getSelectionModel().getSelectedItem().toString());
+        this.simulationInfoTableTimer = new Timer();
+        this.simulationInfoTableTimer.schedule(simulationResultRefresher, SIMULATION_REQUESTS_LIST_REFRESH_RATE, SIMULATION_REQUESTS_LIST_REFRESH_RATE);
+    }
+
     private void updateSimulationResultComponent(SimulationDocumentInfoDto simulationDocumentInfoDto) {
         detailsResultController.setValues(simulationDocumentInfoDto.getSimulationGuid(),
                 (new Integer(simulationDocumentInfoDto.getTickNo() + 1)).toString(),
@@ -190,6 +227,9 @@ public class ExecutionsHistoryController {
                 simulationDocumentInfoDto.getSimulationStatus().toString(),
                 simulationDocumentInfoDto.getCurrentEntityPopulationMap(),
                 simulationDocumentInfoDto.getInitialEntityPopulationMap());
+        synchronized (this) {
+            currSimulationDocumentInfoDto = simulationDocumentInfoDto;
+        }
     }
 
     private void createStatisticByPropertyComponent(List<String> entitiesList){

@@ -8,6 +8,7 @@ import simulator.execution.instance.world.api.WorldInstance;
 import simulator.information.simulationDocument.api.SimulationDocument;
 import simulator.result.api.SimulationResult;
 
+import java.util.List;
 import java.util.Map;
 
 public interface InformationManager {
@@ -19,4 +20,5 @@ public interface InformationManager {
     SimulationsStatusesOverviewDto collectAllSimulationsStatusesDto();
     SimulationResult getSimulationResultByGuid(String guid);
     SimulationManualParamsDto getSimulationManualParamsByGuid(String simulationGuid);
+    List<String> getAllSimulationsGuid();
 }
