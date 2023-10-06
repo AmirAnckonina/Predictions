@@ -11,7 +11,9 @@ import simulator.information.manager.api.InformationManager;
 import simulator.mainManager.api.SimulatorManager;
 import simulator.manualSetup.manager.api.ManualSimulationSetupManager;
 import simulator.store.api.StoreManager;
+import simulator.usersManager.api.UserManager;
 
+import javax.jws.soap.SOAPBinding;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,6 +48,10 @@ public class PredictionsServletUtils {
 
     public static StoreManager getStoreManager(ServletContext servletContext) {
         return (StoreManager) servletContext.getAttribute(Constants.STORE_MANAGER_ATTRIBUTE_NAME);
+    }
+
+    public static UserManager getUserManager(ServletContext servletContext){
+        return (UserManager) servletContext.getAttribute(Constants.USER_MANAGER_ATTRIBUTE_NAME);
     }
 
 

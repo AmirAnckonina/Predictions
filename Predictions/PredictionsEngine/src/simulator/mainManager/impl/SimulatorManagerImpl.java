@@ -22,6 +22,8 @@ import simulator.mainManager.api.SimulatorManager;
 import simulator.runner.utils.exceptions.SimulatorRunnerException;
 import simulator.store.api.StoreManager;
 import simulator.store.impl.StoreManagerImpl;
+import simulator.usersManager.api.UserManager;
+import simulator.usersManager.impl.UserManagerImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +38,7 @@ public class SimulatorManagerImpl implements SimulatorManager {
     private ExecutionManager executionManager;
     private InformationManager infoManager;
     private StoreManager storeManager;
+    private UserManager userManager;
 
     public SimulatorManagerImpl() {
         this.worldBuilderManager = new WorldBuilderManagerImpl();
@@ -44,15 +47,19 @@ public class SimulatorManagerImpl implements SimulatorManager {
         this.establishmentManager = new EstablishmentManagerImpl();
         this.manualSetupManager = new ManualSetupManagerImpl();
         this.storeManager = new StoreManagerImpl();
+        this.userManager = new UserManagerImpl();
     }
 
-    public SimulatorManagerImpl(EstablishmentManager establishmentManager, ManualSimulationSetupManager manualSetupManager, WorldBuilderManager worldBuilderManager, ExecutionManager executionManager, InformationManager infoManager, StoreManager storeManager) {
+    public SimulatorManagerImpl(EstablishmentManager establishmentManager, ManualSimulationSetupManager manualSetupManager,
+                                WorldBuilderManager worldBuilderManager, ExecutionManager executionManager,
+                                InformationManager infoManager, StoreManager storeManager, UserManager userManager) {
         this.worldBuilderManager = worldBuilderManager;
         this.executionManager = executionManager;
         this.infoManager = infoManager;
         this.establishmentManager = establishmentManager;
         this.manualSetupManager = manualSetupManager;
         this.storeManager = storeManager;
+        this.userManager = userManager;
     }
 
     @Override

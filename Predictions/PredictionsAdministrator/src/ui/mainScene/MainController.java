@@ -30,6 +30,8 @@ public class MainController {
         {
             e.printStackTrace(System.out);
         }
+
+        logoutProcess();
     }
 
     @FXML
@@ -94,5 +96,13 @@ public class MainController {
         }catch (Exception e){
 
         }
+    }
+
+    public void loginProcess() {
+        mainTabPane.setDisable(false);
+    }
+
+    public void logoutProcess() {
+        mainTabPane.setDisable(true);
     }
 }

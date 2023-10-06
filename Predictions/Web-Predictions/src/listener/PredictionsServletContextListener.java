@@ -19,6 +19,8 @@ import simulator.manualSetup.manager.api.ManualSimulationSetupManager;
 import simulator.manualSetup.manager.impl.ManualSetupManagerImpl;
 import simulator.store.api.StoreManager;
 import simulator.store.impl.StoreManagerImpl;
+import simulator.usersManager.api.UserManager;
+import simulator.usersManager.impl.UserManagerImpl;
 
 @WebListener
 public class PredictionsServletContextListener implements ServletContextListener {
@@ -33,6 +35,7 @@ public class PredictionsServletContextListener implements ServletContextListener
         EstablishmentManager establishmentManager = new EstablishmentManagerImpl();
         ManualSimulationSetupManager manualSimulationSetupManager = new ManualSetupManagerImpl();
         StoreManager storeManager = new StoreManagerImpl();
+        UserManager userManager = new UserManagerImpl();
         SimulatorManager simulatorManager =
                 new SimulatorManagerImpl(
                         establishmentManager,
@@ -40,7 +43,8 @@ public class PredictionsServletContextListener implements ServletContextListener
                         worldBuilderManager,
                         executionManager,
                         informationManager,
-                        storeManager);
+                        storeManager,
+                        userManager);
 
         predictionsServletContext.setAttribute(Constants.WORLD_BUILDER_MANAGER_ATTRIBUTE_NAME, worldBuilderManager);
         predictionsServletContext.setAttribute(Constants.INFO_MANAGER_ATTRIBUTE_NAME, informationManager);
@@ -48,6 +52,7 @@ public class PredictionsServletContextListener implements ServletContextListener
         predictionsServletContext.setAttribute(Constants.MANUAL_SETUP_MANAGER_ATTRIBUTE_NAME, manualSimulationSetupManager);
         predictionsServletContext.setAttribute(Constants.EXECUTION_MANAGER_ATTRIBUTE_NAME, executionManager);
         predictionsServletContext.setAttribute(Constants.STORE_MANAGER_ATTRIBUTE_NAME, storeManager);
+        predictionsServletContext.setAttribute(Constants.USER_MANAGER_ATTRIBUTE_NAME, userManager);
         predictionsServletContext.setAttribute(Constants.SIMULATOR_MANAGER_ATTRIBUTE_NAME, simulatorManager);
     }
 
