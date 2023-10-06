@@ -40,6 +40,7 @@ public class Constants {
     public final static String GET_MAX_POPULATION_ENDPOINT = FULL_SERVER_PATH + "/manualSetup/maxPopulation";
     public final static String GET_LOGIN_USER_ENDPOINT = FULL_SERVER_PATH + "/loginOut/loginUser";
     public final static String GET_LOGIN_ADMIN_ENDPOINT = FULL_SERVER_PATH + "/loginOut/loginAdmin";
+    public final static String GET_STAY_ALIVE_UPDATE_ENDPOINT = FULL_SERVER_PATH + "/loginOut/stayAlive";
 
 
 

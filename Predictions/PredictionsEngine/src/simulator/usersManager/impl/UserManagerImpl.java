@@ -38,7 +38,7 @@ public class UserManagerImpl implements UserManager {
     public LoginResponseDto loginAdminRequest(String adminName) {
         LoginResponseDto responseDto;
         Long time = adminNameMap.get(adminName);
-        if(time != null && adminNameMap.keySet().size() > 0 && UPDATE_REQUIRED_TIME < System.currentTimeMillis() - time){
+        if((time != null && UPDATE_REQUIRED_TIME < System.currentTimeMillis() - time) || adminNameMap.keySet().size() > 0){
             responseDto = new LoginResponseDto(adminName, false, "Admin already logged-in");
         }else {
             adminNameMap.put(adminName, System.currentTimeMillis());
@@ -62,6 +62,7 @@ public class UserManagerImpl implements UserManager {
         } else if (adminNameMap.get(userName) != null) {
             adminNameMap.put(userName, System.currentTimeMillis());
         }
+        System.out.println(adminNameMap.toString());
     }
 
     @Override

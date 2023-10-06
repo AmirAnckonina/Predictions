@@ -17,10 +17,13 @@
          </columnConstraints>
          <rowConstraints>
             <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="25.0" valignment="CENTER" vgrow="NEVER" />
+             <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" valignment="CENTER" vgrow="NEVER" />
             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" valignment="CENTER" vgrow="NEVER" />
          </rowConstraints>
          <children>
-            <TabPane fx:id="mainTabPane" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="1">
+            <fx:include fx:id="logIn" source="login/LoginComponent.fxml" GridPane.rowIndex="1" />
+            <TabPane fx:id="mainTabPane" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="2">
               <tabs>
                 <Tab onSelectionChanged="#managementTabClicked" text="Management">
                      <content>

@@ -26,7 +26,7 @@ import simulator.usersManager.impl.UserManagerImpl;
 public class PredictionsServletContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        System.out.println("My web app is being initialized ... :(");
+        System.out.println("My web app is being initialized ... :)");
         ServletContext predictionsServletContext = sce.getServletContext();
 
         WorldBuilderManager worldBuilderManager = new WorldBuilderManagerImpl();

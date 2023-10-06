@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
+import ui.mainScene.login.LoginController;
 import ui.tabs.allocations.AllocationsController;
 import ui.tabs.executionsHistory.ExecutionsHistoryController;
 import ui.tabs.management.ManagementController;
@@ -18,6 +19,7 @@ public class MainController {
     @FXML private ManagementController managementTabController;
     @FXML private ExecutionsHistoryController executionHistoryTabController;
     @FXML private AllocationsController allocationsTabController;
+    @FXML private LoginController logInController;
     @FXML private TabPane mainTabPane;
 
     @FXML
@@ -26,6 +28,8 @@ public class MainController {
             managementTabController.setMainController(this);
             executionHistoryTabController.setMainController(this);
             allocationsTabController.setMainController(this);
+            logInController.setMainController(this);
+
         }catch (Exception e)
         {
             e.printStackTrace(System.out);

@@ -1,6 +1,7 @@
 package ui.mainScene.login;
 
 import dto.loginOut.LoginResponseDto;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -8,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -18,8 +20,10 @@ import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
 import ui.mainScene.MainController;
 import utils.HttpClientUtil;
+import utils.StayAliveRefresher;
 
 import java.io.IOException;
+import java.util.Timer;
 
 import static utils.Constants.*;
 
@@ -27,13 +31,26 @@ public class LoginController {
 
     private MainController mainController;
 
-    boolean loggedInFlag = false;
+    private boolean loggedInFlag = false;
+    private SimpleStringProperty loginOutBtnText = new SimpleStringProperty();
+    private SimpleStringProperty userNameLblText = new SimpleStringProperty();
+
+    private StayAliveRefresher stayAliveRefresher;
+    private Timer stayAliveTimer;
 
     @FXML
     private Button loginOutBtn;
 
     @FXML
     private Label userNameLbl;
+
+    @FXML
+    public void initialize() {
+        userNameLbl.textProperty().bind(userNameLblText);
+        loginOutBtn.textProperty().bind(loginOutBtnText);
+        loginOutBtnText.set("Login");
+        userNameLblText.set("Welcome");
+    }
 
     @FXML
     void loginOutClicked(ActionEvent event) {
@@ -54,15 +71,15 @@ public class LoginController {
         popupStage.initModality(Modality.APPLICATION_MODAL);
         popupStage.setTitle("Login");
 
-// Create a VBox for the popup content
-        VBox popupLayout = new VBox(10);
-        popupLayout.setPadding(new Insets(10));
+        // Create an HBox for the button layout
+        HBox buttonLayout = new HBox(10);
+        buttonLayout.setPadding(new Insets(10));
 
-// Create a text field for entering the username
+        // Create a text field for entering the username
         TextField usernameTextField = new TextField();
         usernameTextField.setPromptText("Enter username");
 
-// Create a login button
+        // Create a login button
         Button loginButton = new Button("Login");
         loginButton.setOnAction(e -> {
             String userName = usernameTextField.getText();
@@ -72,26 +89,46 @@ public class LoginController {
             popupStage.close(); // Close the popup window
         });
 
-// Create a cancel button
+        // Create a cancel button
         Button cancelButton = new Button("Cancel");
         cancelButton.setOnAction(e -> {
             popupStage.close(); // Close the popup window
         });
 
-// Add the text field, login button, and cancel button to the popup layout
-        popupLayout.getChildren().addAll(usernameTextField, loginButton, cancelButton);
+        // Set the same width for both buttons
+        loginButton.setMinWidth(80);
+        cancelButton.setMinWidth(80);
 
-        Scene popupScene = new Scene(popupLayout, 400, 200);
+        // Add the buttons to the button layout
+        buttonLayout.getChildren().addAll(loginButton, cancelButton);
+
+        // Create a VBox for the text field and button layout
+        VBox popupLayout = new VBox(10);
+        popupLayout.setPadding(new Insets(10));
+        popupLayout.getChildren().addAll(usernameTextField, buttonLayout);
+
+        Scene popupScene = new Scene(popupLayout, 400, 100);
         popupStage.setScene(popupScene);
         popupStage.showAndWait();
-
     }
 
     private void logoutRequest(){
-        loginOutBtn.setText("Login");
-        userNameLbl.setText("Welcome");
+        loginOutBtnText.set("Login");
+        userNameLblText.set("Welcome");
         mainController.logoutProcess();
         loggedInFlag = false;
+        stayAliveRefresher.cancel();
+    }
+
+    private void updateLoginOutLbl(String userName){
+        loginOutBtnText.set("Logout");
+        userNameLblText.set(userName);
+    }
+
+    private void startStayAliveRefresher(String userName){
+        stayAliveRefresher = new StayAliveRefresher(userName, this::updateLoginOutLbl);
+        this.stayAliveTimer = new Timer();
+        this.stayAliveTimer.schedule(stayAliveRefresher, SIMULATION_WORLD_LIST_REFRESH_RATE, SIMULATION_WORLD_LIST_REFRESH_RATE);
     }
 
     private void sendLoginRequest(String userName) {
@@ -105,15 +142,14 @@ public class LoginController {
 
         HttpClientUtil.runAsync(finalUrl, new Callback() {
 
+
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String responseBody = response.body().string();
                     LoginResponseDto loginResponseDto = GSON_INSTANCE.fromJson(responseBody, LoginResponseDto.class);
                     if(loginResponseDto.isAnswer()){
-                        userNameLbl.setText(userName);
-                        //startStayAlive
-                        loginOutBtn.setText("Logout");
+                        startStayAliveRefresher(userName);
                         mainController.loginProcess();
                         loggedInFlag = true;
                     }else {
