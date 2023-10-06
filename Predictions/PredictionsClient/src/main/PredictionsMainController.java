@@ -115,7 +115,7 @@ public class PredictionsMainController {
 
     public void moveFromDetailsToRequests() {
         this.mainTabPane.getSelectionModel().select(1);
-        resultsTabClicked();
+        requestsTabClicked();
     }
 
     public void loadNewExecutionTab(String simulationWorldNameToLoad) {

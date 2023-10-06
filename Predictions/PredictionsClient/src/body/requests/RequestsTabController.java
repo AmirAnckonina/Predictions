@@ -1,6 +1,7 @@
 package body.requests;
 
 import com.google.gson.reflect.TypeToken;
+import dto.PredictionsEngineResponse;
 import dto.orderRequest.NewSimulationRequestDto;
 import dto.orderRequest.SimulationOrderRequestDetailsDto;
 import dto.worldBuilder.SimulationWorldNamesDto;
@@ -10,6 +11,7 @@ import javafx.application.Platform;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -49,6 +51,7 @@ public class RequestsTabController {
     @FXML private ListView<String> templatesListView;
     @FXML private Button sendRequestButton;
     @FXML private Button newExecutionButton;
+    @FXML private ComboBox<String> simulationWorldCombobox;
     @FXML private TableView<SimulationOrderRequestDetailsDto> requestsTableView;
     @FXML private TableColumn<SimulationOrderRequestDetailsDto, String> requestIdCol;
     @FXML private TableColumn<SimulationOrderRequestDetailsDto, String> simulationTemplateCol;
@@ -57,7 +60,9 @@ public class RequestsTabController {
     @FXML private TableColumn<SimulationOrderRequestDetailsDto, String> requestStatusCol;
     @FXML private TableColumn<SimulationOrderRequestDetailsDto, Integer> runningCol;
     @FXML private TableColumn<SimulationOrderRequestDetailsDto, Integer> doneCol;
+    @FXML private TableColumn<SimulationOrderRequestDetailsDto, Void> newExecCol;
 
+    private SimpleStringProperty simulationWorldNameProperty;
     private SimpleStringProperty numOfExecPropertyAsString;
     private SimpleStringProperty ticksPropertyAsString;
     private SimpleStringProperty secondsPropertyAsString;
@@ -65,8 +70,6 @@ public class RequestsTabController {
     private SimpleBooleanProperty secondsCheckBoxProperty;
     private SimpleBooleanProperty userRadioButtonProperty;
     private SimpleBooleanProperty ticksSecondsRadioButtonProperty;
-    private SimpleBooleanProperty simulationEntryInListViewIsSelected;
-    private SimpleBooleanProperty requestEntryInTableViewIsSelected;
     private PredictionsMainController mainController;
     private Stage primaryStage;
     private TimerTask avaSimListRefresher;
@@ -81,9 +84,8 @@ public class RequestsTabController {
         this.ticksCheckBoxProperty = new SimpleBooleanProperty(false);
         this.secondsCheckBoxProperty = new SimpleBooleanProperty(false);
         this.ticksSecondsRadioButtonProperty = new SimpleBooleanProperty(false);
-        this.userRadioButtonProperty = new SimpleBooleanProperty(true);
-        this.simulationEntryInListViewIsSelected = new SimpleBooleanProperty(false);
-        this.requestEntryInTableViewIsSelected = new SimpleBooleanProperty(false);
+        this.userRadioButtonProperty = new SimpleBooleanProperty();
+        this.simulationWorldNameProperty = new SimpleStringProperty();
 
     }
 
@@ -97,9 +99,9 @@ public class RequestsTabController {
         this.numOfExecTextField.textProperty().bindBidirectional(this.numOfExecPropertyAsString);
         this.ticksCheckBox.selectedProperty().bindBidirectional(this.ticksCheckBoxProperty);
         this.secondsCheckBox.selectedProperty().bindBidirectional(this.secondsCheckBoxProperty);
-        this.simulationEntryInListViewIsSelected.bindBidirectional(isListViewItemSelected());
-        //this.simulationEntryInListViewIsSelected.addListener();
-        this.requestEntryInTableViewIsSelected.bindBidirectional(isRequestEntryInTableViewSelected());
+        this.userRadioButton.selectedProperty().bindBidirectional(this.userRadioButtonProperty);
+        this.ticksSecondsRadioButton.selectedProperty().bindBidirectional(this.ticksSecondsRadioButtonProperty);
+        this.simulationWorldNameProperty.bind(this.simulationWorldCombobox.valueProperty());
         this.sendRequestButton.setDisable(true);
         onUserRadioButtonClicked();
         initRequestsTableView();
@@ -115,12 +117,43 @@ public class RequestsTabController {
     private void initRequestsTableView() {
         requestIdCol.setCellValueFactory(new PropertyValueFactory<>("requestGuid"));
         simulationTemplateCol.setCellValueFactory(new PropertyValueFactory<>("simulationWorldName"));
-        numOfExecCol.setCellValueFactory(new PropertyValueFactory<>("numOfExecutionLeft"));
+        numOfExecCol.setCellValueFactory(new PropertyValueFactory<>("numOfExecutions"));
         terminationCol.setCellValueFactory(new PropertyValueFactory<>("terminationType"));
         requestStatusCol.setCellValueFactory(new PropertyValueFactory<>("simulationRequestStatus"));
         runningCol.setCellValueFactory(new PropertyValueFactory<>("running"));
         doneCol.setCellValueFactory(new PropertyValueFactory<>("done"));
+        newExecCol.setCellFactory(param -> new TableCell<SimulationOrderRequestDetailsDto, Void>() {
+            private final Button newExecutionButton = new Button("New Execution");
+
+            {
+                newExecutionButton.setOnAction(event -> {
+                    try {
+                        String requestGuid = getTableView().getItems().get(getIndex()).getRequestGuid();
+                        newExecutionProcedure(requestGuid);
+                    } catch (Exception e) {
+                        e.printStackTrace(System.out);
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                    setText(null);
+
+                } else {
+                    setGraphic(newExecutionButton);
+                    setText(null);
+                }
+            }
+        });
         requestsTableView.setPlaceholder(new Label("No requests to display"));
+    }
+
+    private void newExecutionProcedure(String requestGuid) {
+       throw new PredictionsUIComponentException("Not Impl newExecutionProc under RequestTabContoller");
     }
 
     @FXML
@@ -136,16 +169,6 @@ public class RequestsTabController {
     }
 
 
-    @FXML
-    void onNewExecutionButtonClicked() {
-        try {
-
-            String simulationWorldToLoad = this.requestsTableView.getSelectionModel().getSelectedItem().getSimulationWorldName();
-            this.mainController.loadNewExecutionTab(simulationWorldToLoad);
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
-        }
-    }
 
     @FXML
     void onTicksCheckBoxCheckedChanged() {
@@ -176,15 +199,30 @@ public class RequestsTabController {
         // Impl
     }
 
+    @FXML
+    void simWrldEntryComboBoxClicked() {
+
+    }
+
+    @FXML
+    void onSimWrldComboBoxShowing() {
+        this.simulationWorldCombobox.getItems().clear();
+        ObservableList<String> items = FXCollections.observableArrayList();
+        this.templatesListView.getItems().forEach(item -> items.add(item));
+        this.simulationWorldCombobox.setItems(items);
+    }
+
 
     @FXML
     void onSendReqBtnClicked() {
 
-       // NewSimulationRequestDto newSimulationRequestDto = buildNewSimulationRequestDto();
-        NewSimulationRequestDto newSimulationRequestDto = new NewSimulationRequestDto("FakeCustomerName", "FakeSimulationWorldName", 1, TerminationType.USER, null, null);
+        NewSimulationRequestDto newSimulationRequestDto = buildNewSimulationRequestDto();
+        //NewSimulationRequestDto newSimulationRequestDto = new NewSimulationRequestDto("FakeCustomerName", "FakeSimulationWorldName", 1, TerminationType.USER, null, null);
         sendNewSimulationRequestProcedure(newSimulationRequestDto);
 
     }
+
+
 
     private void sendNewSimulationRequestProcedure(NewSimulationRequestDto newSimulationRequestDto) {
         //String selectedSimulationWorldName = templatesListView.getSelectionModel().getSelectedItem();
@@ -203,9 +241,7 @@ public class RequestsTabController {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String responseBody = response.body().string();
-                    Type requestDetailsListType = new TypeToken<ArrayList<SimulationOrderRequestDetailsDto>>(){}.getType();
-                    ArrayList<SimulationOrderRequestDetailsDto> simulationOrderRequestDetailsDtoList = GSON_INSTANCE.fromJson(responseBody, requestDetailsListType);
-                    updateRequestsTableUI(simulationOrderRequestDetailsDtoList);
+                    PredictionsEngineResponse predEngResp = GSON_INSTANCE.fromJson(responseBody, PredictionsEngineResponse.class);
 
                 } else {
                     System.out.println("error code = " + response.code() + ". Something went wrong with the request getSimulationWorldDetailsProcedure()...:(");
@@ -231,7 +267,7 @@ public class RequestsTabController {
     private NewSimulationRequestDto buildNewSimulationRequestDto() {
 
         try {
-            String simulationWorldName = this.templatesListView.getSelectionModel().getSelectedItem();
+            String simulationWorldName = this.simulationWorldCombobox.getValue();
             Integer numOfExecution = Integer.parseInt(this.numOfExecPropertyAsString.get());
             TerminationType terminationType;
             Integer ticks = null;
@@ -276,8 +312,6 @@ public class RequestsTabController {
     private void enableTicksSecondsElements() {
         this.ticksCheckBox.setDisable(false);
         this.secondsCheckBox.setDisable(false);
-        this.ticksTextField.setDisable(false);
-        this.secondsTextField.setDisable(false);
     }
 
     public void setMainController(PredictionsMainController predictionsMainController) {
@@ -307,13 +341,13 @@ public class RequestsTabController {
     }
 
     private void startRequestsListRefresher() {
-        this.requestsTableRefresher = new SimulationRequestsListRefresher(this.requestEntryInTableViewIsSelected, this::updateRequestsTableUI);
+        this.requestsTableRefresher = new SimulationRequestsListRefresher(this::updateRequestsTableUI);
         this.requestsTableTimer = new Timer();
         this.requestsTableTimer.schedule(requestsTableRefresher, SIMULATION_REQUESTS_LIST_REFRESH_RATE, SIMULATION_REQUESTS_LIST_REFRESH_RATE);
     }
 
     private void startAvailableSimulationListRefresher() {
-        this.avaSimListRefresher = new SimulationWorldListRefresher(simulationEntryInListViewIsSelected, this::updateAvailableSimulationTemplatesListUI);
+        this.avaSimListRefresher = new SimulationWorldListRefresher(this::updateAvailableSimulationTemplatesListUI);
         this.simListTimer = new Timer();
         this.simListTimer.schedule(avaSimListRefresher, SIMULATION_WORLD_LIST_REFRESH_RATE, SIMULATION_WORLD_LIST_REFRESH_RATE);
     }

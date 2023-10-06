@@ -17,18 +17,15 @@ import static utils.Constants.GET_SIMULATION_WORLD_NAMES_LIST_ENDPOINT;
 public class SimulationWorldListRefresher extends TimerTask {
 
     private final Consumer<SimulationWorldNamesDto> simulationWorldNamesDtoConsumer;
-    private final SimpleBooleanProperty nodeInListViewIsSelected;
 
-    public SimulationWorldListRefresher(SimpleBooleanProperty simulationNodeInListViewIsSelected, Consumer<SimulationWorldNamesDto> simulationWorldNamesDtoConsumer) {
-       this.nodeInListViewIsSelected = simulationNodeInListViewIsSelected;
+
+    public SimulationWorldListRefresher(Consumer<SimulationWorldNamesDto> simulationWorldNamesDtoConsumer) {
+
         this.simulationWorldNamesDtoConsumer = simulationWorldNamesDtoConsumer;
     }
 
     @Override
     public void run() {
-        if (nodeInListViewIsSelected.get()) {
-            return;
-        }
 
         HttpClientUtil.runAsync(GET_SIMULATION_WORLD_NAMES_LIST_ENDPOINT, new Callback() {
             @Override

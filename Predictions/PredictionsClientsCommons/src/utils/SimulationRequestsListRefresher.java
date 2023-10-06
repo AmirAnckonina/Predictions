@@ -21,11 +21,10 @@ import static utils.Constants.GSON_INSTANCE;
 
 public class SimulationRequestsListRefresher extends TimerTask {
     private final Consumer<List<SimulationOrderRequestDetailsDto>> simulationRequestsListConsumer;
-    private SimpleBooleanProperty requestEntryInTableViewIsSelected;
 
-    public SimulationRequestsListRefresher(SimpleBooleanProperty requestEntryInTableViewIsSelected, Consumer<List<SimulationOrderRequestDetailsDto>> simulationRequestsListConsumer) {
+
+    public SimulationRequestsListRefresher(Consumer<List<SimulationOrderRequestDetailsDto>> simulationRequestsListConsumer) {
         this.simulationRequestsListConsumer = simulationRequestsListConsumer;
-        this.requestEntryInTableViewIsSelected = requestEntryInTableViewIsSelected;
     }
 
     @Override
