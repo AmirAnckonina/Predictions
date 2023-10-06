@@ -81,20 +81,20 @@ public class AllocationsController {
         doneCol.setCellValueFactory(new PropertyValueFactory<>("done"));
         approvementCol.setCellFactory(column -> new TableCell<SimulationOrderRequestDetailsDto, Void>() {
             private final HBox buttonBox = new HBox();
-            private final Button yesBtn = new Button("Yes");
-            private final Button noBtn = new Button("No");
+            private final Button yesBtn = new Button("Accept");
+            private final Button noBtn = new Button("Decline");
 
             {
-                // Define actions for Button 1
+                // Define actions for accept button
                 yesBtn.setOnAction(event -> {
                     SimulationOrderRequestDetailsDto request = getTableView().getItems().get(getIndex());
-                    handleYesButtonAction(request); // Call your method with the request
+                    handleYesButtonAction(request, yesBtn, noBtn);
                 });
 
-                // Define actions for Button 2
+                // Define actions for decline button
                 noBtn.setOnAction(event -> {
                     SimulationOrderRequestDetailsDto request = getTableView().getItems().get(getIndex());
-                    handleNoButtonAction(request); // Call your method with the request
+                    handleNoButtonAction(request, yesBtn, noBtn);
                 });
 
                 // Add buttons to the HBox
@@ -113,15 +113,23 @@ public class AllocationsController {
                 }
             }
         });
+//        SimulationOrderRequestDetailsDto simulationOrderRequestDetailsDto = getTableView().getItems().get(getIndex());
+//        if(simulationOrderRequestDetailsDto.getSimulationRequestStatus() != SimulationRequestStatus.PENDING){
+//            yesBtn.setDisable(true);
+//            noBtn.setDisable(true);
+//        }
         requestsTableView.setPlaceholder(new Label("No requests to display"));
+
     }
 
-    private void handleNoButtonAction(SimulationOrderRequestDetailsDto request) {
-        sendUpdateSimulationRequestStatusProcedure(builSimulationRequestUpdateDto(request, SimulationRequestStatus.REJECTED));
+    private void handleNoButtonAction(SimulationOrderRequestDetailsDto request, Button yesBtn, Button noBtn) {
+        sendUpdateSimulationRequestStatusProcedure(builSimulationRequestUpdateDto(request, SimulationRequestStatus.REJECTED),
+                yesBtn, noBtn);
     }
 
-    private void handleYesButtonAction(SimulationOrderRequestDetailsDto request) {
-        sendUpdateSimulationRequestStatusProcedure(builSimulationRequestUpdateDto(request, SimulationRequestStatus.APPROVED));
+    private void handleYesButtonAction(SimulationOrderRequestDetailsDto request, Button yesBtn, Button noBtn) {
+        sendUpdateSimulationRequestStatusProcedure(builSimulationRequestUpdateDto(request, SimulationRequestStatus.APPROVED),
+                yesBtn, noBtn);
     }
 
     @FXML
@@ -129,12 +137,12 @@ public class AllocationsController {
         //String guid = this.templatesListView.getSelectionModel().getSelectedItem().getText();
     }
 
-    private void sendUpdateSimulationRequestStatusProcedure(SimulationRequestUpdateDto newSimulationRequestDto) {
+    private void sendUpdateSimulationRequestStatusProcedure(SimulationRequestUpdateDto updateSimulationRequestDto, Button yesBtn, Button noBtn) {
         String finalUrl =
                 HttpUrl
                         .parse(POST_UPDATE_SIMULATION_REQUEST_ENDPOINT)
                         .newBuilder()
-                        .addQueryParameter(POST_NEW_SIMULATION_REQUEST_PARAM_KEY, GSON_INSTANCE.toJson(newSimulationRequestDto))
+                        .addQueryParameter(POST_NEW_SIMULATION_REQUEST_PARAM_KEY, GSON_INSTANCE.toJson(updateSimulationRequestDto))
                         .build()
                         .toString();
 
@@ -144,9 +152,11 @@ public class AllocationsController {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String responseBody = response.body().string();
-                    Type requestDetailsListType = new TypeToken<ArrayList<SimulationOrderRequestDetailsDto>>(){}.getType();
-                    ArrayList<SimulationOrderRequestDetailsDto> simulationRequestDetailsDtoList = GSON_INSTANCE.fromJson(responseBody, requestDetailsListType);
-                    updateRequestsTableUI(simulationRequestDetailsDtoList);
+//                    Type requestDetailsListType = new TypeToken<ArrayList<SimulationOrderRequestDetailsDto>>(){}.getType();
+//                    ArrayList<SimulationOrderRequestDetailsDto> simulationRequestDetailsDtoList = GSON_INSTANCE.fromJson(responseBody, requestDetailsListType);
+//                    updateRequestsTableUI(simulationRequestDetailsDtoList);
+                    yesBtn.setDisable(true);
+                    noBtn.setDisable(true);
 
                 } else {
                     System.out.println("error code = " + response.code() + ". Something went wrong with the request getSimulationWorldDetailsProcedure()...:(");
@@ -210,13 +220,13 @@ public class AllocationsController {
     }
 
     private void startRequestsListRefresher() {
-        this.requestsTableRefresher = new SimulationRequestsListRefresher(this::updateRequestsTableUI);
+        this.requestsTableRefresher = new SimulationRequestsListRefresher(null, this::updateRequestsTableUI);
         this.requestsTableTimer = new Timer();
         this.requestsTableTimer.schedule(requestsTableRefresher, SIMULATION_REQUESTS_LIST_REFRESH_RATE, SIMULATION_REQUESTS_LIST_REFRESH_RATE);
     }
 
     private void startAvailableSimulationListRefresher() {
-        this.avaSimListRefresher = new SimulationWorldListRefresher(this::updateAvailableSimulationTemplatesListUI);
+        this.avaSimListRefresher = new SimulationWorldListRefresher(new SimpleBooleanProperty(false), this::updateAvailableSimulationTemplatesListUI);
         this.simListTimer = new Timer();
         this.simListTimer.schedule(avaSimListRefresher, SIMULATION_WORLD_LIST_REFRESH_RATE, SIMULATION_WORLD_LIST_REFRESH_RATE);
     }

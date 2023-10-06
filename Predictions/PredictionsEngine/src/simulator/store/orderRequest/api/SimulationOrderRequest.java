@@ -7,6 +7,8 @@ public interface SimulationOrderRequest {
 
     String getCustomerUsername();
 
+    String getRequestGuid();
+
     String getSimulationWorldName();
 
     Integer getRequestedNumOfExecutions();
