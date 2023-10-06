@@ -36,15 +36,6 @@ public class DetailsResultControllerImpl extends ResultsModel {
     private Label statusLbl;
 
     @FXML
-    private Button stopRunningSimulationBtn;
-
-    @FXML
-    private Button pauseRunningSimulationBtn;
-
-    @FXML
-    private Button resumeRunningSimulationBtn;
-
-    @FXML
     private ListView<GridPane> entitiesContainerLV;
 
     @FXML
@@ -58,21 +49,6 @@ public class DetailsResultControllerImpl extends ResultsModel {
 //        simulationStatisticsRadioButton.setToggleGroup(toggleGroup);
 //        entityGraphPopulationRadioButton.setToggleGroup(toggleGroup);
 //        resultByEntity.setToggleGroup(toggleGroup);
-    }
-
-    @FXML
-    void pauseSimulationClicked(ActionEvent event) {
-        this.mainController.onPauseSimulation(this.simulationID.get());
-    }
-
-    @FXML
-    void resumeSimulationClicked(ActionEvent event) {
-        this.mainController.onResumeSimulation(this.simulationID.get());
-    }
-
-    @FXML
-    void stopSimulationClicked(ActionEvent event) {
-        this.mainController.onStopSimulation(this.simulationID.get());
     }
 
     public void setMainController(ExecutionsHistoryController mainController) {

@@ -112,6 +112,14 @@ public class InformationManagerImpl implements InformationManager {
     }
 
     @Override
+    public List<String> getAllSimulationsGuid() {
+        List<String> returnList = new ArrayList<>();
+        this.simulationDocumentMap.keySet().forEach(guid -> returnList.add(guid));
+
+        return returnList;
+    }
+
+    @Override
     public Map<String, Integer> getMappedPropertiesToNumOfEntitiesWithSameValues(String propertyName, String entityName, String simulationGuid) {
 //        Map<String,List<EntityInstance>> entitiesNames = simulationDocumentMap.get(simulationGuid).getSimulationResult().getEntities();
 //        List<String> propertiesByEntity = new ArrayList<>();
