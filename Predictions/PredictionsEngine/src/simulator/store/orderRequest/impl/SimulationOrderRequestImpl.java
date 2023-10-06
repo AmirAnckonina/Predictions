@@ -34,6 +34,11 @@ public class SimulationOrderRequestImpl implements SimulationOrderRequest {
     }
 
     @Override
+    public String getRequestGuid() {
+        return requestGuid;
+    }
+
+    @Override
     public String getSimulationWorldName() {
         return simulationWorldName;
     }

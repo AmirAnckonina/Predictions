@@ -2,6 +2,7 @@ package simulator.store.impl;
 
 import dto.PredictionsEngineResponse;
 import dto.orderRequest.NewSimulationRequestDto;
+import dto.orderRequest.SimulationOrderRequestDetailsDto;
 import enums.SimulationRequestStatus;
 import enums.TerminationType;
 import simulator.information.simulationDocument.api.SimulationDocument;
@@ -46,5 +47,18 @@ public class StoreManagerImpl implements StoreManager {
     public PredictionsEngineResponse setSimulationRequestStatusByGuid(String requestGuid, SimulationRequestStatus status) {
         this.simulationOrderRequestMap.get(requestGuid).setSimulationRequestStatus(status);
         return new PredictionsEngineResponse (true, "Simulation request status updated successfully");
+    }
+
+    @Override
+    public List<SimulationOrderRequestDetailsDto> getAllCurrentRequestsList() {
+        List<SimulationOrderRequestDetailsDto> resList = new ArrayList<>();
+
+        simulationOrderRequestMap.forEach((guid, simulationOrderRequestDetailsDto) -> resList.add(new SimulationOrderRequestDetailsDto(
+                guid, simulationOrderRequestDetailsDto.getSimulationWorldName(), simulationOrderRequestDetailsDto.getNumOfExecutionsLeft(),
+                simulationOrderRequestDetailsDto.getTerminationType(), simulationOrderRequestDetailsDto.getSimulationRequestStatus(),
+                simulationOrderRequestDetailsDto.getNumOfExecutionsLeft(), simulationOrderRequestDetailsDto.getRequestedNumOfExecutions()
+        )));
+
+        return resList;
     }
 }
