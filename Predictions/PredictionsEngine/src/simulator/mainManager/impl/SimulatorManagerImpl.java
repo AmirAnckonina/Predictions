@@ -88,11 +88,13 @@ public class SimulatorManagerImpl implements SimulatorManager {
     public SimulationDocumentInfoDto runSimulator(String simulationWorldName) {
 
         establishmentManager.establishSimulation(this.worldBuilderManager.getWorldDefinition(simulationWorldName));
+
         SimulationDocument simulationDocument =
                 infoManager.createNewSimulationDocument(
                         worldBuilderManager.getWorldDefinition(simulationWorldName), establishmentManager.getEstablishedWorldInstance());
 
         executionManager.runSimulator(simulationDocument);
+
         return this.infoManager.getInitialSimulationDocumentInfoDto(simulationDocument.getSimulationGuid());
     }
 

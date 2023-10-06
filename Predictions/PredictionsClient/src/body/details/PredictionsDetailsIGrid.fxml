@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
@@ -95,12 +96,13 @@
             </HBox>
             <FlowPane prefHeight="456.0" prefWidth="243.0">
                <children>
-                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="280.0" text="Available Simulations:">
+                  <ComboBox id="ava-sim-combo-box" fx:id="avaSimComboBox" onAction="#avaSimEntryComboBoxClicked" onShowing="#onAvaSimComboBoxShowing" opacity="0.78" prefHeight="25.0" prefWidth="281.0" promptText="Choose simulation world..." />
+                  <Label alignment="CENTER" prefHeight="18.0" prefWidth="283.0" text="Available Simulations:">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <ListView id="ava-sim-list-view" fx:id="avaSimListView" onMouseClicked="#avaSimListViewClicked" prefHeight="420.0" prefWidth="280.0" />
+                  <ListView id="ava-sim-list-view" fx:id="avaSimListView" onMouseClicked="#avaSimListViewClicked" prefHeight="391.0" prefWidth="292.0" />
                </children>
             </FlowPane>
          </children>

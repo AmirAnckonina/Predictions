@@ -1,5 +1,6 @@
 package simulator.store.orderRequest.impl;
 
+import enums.SimulationExecutionStatus;
 import enums.SimulationRequestStatus;
 import enums.TerminationType;
 import simulator.information.simulationDocument.api.SimulationDocument;
@@ -11,21 +12,19 @@ public class SimulationOrderRequestImpl implements SimulationOrderRequest {
     private String requestGuid;
     private String customerUsername;
     private String simulationWorldName;
-    private Integer requestedNumOfExecutions;
-    private Integer numOfExecutionsLeft;
+    private Integer numOfExecutions;
     private TerminationType terminationType;
     private SimulationRequestStatus simulationRequestStatus;
-    private List<SimulationDocument> simulationDocumentMap;
+    private List<SimulationDocument> simulationDocumentList;
 
-    public SimulationOrderRequestImpl(String requestGuid, String customerUsername, String simulationWorldName, Integer requestedNumOfExecutions, Integer numOfExecutionsLeft, TerminationType terminationType, SimulationRequestStatus simulationRequestStatus, List<SimulationDocument> simulationDocumentMap) {
+    public SimulationOrderRequestImpl(String requestGuid, String customerUsername, String simulationWorldName, Integer numOfExecutions, TerminationType terminationType, SimulationRequestStatus simulationRequestStatus, List<SimulationDocument> simulationDocumentList) {
         this.requestGuid = requestGuid;
         this.customerUsername = customerUsername;
         this.simulationWorldName = simulationWorldName;
-        this.requestedNumOfExecutions = requestedNumOfExecutions;
-        this.numOfExecutionsLeft = numOfExecutionsLeft;
+        this.numOfExecutions = numOfExecutions;
         this.terminationType = terminationType;
         this.simulationRequestStatus = simulationRequestStatus;
-        this.simulationDocumentMap = simulationDocumentMap;
+        this.simulationDocumentList = simulationDocumentList;
     }
 
     @Override
@@ -44,13 +43,8 @@ public class SimulationOrderRequestImpl implements SimulationOrderRequest {
     }
 
     @Override
-    public Integer getRequestedNumOfExecutions() {
-        return requestedNumOfExecutions;
-    }
-
-    @Override
-    public Integer getNumOfExecutionsLeft() {
-        return numOfExecutionsLeft;
+    public Integer getNumOfExecutions() {
+        return numOfExecutions;
     }
 
     @Override
@@ -66,5 +60,31 @@ public class SimulationOrderRequestImpl implements SimulationOrderRequest {
     @Override
     public void setSimulationRequestStatus(SimulationRequestStatus status) {
         this.simulationRequestStatus = status;
+    }
+
+    @Override
+    public Integer getRunning() {
+        Long running =
+                this.simulationDocumentList
+                        .stream()
+                        .filter(simulationDocument ->
+                                simulationDocument.getSimulationStatus() == SimulationExecutionStatus.RUNNING)
+                        .count();
+
+
+        return running.intValue();
+    }
+
+    @Override
+    public Integer getDone() {
+        Long done =
+                this.simulationDocumentList
+                        .stream()
+                        .filter(simulationDocument ->
+                                simulationDocument.getSimulationStatus() == SimulationExecutionStatus.COMPLETED
+                                || simulationDocument.getSimulationStatus() == SimulationExecutionStatus.STOPPED)
+                        .count();
+
+        return done.intValue();
     }
 }

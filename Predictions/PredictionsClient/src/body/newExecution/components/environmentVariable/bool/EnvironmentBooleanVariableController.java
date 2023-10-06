@@ -8,6 +8,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+
+import java.util.Optional;
+
 public class EnvironmentBooleanVariableController extends KeyToBooleanData implements KeyValueProperty {
 
     private NewExecutionController newExecutionController;
@@ -80,5 +83,10 @@ public class EnvironmentBooleanVariableController extends KeyToBooleanData imple
         this.checkboxProperty.set(true);
         onSetCheckbox();
         this.booleanValueProperty.set((Boolean) value);
+    }
+
+    @Override
+    public Optional<String> getValueAsString() {
+        return Optional.empty();
     }
 }

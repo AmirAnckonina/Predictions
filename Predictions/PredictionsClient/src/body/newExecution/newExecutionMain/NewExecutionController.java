@@ -7,6 +7,7 @@ import body.newExecution.components.environmentVariable.bool.EnvironmentBooleanV
 import body.newExecution.components.environmentVariable.floats.EnvironmentFloatVariableController;
 import body.newExecution.components.environmentVariable.string.EnvironmentStringVariableController;
 import com.google.gson.reflect.TypeToken;
+import dto.manualSetup.SimulationManualParamsV2Dto;
 import dto.worldBuilder.simulationComponents.EnvironmentPropertyDto;
 import dto.simulationInfo.SimulationDocumentInfoDto;
 import dto.manualSetup.SimulationManualParamsDto;
@@ -39,6 +40,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.sun.xml.internal.ws.policy.sourcemodel.wspolicy.XmlToken.Optional;
 import static common.CommonResourcesPaths.*;
 import static utils.Constants.*;
 
@@ -215,7 +217,6 @@ public class NewExecutionController {
 
     private void loadMaxPopulationValue(Integer maxPopulationValue) {
         Platform.runLater(() ->  this.maxPopLabel.textProperty().set("   MAX POPULATION: " + " " + maxPopulationValue));
-
     }
 
 
@@ -346,6 +347,16 @@ public class NewExecutionController {
         } catch (Exception e) {
             this.environmentPropertyControllerMap.get(envPropertyName).setStatus(SetPropertyStatus.FAILED);
         }
+    }
+
+    public void setEnvironmentProperties(SimulationManualParamsV2Dto simulationManualParamsV2Dto) {
+        Map<String, Integer> entityPopuilationInsertedValuesMap = new HashMap<>();
+        this.entityPopulationControllerMap
+                .forEach(
+                        (entityName, controller) -> {
+
+                        });
+
     }
 
     public void setSimulatorManager(SimulatorManager simulatorManager) {
