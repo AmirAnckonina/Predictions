@@ -9,4 +9,6 @@ public class KeyToBooleanData extends BaseData {
         super();
         this.booleanValueProperty = new SimpleBooleanProperty();
     }
+
+
 }

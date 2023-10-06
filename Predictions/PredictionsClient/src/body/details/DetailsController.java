@@ -15,6 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
@@ -58,6 +59,7 @@ public class DetailsController {
     @FXML private ListView<String> avaSimListView;
     @FXML private Label terminationDetailsLabel;
     @FXML private Button newRequestButton;
+    @FXML private ComboBox<String> avaSimComboBox;
 
     private ObservableList<simulationTitle> environmentListViewLeftLines = FXCollections.observableArrayList();
     private ObservableList<simulationTitle> entitiesListViewLeftLines = FXCollections.observableArrayList();
@@ -67,6 +69,7 @@ public class DetailsController {
 
     @FXML
     private void initialize() {
+        //avaSimComboBox.setItems(FXCollections.observableArrayList());
         this.simulationNodeInListViewIsSelected.bind(new SimpleBooleanProperty(!this.avaSimListView.getSelectionModel().isEmpty()));
     }
     public void setMainController(PredictionsMainController mainController) {
@@ -147,8 +150,21 @@ public class DetailsController {
 
     @FXML
     void avaSimListViewClicked(MouseEvent event) {
+
+    }
+
+    @FXML
+    void avaSimEntryComboBoxClicked() {
         reset();
         getSimulationWorldDetailsProcedure();
+    }
+
+    @FXML
+    void onAvaSimComboBoxShowing() {
+        this.avaSimComboBox.getItems().clear();
+        ObservableList<String> items = FXCollections.observableArrayList();
+        this.avaSimListView.getItems().forEach(item -> items.add(item));
+        this.avaSimComboBox.setItems(items);
     }
 
 
@@ -270,7 +286,7 @@ public class DetailsController {
 
     public void getSimulationWorldDetailsProcedure() {
 
-    String selectedSimulationWorldName = avaSimListView.getSelectionModel().getSelectedItem();
+    String selectedSimulationWorldName = avaSimComboBox.getValue();
         String finalUrl =
                 HttpUrl
                         .parse(GET_SIMULATION_WORLD_DETAILS_ENDPOINT)

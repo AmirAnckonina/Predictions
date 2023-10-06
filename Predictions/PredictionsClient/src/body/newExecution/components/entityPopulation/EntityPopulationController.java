@@ -7,6 +7,8 @@ import enums.SetPropertyStatus;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import java.util.Optional;
+
 public class EntityPopulationController extends KeyToIntegerData implements KeyValueProperty {
     private NewExecutionController newExecutionController;
 
@@ -69,6 +71,11 @@ public class EntityPopulationController extends KeyToIntegerData implements KeyV
         this.checkboxProperty.set(true);
         onSetCheckbox();
         this.integerValuePropertyAsString.set(value.toString());
+    }
+
+    @Override
+    public Optional<String> getValueAsString() {
+        return Optional.empty();
     }
 
     public void initSetupForEntityPopulation(String entityName) {

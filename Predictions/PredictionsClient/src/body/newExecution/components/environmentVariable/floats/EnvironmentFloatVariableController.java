@@ -92,4 +92,11 @@ public class EnvironmentFloatVariableController extends KeyToFloatData implement
         onSetCheckbox();
         this.floatValuePropertyAsString.set(value.toString());
     }
+
+    @Override
+    public Optional<String> getValueAsString() {
+        return Optional.empty();
+    }
+
+
 }
